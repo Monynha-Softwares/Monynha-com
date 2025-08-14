@@ -1,0 +1,210 @@
+{
+  "navigation": {
+    "home": "Inicio",
+    "solutions": "Soluciones",
+    "projects": "Proyectos",
+    "about": "Acerca de",
+    "blog": "Blog",
+    "contact": "Contacto",
+    "startProject": "Comenzar Proyecto",
+    "toggleNavigation": "Alternar navegación",
+    "backToTop": "Volver arriba"
+  },
+  "footer": {
+    "quickLinks": "Enlaces Rápidos",
+    "solutions": "Soluciones",
+    "aboutUs": "Sobre Nosotros",
+    "blog": "Blog",
+    "contact": "Contacto",
+    "copyright": "© 2024 Monynha Softwares Agency. Todos los derechos reservados.",
+    "privacy": "Política de Privacidad",
+    "terms": "Términos de Servicio",
+    "tagline": "Soluciones de Software",
+    "description": "Potenciamos negocios con soluciones de software impulsadas por IA. Desde aplicaciones personalizadas hasta asistentes inteligentes, construimos el futuro de la automatización empresarial.",
+    "solutionList": {
+      "boteco": "Boteco Pro",
+      "assistina": "AssisTina AI",
+      "custom": "Desarrollo Personalizado",
+      "integration": "Integración de IA"
+    }
+  },
+  "index": {
+    "hero": {
+      "headline": "Soluciones de Software <0/><1>Impulsadas por IA</1>",
+      "description": "Transforma tu negocio con aplicaciones personalizadas y asistentes inteligentes diseñados para optimizar operaciones y hacer crecer tu empresa.",
+      "cta": "Comenzar Proyecto",
+      "viewSolutions": "Ver Soluciones"
+    },
+    "why": {
+      "title": "¿Por qué elegir Monynha Softwares Agency?",
+      "description": "Combinamos experiencia técnica con inteligencia de negocios para entregar soluciones que realmente marcan la diferencia.",
+      "features": {
+        "ai": {
+          "title": "Soluciones con IA",
+          "desc": "Aprovecha la inteligencia artificial de vanguardia para automatizar y optimizar tus procesos."
+        },
+        "fast": {
+          "title": "Implementación Rápida",
+          "desc": "Pon en marcha tus soluciones rápidamente con nuestro proceso ágil."
+        },
+        "secure": {
+          "title": "Seguro y Confiable",
+          "desc": "Construido con enfoque en seguridad para proteger tus datos y operaciones."
+        },
+        "support": {
+          "title": "Soporte Experto",
+          "desc": "Nuestro equipo dedicado brinda soporte continuo para todas tus necesidades."
+        }
+      }
+    },
+    "solutions": {
+      "title": "Nuestras Soluciones",
+      "description": "Soluciones comprobadas que han transformado negocios en diversas industrias."
+    },
+    "cta": {
+      "title": "¿Listo para Transformar tu Negocio?",
+      "description": "Hablemos de cómo nuestras soluciones con IA pueden optimizar tus operaciones y generar crecimiento.",
+      "getStarted": "Empezar Hoy"
+    },
+    "learnMore": "Saber Más"
+  },
+  "solutionsPage": {
+    "title": "Nuestras Soluciones de Software",
+    "description": "Conoce nuestros productos estrella diseñados para transformar la operación de las empresas. Cada solución se crea con IA en el núcleo para máxima eficiencia.",
+    "requestDemo": "Solicitar Demo",
+    "customTitle": "¿Necesitas una Solución Personalizada?",
+    "customDescription": "También creamos soluciones a medida para tus necesidades específicas. Conversemos sobre cómo construir algo único para ti.",
+    "discuss": "Discutir Proyecto"
+  },
+  "about": {
+    "title": "Sobre Monynha Softwares Agency",
+    "description": "Somos una agencia de software enfocada en soluciones con IA que transforman cómo operan y crecen las empresas.",
+    "missionTitle": "Nuestra Misión",
+    "mission": "Democratizar la inteligencia artificial creando soluciones accesibles y poderosas que ayuden a empresas de todos los tamaños a optimizar operaciones, mejorar la experiencia del cliente y lograr un crecimiento sostenible.",
+    "storyTitle": "Nuestra Historia",
+    "story": {
+      "p1": "Monynha Softwaresse fundó con una visión ambiciosa: hacer que la inteligencia artificial sea accesible y práctica para todas las empresas.",
+      "p2": "Comenzamos como un pequeño equipo de desarrolladores y entusiastas de IA que notaron la brecha entre las tecnologías complejas y las aplicaciones reales de negocio. Nuestra misión se volvió clara: cerrar esa brecha con soluciones intuitivas y poderosas.",
+      "p3": "Hoy somos un socio de confianza para empresas de diversas industrias, entregando soluciones a medida que no solo satisfacen necesidades actuales sino que anticipan retos futuros."
+    },
+    "valuesTitle": "Nuestros Valores",
+    "valuesDescription": "Principios que guían todo lo que hacemos y cada solución que creamos.",
+    "impactTitle": "Nuestro Impacto",
+    "impactDescription": "Números que reflejan nuestro compromiso con la excelencia y el éxito de los clientes.",
+    "valuesList": {
+      "innovation": "Innovación Primero",
+      "innovationDesc": "Aprovechamos IA y tecnologías modernas para crear soluciones que superan límites y entregan resultados excepcionales.",
+      "customer": "Enfoque en el Cliente",
+      "customerDesc": "Cada solución se adapta para resolver problemas reales de negocio y generar valor medible a los clientes.",
+      "collaboration": "Enfoque Colaborativo",
+      "collaborationDesc": "Trabajamos de cerca con nuestros clientes, asegurando comunicación transparente y éxito compartido.",
+      "quality": "Excelencia en Calidad",
+      "qualityDesc": "Mantenemos los más altos estándares de código, seguridad y rendimiento en todo lo que entregamos."
+    },
+    "stats": {
+      "projects": "Proyectos Entregados",
+      "satisfaction": "Satisfacción del Cliente",
+      "experience": "Años de Experiencia",
+      "support": "Soporte Disponible"
+    }
+  },
+  "blog": {
+    "title": "Noticias e Ideas",
+    "description": "Mantente actualizado con las últimas tendencias en IA, desarrollo de software y automatización empresarial. Contenido experto de nuestro equipo.",
+    "featured": "Destacado",
+    "read": "Leer Artículo Completo",
+    "readMore": "Leer Más",
+    "categories": { "all": "Todos" },
+    "newsletter": {
+      "title": "Mantente Informado",
+      "description": "Suscríbete a nuestro boletín para recibir novedades sobre IA, desarrollo de software y automatización.",
+      "placeholder": "Ingresa tu correo",
+      "subscribe": "Suscribirse"
+    }
+  },
+  "contact": {
+    "title": "Construyamos Algo Increíble Juntos",
+    "description": "¿Listo para transformar tu negocio con soluciones de IA? Nos encantaría conocer tu proyecto y hablar de cómo podemos ayudar.",
+    "form": {
+      "headline": "Iniciar Proyecto",
+      "fullName": "Nombre Completo *",
+      "email": "Correo Electrónico *",
+      "company": "Empresa",
+      "projectType": "Tipo de Proyecto",
+      "select": "Selecciona el tipo",
+      "details": "Detalles del Proyecto *",
+      "placeholderName": "Tu nombre completo",
+      "placeholderEmail": "tu@email.com",
+      "placeholderCompany": "Tu empresa",
+      "placeholderDetails": "Cuéntanos sobre tu proyecto, metas y requisitos...",
+      "send": "Enviar Mensaje",
+      "sending": "Enviando..."
+    },
+    "info": {
+      "getInTouch": "Ponte en Contacto",
+      "description": "¿Tienes dudas sobre nuestras soluciones o quieres hablar de tu proyecto? Estamos aquí para ayudar.",
+      "emailUs": "Envíanos un Email",
+      "callUs": "Llámanos",
+      "visitUs": "Visítanos",
+      "sendEmail": "Envíanos un correo en cualquier momento",
+      "callPhone": "Lun-Vie de 9h a 18h",
+      "visit": "Ven a nuestra oficina",
+      "quick": "Respuesta Rápida",
+      "quickDesc": "Normalmente respondemos en menos de 24 horas. Para asuntos urgentes, llámanos."
+    },
+    "validation": {
+      "required": "Este campo es obligatorio",
+      "invalidEmail": "Correo electrónico inválido"
+    },
+    "toasts": {
+      "successTitle": "¡Mensaje enviado!",
+      "successDescription": "Tu mensaje fue enviado correctamente. Nos pondremos en contacto pronto.",
+      "errorTitle": "Error al enviar el mensaje",
+      "errorDescription": "Hubo un problema al enviar tu mensaje. Inténtalo de nuevo."
+    },
+    "thankYou": {
+      "title": "¡Gracias!",
+      "description": "Hemos recibido tu mensaje y te contactaremos en 24 horas. ¡Nuestro equipo está emocionado por saber más de tu proyecto!",
+      "another": "Enviar Otro Mensaje"
+    }
+  },
+  "newsletterSection": {
+    "title": "Mantente Actualizado con Novedades de IA",
+    "description": "Obtén las últimas novedades sobre innovaciones en IA, consejos de automatización empresarial y conocimientos exclusivos de nuestros expertos.",
+    "placeholder": "Ingresa tu dirección de correo",
+    "subscribe": "Suscribirse",
+    "subscribing": "Suscribiendo...",
+    "privacy": "Sin spam, cancela la suscripción en cualquier momento. Respetamos tu privacidad.",
+    "alreadySubscribedTitle": "Ya Suscrito",
+    "alreadySubscribedDescription": "¡Ya estás suscrito a nuestro boletín!",
+    "invalidEmailTitle": "Correo Inválido",
+    "invalidEmailDescription": "Por favor ingresa una dirección de correo válida.",
+    "errorTitle": "Error",
+    "errorDescription": "Algo salió mal. Por favor, inténtalo de nuevo.",
+    "successTitle": "¡Bienvenido a nuestro boletín!",
+    "successDescription": "Recibirás actualizaciones sobre nuestras últimas soluciones de IA e información.",
+    "thankYouTitle": "¡Gracias por suscribirte!",
+    "thankYouDescription": "Recibirás nuestras últimas novedades sobre innovaciones en IA y negocios.",
+    "subscribeAnother": "Suscribir otro correo"
+  },
+  "team": {
+    "title": "Conoce a Nuestro Equipo",
+    "loading": "Cargando a nuestro increíble equipo...",
+    "error": "Estamos teniendo problemas para cargar la información del equipo. Por favor, inténtalo más tarde.",
+    "description": "Expertos apasionados dedicados a ofrecer soluciones innovadoras de IA que transforman tu negocio.",
+    "linkedin": "LinkedIn"
+  },
+  "projects": {
+    "title": "Proyectos <0>Open Source</0>",
+    "description": "Explora nuestros proyectos públicos en GitHub y mira cómo desarrollamos soluciones innovadoras con tecnologías modernas.",
+    "viewGithub": "Ver en GitHub",
+    "liveDemo": "Demo en Vivo",
+    "like": "¿Te gustan nuestros proyectos?",
+    "likeDescription": "Ponte en contacto para crear una solución personalizada para tu negocio.",
+    "contactUs": "Contáctanos"
+  },
+  "notFound": {
+    "oops": "¡Vaya! Página no encontrada",
+    "returnHome": "Volver al Inicio"
+  }
+}

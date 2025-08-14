@@ -1,0 +1,212 @@
+{
+  "navigation": {
+    "home": "Home",
+    "solutions": "Solutions",
+    "projects": "Projects",
+    "about": "About",
+    "blog": "Blog",
+    "contact": "Contact",
+    "startProject": "Start Your Project",
+    "toggleNavigation": "Toggle navigation",
+    "backToTop": "Back to top"
+  },
+  "footer": {
+    "quickLinks": "Quick Links",
+    "solutions": "Solutions",
+    "aboutUs": "About Us",
+    "blog": "Blog",
+    "contact": "Contact",
+    "copyright": "© 2024 Monynha Softwares Agency. All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "tagline": "Software Solutions",
+    "description": "Empowering businesses with AI-powered software solutions. From custom applications to intelligent assistants, we build the future of business automation.",
+    "solutionList": {
+      "boteco": "Boteco Pro",
+      "assistina": "AssisTina AI",
+      "custom": "Custom Development",
+      "integration": "AI Integration"
+    }
+  },
+  "index": {
+    "hero": {
+      "headline": "AI-Powered <0/><1>Software Solutions</1>",
+      "description": "Transform your business with custom applications and intelligent assistants designed to streamline operations and drive growth.",
+      "cta": "Start Your Project",
+      "viewSolutions": "View Solutions"
+    },
+    "why": {
+      "title": "Why Choose Monynha Softwares Agency?",
+      "description": "We combine technical expertise with business intelligence to deliver solutions that truly make a difference.",
+      "features": {
+        "ai": {
+          "title": "AI-Powered Solutions",
+          "desc": "Leverage cutting-edge artificial intelligence to automate and optimize your business processes."
+        },
+        "fast": {
+          "title": "Fast Implementation",
+          "desc": "Get your custom software solutions up and running quickly with our streamlined development process."
+        },
+        "secure": {
+          "title": "Secure & Reliable",
+          "desc": "Built with security first in mind, ensuring your data and operations are always protected."
+        },
+        "support": {
+          "title": "Expert Support",
+          "desc": "Our dedicated team provides ongoing support and maintenance for all your software needs."
+        }
+      }
+    },
+    "solutions": {
+      "title": "Our Flagship Solutions",
+      "description": "Proven software solutions that have transformed businesses across industries."
+    },
+    "cta": {
+      "title": "Ready to Transform Your Business?",
+      "description": "Let's discuss how our AI-powered solutions can streamline your operations and drive growth.",
+      "getStarted": "Get Started Today"
+    },
+    "learnMore": "Learn More"
+  },
+  "solutionsPage": {
+    "title": "Our Software Solutions",
+    "description": "Discover our flagship products designed to transform how businesses operate. Each solution is crafted with AI at its core to deliver maximum efficiency and growth.",
+    "requestDemo": "Request Demo",
+    "customTitle": "Need a Custom Solution?",
+    "customDescription": "We also create bespoke software solutions tailored to your specific business needs. Let's discuss how we can build something unique for you.",
+    "discuss": "Discuss Custom Project"
+  },
+  "about": {
+    "title": "About Monynha Softwares Agency",
+    "description": "We're a forward-thinking software agency specializing in AI-powered solutions that transform how businesses operate and grow.",
+    "missionTitle": "Our Mission",
+    "mission": "To democratize artificial intelligence by creating accessible, powerful software solutions that help businesses of all sizes harness the power of AI to streamline operations, enhance customer experiences, and drive sustainable growth.",
+    "storyTitle": "Our Story",
+    "story": {
+      "p1": "Monynha Softwareswas founded with a simple yet ambitious vision: to make artificial intelligence accessible and practical for businesses everywhere.",
+      "p2": "Starting as a small team of passionate developers and AI enthusiasts, we recognized the gap between complex AI technologies and real-world business applications. Our mission became clear: bridge this gap with intuitive, powerful solutions.",
+      "p3": "Today, we've grown into a trusted partner for businesses across industries, delivering custom software solutions that not only meet current needs but anticipate future challenges."
+    },
+    "valuesTitle": "Our Core Values",
+    "valuesDescription": "The principles that guide everything we do and every solution we create.",
+    "impactTitle": "Our Impact",
+    "impactDescription": "Numbers that reflect our commitment to excellence and client success.",
+    "valuesList": {
+      "innovation": "Innovation First",
+      "innovationDesc": "We leverage cutting-edge AI and modern technologies to create solutions that push boundaries and deliver exceptional results.",
+      "customer": "Customer-Centric",
+      "customerDesc": "Every solution we build is tailored to solve real business problems and deliver measurable value to our clients.",
+      "collaboration": "Collaborative Approach",
+      "collaborationDesc": "We work closely with our clients as partners, ensuring transparent communication and shared success.",
+      "quality": "Quality Excellence",
+      "qualityDesc": "We maintain the highest standards in code quality, security, and performance in everything we deliver."
+    },
+    "stats": {
+      "projects": "Projects Delivered",
+      "satisfaction": "Client Satisfaction",
+      "experience": "Years Experience",
+      "support": "Support Available"
+    }
+  },
+  "blog": {
+    "title": "Insights & Updates",
+    "description": "Stay updated with the latest trends in AI, software development, and business automation. Expert insights from our team of developers and AI specialists.",
+    "featured": "Featured",
+    "read": "Read Full Article",
+    "readMore": "Read More",
+    "categories": {
+      "all": "All"
+    },
+    "newsletter": {
+      "title": "Stay in the Loop",
+      "description": "Subscribe to our newsletter for the latest insights on AI, software development, and business automation.",
+      "placeholder": "Enter your email",
+      "subscribe": "Subscribe"
+    }
+  },
+  "contact": {
+    "title": "Let's Build Something Amazing Together",
+    "description": "Ready to transform your business with AI-powered solutions? We'd love to hear about your project and discuss how we can help.",
+    "form": {
+      "headline": "Start Your Project",
+      "fullName": "Full Name *",
+      "email": "Email Address *",
+      "company": "Company Name",
+      "projectType": "Project Type",
+      "select": "Select project type",
+      "details": "Project Details *",
+      "placeholderName": "Your full name",
+      "placeholderEmail": "your@email.com",
+      "placeholderCompany": "Your company",
+      "placeholderDetails": "Tell us about your project, goals, timeline, and any specific requirements...",
+      "send": "Send Message",
+      "sending": "Sending..."
+    },
+    "info": {
+      "getInTouch": "Get in Touch",
+      "description": "Have questions about our solutions or want to discuss your project? We're here to help and would love to hear from you.",
+      "emailUs": "Email Us",
+      "callUs": "Call Us",
+      "visitUs": "Visit Us",
+      "sendEmail": "Send us an email anytime",
+      "callPhone": "Mon-Fri from 9am to 6pm",
+      "visit": "Come say hello at our office",
+      "quick": "Quick Response",
+      "quickDesc": "We typically respond to all inquiries within 24 hours. For urgent matters, please call us directly."
+    },
+    "validation": {
+      "required": "This field is required",
+      "invalidEmail": "Invalid email address"
+    },
+    "toasts": {
+      "successTitle": "Message sent!",
+      "successDescription": "Your message has been successfully sent. We'll be in touch soon.",
+      "errorTitle": "Error sending message",
+      "errorDescription": "There was a problem sending your message. Please try again."
+    },
+    "thankYou": {
+      "title": "Thank You!",
+      "description": "We've received your message and will get back to you within 24 hours. Our team is excited to learn more about your project!",
+      "another": "Send Another Message"
+    }
+  },
+  "newsletterSection": {
+    "title": "Stay Updated with AI Insights",
+    "description": "Get the latest updates on AI innovations, business automation tips, and exclusive insights from our experts.",
+    "placeholder": "Enter your email address",
+    "subscribe": "Subscribe",
+    "subscribing": "Subscribing...",
+    "privacy": "No spam, unsubscribe at any time. We respect your privacy.",
+    "alreadySubscribedTitle": "Already Subscribed",
+    "alreadySubscribedDescription": "You're already subscribed to our newsletter!",
+    "invalidEmailTitle": "Invalid Email",
+    "invalidEmailDescription": "Please enter a valid email address.",
+    "errorTitle": "Error",
+    "errorDescription": "Something went wrong. Please try again.",
+    "successTitle": "Welcome to our newsletter!",
+    "successDescription": "You'll receive updates about our latest AI solutions and insights.",
+    "thankYouTitle": "Thank You for Subscribing!",
+    "thankYouDescription": "You'll receive our latest updates about AI innovations and business insights.",
+    "subscribeAnother": "Subscribe Another Email"
+  },
+  "team": {
+    "title": "Meet Our Team",
+    "loading": "Loading our amazing team...",
+    "error": "We're having trouble loading our team information. Please try again later.",
+    "description": "Passionate experts dedicated to delivering innovative AI solutions that transform your business.",
+    "linkedin": "LinkedIn"
+  },
+  "projects": {
+    "title": "Projects <0>Open Source</0>",
+    "description": "Explore our public projects on GitHub and see how we develop innovative solutions with modern technologies.",
+    "viewGithub": "View on GitHub",
+    "liveDemo": "Live Demo",
+    "like": "Like our projects?",
+    "likeDescription": "Get in touch to craft a custom solution for your business.",
+    "contactUs": "Contact Us"
+  },
+  "notFound": {
+    "oops": "Oops! Page not found",
+    "returnHome": "Return to Home"
+  }
+}
