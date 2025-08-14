@@ -11,22 +11,12 @@
     "backToTop": "Volver arriba"
   },
   "footer": {
-    "quickLinks": "Enlaces Rápidos",
-    "solutions": "Soluciones",
-    "aboutUs": "Sobre Nosotros",
-    "blog": "Blog",
+    "ecosystem": "Ecosistema Monynha",
     "contact": "Contacto",
-    "copyright": "© 2024 Monynha Softwares Agency. Todos los derechos reservados.",
-    "privacy": "Política de Privacidad",
-    "terms": "Términos de Servicio",
-    "tagline": "Monynha Softwares: Tecnología con orgullo, diversidad y resistencia",
-    "description": "Democratizando la innovación con soluciones inclusivas y accesibles que empoderan a comunidades diversas y promueven la equidad social.",
-    "solutionList": {
-      "boteco": "Boteco Pro",
-      "assistina": "AssisTina AI",
-      "custom": "Desarrollo Personalizado",
-      "integration": "Integración de IA"
-    }
+    "copyright": "© {{year}} Monynha Softwares. Todos los derechos reservados.",
+    "madeWith": "Hecho con",
+    "and": "y",
+    "caffeine": "cafeína"
   },
   "index": {
     "hero": {
