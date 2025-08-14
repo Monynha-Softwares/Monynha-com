@@ -12,6 +12,8 @@ import {
   Users,
   ArrowRight,
   CheckCircle,
+  Laptop,
+  Globe
 } from 'lucide-react';
 import { useTranslation, Trans } from 'react-i18next';
 import { useQuery } from '@tanstack/react-query';
@@ -70,6 +72,9 @@ const Index = () => {
               : feature.icon === 'Shield'
                 ? Shield
                 : Users,
+              : feature.icon === 'Globe'
+                ? Globe
+                : Laptop,
         title: feature.title,
         description: feature.description,
       }));
