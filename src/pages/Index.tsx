@@ -12,6 +12,9 @@ import {
   Users,
   ArrowRight,
   CheckCircle,
+  Laptop,
+  Globe,
+  type LucideIcon,
 } from 'lucide-react';
 import { useTranslation, Trans } from 'react-i18next';
 import { useQuery } from '@tanstack/react-query';
@@ -61,15 +64,17 @@ const Index = () => {
       if (error) throw error;
 
       // Map to the expected format with icon components
+      const iconMap: Record<string, LucideIcon> = {
+        Brain,
+        Zap,
+        Shield,
+        Users,
+        Globe,
+        Laptop,
+      };
+
       return data.map((feature) => ({
-        icon:
-          feature.icon === 'Brain'
-            ? Brain
-            : feature.icon === 'Zap'
-              ? Zap
-              : feature.icon === 'Shield'
-                ? Shield
-                : Users,
+        icon: iconMap[feature.icon as keyof typeof iconMap] ?? Laptop,
         title: feature.title,
         description: feature.description,
       }));
