@@ -146,9 +146,9 @@ const Index = () => {
   return (
     <Layout>
       <Meta
-        title="Monynha Softwares - Technology with pride, diversity, and resistance"
+        title="Monynha Softwares: Technology with pride, diversity, and resistance"
         description={t('index.hero.description')}
-        ogTitle="Monynha Softwares - Technology with pride, diversity, and resistance"
+        ogTitle="Monynha Softwares: Technology with pride, diversity, and resistance"
         ogDescription={t('index.hero.description')}
         ogImage="/placeholder.svg"
       />
