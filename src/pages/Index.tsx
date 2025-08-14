@@ -13,7 +13,8 @@ import {
   ArrowRight,
   CheckCircle,
   Laptop,
-  Globe
+  Globe,
+  type LucideIcon,
 } from 'lucide-react';
 import { useTranslation, Trans } from 'react-i18next';
 import { useQuery } from '@tanstack/react-query';
@@ -63,20 +64,20 @@ const Index = () => {
       if (error) throw error;
 
       // Map to the expected format with icon components
+      const iconMap: Record<string, LucideIcon> = {
+        Brain,
+        Zap,
+        Shield,
+        Users,
+        Globe,
+        Laptop,
+      };
+
       return data.map((feature) => ({
-        icon:
-          feature.icon === 'Brain'
-            ? Brain
-            : feature.icon === 'Zap'
-              ? Zap
-              : feature.icon === 'Shield'
-                ? Shield
-                : Users,
-              : feature.icon === 'Globe'
-                ? Globe
-                : Laptop,
+        icon: iconMap[feature.icon as keyof typeof iconMap] ?? Laptop,
         title: feature.title,
         description: feature.description,
+        url: feature.url,
       }));
     },
   });
@@ -115,21 +116,25 @@ const Index = () => {
         icon: Brain,
         title: t('index.why.features.ai.title'),
         description: t('index.why.features.ai.desc'),
+        url: '#',
       },
       {
         icon: Zap,
         title: t('index.why.features.fast.title'),
         description: t('index.why.features.fast.desc'),
+        url: '#',
       },
       {
         icon: Shield,
         title: t('index.why.features.secure.title'),
         description: t('index.why.features.secure.desc'),
+        url: '#',
       },
       {
         icon: Users,
         title: t('index.why.features.support.title'),
         description: t('index.why.features.support.desc'),
+        url: '#',
       },
     ],
     [t]
@@ -201,20 +206,25 @@ const Index = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {displayFeatures.map((feature, index) => (
-              <Card
+              <a
                 key={index}
-                className="border-0 shadow-soft hover:shadow-soft-lg transition-all ease-in-out duration-300 card-hover rounded-2xl"
+                href={feature.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block"
               >
-                <CardContent className="p-8 text-center">
-                  <div className="w-16 h-16 bg-gradient-hero rounded-2xl flex items-center justify-center mx-auto mb-6">
-                    <feature.icon className="h-8 w-8 text-white" />
-                  </div>
-                  <h3 className="text-xl font-semibold text-neutral-900 mb-4">
-                    {feature.title}
-                  </h3>
-                  <p className="text-neutral-600">{feature.description}</p>
-                </CardContent>
-              </Card>
+                <Card className="border-0 shadow-soft hover:shadow-soft-lg transition-all ease-in-out duration-300 card-hover rounded-2xl cursor-pointer">
+                  <CardContent className="p-8 text-center">
+                    <div className="w-16 h-16 bg-gradient-hero rounded-2xl flex items-center justify-center mx-auto mb-6">
+                      <feature.icon className="h-8 w-8 text-white" />
+                    </div>
+                    <h3 className="text-xl font-semibold text-neutral-900 mb-4">
+                      {feature.title}
+                    </h3>
+                    <p className="text-neutral-600">{feature.description}</p>
+                  </CardContent>
+                </Card>
+              </a>
             ))}
           </div>
         </div>

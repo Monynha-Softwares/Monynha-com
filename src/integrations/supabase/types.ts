@@ -59,6 +59,7 @@ export type Database = {
           id: string;
           order_index: number;
           title: string;
+          url: string;
           updated_at: string;
         };
         Insert: {
@@ -69,6 +70,7 @@ export type Database = {
           id?: string;
           order_index: number;
           title: string;
+          url: string;
           updated_at?: string;
         };
         Update: {
@@ -79,6 +81,7 @@ export type Database = {
           id?: string;
           order_index?: number;
           title?: string;
+          url?: string;
           updated_at?: string;
         };
         Relationships: [];
