@@ -19,8 +19,8 @@
     "copyright": "© 2024 Monynha Softwares Agency. Todos los derechos reservados.",
     "privacy": "Política de Privacidad",
     "terms": "Términos de Servicio",
-    "tagline": "Soluciones de Software",
-    "description": "Potenciamos negocios con soluciones de software impulsadas por IA. Desde aplicaciones personalizadas hasta asistentes inteligentes, construimos el futuro de la automatización empresarial.",
+    "tagline": "Monynha Softwares: Tecnología con orgullo, diversidad y resistencia",
+    "description": "Democratizando la innovación con soluciones inclusivas y accesibles que empoderan a comunidades diversas y promueven la equidad social.",
     "solutionList": {
       "boteco": "Boteco Pro",
       "assistina": "AssisTina AI",
@@ -30,8 +30,8 @@
   },
   "index": {
     "hero": {
-      "headline": "Soluciones de Software <0/><1>Impulsadas por IA</1>",
-      "description": "Transforma tu negocio con aplicaciones personalizadas y asistentes inteligentes diseñados para optimizar operaciones y hacer crecer tu empresa.",
+      "headline": "Construyendo el <0/><1>Futuro de la Tecnología</1>",
+      "description": "Democratizando la innovación con soluciones inclusivas y accesibles que empoderan a comunidades diversas y promueven la equidad social.",
       "cta": "Comenzar Proyecto",
       "viewSolutions": "Ver Soluciones"
     },
