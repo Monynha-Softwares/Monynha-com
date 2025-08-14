@@ -48,11 +48,11 @@ const TeamSection = () => {
               {t('team.loading')}
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 justify-center items-center">
+          <div className="flex flex-wrap justify-center gap-8">
             {[...Array(4)].map((_, i) => (
               <Card
                 key={i}
-                className="border-0 shadow-soft rounded-2xl animate-pulse"
+                className="w-full md:w-1/2 lg:w-1/4 border-0 shadow-soft rounded-2xl animate-pulse"
               >
                 <CardContent className="p-8 text-center">
                   <div className="w-24 h-24 bg-neutral-200 rounded-full mx-auto mb-6"></div>
@@ -93,11 +93,11 @@ const TeamSection = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="flex flex-wrap justify-center gap-8">
           {members?.map((member) => (
             <Card
               key={member.id}
-              className="border-0 shadow-soft hover:shadow-soft-lg transition-all duration-200 card-hover rounded-2xl"
+              className="w-full md:w-1/2 lg:w-1/4 border-0 shadow-soft hover:shadow-soft-lg transition-all duration-200 card-hover rounded-2xl"
             >
               <CardContent className="p-8 text-center">
                 <Avatar className="w-24 h-24 mx-auto mb-6">
