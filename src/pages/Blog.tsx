@@ -18,76 +18,6 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 
-const fallbackPosts = [
-  {
-    title: 'The Future of AI in Restaurant Management',
-    excerpt:
-      'Discover how artificial intelligence is revolutionizing the food service industry with predictive analytics, inventory optimization, and customer experience enhancement.',
-    image:
-      'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    author: 'Monynha Softwares Team',
-    date: 'March 15, 2024',
-    readTime: '5 min read',
-    category: 'AI Insights',
-    featured: true,
-  },
-  {
-    title: 'Building Custom AI Assistants: Best Practices',
-    excerpt:
-      'Learn the essential considerations and strategies for developing AI assistants that truly understand and serve your business needs.',
-    image:
-      'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    author: 'Development Team',
-    date: 'March 8, 2024',
-    readTime: '7 min read',
-    category: 'Development',
-  },
-  {
-    title: 'How Boteco Pro Increased Restaurant Efficiency by 40%',
-    excerpt:
-      'A detailed case study of how our restaurant management system transformed operations for a growing chain of establishments.',
-    image:
-      'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    author: 'Case Study Team',
-    date: 'February 28, 2024',
-    readTime: '6 min read',
-    category: 'Case Study',
-  },
-  {
-    title: 'The ROI of Intelligent Automation in Small Businesses',
-    excerpt:
-      'Understanding the financial impact and long-term benefits of implementing AI-powered automation in your business operations.',
-    image:
-      'https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    author: 'Business Analytics',
-    date: 'February 20, 2024',
-    readTime: '4 min read',
-    category: 'Business',
-  },
-  {
-    title: 'Security First: Protecting Your AI Systems',
-    excerpt:
-      'Essential security measures and best practices for maintaining robust protection in AI-powered business applications.',
-    image:
-      'https://images.unsplash.com/photo-1563986768609-322da13575f3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    author: 'Security Team',
-    date: 'February 12, 2024',
-    readTime: '8 min read',
-    category: 'Security',
-  },
-  {
-    title: 'Integration Strategies for Legacy Systems',
-    excerpt:
-      'How to successfully integrate modern AI solutions with existing business systems without disrupting operations.',
-    image:
-      'https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    author: 'Integration Team',
-    date: 'February 5, 2024',
-    readTime: '6 min read',
-    category: 'Integration',
-  },
-];
-
 const Blog = () => {
   const { t } = useTranslation();
 
@@ -113,9 +43,9 @@ const Blog = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('blog_posts')
-        .select('*')
+        .select('id, slug, title, excerpt, image_url, updated_at')
         .eq('published', true)
-        .order('created_at', { ascending: false });
+        .order('updated_at', { ascending: false });
 
       if (error) {
         throw new Error(error.message);
@@ -129,7 +59,7 @@ const Blog = () => {
             post.image_url ||
             'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
           author: 'Monynha Softwares Team',
-          date: new Date(post.created_at).toLocaleDateString('pt-BR', {
+          date: new Date(post.updated_at).toLocaleDateString('pt-BR', {
             year: 'numeric',
             month: 'long',
             day: 'numeric',
@@ -138,7 +68,6 @@ const Blog = () => {
           category: 'AI Insights',
           featured: index === 0,
           slug: post.slug,
-          content: post.content,
         })) || []
       );
     },
@@ -240,7 +169,7 @@ const Blog = () => {
       </section>
 
       {/* Featured Post */}
-      {(posts.length > 0 ? posts : fallbackPosts)
+      {posts
         .filter((post) => post.featured)
         .map((post, index) => (
           <section key={index} className="pb-16 bg-white">
@@ -297,7 +226,7 @@ const Blog = () => {
       <section className="py-16 bg-neutral-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {(posts.length > 0 ? posts : fallbackPosts)
+            {posts
               .filter((post) => !post.featured)
               .map((post, index) => (
                 <Card
