@@ -175,7 +175,7 @@ const Footer = () => {
                 }
               </li>
               <li className="text-sm text-muted-foreground">
-                {t('footer.location')}: São Paulo, Brasil
+                {t('footer.location')}: Faro, Portugal
               </li>
             </ul>
           </div>
