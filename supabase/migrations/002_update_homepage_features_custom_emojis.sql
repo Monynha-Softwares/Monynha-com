@@ -8,22 +8,21 @@
 
 BEGIN;
 
--- 1. Add new columns if they don't already exist
-ALTER TABLE homepage_features_rows
-    ADD COLUMN IF NOT EXISTS description_pt TEXT;
+CREATE TABLE homepage_features_rows (
+    id bigint primary key generated always as identity,
+    title text NOT NULL UNIQUE,
+    description text,
+    description_pt text,
+    description_es text,
+    description_fr text,
+    emoji text,
+    url text
+);
 
-ALTER TABLE homepage_features_rows
-    ADD COLUMN IF NOT EXISTS description_es TEXT;
+-- Enable Row Level Security
+ALTER TABLE homepage_features_rows ENABLE ROW LEVEL SECURITY;
 
-ALTER TABLE homepage_features_rows
-    ADD COLUMN IF NOT EXISTS description_fr TEXT;
-
-ALTER TABLE homepage_features_rows
-    ADD COLUMN IF NOT EXISTS emoji TEXT;
-
-ALTER TABLE homepage_features_rows
-    ADD COLUMN IF NOT EXISTS url TEXT;
-
+-- Note: You will need to create RLS policies for this table to control access.
 -- 2. Update the feature rows with improved copy and metadata
 UPDATE homepage_features_rows
 SET
