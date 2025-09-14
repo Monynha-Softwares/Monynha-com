@@ -71,10 +71,11 @@ const Contact = () => {
     const newErrors: { name?: string; email?: string; message?: string } = {};
     if (!formData.name.trim())
       newErrors.name = t('contact.validation.required');
-    if (!formData.email.trim())
+    if (!formData.email.trim()) {
       newErrors.email = t('contact.validation.required');
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
+    } else if (!/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(formData.email)) {
       newErrors.email = t('contact.validation.invalidEmail');
+    }
     if (!formData.message.trim())
       newErrors.message = t('contact.validation.required');
 
@@ -96,10 +97,14 @@ const Contact = () => {
       ]);
 
       if (error) {
-        console.error('Error submitting form:', error);
+        let description = t('contact.toasts.errorDescription');
+        // Se erro for de constraint de email inválido
+        if (error.message && /valid_email|email/i.test(error.message)) {
+          description = t('contact.validation.invalidEmail');
+        }
         toast({
           title: t('contact.toasts.errorTitle'),
-          description: t('contact.toasts.errorDescription'),
+          description,
           variant: 'destructive',
         });
         return;

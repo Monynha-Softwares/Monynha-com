@@ -15,6 +15,7 @@ export type Database = {
   public: {
     Tables: {
       blog_posts: {
+        // id: UUID string
         Row: {
           content: string;
           created_at: string;
@@ -51,6 +52,7 @@ export type Database = {
         Relationships: [];
       };
       homepage_features: {
+        // id: UUID string
         Row: {
           active: boolean;
           created_at: string;
@@ -87,6 +89,7 @@ export type Database = {
         Relationships: [];
       };
       leads: {
+        // id: UUID string
         Row: {
           company: string | null;
           created_at: string;
@@ -117,6 +120,7 @@ export type Database = {
         Relationships: [];
       };
       newsletter_subscribers: {
+        // id: UUID string
         Row: {
           active: boolean;
           email: string;
@@ -138,6 +142,8 @@ export type Database = {
         Relationships: [];
       };
       profiles: {
+        // id: UUID string
+        // user_id: UUID string (FK para auth.users)
         Row: {
           avatar_url: string | null;
           created_at: string;
@@ -171,6 +177,7 @@ export type Database = {
         Relationships: [];
       };
       repositories: {
+        // id: UUID string
         Row: {
           active: boolean;
           created_at: string;
@@ -207,6 +214,7 @@ export type Database = {
         Relationships: [];
       };
       site_settings: {
+        // id: UUID string
         Row: {
           created_at: string;
           description: string | null;
@@ -234,6 +242,7 @@ export type Database = {
         Relationships: [];
       };
       solutions: {
+        // id: UUID string
         Row: {
           active: boolean;
           created_at: string;
@@ -270,6 +279,7 @@ export type Database = {
         Relationships: [];
       };
       team_members: {
+        // id: UUID string
         Row: {
           active: boolean;
           bio: string | null;

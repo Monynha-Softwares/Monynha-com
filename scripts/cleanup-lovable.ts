@@ -16,9 +16,10 @@ async function processDir(dir: string): Promise<void> {
         path.extname(entry.name)
       )
     ) {
-      const content = await fs.readFile(fullPath, 'utf8');
-      const newContent = content.split('\n').join('\n');
-      await fs.writeFile(fullPath, newContent);
+  const content = await fs.readFile(fullPath, 'utf8');
+  // Normaliza EOL: CRLF -> LF
+  const newContent = content.replace(/\r\n/g, '\n');
+  await fs.writeFile(fullPath, newContent);
     }
   }
 }

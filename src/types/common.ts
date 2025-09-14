@@ -4,4 +4,3 @@ export interface IErrorBoundaryProps {
   onError?: (error: Error, info: { componentStack: string }) => void;
 }
 
-export default IErrorBoundaryProps;

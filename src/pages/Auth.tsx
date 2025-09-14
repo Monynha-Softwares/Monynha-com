@@ -41,6 +41,16 @@ const Auth = () => {
     e.preventDefault();
     setIsLoading(true);
 
+    // Validação de email consistente com backend
+    if (!/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(email)) {
+      toast({
+        title: 'Email inválido',
+        description: 'Digite um email válido.',
+        variant: 'destructive',
+      });
+      setIsLoading(false);
+      return;
+    }
     try {
       const redirectUrl = `${window.location.origin}/`;
 
@@ -65,7 +75,7 @@ const Auth = () => {
       const message = error instanceof Error ? error.message : String(error);
       toast({
         title: 'Erro ao criar conta',
-        description: message,
+        description: /valid_email|email/i.test(message) ? 'Digite um email válido.' : message,
         variant: 'destructive',
       });
     } finally {
@@ -77,6 +87,16 @@ const Auth = () => {
     e.preventDefault();
     setIsLoading(true);
 
+    // Validação de email consistente com backend
+    if (!/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(email)) {
+      toast({
+        title: 'Email inválido',
+        description: 'Digite um email válido.',
+        variant: 'destructive',
+      });
+      setIsLoading(false);
+      return;
+    }
     try {
       const { error } = await supabase.auth.signInWithPassword({
         email,
@@ -87,7 +107,7 @@ const Auth = () => {
 
       toast({
         title: 'Login realizado com sucesso!',
-        description: 'Bem-vindo de volta!',
+        description: 'Bem-vindo de volta!'
       });
 
       navigate('/');
@@ -95,7 +115,7 @@ const Auth = () => {
       const message = error instanceof Error ? error.message : String(error);
       toast({
         title: 'Erro ao fazer login',
-        description: message,
+        description: /valid_email|email/i.test(message) ? 'Digite um email válido.' : message,
         variant: 'destructive',
       });
     } finally {
