@@ -167,7 +167,7 @@ function processDir(dir) {
           return [3 /*break*/, 7];
         case 4:
           if (
-              !['.ts', '.tsx', '.html', '.json'].includes(
+            !['.ts', '.tsx', '.js', '.jsx', '.html', '.json'].includes(
               node_path_1.default.extname(entry.name)
             )
           )
