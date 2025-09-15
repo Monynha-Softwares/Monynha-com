@@ -150,7 +150,7 @@ function processDir(dir) {
           return [4 /*yield*/, fs.readdir(dir, { withFileTypes: true })];
         case 1:
           entries = _a.sent();
-          ((_i = 0), (entries_1 = entries));
+      _i = 0, entries_1 = entries;
           _a.label = 2;
         case 2:
           if (!(_i < entries_1.length)) return [3 /*break*/, 8];
@@ -163,11 +163,7 @@ function processDir(dir) {
           _a.sent();
           return [3 /*break*/, 7];
         case 4:
-          if (
-            !['.ts', '.tsx', '.js', '.jsx', '.html', '.json'].includes(
-              path.extname(entry.name)
-            )
-          )
+      if (!['.ts', '.tsx', '.html', '.json'].includes(path.extname(entry.name))) 
             return [3 /*break*/, 7];
           return [4 /*yield*/, fs.readFile(fullPath, 'utf8')];
         case 5:
