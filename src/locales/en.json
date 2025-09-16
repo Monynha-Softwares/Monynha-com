@@ -135,7 +135,12 @@
       "title": "Stay in the Loop",
       "description": "Subscribe to our newsletter for the latest insights on AI, software development, and business automation.",
       "placeholder": "Enter your email",
-      "subscribe": "Subscribe"
+      "subscribe": "Subscribe",
+      "subscribing": "Subscribing...",
+      "successMessage": "You're on the list! We'll keep you posted with our latest insights.",
+      "invalidEmail": "Please enter a valid email address.",
+      "duplicateEmail": "This email is already subscribed to our newsletter.",
+      "errorMessage": "We couldn't add you this time. Please try again later."
     }
   },
   "contact": {

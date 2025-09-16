@@ -3,10 +3,11 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Layout from '@/components/Layout';
 import Meta from '@/components/Meta';
+import NewsletterForm from '@/components/NewsletterForm';
 import NewsletterSection from '@/components/NewsletterSection';
 import { ArrowRight, Clock, User } from 'lucide-react';
 import { supabase } from '@/integrations/supabase';
-import { useTranslation, Trans } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import {
@@ -286,16 +287,22 @@ const Blog = () => {
           <p className="text-xl text-blue-100 mb-8">
             {t('blog.newsletter.description')}
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
-            <input
-              type="email"
-              placeholder={t('blog.newsletter.placeholder')}
-              className="flex-1 px-4 py-3 rounded-xl border-0 text-neutral-900 placeholder-neutral-500 focus:ring-2 focus:ring-white focus:outline-none"
-            />
-            <Button className="bg-white text-brand-purple hover:bg-blue-50 font-semibold px-6 py-3 rounded-xl transition-all ease-in-out duration-300">
-              {t('blog.newsletter.subscribe')}
-            </Button>
-          </div>
+          <NewsletterForm
+            placeholder={t('blog.newsletter.placeholder')}
+            buttonLabel={t('blog.newsletter.subscribe')}
+            loadingLabel={t('blog.newsletter.subscribing')}
+            messages={{
+              success: t('blog.newsletter.successMessage'),
+              invalid: t('blog.newsletter.invalidEmail'),
+              duplicate: t('blog.newsletter.duplicateEmail'),
+              error: t('blog.newsletter.errorMessage'),
+            }}
+            wrapperClassName="max-w-md mx-auto"
+            formClassName="flex flex-col sm:flex-row gap-4 justify-center"
+            inputClassName="flex-1 h-12 rounded-xl border-0 bg-white px-4 py-3 text-neutral-900 placeholder-neutral-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-0 focus-visible:outline-none"
+            buttonClassName="bg-white text-brand-purple hover:bg-blue-50 font-semibold px-6 py-3 rounded-xl transition-all ease-in-out duration-300 h-auto"
+            messageClassName="bg-white/10 text-white border-white/20 text-center"
+          />
         </div>
       </section>
       <NewsletterSection />

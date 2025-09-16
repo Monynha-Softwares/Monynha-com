@@ -133,7 +133,12 @@
       "title": "Mantente Informado",
       "description": "Suscríbete a nuestro boletín para recibir novedades sobre IA, desarrollo de software y automatización.",
       "placeholder": "Ingresa tu correo",
-      "subscribe": "Suscribirse"
+      "subscribe": "Suscribirse",
+      "subscribing": "Suscribiendo...",
+      "successMessage": "¡Ya estás en la lista! Te enviaremos nuestras novedades pronto.",
+      "invalidEmail": "Por favor ingresa un correo electrónico válido.",
+      "duplicateEmail": "Este correo ya está suscrito a nuestro boletín.",
+      "errorMessage": "No pudimos completar tu suscripción. Inténtalo más tarde."
     }
   },
   "contact": {

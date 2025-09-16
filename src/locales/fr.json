@@ -133,7 +133,12 @@
       "title": "Restez informé",
       "description": "Abonnez-vous à notre newsletter pour recevoir les dernières infos sur l'IA, le développement logiciel et l'automatisation.",
       "placeholder": "Entrez votre email",
-      "subscribe": "S'abonner"
+      "subscribe": "S'abonner",
+      "subscribing": "Abonnement...",
+      "successMessage": "Vous êtes inscrit ! Nous vous enverrons très bientôt nos actualités.",
+      "invalidEmail": "Veuillez saisir une adresse e-mail valide.",
+      "duplicateEmail": "Cet e-mail est déjà inscrit à notre newsletter.",
+      "errorMessage": "Impossible de finaliser votre inscription. Veuillez réessayer plus tard."
     }
   },
   "contact": {

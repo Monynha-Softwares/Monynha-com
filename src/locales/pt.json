@@ -133,7 +133,12 @@
       "title": "Fique Atualizado",
       "description": "Assine nossa newsletter para receber novidades sobre IA, desenvolvimento de software e automação.",
       "placeholder": "Digite seu email",
-      "subscribe": "Inscrever"
+      "subscribe": "Inscrever",
+      "subscribing": "Inscrevendo...",
+      "successMessage": "Você entrou para a lista! Em breve enviaremos nossas novidades.",
+      "invalidEmail": "Por favor, insira um email válido.",
+      "duplicateEmail": "Este email já está inscrito na nossa newsletter.",
+      "errorMessage": "Não conseguimos concluir sua inscrição. Tente novamente mais tarde."
     }
   },
   "contact": {
