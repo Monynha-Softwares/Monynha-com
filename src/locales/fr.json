@@ -77,6 +77,9 @@
     "title": "Nos Solutions logicielles",
     "description": "Découvrez nos produits phares conçus pour transformer la façon dont les entreprises fonctionnent. Chaque solution est développée avec l'IA au cœur pour une efficacité maximale.",
     "requestDemo": "Demander une démo",
+    "featuresTitle": "Fonctionnalités clés",
+    "backToSolutions": "Retour aux solutions",
+    "notFound": "Solution introuvable",
     "customTitle": "Besoin d'une solution personnalisée ?",
     "customDescription": "Nous créons également des solutions sur mesure adaptées à vos besoins spécifiques. Discutons de la manière de construire quelque chose d'unique pour vous.",
     "discuss": "Discuter du projet"
