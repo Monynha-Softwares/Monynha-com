@@ -23,7 +23,7 @@ import {
   Calendar,
   Settings,
 } from 'lucide-react';
-import { supabase } from '@/integrations/supabase';
+import { fetchActiveSolutions } from '@/lib/solutions';
 import { useTranslation } from 'react-i18next';
 
 const fallbackSolutions = [
@@ -104,16 +104,9 @@ const Solutions = () => {
   } = useQuery({
     queryKey: ['solutions'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('solutions')
-        .select('*')
-        .eq('active', true)
-        .order('created_at', { ascending: true });
-      if (error) {
-        throw new Error(error.message);
-      }
-      return (
-        data?.map((solution, index) => {
+      const data = await fetchActiveSolutions({ ascending: true });
+
+      return data.map((solution, index) => {
           const getFeatures = (slug: string) => {
             if (slug === 'boteco-pro') {
               return [
@@ -187,8 +180,7 @@ const Solutions = () => {
             color:
               solution.slug === 'boteco-pro' ? 'brand-purple' : 'brand-pink',
           };
-        }) || []
-      );
+        });
     },
   });
 

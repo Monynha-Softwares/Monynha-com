@@ -1,8 +1,10 @@
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase';
-import type { Database } from '@/integrations/supabase/types';
+import { fetchProfileByUserId, isUserAdmin } from '@/lib/profiles';
+import type { ProfileRecord } from '@/lib/profiles';
+import type { LeadRecord } from '@/lib/leads';
+import type { NewsletterSubscriberRecord } from '@/lib/newsletterSubscribers';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import {
@@ -26,9 +28,9 @@ import {
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Loader2, LogOut, CalendarDays, Mail } from 'lucide-react';
 
-type Profile = Database['public']['Tables']['profiles']['Row'];
-type Lead = Database['public']['Tables']['leads']['Row'];
-type NewsletterSubscriber = Database['public']['Tables']['newsletter_subscribers']['Row'];
+type Profile = ProfileRecord;
+type Lead = LeadRecord;
+type NewsletterSubscriber = NewsletterSubscriberRecord;
 
 const formatDateTime = (value?: string | null) => {
   if (!value) return '-';
@@ -40,8 +42,35 @@ const formatDateTime = (value?: string | null) => {
   });
 };
 
+const fetchAdminResource = async <T,>(path: string, accessToken: string): Promise<T> => {
+  const response = await fetch(`/api/admin/${path}`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  let payload: { data?: T; error?: string } | undefined;
+
+  try {
+    payload = await response.json();
+  } catch (error) {
+    console.error('Erro ao interpretar resposta administrativa:', error);
+  }
+
+  if (!response.ok) {
+    const message = payload?.error ?? 'Não foi possível carregar os dados administrativos.';
+    throw new Error(message);
+  }
+
+  if (!payload || payload.data === undefined) {
+    throw new Error('Resposta inválida do servidor administrativo.');
+  }
+
+  return payload.data;
+};
+
 const Dashboard = () => {
-  const { user, signOut } = useAuth();
+  const { user, session, signOut } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -67,43 +96,28 @@ const Dashboard = () => {
     queryKey: ['profile', user?.id],
     queryFn: async () => {
       if (!user?.id) return null;
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('id, name, email, role, created_at, updated_at, avatar_url')
-        .eq('user_id', user.id)
-        .maybeSingle();
-
-      if (error) {
-        throw new Error(error.message);
-      }
-
-      return data;
+      return fetchProfileByUserId(user.id);
     },
     enabled: Boolean(user?.id),
     staleTime: 1000 * 60 * 5,
   });
 
-  const isAdmin = profile?.role === 'admin';
+  const isAdmin = isUserAdmin(profile);
 
   const {
     data: leads = [],
     isLoading: isLeadsLoading,
     error: leadsError,
   } = useQuery<Lead[], Error>({
-    queryKey: ['leads'],
+    queryKey: ['leads', session?.access_token],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('leads')
-        .select('id, name, email, company, project, message, created_at')
-        .order('created_at', { ascending: false });
-
-      if (error) {
-        throw new Error(error.message);
+      if (!session?.access_token) {
+        return [];
       }
 
-      return data ?? [];
+      return fetchAdminResource<Lead[]>('leads', session.access_token);
     },
-    enabled: isAdmin,
+    enabled: isAdmin && Boolean(session?.access_token),
     staleTime: 1000 * 60 * 5,
   });
 
@@ -112,20 +126,18 @@ const Dashboard = () => {
     isLoading: isNewsletterLoading,
     error: newsletterError,
   } = useQuery<NewsletterSubscriber[], Error>({
-    queryKey: ['newsletter-subscribers'],
+    queryKey: ['newsletter-subscribers', session?.access_token],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('newsletter_subscribers')
-        .select('id, email, active, subscribed_at')
-        .order('subscribed_at', { ascending: false });
-
-      if (error) {
-        throw new Error(error.message);
+      if (!session?.access_token) {
+        return [];
       }
 
-      return data ?? [];
+      return fetchAdminResource<NewsletterSubscriber[]>(
+        'newsletter-subscribers',
+        session.access_token
+      );
     },
-    enabled: isAdmin,
+    enabled: isAdmin && Boolean(session?.access_token),
     staleTime: 1000 * 60 * 5,
   });
 

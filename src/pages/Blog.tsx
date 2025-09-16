@@ -5,7 +5,7 @@ import Layout from '@/components/Layout';
 import Meta from '@/components/Meta';
 import NewsletterSection from '@/components/NewsletterSection';
 import { ArrowRight, Clock, User } from 'lucide-react';
-import { supabase } from '@/integrations/supabase';
+import { fetchPublishedBlogPosts } from '@/lib/blogPosts';
 import { useTranslation, Trans } from 'react-i18next';
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
@@ -41,18 +41,9 @@ const Blog = () => {
   } = useQuery({
     queryKey: ['blog_posts'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('blog_posts')
-        .select('id, slug, title, excerpt, image_url, updated_at')
-        .eq('published', true)
-        .order('updated_at', { ascending: false });
+      const data = await fetchPublishedBlogPosts();
 
-      if (error) {
-        throw new Error(error.message);
-      }
-
-      return (
-        data?.map((post, index) => ({
+      return data.map((post, index) => ({
           title: post.title,
           excerpt: post.excerpt || 'Read more about this topic...',
           image:
@@ -68,8 +59,7 @@ const Blog = () => {
           category: 'AI Insights',
           featured: index === 0,
           slug: post.slug,
-        })) || []
-      );
+        }));
     },
   });
 

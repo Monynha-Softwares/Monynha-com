@@ -13,7 +13,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
-import { supabase } from '@/integrations/supabase';
+import { fetchActiveRepositories } from '@/lib/repositories';
 import { useTranslation, Trans } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
@@ -36,19 +36,7 @@ const Projects = () => {
     isError,
   } = useQuery({
     queryKey: ['repositories'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('repositories')
-        .select('*')
-        .eq('active', true)
-        .order('created_at', { ascending: false });
-
-      if (error) {
-        throw new Error(error.message);
-      }
-
-      return data || [];
-    },
+    queryFn: async () => fetchActiveRepositories({ ascending: false }),
   });
 
   const formatDate = (dateString: string) => {

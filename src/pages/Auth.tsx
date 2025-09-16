@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { supabase } from '@/integrations/supabase';
+import { getSupabaseBrowserClient } from '@/integrations/supabase';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -18,6 +18,8 @@ import Loading from '@/components/Loading';
 import { ArrowLeft, Eye, EyeOff, Loader2 } from 'lucide-react';
 
 type AuthTab = 'signin' | 'signup';
+
+const supabase = getSupabaseBrowserClient();
 
 const Auth = () => {
   const [activeTab, setActiveTab] = useState<AuthTab>('signin');
