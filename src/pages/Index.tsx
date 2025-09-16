@@ -18,8 +18,9 @@ import {
 } from 'lucide-react';
 import { useTranslation, Trans } from 'react-i18next';
 import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase';
 import { useMemo } from 'react';
+import { fetchActiveHomepageFeatures } from '@/lib/homepageFeatures';
+import { fetchSupabaseSolutions } from '@/lib/solutions';
 
 const fallbackSolutions = [
   {
@@ -48,66 +49,58 @@ const fallbackSolutions = [
   },
 ];
 
+const ICON_MAP: Record<string, LucideIcon> = {
+  Brain,
+  Zap,
+  Shield,
+  Users,
+  Globe,
+  Laptop,
+};
+
 const Index = () => {
   const { t } = useTranslation();
 
   // Fetch dynamic homepage features from database
-  const { data: features, isLoading: featuresLoading } = useQuery({
+  const { data: featureRows } = useQuery({
     queryKey: ['homepage-features'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('homepage_features')
-        .select('*')
-        .eq('active', true)
-        .order('order_index', { ascending: true });
-
-      if (error) throw error;
-
-      // Map to the expected format with icon components
-      const iconMap: Record<string, LucideIcon> = {
-        Brain,
-        Zap,
-        Shield,
-        Users,
-        Globe,
-        Laptop,
-      };
-
-      return data.map((feature) => ({
-        icon: iconMap[feature.icon as keyof typeof iconMap] ?? Laptop,
-        title: feature.title,
-        description: feature.description,
-        url: feature.url,
-      }));
-    },
+    queryFn: fetchActiveHomepageFeatures,
   });
+
+  const features = useMemo(() => {
+    if (!featureRows || featureRows.length === 0) {
+      return null;
+    }
+
+    return featureRows.map((feature) => ({
+      icon: ICON_MAP[feature.icon as keyof typeof ICON_MAP] ?? Laptop,
+      title: feature.title,
+      description: feature.description,
+      url: feature.url,
+    }));
+  }, [featureRows]);
 
   // Fetch dynamic solutions from database
-  const { data: solutions, isLoading: solutionsLoading } = useQuery({
+  const { data: solutionsData } = useQuery({
     queryKey: ['solutions-preview'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('solutions')
-        .select('*')
-        .eq('active', true)
-        .limit(2)
-        .order('created_at', { ascending: true });
-
-      if (error) throw error;
-
-      return data.map((solution, index) => ({
-        name: solution.title,
-        description: solution.description,
-        features: Array.isArray(solution.features)
-          ? (solution.features as string[])
-          : [],
-        gradient:
-          index === 0
-            ? 'from-brand-purple to-brand-blue'
-            : 'from-brand-pink to-brand-orange',
-      }));
+      const solutions = await fetchSupabaseSolutions();
+      return solutions.slice(0, 2);
     },
   });
+
+  const solutions = useMemo(() => {
+    if (!solutionsData || solutionsData.length === 0) {
+      return null;
+    }
+
+    return solutionsData.map((solution) => ({
+      name: solution.title,
+      description: solution.description,
+      features: [...solution.features],
+      gradient: solution.gradient,
+    }));
+  }, [solutionsData]);
 
   // Fallback features for loading/error states
   const fallbackFeatures = useMemo(

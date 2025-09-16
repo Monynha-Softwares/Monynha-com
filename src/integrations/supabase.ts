@@ -1,10 +1,5 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import type { Database } from '@/integrations/supabase/types';
-
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
-const SUPABASE_ANON_KEY =
-  (import.meta.env.VITE_SUPABASE_ANON_KEY ||
-    import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY) as string;
 
 const AUTH_COOKIE_PREFIX = 'monynha_supabase_';
 const AUTH_STORAGE_KEY = 'auth_token';
@@ -96,14 +91,144 @@ const cookieStorage = isBrowser
   ? new CookieStorage(AUTH_COOKIE_PREFIX, { path: '/', maxAge: DEFAULT_MAX_AGE })
   : undefined;
 
-export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_ANON_KEY, {
-  auth: {
-    storage: cookieStorage,
+type EnvSource = Record<string, string | undefined>;
+
+const envSources: EnvSource[] = (() => {
+  const sources: EnvSource[] = [];
+
+  const metaEnv = (import.meta as unknown as { env?: EnvSource })?.env;
+  if (metaEnv) {
+    sources.push(metaEnv);
+  }
+
+  if (typeof process !== 'undefined' && process.env) {
+    sources.push(process.env as EnvSource);
+  }
+
+  return sources;
+})();
+
+const resolveEnvVar = (key: string): string | undefined => {
+  for (const source of envSources) {
+    const value = source[key];
+    if (typeof value === 'string' && value.length > 0) {
+      return value;
+    }
+  }
+  return undefined;
+};
+
+const getEnvVar = (key: string, fallbackKeys: string[] = []): string | undefined => {
+  const keysToCheck = [key, ...fallbackKeys];
+
+  for (const currentKey of keysToCheck) {
+    const resolved =
+      resolveEnvVar(currentKey) ??
+      (currentKey.startsWith('VITE_') ? undefined : resolveEnvVar(`VITE_${currentKey}`));
+
+    if (resolved) {
+      return resolved;
+    }
+  }
+
+  return undefined;
+};
+
+const SUPABASE_URL = getEnvVar('SUPABASE_URL');
+if (!SUPABASE_URL) {
+  throw new Error('Supabase URL is not configured. Define SUPABASE_URL or VITE_SUPABASE_URL.');
+}
+
+const SUPABASE_ANON_KEY =
+  getEnvVar('SUPABASE_ANON_KEY') ?? getEnvVar('SUPABASE_PUBLISHABLE_KEY');
+if (!SUPABASE_ANON_KEY) {
+  throw new Error(
+    'Supabase anon key is not configured. Define SUPABASE_ANON_KEY or VITE_SUPABASE_ANON_KEY.'
+  );
+}
+
+const createDefaultClient = (): SupabaseClient<Database> => {
+  const authOptions: {
+    storageKey: string;
+    persistSession: boolean;
+    autoRefreshToken: boolean;
+    storage?: Storage;
+  } = {
     storageKey: AUTH_STORAGE_KEY,
-    persistSession: true,
-    autoRefreshToken: true,
-  },
-});
+    persistSession: isBrowser,
+    autoRefreshToken: isBrowser,
+  };
+
+  if (cookieStorage) {
+    authOptions.storage = cookieStorage;
+  }
+
+  return createClient<Database>(SUPABASE_URL, SUPABASE_ANON_KEY, {
+    auth: authOptions,
+  });
+};
+
+let browserClient: SupabaseClient<Database> | undefined;
+
+export const getSupabaseBrowserClient = (): SupabaseClient<Database> => {
+  if (!browserClient) {
+    browserClient = createDefaultClient();
+  }
+
+  return browserClient;
+};
+
+export interface CreateServerClientOptions {
+  accessToken?: string;
+  headers?: Record<string, string>;
+  fetch?: typeof fetch;
+}
+
+export const createSupabaseServerClient = (
+  options: CreateServerClientOptions = {}
+): SupabaseClient<Database> => {
+  const headers = {
+    ...options.headers,
+    ...(options.accessToken ? { Authorization: `Bearer ${options.accessToken}` } : {}),
+  } satisfies Record<string, string>;
+
+  return createClient<Database>(SUPABASE_URL, SUPABASE_ANON_KEY, {
+    global: headers ? { headers } : undefined,
+    auth: {
+      persistSession: false,
+      autoRefreshToken: false,
+    },
+    fetch: options.fetch,
+  });
+};
+
+export interface CreateServiceRoleClientOptions {
+  fetch?: typeof fetch;
+}
+
+export const createSupabaseServiceRoleClient = (
+  options: CreateServiceRoleClientOptions = {}
+): SupabaseClient<Database> => {
+  const serviceRoleKey = getEnvVar('SUPABASE_SERVICE_ROLE_KEY');
+
+  if (!serviceRoleKey) {
+    throw new Error('SUPABASE_SERVICE_ROLE_KEY must be defined to use the service role client.');
+  }
+
+  if (isBrowser) {
+    throw new Error('The Supabase service role client cannot be instantiated in the browser.');
+  }
+
+  return createClient<Database>(SUPABASE_URL, serviceRoleKey, {
+    auth: {
+      persistSession: false,
+      autoRefreshToken: false,
+    },
+    fetch: options.fetch,
+  });
+};
+
+export const supabase = getSupabaseBrowserClient();
 
 export const clearSupabaseSession = () => {
   if (cookieStorage) {

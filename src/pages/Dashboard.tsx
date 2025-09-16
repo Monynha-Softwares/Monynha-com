@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { supabase } from '@/integrations/supabase';
-import type { Database } from '@/integrations/supabase/types';
+import { fetchProfileByUserId } from '@/lib/profiles';
+import type { ProfileRow } from '@/lib/profiles';
+import type { LeadRow } from '@/lib/leads';
+import type { NewsletterSubscriberRow } from '@/lib/newsletter';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
@@ -28,10 +30,9 @@ import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { AlertTriangle, Loader2, LogOut, RefreshCcw } from 'lucide-react';
 
-type Profile = Database['public']['Tables']['profiles']['Row'];
-type Lead = Database['public']['Tables']['leads']['Row'];
-type NewsletterSubscriber =
-  Database['public']['Tables']['newsletter_subscribers']['Row'];
+type Profile = ProfileRow;
+type Lead = LeadRow;
+type NewsletterSubscriber = NewsletterSubscriberRow;
 
 const formatDate = (value: string | null | undefined) => {
   if (!value) return '—';
@@ -45,7 +46,7 @@ const formatDate = (value: string | null | undefined) => {
 };
 
 const Dashboard = () => {
-  const { user, signOut } = useAuth();
+  const { user, session, signOut } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -73,15 +74,7 @@ const Dashboard = () => {
     }
 
     try {
-      const { data: profileData, error: profileError } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('user_id', user.id)
-        .maybeSingle();
-
-      if (profileError) {
-        throw profileError;
-      }
+      const profileData = await fetchProfileByUserId(user.id);
 
       const resolvedProfile: Profile =
         profileData ??
@@ -103,32 +96,43 @@ const Dashboard = () => {
       }
 
       if (resolvedProfile.role === 'admin') {
+        if (!session?.access_token) {
+          throw new Error(
+            'Não foi possível validar suas credenciais de administrador.'
+          );
+        }
+
         if (isMounted.current) {
           setIsFetchingAdminData(true);
         }
 
-        const [leadsResponse, newsletterResponse] = await Promise.all([
-          supabase
-            .from('leads')
-            .select('*')
-            .order('created_at', { ascending: false }),
-          supabase
-            .from('newsletter_subscribers')
-            .select('*')
-            .order('subscribed_at', { ascending: false }),
-        ]);
+        const response = await fetch('/api/admin/dashboard', {
+          headers: {
+            Authorization: `Bearer ${session.access_token}`,
+          },
+        });
 
-        if (leadsResponse.error) {
-          throw leadsResponse.error;
+        const payload = await response
+          .json()
+          .catch(() => ({}) as Record<string, unknown>);
+
+        if (!response.ok) {
+          const message =
+            (payload && typeof payload.error === 'string'
+              ? payload.error
+              : undefined) ||
+            `Falha ao carregar dados administrativos (${response.status}).`;
+          throw new Error(message);
         }
 
-        if (newsletterResponse.error) {
-          throw newsletterResponse.error;
-        }
+        const adminData = payload as {
+          leads?: Lead[];
+          subscribers?: NewsletterSubscriber[];
+        };
 
         if (isMounted.current) {
-          setLeads(leadsResponse.data ?? []);
-          setSubscribers(newsletterResponse.data ?? []);
+          setLeads(adminData.leads ?? []);
+          setSubscribers(adminData.subscribers ?? []);
         }
       } else if (isMounted.current) {
         setLeads([]);
@@ -154,7 +158,7 @@ const Dashboard = () => {
         setIsFetchingAdminData(false);
       }
     }
-  }, [toast, user]);
+  }, [session, toast, user]);
 
   useEffect(() => {
     void loadDashboard();

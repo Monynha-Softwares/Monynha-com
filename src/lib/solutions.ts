@@ -4,9 +4,10 @@ import {
   gradientOptions,
   normalizeSolutionSlug,
 } from '@/data/solutions';
-import { supabase } from '@/integrations/supabase';
+import { getSupabaseBrowserClient } from '@/integrations/supabase';
 import type { Database } from '@/integrations/supabase/types';
 import type { SolutionContent } from '@/types/solutions';
+import type { SupabaseClient } from '@supabase/supabase-js';
 
 export interface GitHubRepository {
   id: number;
@@ -224,10 +225,14 @@ export const getFallbackSolutions = (): SolutionContent[] =>
     features: [...solution.features],
   }));
 
-export const fetchSupabaseSolutions = async (): Promise<SolutionContent[]> => {
-  const { data, error } = await supabase
+export const fetchSupabaseSolutions = async (
+  client: SupabaseClient<Database> = getSupabaseBrowserClient()
+): Promise<SolutionContent[]> => {
+  const { data, error } = await client
     .from('solutions')
-    .select('*')
+    .select(
+      'id, title, description, slug, image_url, features, active, created_at, updated_at'
+    )
     .eq('active', true)
     .order('created_at', { ascending: true });
 

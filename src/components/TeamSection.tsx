@@ -2,18 +2,9 @@ import { useQuery } from '@tanstack/react-query';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-import { supabase } from '@/integrations/supabase';
+import { fetchActiveTeamMembers, type TeamMemberRow } from '@/lib/teamMembers';
 import { Linkedin, Mail } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-
-interface TeamMember {
-  id: string;
-  name: string;
-  role: string;
-  bio: string | null;
-  image_url: string | null;
-  linkedin_url: string | null;
-}
 
 const TeamSection = () => {
   const { t } = useTranslation();
@@ -22,18 +13,9 @@ const TeamSection = () => {
     data: members,
     isLoading,
     error,
-  } = useQuery({
+  } = useQuery<TeamMemberRow[]>({
     queryKey: ['team-members'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('team_members')
-        .select('*')
-        .eq('active', true)
-        .order('created_at', { ascending: true });
-
-      if (error) throw error;
-      return data as TeamMember[];
-    },
+    queryFn: fetchActiveTeamMembers,
   });
 
   if (isLoading) {
@@ -94,7 +76,7 @@ const TeamSection = () => {
         </div>
 
         <div className="flex flex-wrap justify-center gap-8">
-          {members?.map((member) => (
+          {(members ?? []).map((member) => (
             <Card
               key={member.id}
               className="w-full md:w-1/2 lg:w-1/4 border-0 shadow-soft hover:shadow-soft-lg transition-all duration-200 card-hover rounded-2xl"
