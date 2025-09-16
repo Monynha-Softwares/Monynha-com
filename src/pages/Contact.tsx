@@ -6,7 +6,7 @@ import { Textarea } from '@/components/ui/textarea';
 import Layout from '@/components/Layout';
 import Meta from '@/components/Meta';
 import { Mail, Phone, MapPin, Send, CheckCircle } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
+import { createLead } from '@/lib/leads';
 import { useToast } from '@/hooks/use-toast';
 import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
@@ -85,25 +85,13 @@ const Contact = () => {
     }
 
     try {
-      const { error } = await supabase.from('leads').insert([
-        {
-          name: formData.name,
-          email: formData.email,
-          company: formData.company || null,
-          project: formData.project || null,
-          message: formData.message,
-        },
-      ]);
-
-      if (error) {
-        console.error('Error submitting form:', error);
-        toast({
-          title: t('contact.toasts.errorTitle'),
-          description: t('contact.toasts.errorDescription'),
-          variant: 'destructive',
-        });
-        return;
-      }
+      await createLead({
+        name: formData.name,
+        email: formData.email,
+        company: formData.company || null,
+        project: formData.project || null,
+        message: formData.message,
+      });
 
       setIsSubmitted(true);
       toast({
