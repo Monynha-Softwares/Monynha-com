@@ -1,84 +1,143 @@
-import type { Database } from '@/integrations/supabase/types';
-import { fallbackSolutions, fallbackSolutionsMap, gradientOptions } from '@/data/solutions';
+import {
+  fallbackSolutions,
+  fallbackSolutionsMap,
+  gradientOptions,
+  normalizeSolutionSlug,
+} from '@/data/solutions';
 import type { SolutionContent } from '@/types/solutions';
 
-type SolutionRow = Database['public']['Tables']['solutions']['Row'];
+export interface GitHubRepository {
+  id: number;
+  name: string;
+  description: string | null;
+  homepage: string | null;
+  topics?: string[];
+  language: string | null;
+  private: boolean;
+  archived: boolean;
+  disabled: boolean;
+  visibility: string;
+  default_branch: string;
+  stargazers_count: number;
+  watchers_count: number;
+  open_issues_count: number;
+  created_at: string;
+  updated_at: string;
+  pushed_at: string;
+  html_url: string;
+}
 
-type JsonValue = SolutionRow['features'];
+const uniqueNonEmpty = (values: Array<string | null | undefined>): string[] => {
+  const seen = new Set<string>();
+  const result: string[] = [];
 
-const serializeFeature = (feature: unknown): string | null => {
-  if (typeof feature === 'string') {
-    return feature.trim() ? feature : null;
-  }
-
-  if (feature && typeof feature === 'object' && 'title' in (feature as Record<string, unknown>)) {
-    const title = (feature as Record<string, unknown>).title;
-    if (typeof title === 'string' && title.trim()) {
-      return title;
+  for (const value of values) {
+    if (!value) {
+      continue;
     }
+
+    const trimmed = value.trim();
+    if (!trimmed || seen.has(trimmed)) {
+      continue;
+    }
+
+    seen.add(trimmed);
+    result.push(trimmed);
   }
 
-  if (feature == null) {
+  return result;
+};
+
+const formatDate = (value: string | null | undefined): string | null => {
+  if (!value) {
     return null;
   }
 
-  try {
-    const serialized = JSON.stringify(feature);
-    return serialized === '{}' ? null : serialized;
-  } catch (error) {
-    console.warn('Unable to serialize feature', feature, error);
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) {
     return null;
   }
+
+  return date.toLocaleDateString(undefined, {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  });
 };
 
-export const parseFeatures = (features: JsonValue): string[] => {
-  if (!features) {
-    return [];
+const buildFeatureList = (
+  repository: GitHubRepository,
+  fallback?: SolutionContent
+): string[] => {
+  const normalizedTopics = Array.isArray(repository.topics)
+    ? uniqueNonEmpty(repository.topics)
+    : [];
+
+  const formattedUpdatedAt =
+    formatDate(repository.updated_at ?? repository.pushed_at) ?? undefined;
+
+  const metadata = uniqueNonEmpty([
+    repository.language ? `Built with ${repository.language}.` : null,
+    repository.homepage ? `Live project: ${repository.homepage}` : null,
+    repository.stargazers_count > 0
+      ? `${repository.stargazers_count} ⭐ stars on GitHub`
+      : null,
+    repository.open_issues_count > 0
+      ? `${repository.open_issues_count} open issues`
+      : null,
+    repository.default_branch
+      ? `Default branch: ${repository.default_branch}`
+      : null,
+    formattedUpdatedAt ? `Last updated on ${formattedUpdatedAt}` : null,
+  ]);
+
+  const combined = uniqueNonEmpty([...normalizedTopics, ...metadata]);
+
+  if (combined.length > 0) {
+    return combined;
   }
 
-  if (Array.isArray(features)) {
-    return features
-      .map((feature) => serializeFeature(feature))
-      .filter((feature): feature is string => Boolean(feature && feature.trim()));
-  }
-
-  if (typeof features === 'string') {
-    try {
-      const parsed = JSON.parse(features);
-      if (Array.isArray(parsed)) {
-        return parsed
-          .map((feature) => serializeFeature(feature))
-          .filter((feature): feature is string => Boolean(feature && feature.trim()));
-      }
-    } catch (error) {
-      console.warn('Unable to parse features JSON string', error);
-    }
-  }
-
-  return [];
+  return fallback?.features ? [...fallback.features] : [];
 };
 
-export const mapSolutionRowToContent = (
-  solution: SolutionRow,
+export const mapGitHubRepoToContent = (
+  repository: GitHubRepository,
   index: number
 ): SolutionContent => {
-  const fallback = fallbackSolutionsMap[solution.slug];
-  const parsedFeatures = parseFeatures(solution.features);
-  const gradient = fallback?.gradient ?? gradientOptions[index % gradientOptions.length];
+  const normalizedSlug = normalizeSolutionSlug(repository.name);
+  const fallback =
+    fallbackSolutionsMap[normalizedSlug] ?? fallbackSolutionsMap[repository.name];
+  const gradient =
+    fallback?.gradient ?? gradientOptions[index % gradientOptions.length];
+
+  const description = repository.description?.trim();
 
   return {
-    id: solution.id,
-    title: solution.title,
-    description: solution.description,
-    slug: solution.slug,
-    imageUrl: solution.image_url ?? fallback?.imageUrl ?? null,
-    features: parsedFeatures.length > 0 ? parsedFeatures : fallback?.features ?? [],
+    id: String(repository.id),
+    title: fallback?.title ?? repository.name,
+    description:
+      description && description.length > 0
+        ? description
+        : fallback?.description ??
+          'Open-source solution maintained by Monynha Softwares.',
+    slug: repository.name,
+    imageUrl: fallback?.imageUrl ?? null,
+    features: buildFeatureList(repository, fallback),
     gradient,
   };
 };
 
-export const getFallbackSolution = (slug: string): SolutionContent | undefined => {
-  const fallback = fallbackSolutionsMap[slug];
+export const getFallbackSolution = (
+  slug: string
+): SolutionContent | undefined => {
+  if (!slug) {
+    return undefined;
+  }
+
+  const normalizedSlug = normalizeSolutionSlug(slug);
+  const fallback =
+    fallbackSolutionsMap[normalizedSlug] ?? fallbackSolutionsMap[slug];
+
   if (!fallback) {
     return undefined;
   }

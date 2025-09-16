@@ -14,13 +14,18 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 import { ArrowLeft, ArrowRight, CheckCircle } from 'lucide-react';
-import { supabase } from '@/integrations/supabase';
 import { useTranslation } from 'react-i18next';
+import type { GitHubRepository } from '@/lib/solutions';
 import type { SolutionContent } from '@/types/solutions';
 import {
   getFallbackSolution,
-  mapSolutionRowToContent,
+  mapGitHubRepoToContent,
 } from '@/lib/solutions';
+
+const getRepositoryUrl = (repositorySlug: string) =>
+  `https://api.github.com/repos/Monynha-Softwares/${encodeURIComponent(
+    repositorySlug
+  )}`;
 
 const SolutionDetail = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -43,23 +48,32 @@ const SolutionDetail = () => {
         return null;
       }
 
-      const { data, error } = await supabase
-        .from('solutions')
-        .select('id, title, description, slug, image_url, features, created_at')
-        .eq('slug', slug)
-        .eq('active', true)
-        .maybeSingle();
+      const response = await fetch(getRepositoryUrl(slug), {
+        headers: {
+          Accept: 'application/vnd.github+json',
+        },
+      });
 
-      if (error) {
-        throw new Error(error.message);
-      }
-
-      if (!data) {
+      if (response.status === 404) {
         return null;
       }
 
-      return mapSolutionRowToContent(data, 0);
+      if (!response.ok) {
+        throw new Error(`GitHub API responded with ${response.status}`);
+      }
+
+      const repository: GitHubRepository = await response.json();
+
+      if (repository.private || repository.archived || repository.disabled) {
+        return null;
+      }
+
+      return mapGitHubRepoToContent(repository, 0);
     },
+    staleTime: 1000 * 60 * 10,
+    retry: 1,
+    keepPreviousData: true,
+    refetchOnWindowFocus: false,
   });
 
   const displaySolution = solution ?? fallbackSolution ?? null;
