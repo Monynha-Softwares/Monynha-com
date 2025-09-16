@@ -5,6 +5,7 @@ import {
   normalizeSolutionSlug,
 } from '@/data/solutions';
 import type { Tables } from '@/integrations/supabase/types';
+import type { SolutionContent } from '@/types/solutions';
 import { supabase } from '@/integrations/supabase';
 import type { Database } from '@/integrations/supabase/types';
 
@@ -224,7 +225,7 @@ export const getFallbackSolutions = (): SolutionContent[] =>
     features: [...solution.features],
   }));
 
-type SupabaseSolutionRow = Tables<'solutions'>;
+// Removed duplicate type declaration
 
 const mapSupabaseFeatures = (
   features: SupabaseSolutionRow['features'],
@@ -247,27 +248,7 @@ const mapSupabaseFeatures = (
   return [];
 };
 
-export const mapSupabaseSolutionToContent = (
-  solution: SupabaseSolutionRow,
-  options: { index?: number } = {}
-): SolutionContent => {
-  const fallback = fallbackSolutionsMap[solution.slug] ??
-    fallbackSolutionsMap[normalizeSolutionSlug(solution.slug)];
-
-  const gradientIndex = options.index ?? 0;
-  const gradient = fallback?.gradient ??
-    gradientOptions[gradientIndex % gradientOptions.length];
-
-  return {
-    id: solution.id,
-    title: solution.title,
-    description: solution.description,
-    slug: solution.slug,
-    imageUrl: solution.image_url ?? fallback?.imageUrl ?? null,
-    features: mapSupabaseFeatures(solution.features, fallback),
-    gradient,
-  };
-  
+// Removed duplicate function declaration
 export const fetchSupabaseSolutions = async (): Promise<SolutionContent[]> => {
   const { data, error } = await supabase
     .from('solutions')
@@ -282,6 +263,7 @@ export const fetchSupabaseSolutions = async (): Promise<SolutionContent[]> => {
   const rows = data ?? [];
 
   return rows.map((solution, index) =>
-    mapSupabaseSolutionToContent(solution, index)
+  mapSupabaseSolutionToContent(solution, index)
   );
-};
+
+  }
