@@ -1,7 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { supabase } from '@/integrations/supabase';
-import type { Database } from '@/integrations/supabase/types';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
@@ -27,11 +25,19 @@ import Loading from '@/components/Loading';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { AlertTriangle, Loader2, LogOut, RefreshCcw } from 'lucide-react';
+import {
+  fetchProfileByUserId,
+  type ProfileRow,
+} from '@/lib/profiles';
+import { fetchLeads, type LeadRow } from '@/lib/leads';
+import {
+  fetchNewsletterSubscribers,
+  type NewsletterSubscriberRow,
+} from '@/lib/newsletterSubscribers';
 
-type Profile = Database['public']['Tables']['profiles']['Row'];
-type Lead = Database['public']['Tables']['leads']['Row'];
-type NewsletterSubscriber =
-  Database['public']['Tables']['newsletter_subscribers']['Row'];
+type Profile = ProfileRow;
+type Lead = LeadRow;
+type NewsletterSubscriber = NewsletterSubscriberRow;
 
 const formatDate = (value: string | null | undefined) => {
   if (!value) return '—';
@@ -73,15 +79,7 @@ const Dashboard = () => {
     }
 
     try {
-      const { data: profileData, error: profileError } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('user_id', user.id)
-        .maybeSingle();
-
-      if (profileError) {
-        throw profileError;
-      }
+      const profileData = await fetchProfileByUserId(user.id);
 
       const resolvedProfile: Profile =
         profileData ??
@@ -108,27 +106,13 @@ const Dashboard = () => {
         }
 
         const [leadsResponse, newsletterResponse] = await Promise.all([
-          supabase
-            .from('leads')
-            .select('*')
-            .order('created_at', { ascending: false }),
-          supabase
-            .from('newsletter_subscribers')
-            .select('*')
-            .order('subscribed_at', { ascending: false }),
+          fetchLeads(),
+          fetchNewsletterSubscribers(),
         ]);
 
-        if (leadsResponse.error) {
-          throw leadsResponse.error;
-        }
-
-        if (newsletterResponse.error) {
-          throw newsletterResponse.error;
-        }
-
         if (isMounted.current) {
-          setLeads(leadsResponse.data ?? []);
-          setSubscribers(newsletterResponse.data ?? []);
+          setLeads(leadsResponse ?? []);
+          setSubscribers(newsletterResponse ?? []);
         }
       } else if (isMounted.current) {
         setLeads([]);

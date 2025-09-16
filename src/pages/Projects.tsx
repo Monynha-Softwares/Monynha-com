@@ -20,7 +20,6 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
-import { supabase } from '@/integrations/supabase';
 import { useTranslation, Trans } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import useRepositorySync from '@/hooks/useRepositorySync';
@@ -31,16 +30,12 @@ import {
 } from '@/lib/solutions';
 import type { GitHubRepository } from '@/lib/solutions';
 import type { SolutionContent } from '@/types/solutions';
+import {
+  fetchActiveRepositories,
+  type RepositoryRow,
+} from '@/lib/repositories';
 
-interface Repository {
-  id: string;
-  name: string;
-  description: string;
-  github_url: string;
-  demo_url: string | null;
-  tags: string[] | null;
-  created_at: string;
-}
+type Repository = RepositoryRow;
 
 const GITHUB_REPOS_URL =
   'https://api.github.com/orgs/Monynha-Softwares/repos?per_page=100';
@@ -55,19 +50,7 @@ const Projects = () => {
     isError: repositoriesError,
   } = useQuery<Repository[]>({
     queryKey: ['repositories'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('repositories')
-        .select('*')
-        .eq('active', true)
-        .order('created_at', { ascending: false });
-
-      if (error) {
-        throw new Error(error.message);
-      }
-
-      return (data ?? []) as Repository[];
-    },
+    queryFn: () => fetchActiveRepositories(),
   });
 
   const {

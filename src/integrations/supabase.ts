@@ -1,14 +1,51 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import type { Database } from '@/integrations/supabase/types';
-
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
-const SUPABASE_ANON_KEY =
-  (import.meta.env.VITE_SUPABASE_ANON_KEY ||
-    import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY) as string;
 
 const AUTH_COOKIE_PREFIX = 'monynha_supabase_';
 const AUTH_STORAGE_KEY = 'auth_token';
 const DEFAULT_MAX_AGE = 60 * 60 * 24 * 30; // 30 days
+
+type EnvRecord = Record<string, string | undefined> | undefined;
+
+const getMetaEnv = (): EnvRecord => {
+  try {
+    return (import.meta as unknown as { env?: Record<string, string | undefined> })
+      .env;
+  } catch {
+    return undefined;
+  }
+};
+
+const getEnvValue = (...keys: string[]): string | undefined => {
+  const metaEnv = getMetaEnv();
+  for (const key of keys) {
+    const fromMeta = metaEnv?.[key];
+    if (fromMeta) {
+      return fromMeta;
+    }
+
+    if (typeof process !== 'undefined' && process.env?.[key]) {
+      return process.env[key];
+    }
+  }
+
+  return undefined;
+};
+
+const requireEnvValue = (...keys: string[]): string => {
+  const value = getEnvValue(...keys);
+  if (!value) {
+    throw new Error(`Missing required environment variable: ${keys.join(' or ')}`);
+  }
+  return value;
+};
+
+const SUPABASE_URL = requireEnvValue('VITE_SUPABASE_URL', 'SUPABASE_URL');
+const SUPABASE_ANON_KEY = requireEnvValue(
+  'VITE_SUPABASE_ANON_KEY',
+  'VITE_SUPABASE_PUBLISHABLE_KEY',
+  'SUPABASE_ANON_KEY'
+);
 
 class CookieStorage implements Storage {
   private readonly path: string;
@@ -92,18 +129,97 @@ class CookieStorage implements Storage {
 
 const isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined';
 
-const cookieStorage = isBrowser
-  ? new CookieStorage(AUTH_COOKIE_PREFIX, { path: '/', maxAge: DEFAULT_MAX_AGE })
-  : undefined;
+let cookieStorage: CookieStorage | undefined;
+let browserClient: SupabaseClient<Database> | undefined;
+let serverClient: SupabaseClient<Database> | undefined;
 
-export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_ANON_KEY, {
-  auth: {
-    storage: cookieStorage,
-    storageKey: AUTH_STORAGE_KEY,
-    persistSession: true,
-    autoRefreshToken: true,
-  },
-});
+const createBrowserClient = () => {
+  if (!isBrowser) {
+    throw new Error('Browser client cannot be created in a non-browser environment.');
+  }
+
+  cookieStorage = new CookieStorage(AUTH_COOKIE_PREFIX, {
+    path: '/',
+    maxAge: DEFAULT_MAX_AGE,
+  });
+
+  return createClient<Database>(SUPABASE_URL, SUPABASE_ANON_KEY, {
+    auth: {
+      storage: cookieStorage,
+      storageKey: AUTH_STORAGE_KEY,
+      persistSession: true,
+      autoRefreshToken: true,
+    },
+  });
+};
+
+const createServerClientInternal = (accessToken?: string) =>
+  createClient<Database>(SUPABASE_URL, SUPABASE_ANON_KEY, {
+    auth: {
+      persistSession: Boolean(accessToken),
+      autoRefreshToken: Boolean(accessToken),
+    },
+    global: accessToken
+      ? {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      : undefined,
+  });
+
+export const getSupabaseClient = (
+  accessToken?: string
+): SupabaseClient<Database> => {
+  if (isBrowser) {
+    if (!browserClient) {
+      browserClient = createBrowserClient();
+    }
+
+    return browserClient;
+  }
+
+  if (accessToken) {
+    return createServerClientInternal(accessToken);
+  }
+
+  if (!serverClient) {
+    serverClient = createServerClientInternal();
+  }
+
+  return serverClient;
+};
+
+export const createSupabaseServerClient = (
+  accessToken?: string
+): SupabaseClient<Database> => createServerClientInternal(accessToken);
+
+const getServiceRoleKey = (): string => {
+  const key = getEnvValue('SUPABASE_SERVICE_ROLE_KEY', 'SERVICE_ROLE_KEY');
+  if (!key) {
+    throw new Error(
+      'SUPABASE_SERVICE_ROLE_KEY is required to create a service role client.'
+    );
+  }
+  return key;
+};
+
+export const createSupabaseServiceRoleClient = (): SupabaseClient<Database> => {
+  if (isBrowser) {
+    throw new Error('Service role client cannot be created in the browser.');
+  }
+
+  const serviceRoleKey = getServiceRoleKey();
+
+  return createClient<Database>(SUPABASE_URL, serviceRoleKey, {
+    auth: {
+      persistSession: false,
+      autoRefreshToken: false,
+    },
+  });
+};
+
+export const supabase = getSupabaseClient();
 
 export const clearSupabaseSession = () => {
   if (cookieStorage) {
@@ -117,4 +233,5 @@ export const clearSupabaseSession = () => {
   }
 };
 
+export type SupabaseBrowserClient = SupabaseClient<Database>;
 export { AUTH_STORAGE_KEY };

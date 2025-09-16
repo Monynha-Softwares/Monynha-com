@@ -10,6 +10,7 @@
     "lint": "eslint .",
     "sitemap": "tsx scripts/generate-sitemap.ts",
     "cleanup-lovable": "tsx scripts/cleanup-lovable.ts",
+    "test:supabase": "tsx scripts/test-supabase-permissions.ts",
     "preview": "vite preview",
     "test": "jest --passWithNoTests",
     "format": "prettier --write .",

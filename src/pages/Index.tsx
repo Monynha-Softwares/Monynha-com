@@ -18,8 +18,12 @@ import {
 } from 'lucide-react';
 import { useTranslation, Trans } from 'react-i18next';
 import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase';
 import { useMemo } from 'react';
+import {
+  fetchActiveHomepageFeatures,
+  type HomepageFeatureRow,
+} from '@/lib/homepageFeatures';
+import { fetchSupabaseSolutions } from '@/lib/solutions';
 
 const fallbackSolutions = [
   {
@@ -55,15 +59,8 @@ const Index = () => {
   const { data: features, isLoading: featuresLoading } = useQuery({
     queryKey: ['homepage-features'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('homepage_features')
-        .select('*')
-        .eq('active', true)
-        .order('order_index', { ascending: true });
+      const rows = await fetchActiveHomepageFeatures();
 
-      if (error) throw error;
-
-      // Map to the expected format with icon components
       const iconMap: Record<string, LucideIcon> = {
         Brain,
         Zap,
@@ -73,7 +70,7 @@ const Index = () => {
         Laptop,
       };
 
-      return data.map((feature) => ({
+      return rows.map((feature: HomepageFeatureRow) => ({
         icon: iconMap[feature.icon as keyof typeof iconMap] ?? Laptop,
         title: feature.title,
         description: feature.description,
@@ -86,25 +83,13 @@ const Index = () => {
   const { data: solutions, isLoading: solutionsLoading } = useQuery({
     queryKey: ['solutions-preview'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('solutions')
-        .select('*')
-        .eq('active', true)
-        .limit(2)
-        .order('created_at', { ascending: true });
+      const rows = await fetchSupabaseSolutions({ limit: 2 });
 
-      if (error) throw error;
-
-      return data.map((solution, index) => ({
+      return rows.map((solution) => ({
         name: solution.title,
         description: solution.description,
-        features: Array.isArray(solution.features)
-          ? (solution.features as string[])
-          : [],
-        gradient:
-          index === 0
-            ? 'from-brand-purple to-brand-blue'
-            : 'from-brand-pink to-brand-orange',
+        features: solution.features,
+        gradient: solution.gradient,
       }));
     },
   });

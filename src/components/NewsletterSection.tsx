@@ -2,10 +2,13 @@ import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { supabase } from '@/integrations/supabase';
 import { useToast } from '@/hooks/use-toast';
 import { Mail, CheckCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import {
+  NewsletterSubscriptionError,
+  subscribeToNewsletter,
+} from '@/lib/newsletterSubscribers';
 
 const NewsletterSection = () => {
   const { t } = useTranslation();
@@ -30,13 +33,15 @@ const NewsletterSection = () => {
     }
 
     try {
-      const { error } = await supabase
-        .from('newsletter_subscribers')
-        .insert([{ email: email.trim() }]);
-
-      if (error) {
+      await subscribeToNewsletter(email);
+      setIsSubscribed(true);
+      toast({
+        title: t('newsletterSection.successTitle'),
+        description: t('newsletterSection.successDescription'),
+      });
+    } catch (error) {
+      if (error instanceof NewsletterSubscriptionError) {
         if (error.code === '23505') {
-          // Unique constraint violation
           toast({
             title: t('newsletterSection.alreadySubscribedTitle'),
             description: t('newsletterSection.alreadySubscribedDescription'),
@@ -49,22 +54,14 @@ const NewsletterSection = () => {
             variant: 'destructive',
           });
         }
-        setIsSubmitting(false);
-        return;
+      } else {
+        console.error('Newsletter subscription error:', error);
+        toast({
+          title: t('newsletterSection.errorTitle'),
+          description: t('newsletterSection.errorDescription'),
+          variant: 'destructive',
+        });
       }
-
-      setIsSubscribed(true);
-      toast({
-        title: t('newsletterSection.successTitle'),
-        description: t('newsletterSection.successDescription'),
-      });
-    } catch (error) {
-      console.error('Newsletter subscription error:', error);
-      toast({
-        title: t('newsletterSection.errorTitle'),
-        description: t('newsletterSection.errorDescription'),
-        variant: 'destructive',
-      });
     } finally {
       setIsSubmitting(false);
     }

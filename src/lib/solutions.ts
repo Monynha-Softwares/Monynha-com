@@ -4,8 +4,9 @@ import {
   gradientOptions,
   normalizeSolutionSlug,
 } from '@/data/solutions';
-import { supabase } from '@/integrations/supabase';
+import { getSupabaseClient } from '@/integrations/supabase';
 import type { Database } from '@/integrations/supabase/types';
+import type { SupabaseClient } from '@supabase/supabase-js';
 import type { SolutionContent } from '@/types/solutions';
 
 export interface GitHubRepository {
@@ -29,7 +30,47 @@ export interface GitHubRepository {
   html_url: string;
 }
 
-type SupabaseSolutionRow = Database['public']['Tables']['solutions']['Row'];
+export type SupabaseSolutionRow = Database['public']['Tables']['solutions']['Row'];
+
+const SOLUTION_COLUMNS =
+  'id, slug, title, description, features, image_url, active, created_at';
+
+export interface FetchSolutionsOptions {
+  limit?: number;
+  activeOnly?: boolean;
+  client?: SupabaseClient<Database>;
+}
+
+const resolveClient = (client?: SupabaseClient<Database>) =>
+  client ?? getSupabaseClient();
+
+export const fetchSolutionsRows = async (
+  options: FetchSolutionsOptions = {}
+): Promise<SupabaseSolutionRow[]> => {
+  const { limit, activeOnly = true, client } = options;
+  const supabaseClient = resolveClient(client);
+
+  let query = supabaseClient
+    .from('solutions')
+    .select(SOLUTION_COLUMNS)
+    .order('created_at', { ascending: true });
+
+  if (activeOnly) {
+    query = query.eq('active', true);
+  }
+
+  if (typeof limit === 'number') {
+    query = query.limit(limit);
+  }
+
+  const { data, error } = await query;
+
+  if (error) {
+    throw new Error(`Failed to fetch solutions: ${error.message}`);
+  }
+
+  return data ?? [];
+};
 
 const uniqueNonEmpty = (values: Array<string | null | undefined>): string[] => {
   const seen = new Set<string>();
@@ -224,18 +265,10 @@ export const getFallbackSolutions = (): SolutionContent[] =>
     features: [...solution.features],
   }));
 
-export const fetchSupabaseSolutions = async (): Promise<SolutionContent[]> => {
-  const { data, error } = await supabase
-    .from('solutions')
-    .select('*')
-    .eq('active', true)
-    .order('created_at', { ascending: true });
-
-  if (error) {
-    throw new Error(error.message);
-  }
-
-  const rows = data ?? [];
+export const fetchSupabaseSolutions = async (
+  options?: FetchSolutionsOptions
+): Promise<SolutionContent[]> => {
+  const rows = await fetchSolutionsRows(options);
 
   return rows.map((solution, index) =>
     mapSupabaseSolutionToContent(solution, index)
