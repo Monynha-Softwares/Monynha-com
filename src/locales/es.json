@@ -82,7 +82,11 @@
     "notFound": "Solución no encontrada",
     "customTitle": "¿Necesitas una Solución Personalizada?",
     "customDescription": "También creamos soluciones a medida para tus necesidades específicas. Conversemos sobre cómo construir algo único para ti.",
-    "discuss": "Discutir Proyecto"
+    "discuss": "Discutir Proyecto",
+    "emptyState": {
+      "title": "No hay soluciones disponibles en este momento",
+      "description": "Estamos actualizando nuestro portafolio. Vuelve pronto o contáctanos para hablar de tu proyecto."
+    }
   },
   "about": {
     "title": "Sobre Monynha Softwares Agency",
@@ -209,7 +213,8 @@
     "liveDemo": "Demo en Vivo",
     "like": "¿Te gustan nuestros proyectos?",
     "likeDescription": "Ponte en contacto para crear una solución personalizada para tu negocio.",
-    "contactUs": "Contáctanos"
+    "contactUs": "Contáctanos",
+    "githubError": "No pudimos acceder a GitHub en este momento. Mostramos nuestras soluciones destacadas."
   },
   "notFound": {
     "oops": "¡Vaya! Página no encontrada",

@@ -6,4 +6,5 @@ export interface SolutionContent {
   imageUrl?: string | null;
   features: string[];
   gradient: string;
+  githubUrl?: string | null;
 }

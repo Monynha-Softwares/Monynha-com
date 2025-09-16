@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Github, ExternalLink, Calendar } from 'lucide-react';
 import Layout from '../components/Layout';
@@ -17,6 +18,12 @@ import { supabase } from '@/integrations/supabase';
 import { useTranslation, Trans } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import useRepositorySync from '@/hooks/useRepositorySync';
+import SolutionCardGrid from '@/components/solutions/SolutionCardGrid';
+import {
+  fetchGitHubSolutions,
+  getFallbackSolutions,
+} from '@/lib/solutions';
+import type { SolutionContent } from '@/types/solutions';
 
 interface Repository {
   id: string;
@@ -52,6 +59,29 @@ const Projects = () => {
       return data || [];
     },
   });
+
+  const memoizedFallbackSolutions = useMemo(
+    () => getFallbackSolutions(),
+    []
+  );
+
+  const {
+    data: githubSolutions = [],
+    isLoading: isGithubLoading,
+    isError: isGithubError,
+  } = useQuery<SolutionContent[]>({
+    queryKey: ['github-solutions'],
+    queryFn: fetchGitHubSolutions,
+    staleTime: 1000 * 60 * 10,
+    retry: 1,
+    keepPreviousData: true,
+    refetchOnWindowFocus: false,
+  });
+
+  const displayGithubSolutions =
+    githubSolutions.length > 0
+      ? githubSolutions
+      : memoizedFallbackSolutions;
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -220,8 +250,43 @@ const Projects = () => {
           ))}
         </div>
 
+        {/* GitHub Solutions */}
+        <section className="mt-24">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-semibold text-neutral-900 mb-4">
+              {t('solutionsPage.title')}
+            </h2>
+            <p className="text-neutral-600 max-w-2xl mx-auto">
+              {t('solutionsPage.description')}
+            </p>
+          </div>
+
+          {isGithubLoading ? (
+            <div className="text-center text-neutral-500">Loading...</div>
+          ) : (
+            <>
+              {isGithubError && (
+                <div className="text-center text-sm text-neutral-500 mb-6">
+                  {t('projects.githubError')}
+                </div>
+              )}
+              {displayGithubSolutions.length > 0 ? (
+                <SolutionCardGrid
+                  solutions={displayGithubSolutions}
+                  learnMoreLabel={t('index.learnMore')}
+                  requestDemoLabel={t('solutionsPage.requestDemo')}
+                />
+              ) : (
+                <p className="text-center text-neutral-600">
+                  {t('solutionsPage.emptyState.description')}
+                </p>
+              )}
+            </>
+          )}
+        </section>
+
         {/* Call to Action */}
-        <div className="text-center mt-16">
+        <div className="text-center mt-24">
           <h3 className="text-2xl font-semibold text-neutral-900 mb-4">
             {t('projects.like')}
           </h3>

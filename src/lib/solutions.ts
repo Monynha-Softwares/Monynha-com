@@ -4,6 +4,7 @@ import {
   gradientOptions,
   normalizeSolutionSlug,
 } from '@/data/solutions';
+import type { Database } from '@/integrations/supabase/types';
 import type { SolutionContent } from '@/types/solutions';
 
 export interface GitHubRepository {
@@ -26,6 +27,11 @@ export interface GitHubRepository {
   pushed_at: string;
   html_url: string;
 }
+
+type SupabaseSolutionRow = Database['public']['Tables']['solutions']['Row'];
+
+const GITHUB_REPOS_URL =
+  'https://api.github.com/orgs/Monynha-Softwares/repos?per_page=100';
 
 const uniqueNonEmpty = (values: Array<string | null | undefined>): string[] => {
   const seen = new Set<string>();
@@ -100,13 +106,45 @@ const buildFeatureList = (
   return fallback?.features ? [...fallback.features] : [];
 };
 
+const resolveFallback = (slug: string): SolutionContent | undefined => {
+  const normalizedSlug = normalizeSolutionSlug(slug);
+  return (
+    fallbackSolutionsMap[normalizedSlug] ?? fallbackSolutionsMap[slug]
+  );
+};
+
+const parseSolutionFeatures = (
+  features: SupabaseSolutionRow['features']
+): string[] => {
+  if (Array.isArray(features)) {
+    return features
+      .filter((feature): feature is string => typeof feature === 'string')
+      .map((feature) => feature.trim())
+      .filter((feature) => feature.length > 0);
+  }
+
+  if (typeof features === 'string') {
+    try {
+      const parsed = JSON.parse(features);
+      if (Array.isArray(parsed)) {
+        return parsed
+          .filter((feature): feature is string => typeof feature === 'string')
+          .map((feature) => feature.trim())
+          .filter((feature) => feature.length > 0);
+      }
+    } catch (error) {
+      console.warn('Failed to parse solution features', error);
+    }
+  }
+
+  return [];
+};
+
 export const mapGitHubRepoToContent = (
   repository: GitHubRepository,
   index: number
 ): SolutionContent => {
-  const normalizedSlug = normalizeSolutionSlug(repository.name);
-  const fallback =
-    fallbackSolutionsMap[normalizedSlug] ?? fallbackSolutionsMap[repository.name];
+  const fallback = resolveFallback(repository.name);
   const gradient =
     fallback?.gradient ?? gradientOptions[index % gradientOptions.length];
 
@@ -124,7 +162,69 @@ export const mapGitHubRepoToContent = (
     imageUrl: fallback?.imageUrl ?? null,
     features: buildFeatureList(repository, fallback),
     gradient,
+    githubUrl: repository.html_url,
   };
+};
+
+export const mapSupabaseSolutionToContent = (
+  solution: SupabaseSolutionRow,
+  index: number
+): SolutionContent => {
+  const fallback = resolveFallback(solution.slug);
+  const features = parseSolutionFeatures(solution.features);
+
+  return {
+    id: solution.id,
+    title: solution.title,
+    description: solution.description,
+    slug: solution.slug,
+    imageUrl: solution.image_url ?? fallback?.imageUrl ?? null,
+    features: features.length > 0 ? features : fallback?.features ?? [],
+    gradient:
+      fallback?.gradient ?? gradientOptions[index % gradientOptions.length],
+    githubUrl: null,
+  };
+};
+
+export const mapSupabaseSolutions = (
+  solutions: SupabaseSolutionRow[]
+): SolutionContent[] =>
+  solutions.map((solution, index) =>
+    mapSupabaseSolutionToContent(solution, index)
+  );
+
+export const fetchGitHubSolutions = async (): Promise<SolutionContent[]> => {
+  const response = await fetch(GITHUB_REPOS_URL, {
+    headers: {
+      Accept: 'application/vnd.github+json',
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`GitHub API responded with ${response.status}`);
+  }
+
+  const repositories: GitHubRepository[] = await response.json();
+
+  const toTimestamp = (repository: GitHubRepository) => {
+    const reference =
+      repository.pushed_at ?? repository.updated_at ?? repository.created_at;
+    const timestamp = new Date(reference).getTime();
+    return Number.isNaN(timestamp) ? 0 : timestamp;
+  };
+
+  const activeRepositories = repositories.filter(
+    (repository) =>
+      !repository.private && !repository.archived && !repository.disabled
+  );
+
+  const sortedRepositories = activeRepositories
+    .slice()
+    .sort((a, b) => toTimestamp(b) - toTimestamp(a));
+
+  return sortedRepositories.map((repository, index) =>
+    mapGitHubRepoToContent(repository, index)
+  );
 };
 
 export const getFallbackSolution = (
@@ -134,9 +234,7 @@ export const getFallbackSolution = (
     return undefined;
   }
 
-  const normalizedSlug = normalizeSolutionSlug(slug);
-  const fallback =
-    fallbackSolutionsMap[normalizedSlug] ?? fallbackSolutionsMap[slug];
+  const fallback = resolveFallback(slug);
 
   if (!fallback) {
     return undefined;
