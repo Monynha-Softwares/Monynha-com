@@ -72,6 +72,9 @@ NEXT_PUBLIC_LIQUIDETHER_RESOLUTION=0.5
 
 # Multiplier applied to highlight intensity and shimmer (default: 2.2)
 NEXT_PUBLIC_LIQUIDETHER_INTENSITY=2.2
+
+# Override the gradient palette (comma-separated list, max 6 colors)
+NEXT_PUBLIC_LIQUIDETHER_COLORS=#7C3AED,#0EA5E9,#EC4899
 ```
 
 Runtime overrides are also exposed through the `LiquidEtherClient` component:
@@ -88,8 +91,10 @@ Runtime overrides are also exposed through the `LiquidEtherClient` component:
 
 By default the component samples the CSS design tokens
 `--mona-primary`, `--mona-secondary` and `--mona-accent-pink`, defined in
-`src/index.css`. Update those variables to keep the animation in sync with any
-branding changes.
+`src/index.css`, and falls back to the brand palette
+(`#7C3AED`, `#0EA5E9`, `#EC4899`). Update those variables—or the
+`NEXT_PUBLIC_LIQUIDETHER_COLORS` environment variable—to keep the animation in
+sync with any branding changes.
 
 ## Technologies
 
