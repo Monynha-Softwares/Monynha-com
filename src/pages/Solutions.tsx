@@ -23,8 +23,8 @@ import {
   Calendar,
   Settings,
 } from 'lucide-react';
-import { supabase } from '@/integrations/supabase';
 import { useTranslation } from 'react-i18next';
+import { fetchActiveSolutions, type Solution } from '@/lib/solutions';
 
 const fallbackSolutions = [
   {
@@ -104,91 +104,80 @@ const Solutions = () => {
   } = useQuery({
     queryKey: ['solutions'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('solutions')
-        .select('*')
-        .eq('active', true)
-        .order('created_at', { ascending: true });
-      if (error) {
-        throw new Error(error.message);
-      }
-      return (
-        data?.map((solution, index) => {
-          const getFeatures = (slug: string) => {
-            if (slug === 'boteco-pro') {
-              return [
-                {
-                  icon: BarChart3,
-                  title: 'Real-time Analytics',
-                  description:
-                    'Track sales, inventory, and customer behavior in real-time',
-                },
-                {
-                  icon: Users,
-                  title: 'Staff Management',
-                  description: 'Efficient scheduling and performance tracking',
-                },
-                {
-                  icon: Zap,
-                  title: 'Quick Order Processing',
-                  description: 'Streamlined POS system with mobile integration',
-                },
-                {
-                  icon: Shield,
-                  title: 'Secure Payments',
-                  description: 'Multiple payment methods with fraud protection',
-                },
-              ];
-            } else {
-              return [
-                {
-                  icon: Brain,
-                  title: 'Machine Learning',
-                  description:
-                    'Continuously learns and adapts to your workflow',
-                },
-                {
-                  icon: MessageSquare,
-                  title: 'Natural Language',
-                  description: 'Communicate naturally with voice and text',
-                },
-                {
-                  icon: Calendar,
-                  title: 'Task Automation',
-                  description: 'Automate scheduling, reminders, and follow-ups',
-                },
-                {
-                  icon: Settings,
-                  title: 'Custom Integration',
-                  description: 'Seamlessly integrates with your existing tools',
-                },
-              ];
-            }
-          };
+      const data = await fetchActiveSolutions({ ascending: true });
+      return data.map((solution: Solution) => {
+        const getFeatures = (slug: string) => {
+          if (slug === 'boteco-pro') {
+            return [
+              {
+                icon: BarChart3,
+                title: 'Real-time Analytics',
+                description:
+                  'Track sales, inventory, and customer behavior in real-time',
+              },
+              {
+                icon: Users,
+                title: 'Staff Management',
+                description: 'Efficient scheduling and performance tracking',
+              },
+              {
+                icon: Zap,
+                title: 'Quick Order Processing',
+                description: 'Streamlined POS system with mobile integration',
+              },
+              {
+                icon: Shield,
+                title: 'Secure Payments',
+                description: 'Multiple payment methods with fraud protection',
+              },
+            ];
+          }
 
-          return {
-            name: solution.title,
-            tagline:
-              solution.slug === 'boteco-pro'
-                ? 'Restaurant & Bar Management System'
-                : 'Personalized AI Assistant',
-            description: solution.description,
-            slug: solution.slug,
-            image:
-              solution.image_url ||
-              (solution.slug === 'boteco-pro'
-                ? 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80'
-                : 'https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80'),
-            features: getFeatures(solution.slug),
-            gradient:
-              solution.slug === 'boteco-pro'
-                ? 'from-brand-purple to-brand-blue'
-                : 'from-brand-pink to-brand-orange',
-            color:
-              solution.slug === 'boteco-pro' ? 'brand-purple' : 'brand-pink',
-          };
-        }) || []
-      );
+          return [
+            {
+              icon: Brain,
+              title: 'Machine Learning',
+              description: 'Continuously learns and adapts to your workflow',
+            },
+            {
+              icon: MessageSquare,
+              title: 'Natural Language',
+              description: 'Communicate naturally with voice and text',
+            },
+            {
+              icon: Calendar,
+              title: 'Task Automation',
+              description: 'Automate scheduling, reminders, and follow-ups',
+            },
+            {
+              icon: Settings,
+              title: 'Custom Integration',
+              description: 'Seamlessly integrates with your existing tools',
+            },
+          ];
+        };
+
+        return {
+          name: solution.title,
+          tagline:
+            solution.slug === 'boteco-pro'
+              ? 'Restaurant & Bar Management System'
+              : 'Personalized AI Assistant',
+          description: solution.description,
+          slug: solution.slug,
+          image:
+            solution.image_url ||
+            (solution.slug === 'boteco-pro'
+              ? 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80'
+              : 'https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80'),
+          features: getFeatures(solution.slug),
+          gradient:
+            solution.slug === 'boteco-pro'
+              ? 'from-brand-purple to-brand-blue'
+              : 'from-brand-pink to-brand-orange',
+          color: solution.slug === 'boteco-pro' ? 'brand-purple' : 'brand-pink',
+        };
+      });
     },
   });
 

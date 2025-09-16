@@ -1,7 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { supabase } from '@/integrations/supabase';
-import type { Database } from '@/integrations/supabase/types';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
@@ -27,11 +25,12 @@ import Loading from '@/components/Loading';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { AlertTriangle, Loader2, LogOut, RefreshCcw } from 'lucide-react';
-
-type Profile = Database['public']['Tables']['profiles']['Row'];
-type Lead = Database['public']['Tables']['leads']['Row'];
-type NewsletterSubscriber =
-  Database['public']['Tables']['newsletter_subscribers']['Row'];
+import {
+  fetchProfileByUserId,
+  type Profile,
+} from '@/lib/profiles';
+import type { Lead } from '@/lib/leads';
+import type { NewsletterSubscriber } from '@/lib/newsletter';
 
 const formatDate = (value: string | null | undefined) => {
   if (!value) return '—';
@@ -45,7 +44,7 @@ const formatDate = (value: string | null | undefined) => {
 };
 
 const Dashboard = () => {
-  const { user, signOut } = useAuth();
+  const { user, session, signOut } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -73,15 +72,7 @@ const Dashboard = () => {
     }
 
     try {
-      const { data: profileData, error: profileError } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('user_id', user.id)
-        .maybeSingle();
-
-      if (profileError) {
-        throw profileError;
-      }
+      const profileData = await fetchProfileByUserId(user.id);
 
       const resolvedProfile: Profile =
         profileData ??
@@ -103,32 +94,41 @@ const Dashboard = () => {
       }
 
       if (resolvedProfile.role === 'admin') {
+        if (!session?.access_token) {
+          throw new Error('Token de acesso não encontrado para operações administrativas.');
+        }
+
         if (isMounted.current) {
           setIsFetchingAdminData(true);
         }
 
-        const [leadsResponse, newsletterResponse] = await Promise.all([
-          supabase
-            .from('leads')
-            .select('*')
-            .order('created_at', { ascending: false }),
-          supabase
-            .from('newsletter_subscribers')
-            .select('*')
-            .order('subscribed_at', { ascending: false }),
-        ]);
+        const response = await fetch('/api/admin/dashboard', {
+          headers: {
+            Authorization: `Bearer ${session.access_token}`,
+          },
+        });
 
-        if (leadsResponse.error) {
-          throw leadsResponse.error;
+        if (!response.ok) {
+          let errorMessage = 'Não foi possível carregar os dados administrativos.';
+          try {
+            const payload = (await response.json()) as { error?: string } | undefined;
+            if (payload?.error) {
+              errorMessage = payload.error;
+            }
+          } catch (parseError) {
+            console.error('Erro ao interpretar resposta administrativa', parseError);
+          }
+          throw new Error(errorMessage);
         }
 
-        if (newsletterResponse.error) {
-          throw newsletterResponse.error;
-        }
+        const payload = (await response.json()) as {
+          leads?: Lead[];
+          subscribers?: NewsletterSubscriber[];
+        };
 
         if (isMounted.current) {
-          setLeads(leadsResponse.data ?? []);
-          setSubscribers(newsletterResponse.data ?? []);
+          setLeads(payload.leads ?? []);
+          setSubscribers(payload.subscribers ?? []);
         }
       } else if (isMounted.current) {
         setLeads([]);
@@ -154,7 +154,7 @@ const Dashboard = () => {
         setIsFetchingAdminData(false);
       }
     }
-  }, [toast, user]);
+  }, [session, toast, user]);
 
   useEffect(() => {
     void loadDashboard();
