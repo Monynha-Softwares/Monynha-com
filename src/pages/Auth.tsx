@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { supabase } from '@/integrations/supabase';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -13,47 +13,71 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { useAuth } from '@/hooks/useAuth';
-import Loading from '@/components/Loading';
-import { ArrowLeft, Eye, EyeOff, Loader2 } from 'lucide-react';
-
-type AuthTab = 'signin' | 'signup';
+import { Eye, EyeOff, Loader2, ArrowLeft } from 'lucide-react';
 
 const Auth = () => {
-  const [activeTab, setActiveTab] = useState<AuthTab>('signin');
-  const [loginForm, setLoginForm] = useState({ email: '', password: '' });
-  const [registerForm, setRegisterForm] = useState({
-    name: '',
-    email: '',
-    password: '',
-  });
-  const [isSigningIn, setIsSigningIn] = useState(false);
-  const [isSigningUp, setIsSigningUp] = useState(false);
-  const [showLoginPassword, setShowLoginPassword] = useState(false);
-  const [showSignupPassword, setShowSignupPassword] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
   const navigate = useNavigate();
-  const location = useLocation();
   const { toast } = useToast();
-  const { user, isLoading: isAuthLoading } = useAuth();
-
-  const redirectState = location.state as { from?: { pathname?: string } } | null;
-  const fromPath = redirectState?.from?.pathname ?? '/dashboard';
 
   useEffect(() => {
-    if (!isAuthLoading && user) {
-      navigate(fromPath, { replace: true });
-    }
-  }, [isAuthLoading, user, navigate, fromPath]);
+    // Check if user is already logged in
+    const checkUser = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      if (session) {
+        navigate('/');
+      }
+    };
+    checkUser();
+  }, [navigate]);
 
-  const handleSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setIsSigningIn(true);
+  const handleSignUp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
 
     try {
-      const email = loginForm.email.trim();
-      const password = loginForm.password;
+      const redirectUrl = `${window.location.origin}/`;
 
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: redirectUrl,
+          data: {
+            name: name,
+          },
+        },
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: 'Conta criada com sucesso!',
+        description: 'Verifique seu email para confirmar a conta.',
+      });
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
+      toast({
+        title: 'Erro ao criar conta',
+        description: message,
+        variant: 'destructive',
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSignIn = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
       const { error } = await supabase.auth.signInWithPassword({
         email,
         password,
@@ -66,7 +90,7 @@ const Auth = () => {
         description: 'Bem-vindo de volta!',
       });
 
-      navigate(fromPath, { replace: true });
+      navigate('/');
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : String(error);
       toast({
@@ -75,67 +99,9 @@ const Auth = () => {
         variant: 'destructive',
       });
     } finally {
-      setIsSigningIn(false);
+      setIsLoading(false);
     }
   };
-
-  const handleSignUp = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setIsSigningUp(true);
-
-    try {
-      const email = registerForm.email.trim();
-      const password = registerForm.password;
-
-      const signUpOptions: {
-        emailRedirectTo?: string;
-        data: { name: string };
-      } = {
-        data: {
-          name: registerForm.name,
-        },
-      };
-
-      if (typeof window !== 'undefined') {
-        signUpOptions.emailRedirectTo = `${window.location.origin}/dashboard`;
-      }
-
-      const { error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: signUpOptions,
-      });
-
-      if (error) throw error;
-
-      toast({
-        title: 'Conta criada com sucesso!',
-        description: 'Verifique seu email para confirmar a conta.',
-      });
-
-      setActiveTab('signin');
-      setLoginForm({ email, password: '' });
-      setRegisterForm({ name: '', email: '', password: '' });
-      setShowSignupPassword(false);
-    } catch (error: unknown) {
-      const message = error instanceof Error ? error.message : String(error);
-      toast({
-        title: 'Erro ao criar conta',
-        description: message,
-        variant: 'destructive',
-      });
-    } finally {
-      setIsSigningUp(false);
-    }
-  };
-
-  if (isAuthLoading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-        <Loading />
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
@@ -149,17 +115,15 @@ const Auth = () => {
             Voltar para home
           </Link>
           <div className="text-center">
-            <CardTitle className="text-2xl font-bold">Monynha Softwares</CardTitle>
+            <CardTitle className="text-2xl font-bold">
+              Monynha Softwares
+            </CardTitle>
             <CardDescription>Faça login ou crie sua conta</CardDescription>
           </div>
         </CardHeader>
 
         <CardContent>
-          <Tabs
-            value={activeTab}
-            onValueChange={(value) => setActiveTab(value as AuthTab)}
-            className="w-full"
-          >
+          <Tabs defaultValue="signin" className="w-full">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="signin">Login</TabsTrigger>
               <TabsTrigger value="signup">Cadastro</TabsTrigger>
@@ -172,14 +136,8 @@ const Auth = () => {
                   <Input
                     id="email"
                     type="email"
-                    autoComplete="email"
-                    value={loginForm.email}
-                    onChange={(event) =>
-                      setLoginForm((current) => ({
-                        ...current,
-                        email: event.target.value,
-                      }))
-                    }
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     placeholder="seu@email.com"
                     required
                   />
@@ -190,15 +148,9 @@ const Auth = () => {
                   <div className="relative">
                     <Input
                       id="password"
-                      type={showLoginPassword ? 'text' : 'password'}
-                      autoComplete="current-password"
-                      value={loginForm.password}
-                      onChange={(event) =>
-                        setLoginForm((current) => ({
-                          ...current,
-                          password: event.target.value,
-                        }))
-                      }
+                      type={showPassword ? 'text' : 'password'}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                       placeholder="••••••••"
                       required
                       minLength={6}
@@ -208,9 +160,9 @@ const Auth = () => {
                       variant="ghost"
                       size="sm"
                       className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                      onClick={() => setShowLoginPassword((prev) => !prev)}
+                      onClick={() => setShowPassword(!showPassword)}
                     >
-                      {showLoginPassword ? (
+                      {showPassword ? (
                         <EyeOff className="h-4 w-4" />
                       ) : (
                         <Eye className="h-4 w-4" />
@@ -219,8 +171,8 @@ const Auth = () => {
                   </div>
                 </div>
 
-                <Button type="submit" className="w-full" disabled={isSigningIn || isSigningUp}>
-                  {isSigningIn ? (
+                <Button type="submit" className="w-full" disabled={isLoading}>
+                  {isLoading ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                       Entrando...
@@ -239,14 +191,8 @@ const Auth = () => {
                   <Input
                     id="name"
                     type="text"
-                    autoComplete="name"
-                    value={registerForm.name}
-                    onChange={(event) =>
-                      setRegisterForm((current) => ({
-                        ...current,
-                        name: event.target.value,
-                      }))
-                    }
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                     placeholder="Seu nome"
                     required
                   />
@@ -257,14 +203,8 @@ const Auth = () => {
                   <Input
                     id="email-signup"
                     type="email"
-                    autoComplete="email"
-                    value={registerForm.email}
-                    onChange={(event) =>
-                      setRegisterForm((current) => ({
-                        ...current,
-                        email: event.target.value,
-                      }))
-                    }
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     placeholder="seu@email.com"
                     required
                   />
@@ -275,15 +215,9 @@ const Auth = () => {
                   <div className="relative">
                     <Input
                       id="password-signup"
-                      type={showSignupPassword ? 'text' : 'password'}
-                      autoComplete="new-password"
-                      value={registerForm.password}
-                      onChange={(event) =>
-                        setRegisterForm((current) => ({
-                          ...current,
-                          password: event.target.value,
-                        }))
-                      }
+                      type={showPassword ? 'text' : 'password'}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                       placeholder="••••••••"
                       required
                       minLength={6}
@@ -293,9 +227,9 @@ const Auth = () => {
                       variant="ghost"
                       size="sm"
                       className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                      onClick={() => setShowSignupPassword((prev) => !prev)}
+                      onClick={() => setShowPassword(!showPassword)}
                     >
-                      {showSignupPassword ? (
+                      {showPassword ? (
                         <EyeOff className="h-4 w-4" />
                       ) : (
                         <Eye className="h-4 w-4" />
@@ -307,8 +241,8 @@ const Auth = () => {
                   </p>
                 </div>
 
-                <Button type="submit" className="w-full" disabled={isSigningUp || isSigningIn}>
-                  {isSigningUp ? (
+                <Button type="submit" className="w-full" disabled={isLoading}>
+                  {isLoading ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                       Criando conta...
