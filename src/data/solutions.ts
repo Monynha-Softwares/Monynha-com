@@ -7,6 +7,15 @@ export const gradientOptions = [
   'from-brand-orange to-brand-pink',
 ];
 
+export const normalizeSolutionSlug = (value: string): string =>
+  value
+    .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
+    .replace(/[\s_]+/g, '-')
+    .replace(/[^\w-]+/g, '-')
+    .replace(/--+/g, '-')
+    .toLowerCase()
+    .replace(/^-+|-+$/g, '');
+
 export const fallbackSolutions: SolutionContent[] = [
   {
     title: 'Boteco Pro',
@@ -43,6 +52,8 @@ export const fallbackSolutions: SolutionContent[] = [
 export const fallbackSolutionsMap = fallbackSolutions.reduce<
   Record<string, SolutionContent>
 >((accumulator, solution) => {
+  const normalizedSlug = normalizeSolutionSlug(solution.slug);
   accumulator[solution.slug] = solution;
+  accumulator[normalizedSlug] = solution;
   return accumulator;
 }, {});

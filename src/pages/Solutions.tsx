@@ -14,13 +14,16 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 import { ArrowRight, CheckCircle } from 'lucide-react';
-import { supabase } from '@/integrations/supabase';
 import { useTranslation } from 'react-i18next';
 import {
   getFallbackSolutions,
-  mapSolutionRowToContent,
+  mapGitHubRepoToContent,
 } from '@/lib/solutions';
+import type { GitHubRepository } from '@/lib/solutions';
 import type { SolutionContent } from '@/types/solutions';
+
+const GITHUB_REPOS_URL =
+  'https://api.github.com/orgs/Monynha-Softwares/repos?per_page=100';
 
 const Solutions = () => {
   const { t } = useTranslation();
@@ -37,22 +40,42 @@ const Solutions = () => {
   } = useQuery<SolutionContent[]>({
     queryKey: ['solutions'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('solutions')
-        .select('id, title, description, slug, image_url, features, created_at')
-        .eq('active', true)
-        .order('created_at', { ascending: true });
+      const response = await fetch(GITHUB_REPOS_URL, {
+        headers: {
+          Accept: 'application/vnd.github+json',
+        },
+      });
 
-      if (error) {
-        throw new Error(error.message);
+      if (!response.ok) {
+        throw new Error(`GitHub API responded with ${response.status}`);
       }
 
-      return (
-        data?.map((solution, index) =>
-          mapSolutionRowToContent(solution, index)
-        ) ?? []
+      const repositories: GitHubRepository[] = await response.json();
+
+      const toTimestamp = (repository: GitHubRepository) => {
+        const reference =
+          repository.pushed_at ?? repository.updated_at ?? repository.created_at;
+        const timestamp = new Date(reference).getTime();
+        return Number.isNaN(timestamp) ? 0 : timestamp;
+      };
+
+      const activeRepositories = repositories.filter(
+        (repository) =>
+          !repository.private && !repository.archived && !repository.disabled
+      );
+
+      const sortedRepositories = activeRepositories
+        .slice()
+        .sort((a, b) => toTimestamp(b) - toTimestamp(a));
+
+      return sortedRepositories.map((repository, index) =>
+        mapGitHubRepoToContent(repository, index)
       );
     },
+    staleTime: 1000 * 60 * 10,
+    retry: 1,
+    keepPreviousData: true,
+    refetchOnWindowFocus: false,
   });
 
   const displaySolutions =
