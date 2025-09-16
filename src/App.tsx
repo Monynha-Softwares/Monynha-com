@@ -3,6 +3,7 @@ import { Toaster as Sonner } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { ToastProvider } from '@/hooks/use-toast';
 import { AuthProvider } from '@/hooks/useAuth';
+import LiquidEtherClient from '@/components/effects/LiquidEtherClient';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Suspense, lazy } from 'react';
@@ -25,6 +26,7 @@ const App = () => (
     <AuthProvider>
       <ToastProvider>
         <TooltipProvider>
+          <LiquidEtherClient />
           <Toaster />
           <Sonner />
           <BrowserRouter>
