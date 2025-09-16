@@ -50,6 +50,48 @@ export type Database = {
         };
         Relationships: [];
       };
+      comments: {
+        Row: {
+          author_id: string;
+          content: string;
+          created_at: string;
+          id: string;
+          post_id: string;
+          updated_at: string;
+        };
+        Insert: {
+          author_id: string;
+          content: string;
+          created_at?: string;
+          id?: string;
+          post_id: string;
+          updated_at?: string;
+        };
+        Update: {
+          author_id?: string;
+          content?: string;
+          created_at?: string;
+          id?: string;
+          post_id?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'comments_author_id_fkey';
+            columns: ['author_id'];
+            referencedRelation: 'profiles';
+            referencedColumns: ['user_id'];
+            isOneToOne: true;
+          },
+          {
+            foreignKeyName: 'comments_post_id_fkey';
+            columns: ['post_id'];
+            referencedRelation: 'blog_posts';
+            referencedColumns: ['id'];
+            isOneToOne: false;
+          }
+        ];
+      };
       homepage_features: {
         Row: {
           active: boolean;

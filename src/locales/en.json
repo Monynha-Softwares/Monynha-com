@@ -128,6 +128,12 @@
     "featured": "Featured",
     "read": "Read Full Article",
     "readMore": "Read More",
+    "readingTime": "{{count}} min read",
+    "publishedOn": "Published on {{date}}",
+    "backToBlog": "Back to blog",
+    "empty": "No articles have been published yet. Check back soon.",
+    "notFound": "We couldn't find the article you were looking for.",
+    "errorLoadingPost": "We couldn't load this article. Please try again in a moment.",
     "categories": {
       "all": "All"
     },
@@ -136,6 +142,25 @@
       "description": "Subscribe to our newsletter for the latest insights on AI, software development, and business automation.",
       "placeholder": "Enter your email",
       "subscribe": "Subscribe"
+    },
+    "comments": {
+      "title": "Comments",
+      "subtitle": "Join the conversation and share your insights with our community.",
+      "loading": "Loading comments...",
+      "error": "We couldn't load the comments. Please try again in a moment.",
+      "empty": "No comments yet. Be the first to share your thoughts.",
+      "signInPrompt": "You need to be signed in to publish a comment.",
+      "signInCta": "Access your account",
+      "anonymous": "Anonymous",
+      "form": {
+        "placeholder": "Share your thoughts about this article...",
+        "submit": "Post comment",
+        "submitting": "Posting..."
+      },
+      "successTitle": "Comment published",
+      "successDescription": "Your comment is now visible below the article.",
+      "errorTitle": "Unable to publish comment",
+      "errorDescription": "Something went wrong while saving your comment. Please try again."
     }
   },
   "contact": {

@@ -128,12 +128,37 @@
     "featured": "À la une",
     "read": "Lire l'article complet",
     "readMore": "Lire la suite",
+    "readingTime": "{{count}} min de lecture",
+    "publishedOn": "Publié le {{date}}",
+    "backToBlog": "Retour au blog",
+    "empty": "Aucun article publié pour le moment. Revenez bientôt.",
+    "notFound": "Nous n'avons pas trouvé l'article que vous recherchez.",
+    "errorLoadingPost": "Impossible de charger cet article. Veuillez réessayer dans quelques instants.",
     "categories": { "all": "Tous" },
     "newsletter": {
       "title": "Restez informé",
       "description": "Abonnez-vous à notre newsletter pour recevoir les dernières infos sur l'IA, le développement logiciel et l'automatisation.",
       "placeholder": "Entrez votre email",
       "subscribe": "S'abonner"
+    },
+    "comments": {
+      "title": "Commentaires",
+      "subtitle": "Participez à la conversation et partagez vos idées avec la communauté.",
+      "loading": "Chargement des commentaires...",
+      "error": "Impossible de charger les commentaires. Veuillez réessayer dans quelques instants.",
+      "empty": "Pas encore de commentaires. Soyez le premier à partager votre avis.",
+      "signInPrompt": "Vous devez être connecté pour publier un commentaire.",
+      "signInCta": "Accéder à mon compte",
+      "anonymous": "Anonyme",
+      "form": {
+        "placeholder": "Partagez vos impressions sur cet article...",
+        "submit": "Publier le commentaire",
+        "submitting": "Publication..."
+      },
+      "successTitle": "Commentaire publié",
+      "successDescription": "Votre commentaire est maintenant visible sous l'article.",
+      "errorTitle": "Impossible de publier le commentaire",
+      "errorDescription": "Une erreur est survenue lors de l'enregistrement de votre commentaire. Veuillez réessayer."
     }
   },
   "contact": {

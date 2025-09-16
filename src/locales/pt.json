@@ -128,12 +128,37 @@
     "featured": "Destaque",
     "read": "Ler Artigo Completo",
     "readMore": "Ler Mais",
+    "readingTime": "{{count}} min de leitura",
+    "publishedOn": "Publicado em {{date}}",
+    "backToBlog": "Voltar para o blog",
+    "empty": "Nenhum artigo publicado ainda. Volte em breve.",
+    "notFound": "Não encontramos o artigo que você procura.",
+    "errorLoadingPost": "Não foi possível carregar este artigo. Tente novamente em instantes.",
     "categories": { "all": "Todos" },
     "newsletter": {
       "title": "Fique Atualizado",
       "description": "Assine nossa newsletter para receber novidades sobre IA, desenvolvimento de software e automação.",
       "placeholder": "Digite seu email",
       "subscribe": "Inscrever"
+    },
+    "comments": {
+      "title": "Comentários",
+      "subtitle": "Participe da conversa e compartilhe suas ideias com a comunidade.",
+      "loading": "Carregando comentários...",
+      "error": "Não foi possível carregar os comentários. Tente novamente em instantes.",
+      "empty": "Ainda não há comentários. Seja o primeiro a compartilhar sua opinião.",
+      "signInPrompt": "Você precisa estar autenticado para publicar um comentário.",
+      "signInCta": "Acessar minha conta",
+      "anonymous": "Anônimo",
+      "form": {
+        "placeholder": "Compartilhe suas impressões sobre este artigo...",
+        "submit": "Publicar comentário",
+        "submitting": "Publicando..."
+      },
+      "successTitle": "Comentário publicado",
+      "successDescription": "Seu comentário já está visível abaixo do artigo.",
+      "errorTitle": "Não foi possível publicar",
+      "errorDescription": "Ocorreu um erro ao salvar seu comentário. Tente novamente."
     }
   },
   "contact": {

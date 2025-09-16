@@ -128,12 +128,37 @@
     "featured": "Destacado",
     "read": "Leer Artículo Completo",
     "readMore": "Leer Más",
+    "readingTime": "{{count}} min de lectura",
+    "publishedOn": "Publicado el {{date}}",
+    "backToBlog": "Volver al blog",
+    "empty": "Aún no hay artículos publicados. Vuelve pronto.",
+    "notFound": "No encontramos el artículo que estabas buscando.",
+    "errorLoadingPost": "No pudimos cargar este artículo. Inténtalo nuevamente en unos instantes.",
     "categories": { "all": "Todos" },
     "newsletter": {
       "title": "Mantente Informado",
       "description": "Suscríbete a nuestro boletín para recibir novedades sobre IA, desarrollo de software y automatización.",
       "placeholder": "Ingresa tu correo",
       "subscribe": "Suscribirse"
+    },
+    "comments": {
+      "title": "Comentarios",
+      "subtitle": "Únete a la conversación y comparte tus ideas con la comunidad.",
+      "loading": "Cargando comentarios...",
+      "error": "No pudimos cargar los comentarios. Intenta nuevamente en unos instantes.",
+      "empty": "Todavía no hay comentarios. Sé la primera persona en opinar.",
+      "signInPrompt": "Debes iniciar sesión para publicar un comentario.",
+      "signInCta": "Acceder a mi cuenta",
+      "anonymous": "Anónimo",
+      "form": {
+        "placeholder": "Comparte tus ideas sobre este artículo...",
+        "submit": "Publicar comentario",
+        "submitting": "Publicando..."
+      },
+      "successTitle": "Comentario publicado",
+      "successDescription": "Tu comentario ya está visible debajo del artículo.",
+      "errorTitle": "No pudimos publicar tu comentario",
+      "errorDescription": "Algo salió mal al guardar tu comentario. Inténtalo nuevamente."
     }
   },
   "contact": {
