@@ -4,7 +4,10 @@ import {
   gradientOptions,
   normalizeSolutionSlug,
 } from '@/data/solutions';
-import { supabase } from '@/integrations/supabase';
+import {
+  getSupabaseBrowserClient,
+  type SupabaseDatabaseClient,
+} from '@/integrations/supabase';
 import type { Database } from '@/integrations/supabase/types';
 import type { SolutionContent } from '@/types/solutions';
 
@@ -29,7 +32,7 @@ export interface GitHubRepository {
   html_url: string;
 }
 
-type SupabaseSolutionRow = Database['public']['Tables']['solutions']['Row'];
+export type SupabaseSolutionRow = Database['public']['Tables']['solutions']['Row'];
 
 const uniqueNonEmpty = (values: Array<string | null | undefined>): string[] => {
   const seen = new Set<string>();
@@ -224,8 +227,10 @@ export const getFallbackSolutions = (): SolutionContent[] =>
     features: [...solution.features],
   }));
 
-export const fetchSupabaseSolutions = async (): Promise<SolutionContent[]> => {
-  const { data, error } = await supabase
+export const fetchSupabaseSolutions = async (
+  client: SupabaseDatabaseClient = getSupabaseBrowserClient()
+): Promise<SolutionContent[]> => {
+  const { data, error } = await client
     .from('solutions')
     .select('*')
     .eq('active', true)
