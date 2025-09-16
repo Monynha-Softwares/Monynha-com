@@ -4,6 +4,7 @@ import {
   gradientOptions,
   normalizeSolutionSlug,
 } from '@/data/solutions';
+import type { Tables } from '@/integrations/supabase/types';
 import type { SolutionContent } from '@/types/solutions';
 
 export interface GitHubRepository {
@@ -153,3 +154,48 @@ export const getFallbackSolutions = (): SolutionContent[] =>
     ...solution,
     features: [...solution.features],
   }));
+
+type SupabaseSolutionRow = Tables<'solutions'>;
+
+const mapSupabaseFeatures = (
+  features: SupabaseSolutionRow['features'],
+  fallback?: SolutionContent
+): string[] => {
+  if (Array.isArray(features)) {
+    const entries = (features as unknown[]).filter(
+      (feature): feature is string => typeof feature === 'string'
+    );
+
+    if (entries.length > 0) {
+      return entries;
+    }
+  }
+
+  if (fallback?.features?.length) {
+    return [...fallback.features];
+  }
+
+  return [];
+};
+
+export const mapSupabaseSolutionToContent = (
+  solution: SupabaseSolutionRow,
+  options: { index?: number } = {}
+): SolutionContent => {
+  const fallback = fallbackSolutionsMap[solution.slug] ??
+    fallbackSolutionsMap[normalizeSolutionSlug(solution.slug)];
+
+  const gradientIndex = options.index ?? 0;
+  const gradient = fallback?.gradient ??
+    gradientOptions[gradientIndex % gradientOptions.length];
+
+  return {
+    id: solution.id,
+    title: solution.title,
+    description: solution.description,
+    slug: solution.slug,
+    imageUrl: solution.image_url ?? fallback?.imageUrl ?? null,
+    features: mapSupabaseFeatures(solution.features, fallback),
+    gradient,
+  };
+};
