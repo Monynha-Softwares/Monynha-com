@@ -26,6 +26,8 @@ type LiquidEtherProps = Partial<{
 
 type LiquidEtherComponent = ComponentType<LiquidEtherProps>;
 
+const BRAND_COLORS = ['#7C3AED', '#0EA5E9', '#EC4899'] as const;
+
 function getEnvValue(name: string) {
   const metaEnv =
     typeof import.meta !== 'undefined'
@@ -67,6 +69,17 @@ function parseNumber(value: unknown) {
     if (Number.isFinite(parsed)) return parsed;
   }
   return undefined;
+}
+
+function parseColorList(value: unknown) {
+  if (typeof value !== 'string') return undefined;
+
+  const entries = value
+    .split(',')
+    .map((entry) => entry.trim())
+    .filter((entry) => entry.length > 0);
+
+  return entries.length > 0 ? entries : undefined;
 }
 
 function supportsWebGL() {
@@ -114,25 +127,45 @@ export default function LiquidEtherClient(props: LiquidEtherProps) {
     return parseNumber(raw);
   }, []);
 
-  const defaultColors = useMemo(
+  const envColors = useMemo(() => {
+    const raw =
+      getEnvValue('NEXT_PUBLIC_LIQUIDETHER_COLORS') ??
+      getEnvValue('VITE_LIQUIDETHER_COLORS');
+    return parseColorList(raw);
+  }, []);
+
+  const tokenColors = useMemo(
     () => [
-      readTokenColor('--mona-primary', '#7C3AED'),
-      readTokenColor('--mona-secondary', '#0EA5E9'),
-      readTokenColor('--mona-accent-pink', '#eaeaeaff'),
+      readTokenColor('--mona-primary', BRAND_COLORS[0]),
+      readTokenColor('--mona-secondary', BRAND_COLORS[1]),
+      readTokenColor('--mona-accent-pink', BRAND_COLORS[2]),
     ],
     []
   );
 
+  const paletteForFallback = useMemo(() => {
+    const activePalette = envColors && envColors.length > 0 ? envColors : tokenColors;
+    const fallbackPalette = activePalette.length > 0 ? activePalette : [...BRAND_COLORS];
+
+    return [...fallbackPalette, ...BRAND_COLORS].slice(0, 3);
+  }, [envColors, tokenColors]);
+
   const fallbackBg = useMemo(
     () => ({
-      background:
-        'radial-gradient(1200px 600px at 70% 30%, rgba(255,255,255,0.15), transparent), linear-gradient(135deg, var(--mona-primary) 0%, var(--mona-secondary) 55%, var(--mona-accent-pink) 100%)',
+      background: `linear-gradient(135deg, ${paletteForFallback[0]} 0%, ${
+        paletteForFallback[1] ?? paletteForFallback[0]
+      } 55%, ${paletteForFallback[2] ?? paletteForFallback[1] ?? paletteForFallback[0]} 100%)`,
     }),
-    []
+    [paletteForFallback]
   );
 
   const mergedProps = useMemo(() => {
-    const resolvedColors = props.colors?.length ? props.colors : defaultColors;
+    const colorSource = props.colors?.length
+      ? props.colors
+      : envColors?.length
+      ? envColors
+      : tokenColors;
+    const resolvedColors = Array.isArray(colorSource) ? [...colorSource] : [...BRAND_COLORS];
     const resolution = props.resolution ?? envResolution ?? 0.5;
     const autoIntensity = props.autoIntensity ?? envIntensity ?? 2.2;
 
@@ -142,7 +175,7 @@ export default function LiquidEtherClient(props: LiquidEtherProps) {
       resolution,
       autoIntensity,
     } satisfies LiquidEtherProps;
-  }, [defaultColors, envIntensity, envResolution, props]);
+  }, [envColors, envIntensity, envResolution, props, tokenColors]);
 
   useEffect(() => {
     if (reduced || !envEnabled) return;

@@ -22,6 +22,7 @@ type Props = {
 };
 
 const MAX_COLORS = 6;
+const DEFAULT_COLORS = ['#7C3AED', '#0EA5E9', '#EC4899'];
 
 const vertexShader = /* glsl */ `
   varying vec2 vUv;
@@ -158,15 +159,23 @@ function clampResolution(value: number | undefined) {
   if (!Number.isFinite(value ?? Number.NaN)) {
     return 0.5;
   }
-  return Math.min(1, Math.max(0.2, value!));
+  return Math.min(0.6, Math.max(0.3, value!));
 }
 
 function normalizeColorList(colors?: string[]) {
   if (!colors || colors.length === 0) {
-    return ['#7C3AED', '#0EA5E9', '#c2aab6ff'];
+    return [...DEFAULT_COLORS];
   }
 
-  return colors.slice(0, MAX_COLORS);
+  const trimmed = colors
+    .map((color) => color.trim())
+    .filter((color) => color.length > 0);
+
+  if (trimmed.length === 0) {
+    return [...DEFAULT_COLORS];
+  }
+
+  return trimmed.slice(0, MAX_COLORS);
 }
 
 function isWebGLAvailable() {

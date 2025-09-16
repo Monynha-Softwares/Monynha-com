@@ -14,6 +14,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { Eye, EyeOff, Loader2, ArrowLeft } from 'lucide-react';
+import { frostedLight, surfacePadding } from '@/lib/styles';
 
 const Auth = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -104,11 +105,12 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="space-y-4">
-          <Link
-            to="/"
+    <div className="min-h-screen flex items-center justify-center p-4">
+      <div className={`${frostedLight} ${surfacePadding} w-full max-w-lg`}>
+        <Card className="border-0 bg-transparent shadow-none">
+          <CardHeader className="space-y-4">
+            <Link
+              to="/"
             className="flex items-center text-sm text-muted-foreground hover:text-primary transition-colors"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
@@ -256,6 +258,7 @@ const Auth = () => {
           </Tabs>
         </CardContent>
       </Card>
+      </div>
     </div>
   );
 };

@@ -5,12 +5,13 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import Layout from '@/components/Layout';
 import Meta from '@/components/Meta';
-import { Mail, Phone, MapPin, Send, CheckCircle } from 'lucide-react';
+import { Mail, Send, CheckCircle } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import { frostedDark, frostedLight, sectionSpacing, surfacePadding } from '@/lib/styles';
 import {
   Breadcrumb,
   BreadcrumbList,
@@ -171,23 +172,25 @@ const Contact = () => {
             </BreadcrumbList>
           </Breadcrumb>
         </div>
-        <section className="py-24 bg-white min-h-screen flex items-center">
-          <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div className="w-16 h-16 bg-gradient-brand rounded-full flex items-center justify-center mx-auto mb-6">
-              <CheckCircle className="h-8 w-8 text-white" />
+        <section className={`${sectionSpacing} flex items-center justify-center`}>
+          <div className="max-w-2xl w-full px-4 sm:px-6 lg:px-8">
+            <div className={`${frostedLight} ${surfacePadding} text-center`}>
+              <div className="w-16 h-16 bg-gradient-brand rounded-full flex items-center justify-center mx-auto mb-6">
+                <CheckCircle className="h-8 w-8 text-white" />
+              </div>
+              <h1 className="text-3xl lg:text-4xl font-bold text-neutral-900 mb-4">
+                {t('contact.thankYou.title')}
+              </h1>
+              <p className="text-xl text-neutral-600 mb-8">
+                {t('contact.thankYou.description')}
+              </p>
+              <Button
+                onClick={() => setIsSubmitted(false)}
+                className="btn-secondary"
+              >
+                {t('contact.thankYou.another')}
+              </Button>
             </div>
-            <h1 className="text-3xl lg:text-4xl font-bold text-neutral-900 mb-4">
-              {t('contact.thankYou.title')}
-            </h1>
-            <p className="text-xl text-neutral-600 mb-8">
-              {t('contact.thankYou.description')}
-            </p>
-            <Button
-              onClick={() => setIsSubmitted(false)}
-              className="btn-secondary"
-            >
-              {t('contact.thankYou.another')}
-            </Button>
           </div>
         </section>
       </Layout>
@@ -219,9 +222,9 @@ const Contact = () => {
         </Breadcrumb>
       </div>
       {/* Hero Section */}
-      <section className="py-24 bg-white">
+      <section className={sectionSpacing}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className={`${frostedLight} ${surfacePadding} text-center`}>
             <h1 className="text-4xl lg:text-5xl font-bold text-neutral-900 mb-6">
               {t('contact.title')}
             </h1>
@@ -233,194 +236,196 @@ const Contact = () => {
       </section>
 
       {/* Contact Form and Info */}
-      <section className="pb-24 bg-white">
+      <section className={sectionSpacing}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-            {/* Contact Form */}
-            <div className="lg:col-span-2">
-              <Card className="border-0 shadow-soft-lg rounded-2xl">
-                <CardContent className="p-8">
-                  <h2 className="text-2xl font-bold text-neutral-900 mb-6">
-                    {t('contact.form.headline')}
-                  </h2>
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className={`${frostedLight} ${surfacePadding}`}>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+              {/* Contact Form */}
+              <div className="lg:col-span-2">
+                <Card className="border-0 shadow-soft-lg rounded-2xl">
+                  <CardContent className="p-8">
+                    <h2 className="text-2xl font-bold text-neutral-900 mb-6">
+                      {t('contact.form.headline')}
+                    </h2>
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                          <label
+                            htmlFor="name"
+                            className="block text-sm font-medium text-neutral-700 mb-2"
+                          >
+                            {t('contact.form.fullName')}
+                          </label>
+                          <Input
+                            id="name"
+                            name="name"
+                            type="text"
+                            required
+                            value={formData.name}
+                            onChange={handleInputChange}
+                            className="rounded-xl border-neutral-200 focus:border-brand-blue focus:ring-brand-blue"
+                            placeholder={t('contact.form.placeholderName')}
+                          />
+                          {errors.name && (
+                            <p className="text-sm text-destructive mt-1">
+                              {errors.name}
+                            </p>
+                          )}
+                        </div>
+                        <div>
+                          <label
+                            htmlFor="email"
+                            className="block text-sm font-medium text-neutral-700 mb-2"
+                          >
+                            {t('contact.form.email')}
+                          </label>
+                          <Input
+                            id="email"
+                            name="email"
+                            type="email"
+                            required
+                            value={formData.email}
+                            onChange={handleInputChange}
+                            className="rounded-xl border-neutral-200 focus:border-brand-blue focus:ring-brand-blue"
+                            placeholder={t('contact.form.placeholderEmail')}
+                          />
+                          {errors.email && (
+                            <p className="text-sm text-destructive mt-1">
+                              {errors.email}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                          <label
+                            htmlFor="company"
+                            className="block text-sm font-medium text-neutral-700 mb-2"
+                          >
+                            {t('contact.form.company')}
+                          </label>
+                          <Input
+                            id="company"
+                            name="company"
+                            type="text"
+                            value={formData.company}
+                            onChange={handleInputChange}
+                            className="rounded-xl border-neutral-200 focus:border-brand-blue focus:ring-brand-blue"
+                            placeholder={t('contact.form.placeholderCompany')}
+                          />
+                        </div>
+                        <div>
+                          <label
+                            htmlFor="project"
+                            className="block text-sm font-medium text-neutral-700 mb-2"
+                          >
+                            {t('contact.form.projectType')}
+                          </label>
+                          <select
+                            id="project"
+                            name="project"
+                            value={formData.project}
+                            onChange={handleInputChange}
+                            className="w-full px-3 py-2 border border-neutral-200 rounded-xl focus:border-brand-blue focus:ring-1 focus:ring-brand-blue focus:outline-none text-neutral-900"
+                          >
+                            <option value="">{t('contact.form.select')}</option>
+                            {projectTypes.map((type, index) => (
+                              <option key={index} value={type}>
+                                {type}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+
                       <div>
                         <label
-                          htmlFor="name"
+                          htmlFor="message"
                           className="block text-sm font-medium text-neutral-700 mb-2"
                         >
-                          {t('contact.form.fullName')}
+                          {t('contact.form.details')}
                         </label>
-                        <Input
-                          id="name"
-                          name="name"
-                          type="text"
+                        <Textarea
+                          id="message"
+                          name="message"
                           required
-                          value={formData.name}
+                          value={formData.message}
                           onChange={handleInputChange}
-                          className="rounded-xl border-neutral-200 focus:border-brand-blue focus:ring-brand-blue"
-                          placeholder={t('contact.form.placeholderName')}
+                          rows={6}
+                          className="rounded-xl border-neutral-200 focus:border-brand-blue focus:ring-brand-blue resize-none"
+                          placeholder={t('contact.form.placeholderDetails')}
                         />
-                        {errors.name && (
+                        {errors.message && (
                           <p className="text-sm text-destructive mt-1">
-                            {errors.name}
+                            {errors.message}
                           </p>
                         )}
                       </div>
-                      <div>
-                        <label
-                          htmlFor="email"
-                          className="block text-sm font-medium text-neutral-700 mb-2"
-                        >
-                          {t('contact.form.email')}
-                        </label>
-                        <Input
-                          id="email"
-                          name="email"
-                          type="email"
-                          required
-                          value={formData.email}
-                          onChange={handleInputChange}
-                          className="rounded-xl border-neutral-200 focus:border-brand-blue focus:ring-brand-blue"
-                          placeholder={t('contact.form.placeholderEmail')}
-                        />
-                        {errors.email && (
-                          <p className="text-sm text-destructive mt-1">
-                            {errors.email}
-                          </p>
-                        )}
-                      </div>
-                    </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        <label
-                          htmlFor="company"
-                          className="block text-sm font-medium text-neutral-700 mb-2"
-                        >
-                          {t('contact.form.company')}
-                        </label>
-                        <Input
-                          id="company"
-                          name="company"
-                          type="text"
-                          value={formData.company}
-                          onChange={handleInputChange}
-                          className="rounded-xl border-neutral-200 focus:border-brand-blue focus:ring-brand-blue"
-                          placeholder={t('contact.form.placeholderCompany')}
-                        />
-                      </div>
-                      <div>
-                        <label
-                          htmlFor="project"
-                          className="block text-sm font-medium text-neutral-700 mb-2"
-                        >
-                          {t('contact.form.projectType')}
-                        </label>
-                        <select
-                          id="project"
-                          name="project"
-                          value={formData.project}
-                          onChange={handleInputChange}
-                          className="w-full px-3 py-2 border border-neutral-200 rounded-xl focus:border-brand-blue focus:ring-1 focus:ring-brand-blue focus:outline-none text-neutral-900"
-                        >
-                          <option value="">{t('contact.form.select')}</option>
-                          {projectTypes.map((type, index) => (
-                            <option key={index} value={type}>
-                              {type}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    </div>
-
-                    <div>
-                      <label
-                        htmlFor="message"
-                        className="block text-sm font-medium text-neutral-700 mb-2"
+                      <Button
+                        type="submit"
+                        className="btn-primary w-full"
+                        disabled={isSubmitting}
                       >
-                        {t('contact.form.details')}
-                      </label>
-                      <Textarea
-                        id="message"
-                        name="message"
-                        required
-                        value={formData.message}
-                        onChange={handleInputChange}
-                        rows={6}
-                        className="rounded-xl border-neutral-200 focus:border-brand-blue focus:ring-brand-blue resize-none"
-                        placeholder={t('contact.form.placeholderDetails')}
-                      />
-                      {errors.message && (
-                        <p className="text-sm text-destructive mt-1">
-                          {errors.message}
-                        </p>
-                      )}
-                    </div>
-
-                    <Button
-                      type="submit"
-                      className="btn-primary w-full"
-                      disabled={isSubmitting}
-                    >
-                      {isSubmitting
-                        ? t('contact.form.sending')
-                        : t('contact.form.send')}
-                      <Send className="ml-2 h-4 w-4" />
-                    </Button>
-                  </form>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Contact Information */}
-            <div className="space-y-8">
-              <div>
-                <h2 className="text-2xl font-bold text-neutral-900 mb-6">
-                  {t('contact.info.getInTouch')}
-                </h2>
-                <p className="text-neutral-600 mb-8">
-                  {t('contact.info.description')}
-                </p>
-              </div>
-
-              {contactInfo.map((info, index) => (
-                <Card
-                  key={index}
-                  className="border-0 shadow-soft hover:shadow-soft-lg transition-all ease-in-out duration-300 card-hover rounded-2xl"
-                >
-                  <CardContent className="p-6">
-                    <div className="flex items-start space-x-4">
-                      <div className="w-12 h-12 bg-gradient-brand rounded-xl flex items-center justify-center flex-shrink-0">
-                        <info.icon className="h-6 w-6 text-white" />
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-neutral-900 mb-1">
-                          {info.title}
-                        </h3>
-                        <p className="text-lg text-brand-blue font-medium mb-1">
-                          {info.content}
-                        </p>
-                        <p className="text-sm text-neutral-600">
-                          {info.description}
-                        </p>
-                      </div>
-                    </div>
+                        {isSubmitting
+                          ? t('contact.form.sending')
+                          : t('contact.form.send')}
+                        <Send className="ml-2 h-4 w-4" />
+                      </Button>
+                    </form>
                   </CardContent>
                 </Card>
-              ))}
+              </div>
 
-              <Card className="border-0 shadow-soft rounded-2xl bg-gradient-hero text-white">
-                <CardContent className="p-6">
-                  <h3 className="font-semibold text-white mb-2">
-                    {t('contact.info.quick')}
-                  </h3>
-                  <p className="text-blue-100 text-sm">
-                    {t('contact.info.quickDesc')}
+              {/* Contact Information */}
+              <div className="space-y-8">
+                <div>
+                  <h2 className="text-2xl font-bold text-neutral-900 mb-6">
+                    {t('contact.info.getInTouch')}
+                  </h2>
+                  <p className="text-neutral-600 mb-8">
+                    {t('contact.info.description')}
                   </p>
-                </CardContent>
-              </Card>
+                </div>
+
+                {contactInfo.map((info, index) => (
+                  <Card
+                    key={index}
+                    className="border-0 shadow-soft hover:shadow-soft-lg transition-all ease-in-out duration-300 card-hover rounded-2xl"
+                  >
+                    <CardContent className="p-6">
+                      <div className="flex items-start space-x-4">
+                        <div className="w-12 h-12 bg-gradient-brand rounded-xl flex items-center justify-center flex-shrink-0">
+                          <info.icon className="h-6 w-6 text-white" />
+                        </div>
+                        <div>
+                          <h3 className="font-semibold text-neutral-900 mb-1">
+                            {info.title}
+                          </h3>
+                          <p className="text-lg text-brand-blue font-medium mb-1">
+                            {info.content}
+                          </p>
+                          <p className="text-sm text-neutral-600">
+                            {info.description}
+                          </p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+
+                <Card className="border-0 shadow-soft rounded-2xl bg-gradient-hero text-white">
+                  <CardContent className="p-6">
+                    <h3 className="font-semibold text-white mb-2">
+                      {t('contact.info.quick')}
+                    </h3>
+                    <p className="text-blue-100 text-sm">
+                      {t('contact.info.quickDesc')}
+                    </p>
+                  </CardContent>
+                </Card>
+              </div>
             </div>
           </div>
         </div>

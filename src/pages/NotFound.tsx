@@ -2,6 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import Meta from '@/components/Meta';
+import { frostedLight, surfacePadding } from '@/lib/styles';
 
 const NotFound = () => {
   const location = useLocation();
@@ -17,7 +18,7 @@ const NotFound = () => {
 
   const { t } = useTranslation();
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="min-h-screen flex items-center justify-center p-6">
       <Meta
         title="404 - Page Not Found"
         description="The page you are looking for does not exist."
@@ -25,7 +26,7 @@ const NotFound = () => {
         ogDescription="The page you are looking for does not exist."
         ogImage="/placeholder.svg"
       />
-      <div className="text-center">
+      <div className={`${frostedLight} ${surfacePadding} text-center max-w-lg`}>
         <h1 className="text-4xl font-bold mb-4">404</h1>
         <p className="text-xl text-gray-600 mb-4">{t('notFound.oops')}</p>
         <Link

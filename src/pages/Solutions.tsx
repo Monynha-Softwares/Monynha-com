@@ -25,6 +25,7 @@ import {
 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useTranslation } from 'react-i18next';
+import { frostedDark, frostedLight, sectionSpacing, surfacePadding } from '@/lib/styles';
 
 const fallbackSolutions = [
   {
@@ -251,9 +252,9 @@ const Solutions = () => {
         </Breadcrumb>
       </div>
       {/* Hero Section */}
-      <section className="py-24 bg-white">
+      <section className={sectionSpacing}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className={`${frostedLight} ${surfacePadding} text-center`}>
             <h1 className="text-4xl lg:text-5xl font-bold text-neutral-900 mb-6">
               {t('solutionsPage.title')}
             </h1>
@@ -267,71 +268,68 @@ const Solutions = () => {
       {/* Solutions Detail */}
       {(solutions.length > 0 ? solutions : fallbackSolutions).map(
         (solution, index) => (
-          <section
-            key={index}
-            className={`py-24 ${index % 2 === 0 ? 'bg-white' : 'bg-neutral-50'}`}
-          >
+          <section key={index} className={sectionSpacing}>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div
-                className={`grid grid-cols-1 lg:grid-cols-2 gap-16 items-center ${index % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}
-              >
-                <div className={index % 2 === 1 ? 'lg:order-2' : ''}>
-                  <div
-                    className={`h-2 w-24 bg-gradient-to-r ${solution.gradient} rounded-full mb-6`}
-                  ></div>
-                  <h2 className="text-3xl lg:text-4xl font-bold text-neutral-900 mb-4">
-                    {solution.name}
-                  </h2>
-                  <p className="text-lg text-neutral-600 mb-2 font-medium">
-                    {solution.tagline}
-                  </p>
-                  <p className="text-lg text-neutral-600 mb-8">
-                    {solution.description}
-                  </p>
+              <div className={`${frostedLight} ${surfacePadding}`}>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                  <div className={index % 2 === 1 ? 'lg:order-2' : ''}>
+                    <div
+                      className={`h-2 w-24 bg-gradient-to-r ${solution.gradient} rounded-full mb-6`}
+                    ></div>
+                    <h2 className="text-3xl lg:text-4xl font-bold text-neutral-900 mb-4">
+                      {solution.name}
+                    </h2>
+                    <p className="text-lg text-neutral-600 mb-2 font-medium">
+                      {solution.tagline}
+                    </p>
+                    <p className="text-lg text-neutral-600 mb-8">
+                      {solution.description}
+                    </p>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
-                    {solution.features.map((feature, featureIndex) => (
-                      <div
-                        key={featureIndex}
-                        className="flex items-start space-x-3"
-                      >
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
+                      {solution.features.map((feature, featureIndex) => (
                         <div
-                          className={`w-10 h-10 bg-gradient-to-r ${solution.gradient} rounded-lg flex items-center justify-center flex-shrink-0`}
+                          key={featureIndex}
+                          className="flex items-start space-x-3"
                         >
-                          <feature.icon className="h-5 w-5 text-white" />
+                          <div
+                            className={`w-10 h-10 bg-gradient-to-r ${solution.gradient} rounded-lg flex items-center justify-center flex-shrink-0`}
+                          >
+                            <feature.icon className="h-5 w-5 text-white" />
+                          </div>
+                          <div>
+                            <h3 className="font-semibold text-neutral-900 mb-1">
+                              {feature.title}
+                            </h3>
+                            <p className="text-sm text-neutral-600">
+                              {feature.description}
+                            </p>
+                          </div>
                         </div>
-                        <div>
-                          <h3 className="font-semibold text-neutral-900 mb-1">
-                            {feature.title}
-                          </h3>
-                          <p className="text-sm text-neutral-600">
-                            {feature.description}
-                          </p>
-                        </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
+
+                    <Link to="/contact">
+                      <Button className="btn-primary">
+                        {t('solutionsPage.requestDemo')}
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </Button>
+                    </Link>
                   </div>
 
-                  <Link to="/contact">
-                    <Button className={`btn-primary`}>
-                      {t('solutionsPage.requestDemo')}
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
-                  </Link>
-                </div>
-
-                <div className={index % 2 === 1 ? 'lg:order-1' : ''}>
-                  <Card className="border-0 shadow-soft-lg rounded-2xl overflow-hidden">
-                    <img
-                      src={solution.image}
-                      alt={solution.name}
-                      loading="lazy"
-                      className="w-full h-80 object-cover"
-                    />
-                    <div
-                      className={`h-2 bg-gradient-to-r ${solution.gradient}`}
-                    ></div>
-                  </Card>
+                  <div className={index % 2 === 1 ? 'lg:order-1' : ''}>
+                    <Card className="border-0 shadow-soft-lg rounded-2xl overflow-hidden">
+                      <img
+                        src={solution.image}
+                        alt={solution.name}
+                        loading="lazy"
+                        className="w-full h-80 object-cover"
+                      />
+                      <div
+                        className={`h-2 bg-gradient-to-r ${solution.gradient}`}
+                      ></div>
+                    </Card>
+                  </div>
                 </div>
               </div>
             </div>
@@ -340,23 +338,25 @@ const Solutions = () => {
       )}
 
       {/* Custom Solutions CTA */}
-      <section className="py-24 bg-gradient-hero text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl lg:text-4xl font-bold mb-6">
-            {t('solutionsPage.customTitle')}
-          </h2>
-          <p className="text-xl text-blue-100 mb-8">
-            {t('solutionsPage.customDescription')}
-          </p>
-          <Link to="/contact">
-            <Button
-              size="lg"
-              className="bg-white text-brand-purple hover:bg-blue-50 font-semibold px-8 py-4 rounded-xl text-lg transition-all ease-in-out duration-300"
-            >
-              {t('solutionsPage.discuss')}
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-          </Link>
+      <section className={sectionSpacing}>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className={`${frostedDark} ${surfacePadding} text-center`}>
+            <h2 className="text-3xl lg:text-4xl font-bold mb-6 text-white">
+              {t('solutionsPage.customTitle')}
+            </h2>
+            <p className="text-xl text-blue-100 mb-8">
+              {t('solutionsPage.customDescription')}
+            </p>
+            <Link to="/contact">
+              <Button
+                size="lg"
+                className="bg-white text-brand-purple hover:bg-blue-50 font-semibold px-8 py-4 rounded-xl text-lg transition-all ease-in-out duration-300"
+              >
+                {t('solutionsPage.discuss')}
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
+          </div>
         </div>
       </section>
     </Layout>
