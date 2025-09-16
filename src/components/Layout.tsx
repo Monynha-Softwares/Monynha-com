@@ -8,11 +8,9 @@ interface LayoutProps {
 
 const Layout = ({ children }: LayoutProps) => {
   return (
-    <div className="relative z-10 min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="relative flex-1 pt-20 bg-background/70 backdrop-blur-sm supports-[backdrop-filter]:backdrop-blur-md">
-        {children}
-      </main>
+      <main className="flex-1 pt-20">{children}</main>
       <Footer />
       <BackToTop />
     </div>
