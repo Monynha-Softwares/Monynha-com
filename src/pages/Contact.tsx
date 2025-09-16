@@ -19,6 +19,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
+import type { CSSProperties } from 'react';
 
 const projectTypes = [
   'Custom AI Assistant',
@@ -146,6 +147,36 @@ const Contact = () => {
     [t]
   );
 
+  const heroSurfaceStyles = useMemo(
+    () =>
+      ({
+        '--surface-overlay':
+          'radial-gradient(circle at 20% 20%, rgba(124,58,237,0.1), transparent 60%), radial-gradient(circle at 80% 10%, rgba(14,165,233,0.1), transparent 55%)',
+        '--surface-blur': '22px',
+      }) satisfies CSSProperties,
+    []
+  );
+
+  const formSurfaceStyles = useMemo(
+    () =>
+      ({
+        '--surface-overlay':
+          'radial-gradient(circle at 25% 25%, rgba(124,58,237,0.08), transparent 55%), radial-gradient(circle at 75% 80%, rgba(14,165,233,0.08), transparent 60%)',
+        '--surface-blur': '20px',
+      }) satisfies CSSProperties,
+    []
+  );
+
+  const thanksSurfaceStyles = useMemo(
+    () =>
+      ({
+        '--surface-overlay':
+          'linear-gradient(135deg, rgba(124,58,237,0.15) 0%, rgba(14,165,233,0.15) 100%)',
+        '--surface-blur': '24px',
+      }) satisfies CSSProperties,
+    []
+  );
+
   if (isSubmitted) {
     return (
       <Layout>
@@ -171,7 +202,10 @@ const Contact = () => {
             </BreadcrumbList>
           </Breadcrumb>
         </div>
-        <section className="py-24 bg-white min-h-screen flex items-center">
+        <section
+          className="surface-section py-24 min-h-screen flex items-center"
+          style={thanksSurfaceStyles}
+        >
           <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div className="w-16 h-16 bg-gradient-brand rounded-full flex items-center justify-center mx-auto mb-6">
               <CheckCircle className="h-8 w-8 text-white" />
@@ -219,7 +253,7 @@ const Contact = () => {
         </Breadcrumb>
       </div>
       {/* Hero Section */}
-      <section className="py-24 bg-white">
+      <section className="surface-section py-24" style={heroSurfaceStyles}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h1 className="text-4xl lg:text-5xl font-bold text-neutral-900 mb-6">
@@ -233,7 +267,7 @@ const Contact = () => {
       </section>
 
       {/* Contact Form and Info */}
-      <section className="pb-24 bg-white">
+      <section className="surface-section pb-24" style={formSurfaceStyles}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             {/* Contact Form */}

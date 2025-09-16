@@ -34,14 +34,23 @@
     --ring: 222.2 84% 4.9%;
 
     --radius: 0.75rem;
+
+    --mona-primary: #7C3AED;
+    --mona-secondary: #0EA5E9;
+    --mona-accent-pink: #EC4899;
   }
 
   * {
     @apply border-border;
   }
 
+  html,
   body {
-    @apply bg-background text-foreground font-sans antialiased;
+    background-color: transparent;
+  }
+
+  body {
+    @apply bg-transparent text-foreground font-sans antialiased;
   }
 
   h1,
@@ -65,5 +74,40 @@
 
   .card-hover {
     @apply transition-all ease-in-out duration-300 hover:shadow-soft-lg hover:-translate-y-1;
+  }
+
+  .surface-section {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    --surface-bg: hsl(var(--background) / 0.82);
+    --surface-overlay: transparent;
+    --surface-blur: 18px;
+  }
+
+  .surface-section::before,
+  .surface-section::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .surface-section::before {
+    z-index: -1;
+    background: var(--surface-bg);
+    backdrop-filter: blur(var(--surface-blur));
+    -webkit-backdrop-filter: blur(var(--surface-blur));
+  }
+
+  .surface-section::after {
+    z-index: -2;
+    background: var(--surface-overlay);
+  }
+
+  @supports not (backdrop-filter: blur(1px)) {
+    .surface-section::before {
+      background: hsl(var(--background) / 0.95);
+    }
   }
 }

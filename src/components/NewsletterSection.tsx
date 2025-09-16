@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -6,6 +6,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { Mail, CheckCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import type { CSSProperties } from 'react';
 
 const NewsletterSection = () => {
   const { t } = useTranslation();
@@ -13,6 +14,18 @@ const NewsletterSection = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(false);
   const { toast } = useToast();
+
+  const surfaceStyles = useMemo(
+    () =>
+      ({
+        '--surface-bg':
+          'linear-gradient(135deg, rgba(124,58,237,0.5) 0%, rgba(14,165,233,0.28) 45%, rgba(236,72,153,0.45) 100%)',
+        '--surface-overlay':
+          'radial-gradient(circle at 20% 20%, rgba(236,72,153,0.42), transparent 55%), linear-gradient(180deg, rgba(15,23,42,0.3) 0%, rgba(15,23,42,0.1) 100%)',
+        '--surface-blur': '26px',
+      }) satisfies CSSProperties,
+    []
+  );
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -72,7 +85,7 @@ const NewsletterSection = () => {
 
   if (isSubscribed) {
     return (
-      <section className="py-24 bg-gradient-hero text-white">
+      <section className="surface-section py-24 text-white" style={surfaceStyles}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6">
             <CheckCircle className="h-8 w-8 text-white" />
@@ -98,7 +111,7 @@ const NewsletterSection = () => {
   }
 
   return (
-    <section className="py-24 bg-gradient-hero text-white">
+    <section className="surface-section py-24 text-white" style={surfaceStyles}>
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <Card className="border-0 shadow-soft-lg rounded-2xl bg-white/10 backdrop-blur-sm">
           <CardContent className="p-8 lg:p-12 text-center">

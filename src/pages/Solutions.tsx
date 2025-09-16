@@ -25,6 +25,8 @@ import {
 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useTranslation } from 'react-i18next';
+import { useMemo } from 'react';
+import type { CSSProperties } from 'react';
 
 const fallbackSolutions = [
   {
@@ -192,6 +194,41 @@ const Solutions = () => {
     },
   });
 
+  const heroSurfaceStyles = useMemo(
+    () =>
+      ({
+        '--surface-bg':
+          'linear-gradient(135deg, rgba(124,58,237,0.5) 0%, rgba(14,165,233,0.32) 50%, rgba(236,72,153,0.48) 100%)',
+        '--surface-overlay': 'linear-gradient(180deg, rgba(15,23,42,0.3) 0%, rgba(15,23,42,0.12) 100%)',
+        '--surface-blur': '26px',
+      }) satisfies CSSProperties,
+    []
+  );
+
+  const ctaSurfaceStyles = useMemo(
+    () =>
+      ({
+        '--surface-bg':
+          'linear-gradient(135deg, rgba(124,58,237,0.46) 0%, rgba(14,165,233,0.28) 45%, rgba(236,72,153,0.46) 100%)',
+        '--surface-overlay': 'linear-gradient(180deg, rgba(15,23,42,0.28) 0%, rgba(15,23,42,0.12) 100%)',
+        '--surface-blur': '24px',
+      }) satisfies CSSProperties,
+    []
+  );
+
+  const alternatingSurfaceStyles = useMemo(
+    () =>
+      ({
+        odd: {
+          '--surface-bg': 'hsl(var(--background) / 0.8)',
+          '--surface-overlay':
+            'radial-gradient(circle at 30% 20%, rgba(124,58,237,0.12), transparent 55%), radial-gradient(circle at 70% 80%, rgba(14,165,233,0.12), transparent 60%)',
+          '--surface-blur': '22px',
+        } satisfies CSSProperties,
+      }),
+    []
+  );
+
   if (isLoading) {
     return (
       <Layout>
@@ -251,7 +288,7 @@ const Solutions = () => {
         </Breadcrumb>
       </div>
       {/* Hero Section */}
-      <section className="py-24 bg-white">
+      <section className="surface-section py-24" style={heroSurfaceStyles}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h1 className="text-4xl lg:text-5xl font-bold text-neutral-900 mb-6">
@@ -269,7 +306,8 @@ const Solutions = () => {
         (solution, index) => (
           <section
             key={index}
-            className={`py-24 ${index % 2 === 0 ? 'bg-white' : 'bg-neutral-50'}`}
+            className="surface-section py-24"
+            style={index % 2 === 1 ? alternatingSurfaceStyles.odd : undefined}
           >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div
@@ -340,7 +378,7 @@ const Solutions = () => {
       )}
 
       {/* Custom Solutions CTA */}
-      <section className="py-24 bg-gradient-hero text-white">
+      <section className="surface-section py-24 text-white" style={ctaSurfaceStyles}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl lg:text-4xl font-bold mb-6">
             {t('solutionsPage.customTitle')}

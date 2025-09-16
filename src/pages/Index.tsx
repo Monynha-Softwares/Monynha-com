@@ -20,6 +20,7 @@ import { useTranslation, Trans } from 'react-i18next';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useMemo } from 'react';
+import type { CSSProperties } from 'react';
 
 const fallbackSolutions = [
   {
@@ -143,6 +144,29 @@ const Index = () => {
   const displayFeatures = features || fallbackFeatures;
   const displaySolutions = solutions || fallbackSolutions;
 
+  const heroSurfaceStyles = useMemo(
+    () =>
+      ({
+        '--surface-bg':
+          'linear-gradient(135deg, rgba(124,58,237,0.52) 0%, rgba(14,165,233,0.32) 45%, rgba(236,72,153,0.48) 100%)',
+        '--surface-overlay':
+          'radial-gradient(circle at 15% 20%, rgba(236,72,153,0.45), transparent 60%), radial-gradient(circle at 80% 0%, rgba(14,165,233,0.35), transparent 55%), linear-gradient(rgba(15,23,42,0.35), rgba(15,23,42,0.15))',
+        '--surface-blur': '28px',
+      }) satisfies CSSProperties,
+    []
+  );
+
+  const ctaSurfaceStyles = useMemo(
+    () =>
+      ({
+        '--surface-bg':
+          'linear-gradient(135deg, rgba(124,58,237,0.5) 0%, rgba(14,165,233,0.32) 50%, rgba(236,72,153,0.5) 100%)',
+        '--surface-overlay': 'linear-gradient(180deg, rgba(15,23,42,0.25) 0%, rgba(15,23,42,0.1) 100%)',
+        '--surface-blur': '24px',
+      }) satisfies CSSProperties,
+    []
+  );
+
   return (
     <Layout>
       <Meta
@@ -153,9 +177,8 @@ const Index = () => {
         ogImage="/placeholder.svg"
       />
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-hero text-white">
-        <div className="absolute inset-0 bg-black/20"></div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
+      <section className="surface-section text-white py-24 lg:py-32" style={heroSurfaceStyles}>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center animate-fade-in">
             <h1 className="text-4xl lg:text-6xl font-bold mb-6 text-white">
               <Trans
@@ -194,7 +217,7 @@ const Index = () => {
       </section>
 
       {/* Features Section */}
-      <section className="py-24 bg-white">
+      <section className="surface-section py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold text-neutral-900 mb-4">
@@ -231,7 +254,7 @@ const Index = () => {
       </section>
 
       {/* Solutions Preview */}
-      <section className="py-24 bg-neutral-50">
+      <section className="surface-section py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold text-neutral-900 mb-4">
@@ -292,7 +315,7 @@ const Index = () => {
       <NewsletterSection />
 
       {/* CTA Section */}
-      <section className="py-24 bg-gradient-hero text-white">
+      <section className="surface-section py-24 text-white" style={ctaSurfaceStyles}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl lg:text-4xl font-bold mb-6">
             {t('index.cta.title')}

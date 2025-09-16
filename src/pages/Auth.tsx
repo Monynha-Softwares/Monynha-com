@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
@@ -14,6 +14,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { Eye, EyeOff, Loader2, ArrowLeft } from 'lucide-react';
+import type { CSSProperties } from 'react';
 
 const Auth = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -23,6 +24,17 @@ const Auth = () => {
   const [name, setName] = useState('');
   const navigate = useNavigate();
   const { toast } = useToast();
+
+  const surfaceStyles = useMemo(
+    () =>
+      ({
+        '--surface-bg':
+          'linear-gradient(135deg, rgba(124,58,237,0.52) 0%, rgba(14,165,233,0.32) 45%, rgba(236,72,153,0.48) 100%)',
+        '--surface-overlay': 'linear-gradient(180deg, rgba(15,23,42,0.28) 0%, rgba(15,23,42,0.12) 100%)',
+        '--surface-blur': '28px',
+      }) satisfies CSSProperties,
+    []
+  );
 
   useEffect(() => {
     // Check if user is already logged in
@@ -104,7 +116,7 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+    <div className="surface-section min-h-screen flex items-center justify-center p-4" style={surfaceStyles}>
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-4">
           <Link

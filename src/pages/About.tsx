@@ -4,6 +4,7 @@ import Meta from '@/components/Meta';
 import { Brain, Target, Users, Award } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
+import type { CSSProperties } from 'react';
 
 const About = () => {
   const { t } = useTranslation();
@@ -43,6 +44,17 @@ const About = () => {
     [t]
   );
 
+  const missionSurfaceStyles = useMemo(
+    () =>
+      ({
+        '--surface-bg':
+          'linear-gradient(135deg, rgba(124,58,237,0.5) 0%, rgba(14,165,233,0.3) 50%, rgba(236,72,153,0.48) 100%)',
+        '--surface-overlay': 'linear-gradient(180deg, rgba(15,23,42,0.32) 0%, rgba(15,23,42,0.12) 100%)',
+        '--surface-blur': '26px',
+      }) satisfies CSSProperties,
+    []
+  );
+
   return (
     <Layout>
       <Meta
@@ -53,7 +65,7 @@ const About = () => {
         ogImage="/placeholder.svg"
       />
       {/* Hero Section */}
-      <section className="py-24 bg-white">
+      <section className="surface-section py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h1 className="text-4xl lg:text-5xl font-bold text-neutral-900 mb-6">
@@ -67,7 +79,7 @@ const About = () => {
       </section>
 
       {/* Mission Section */}
-      <section className="py-24 bg-gradient-hero text-white">
+      <section className="surface-section py-24 text-white" style={missionSurfaceStyles}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl lg:text-4xl font-bold mb-8">
             {t('about.missionTitle')}
@@ -79,7 +91,7 @@ const About = () => {
       </section>
 
       {/* Story Section */}
-      <section className="py-24 bg-white">
+      <section className="surface-section py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
@@ -108,7 +120,7 @@ const About = () => {
       </section>
 
       {/* Values Section */}
-      <section className="py-24 bg-neutral-50">
+      <section className="surface-section py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold text-neutral-900 mb-4">
@@ -140,7 +152,7 @@ const About = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-24 bg-white">
+      <section className="surface-section py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold text-neutral-900 mb-4">

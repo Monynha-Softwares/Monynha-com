@@ -17,6 +17,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
+import type { CSSProperties } from 'react';
 
 const Blog = () => {
   const { t } = useTranslation();
@@ -74,6 +75,47 @@ const Blog = () => {
   });
 
   const posts = postsData || [];
+
+  const heroSurfaceStyles = useMemo(
+    () =>
+      ({
+        '--surface-overlay':
+          'radial-gradient(circle at 15% 20%, rgba(124,58,237,0.1), transparent 60%), radial-gradient(circle at 80% 5%, rgba(14,165,233,0.1), transparent 55%)',
+        '--surface-blur': '20px',
+      }) satisfies CSSProperties,
+    []
+  );
+
+  const featuredSurfaceStyles = useMemo(
+    () =>
+      ({
+        '--surface-overlay':
+          'radial-gradient(circle at 0% 10%, rgba(124,58,237,0.12), transparent 55%), radial-gradient(circle at 95% 90%, rgba(14,165,233,0.12), transparent 60%)',
+        '--surface-blur': '22px',
+      }) satisfies CSSProperties,
+    []
+  );
+
+  const gridSurfaceStyles = useMemo(
+    () =>
+      ({
+        '--surface-overlay':
+          'radial-gradient(circle at 20% 20%, rgba(124,58,237,0.08), transparent 55%), radial-gradient(circle at 80% 80%, rgba(14,165,233,0.08), transparent 60%)',
+        '--surface-blur': '18px',
+      }) satisfies CSSProperties,
+    []
+  );
+
+  const newsletterSurfaceStyles = useMemo(
+    () =>
+      ({
+        '--surface-bg':
+          'linear-gradient(135deg, rgba(124,58,237,0.5) 0%, rgba(14,165,233,0.3) 50%, rgba(236,72,153,0.48) 100%)',
+        '--surface-overlay': 'linear-gradient(180deg, rgba(15,23,42,0.3) 0%, rgba(15,23,42,0.12) 100%)',
+        '--surface-blur': '24px',
+      }) satisfies CSSProperties,
+    []
+  );
 
   if (isLoading) {
     return (
@@ -134,7 +176,7 @@ const Blog = () => {
         </Breadcrumb>
       </div>
       {/* Hero Section */}
-      <section className="py-24 bg-white">
+      <section className="surface-section py-24" style={heroSurfaceStyles}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h1 className="text-4xl lg:text-5xl font-bold text-neutral-900 mb-6">
@@ -148,7 +190,7 @@ const Blog = () => {
       </section>
 
       {/* Categories Filter */}
-      <section className="pb-12 bg-white">
+      <section className="surface-section pb-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap justify-center gap-4">
             {categories.map((category, index) => (
@@ -172,7 +214,7 @@ const Blog = () => {
       {posts
         .filter((post) => post.featured)
         .map((post, index) => (
-          <section key={index} className="pb-16 bg-white">
+          <section key={index} className="surface-section pb-16" style={featuredSurfaceStyles}>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <Card className="border-0 shadow-soft-lg rounded-2xl overflow-hidden">
                 <div className="grid grid-cols-1 lg:grid-cols-2">
@@ -223,7 +265,7 @@ const Blog = () => {
         ))}
 
       {/* Blog Grid */}
-      <section className="py-16 bg-neutral-50">
+      <section className="surface-section py-16" style={gridSurfaceStyles}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {posts
@@ -278,7 +320,7 @@ const Blog = () => {
       </section>
 
       {/* Newsletter CTA */}
-      <section className="py-24 bg-gradient-hero text-white">
+      <section className="surface-section py-24 text-white" style={newsletterSurfaceStyles}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl lg:text-4xl font-bold mb-6">
             {t('blog.newsletter.title')}

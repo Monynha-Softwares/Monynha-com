@@ -16,6 +16,8 @@ import {
 import { supabase } from '@/integrations/supabase/client';
 import { useTranslation, Trans } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import { useMemo } from 'react';
+import type { CSSProperties } from 'react';
 
 interface Repository {
   id: string;
@@ -58,6 +60,16 @@ const Projects = () => {
       day: 'numeric',
     });
   };
+
+  const projectsSurfaceStyles = useMemo(
+    () =>
+      ({
+        '--surface-overlay':
+          'radial-gradient(circle at 20% 20%, rgba(124,58,237,0.1), transparent 55%), radial-gradient(circle at 80% 10%, rgba(14,165,233,0.1), transparent 60%)',
+        '--surface-blur': '22px',
+      }) satisfies CSSProperties,
+    []
+  );
 
   if (isLoading) {
     return (
@@ -123,7 +135,7 @@ const Projects = () => {
         </Breadcrumb>
       </div>
 
-      <div className="container mx-auto px-4 py-16">
+      <section className="surface-section container mx-auto px-4 py-16" style={projectsSurfaceStyles}>
         {/* Header */}
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-bold text-neutral-900 mb-6">
@@ -234,7 +246,7 @@ const Projects = () => {
             <Link to="/contact">{t('projects.contactUs')}</Link>
           </Button>
         </div>
-      </div>
+      </section>
     </Layout>
   );
 };
