@@ -17,7 +17,7 @@ const NotFound = () => {
 
   const { t } = useTranslation();
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="min-h-screen flex items-center justify-center surface-base">
       <Meta
         title="404 - Page Not Found"
         description="The page you are looking for does not exist."

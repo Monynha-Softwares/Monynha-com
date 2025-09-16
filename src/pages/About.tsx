@@ -53,7 +53,7 @@ const About = () => {
         ogImage="/placeholder.svg"
       />
       {/* Hero Section */}
-      <section className="py-24 bg-white">
+      <section className="py-24 surface-base">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h1 className="text-4xl lg:text-5xl font-bold text-neutral-900 mb-6">
@@ -79,7 +79,7 @@ const About = () => {
       </section>
 
       {/* Story Section */}
-      <section className="py-24 bg-white">
+      <section className="py-24 surface-base">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
@@ -108,7 +108,7 @@ const About = () => {
       </section>
 
       {/* Values Section */}
-      <section className="py-24 bg-neutral-50">
+      <section className="py-24 surface-muted">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold text-neutral-900 mb-4">
@@ -140,7 +140,7 @@ const About = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-24 bg-white">
+      <section className="py-24 surface-base">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold text-neutral-900 mb-4">

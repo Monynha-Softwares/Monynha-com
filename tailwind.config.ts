@@ -75,7 +75,8 @@ export default {
       backgroundImage: {
         'gradient-brand':
           'linear-gradient(135deg, #5B2C6F 0%, #4A90E2 25%, #E06666 75%, #F7B500 100%)',
-        'gradient-hero': 'linear-gradient(135deg, #5B2C6F 0%, #4A90E2 100%)',
+        'gradient-hero':
+          'linear-gradient(135deg, rgba(91, 44, 111, 0.75) 0%, rgba(74, 144, 226, 0.6) 100%)',
       },
       borderRadius: {
         lg: 'var(--radius)',

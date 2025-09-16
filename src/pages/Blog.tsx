@@ -134,7 +134,7 @@ const Blog = () => {
         </Breadcrumb>
       </div>
       {/* Hero Section */}
-      <section className="py-24 bg-white">
+      <section className="py-24 surface-base">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h1 className="text-4xl lg:text-5xl font-bold text-neutral-900 mb-6">
@@ -148,7 +148,7 @@ const Blog = () => {
       </section>
 
       {/* Categories Filter */}
-      <section className="pb-12 bg-white">
+      <section className="pb-12 surface-base">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap justify-center gap-4">
             {categories.map((category, index) => (
@@ -172,7 +172,7 @@ const Blog = () => {
       {posts
         .filter((post) => post.featured)
         .map((post, index) => (
-          <section key={index} className="pb-16 bg-white">
+          <section key={index} className="pb-16 surface-base">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <Card className="border-0 shadow-soft-lg rounded-2xl overflow-hidden">
                 <div className="grid grid-cols-1 lg:grid-cols-2">
@@ -223,7 +223,7 @@ const Blog = () => {
         ))}
 
       {/* Blog Grid */}
-      <section className="py-16 bg-neutral-50">
+      <section className="py-16 surface-muted">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {posts

@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import Layout from '@/components/Layout';
 import Meta from '@/components/Meta';
 import { Link } from 'react-router-dom';
+import { cn } from '@/lib/utils';
 import {
   Breadcrumb,
   BreadcrumbList,
@@ -251,7 +252,7 @@ const Solutions = () => {
         </Breadcrumb>
       </div>
       {/* Hero Section */}
-      <section className="py-24 bg-white">
+      <section className="py-24 surface-base">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h1 className="text-4xl lg:text-5xl font-bold text-neutral-900 mb-6">
@@ -269,7 +270,10 @@ const Solutions = () => {
         (solution, index) => (
           <section
             key={index}
-            className={`py-24 ${index % 2 === 0 ? 'bg-white' : 'bg-neutral-50'}`}
+            className={cn(
+              'py-24',
+              index % 2 === 0 ? 'surface-base' : 'surface-muted'
+            )}
           >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div
