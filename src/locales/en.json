@@ -99,6 +99,9 @@
     "valuesDescription": "The principles that guide everything we do and every solution we create.",
     "impactTitle": "Our Impact",
     "impactDescription": "Numbers that reflect our commitment to excellence and client success.",
+    "statsLoading": "We're gathering updated numbers...",
+    "statsError": "We couldn't load our latest stats right now. Please check back soon.",
+    "statsEmpty": "Stay tuned for new milestones from our team.",
     "valuesList": {
       "innovation": "Innovation First",
       "innovationDesc": "We leverage cutting-edge AI and modern technologies to create solutions that push boundaries and deliver exceptional results.",
@@ -114,7 +117,10 @@
       "satisfaction": "Client Satisfaction",
       "experience": "Years Experience",
       "support": "Support Available"
-    }
+    },
+    "ctaTitle": "Let's build the next chapter of your business together",
+    "ctaDescription": "Share your goals with us and discover how tailored AI solutions can accelerate your growth.",
+    "ctaButton": "Talk to our team"
   },
   "blog": {
     "title": "Insights & Updates",
@@ -202,7 +208,8 @@
     "loading": "Loading our amazing team...",
     "error": "We're having trouble loading our team information. Please try again later.",
     "description": "Passionate experts dedicated to delivering innovative AI solutions that transform your business.",
-    "linkedin": "LinkedIn"
+    "linkedin": "LinkedIn",
+    "empty": "Our team lineup will be updated soon."
   },
   "projects": {
     "title": "Projects <0>Open Source</0>",
