@@ -53,6 +53,39 @@ VITE_SUPABASE_ANON_KEY=<your-anon-key>
 
 These variables match the placeholders in `.env.example`.
 
+### Liquid Ether background
+
+The animated Liquid Ether background is loaded globally from
+`src/components/effects/LiquidEtherClient.tsx`. It renders behind the entire
+application and automatically falls back to a static gradient when
+`prefers-reduced-motion` is enabled or when the effect is disabled.
+
+The effect reads the following optional environment variables (both
+`NEXT_PUBLIC_` and `VITE_` prefixes are supported):
+
+```bash
+NEXT_PUBLIC_LIQUIDETHER_ENABLED=true # or false to disable the animation
+NEXT_PUBLIC_LIQUIDETHER_RESOLUTION=0.5 # lower values improve performance
+NEXT_PUBLIC_LIQUIDETHER_INTENSITY=2.2 # auto animation strength
+```
+
+You can customise colours and behaviour on a per-page basis by passing props to
+`<LiquidEtherClient />`. By default it uses the Monynha design tokens:
+
+- `--mona-primary: #7C3AED`
+- `--mona-secondary: #0EA5E9`
+- `--mona-accent-pink: #EC4899`
+
+For example:
+
+```tsx
+<LiquidEtherClient colors={["#5227FF", "#FF9FFC", "#B19EEF"]} autoIntensity={1.6} />
+```
+
+If you need to provide additional contrast for text-heavy sections, wrap them in
+containers that apply subtle backgrounds such as `bg-background/70` together with
+`backdrop-blur-sm`.
+
 ## Technologies
 
 - React & Vite
