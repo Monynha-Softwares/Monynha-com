@@ -91,9 +91,30 @@
     "mission": "To democratize artificial intelligence by creating accessible, powerful software solutions that help businesses of all sizes harness the power of AI to streamline operations, enhance customer experiences, and drive sustainable growth.",
     "storyTitle": "Our Story",
     "story": {
-      "p1": "Monynha Softwareswas founded with a simple yet ambitious vision: to make artificial intelligence accessible and practical for businesses everywhere.",
+      "p1": "Monynha Softwares was founded with a simple yet ambitious vision: to make artificial intelligence accessible and practical for businesses everywhere.",
       "p2": "Starting as a small team of passionate developers and AI enthusiasts, we recognized the gap between complex AI technologies and real-world business applications. Our mission became clear: bridge this gap with intuitive, powerful solutions.",
       "p3": "Today, we've grown into a trusted partner for businesses across industries, delivering custom software solutions that not only meet current needs but anticipate future challenges."
+    },
+    "historyTitle": "Our Journey",
+    "historyDescription": "From the first prototype to enterprise-ready platforms, discover the milestones that shaped Monynha Softwares Agency.",
+    "history": {
+      "milestones": [
+        {
+          "year": "2019",
+          "title": "A Vision Takes Shape",
+          "description": "Monynha Softwares was founded with a simple yet ambitious vision: to make artificial intelligence accessible and practical for businesses everywhere."
+        },
+        {
+          "year": "2020",
+          "title": "From Prototype to Partnerships",
+          "description": "Starting as a small team of passionate developers and AI enthusiasts, we transformed early experiments into real solutions by working hand-in-hand with our first partners."
+        },
+        {
+          "year": "2023",
+          "title": "Scaling with Our Clients",
+          "description": "Today, we've grown into a trusted partner for businesses across industries, delivering custom software solutions that anticipate future challenges."
+        }
+      ]
     },
     "valuesTitle": "Our Core Values",
     "valuesDescription": "The principles that guide everything we do and every solution we create.",
@@ -114,6 +135,11 @@
       "satisfaction": "Client Satisfaction",
       "experience": "Years Experience",
       "support": "Support Available"
+    },
+    "cta": {
+      "title": "Ready to build the future of your business?",
+      "description": "Let's explore how custom AI solutions and modern platforms can accelerate your next chapter.",
+      "button": "Talk to our team"
     }
   },
   "blog": {
@@ -202,7 +228,8 @@
     "loading": "Loading our amazing team...",
     "error": "We're having trouble loading our team information. Please try again later.",
     "description": "Passionate experts dedicated to delivering innovative AI solutions that transform your business.",
-    "linkedin": "LinkedIn"
+    "linkedin": "LinkedIn",
+    "empty": "Our team is growing fast. Check back soon to meet new Monynha innovators."
   },
   "projects": {
     "title": "Projects <0>Open Source</0>",

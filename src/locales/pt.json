@@ -91,9 +91,30 @@
     "mission": "Democratizar a inteligência artificial criando soluções de software acessíveis e poderosas que ajudem empresas de todos os tamanhos a otimizar operações, melhorar experiências de clientes e gerar crescimento sustentável.",
     "storyTitle": "Nossa História",
     "story": {
-      "p1": "A Monynha Softwaresnasceu de uma visão ambiciosa: tornar a inteligência artificial acessível e prática para empresas de todos os setores.",
+      "p1": "A Monynha Softwares nasceu de uma visão ambiciosa: tornar a inteligência artificial acessível e prática para empresas de todos os setores.",
       "p2": "Começamos como um pequeno time de desenvolvedores e entusiastas de IA que perceberam a distância entre as tecnologias complexas e as aplicações reais de negócio. Nossa missão ficou clara: encurtar essa distância com soluções intuitivas e poderosas.",
       "p3": "Hoje somos um parceiro confiável para empresas de diversos segmentos, entregando soluções sob medida que atendem necessidades atuais e antecipam desafios futuros."
+    },
+    "historyTitle": "Nossa Jornada",
+    "historyDescription": "Do primeiro protótipo às plataformas prontas para o mercado, conheça os marcos que moldaram a Monynha Softwares Agency.",
+    "history": {
+      "milestones": [
+        {
+          "year": "2019",
+          "title": "A ideia ganha forma",
+          "description": "A Monynha Softwares nasceu de uma visão ambiciosa: tornar a inteligência artificial acessível e prática para empresas de todos os setores."
+        },
+        {
+          "year": "2020",
+          "title": "Dos protótipos às parcerias",
+          "description": "Como um pequeno time de desenvolvedores e entusiastas de IA, transformamos os primeiros experimentos em soluções reais trabalhando lado a lado com nossos clientes iniciais."
+        },
+        {
+          "year": "2023",
+          "title": "Crescendo com nossos clientes",
+          "description": "Hoje somos um parceiro confiável para empresas de diversos segmentos, entregando soluções sob medida que antecipam desafios futuros."
+        }
+      ]
     },
     "valuesTitle": "Nossos Valores",
     "valuesDescription": "Princípios que guiam tudo o que fazemos e cada solução que criamos.",
@@ -114,6 +135,11 @@
       "satisfaction": "Satisfação dos Clientes",
       "experience": "Anos de Experiência",
       "support": "Suporte Disponível"
+    },
+    "cta": {
+      "title": "Pronto para construir o futuro do seu negócio?",
+      "description": "Vamos explorar como soluções de IA sob medida e plataformas modernas podem acelerar a próxima etapa da sua empresa.",
+      "button": "Falar com nosso time"
     }
   },
   "blog": {
@@ -200,7 +226,8 @@
     "loading": "Carregando nossa equipe incrível...",
     "error": "Estamos tendo problemas para carregar as informações da equipe. Por favor, tente novamente mais tarde.",
     "description": "Especialistas apaixonados dedicados a entregar soluções inovadoras de IA que transformam seu negócio.",
-    "linkedin": "LinkedIn"
+    "linkedin": "LinkedIn",
+    "empty": "Nossa equipe está crescendo rápido. Volte em breve para conhecer novos talentos Monynha."
   },
   "projects": {
     "title": "Projetos <0>Open Source</0>",

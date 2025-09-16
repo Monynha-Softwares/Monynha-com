@@ -91,9 +91,30 @@
     "mission": "Démocratiser l'intelligence artificielle en créant des solutions logicielles accessibles et puissantes qui aident les entreprises de toutes tailles à optimiser leurs opérations, améliorer l'expérience client et assurer une croissance durable.",
     "storyTitle": "Notre histoire",
     "story": {
-      "p1": "Monynha Softwaresa été fondée avec une vision ambitieuse : rendre l'intelligence artificielle accessible et pratique pour toutes les entreprises.",
+      "p1": "Monynha Softwares a été fondée avec une vision ambitieuse : rendre l'intelligence artificielle accessible et pratique pour toutes les entreprises.",
       "p2": "Nous avons commencé comme une petite équipe de développeurs et d'enthousiastes de l'IA qui ont constaté l'écart entre les technologies complexes et les applications réelles. Notre mission est devenue claire : combler cet écart avec des solutions intuitives et puissantes.",
       "p3": "Aujourd'hui, nous sommes un partenaire de confiance pour des entreprises de nombreux secteurs, fournissant des solutions sur mesure qui répondent aux besoins actuels et anticipent les défis futurs."
+    },
+    "historyTitle": "Notre parcours",
+    "historyDescription": "Du premier prototype aux plateformes prêtes pour l'entreprise, découvrez les étapes qui ont façonné Monynha Softwares Agency.",
+    "history": {
+      "milestones": [
+        {
+          "year": "2019",
+          "title": "Une vision prend forme",
+          "description": "Monynha Softwares a été fondée avec une vision ambitieuse : rendre l'intelligence artificielle accessible et pratique pour toutes les entreprises."
+        },
+        {
+          "year": "2020",
+          "title": "Des prototypes aux partenariats",
+          "description": "En tant que petite équipe de développeurs et de passionnés d'IA, nous avons transformé nos premiers prototypes en solutions réelles aux côtés de nos premiers clients."
+        },
+        {
+          "year": "2023",
+          "title": "Grandir avec nos clients",
+          "description": "Aujourd'hui, nous sommes un partenaire de confiance pour des entreprises de nombreux secteurs, offrant des solutions sur mesure qui anticipent les défis futurs."
+        }
+      ]
     },
     "valuesTitle": "Nos valeurs",
     "valuesDescription": "Les principes qui guident tout ce que nous faisons et chaque solution que nous créons.",
@@ -114,6 +135,11 @@
       "satisfaction": "Satisfaction client",
       "experience": "Années d'expérience",
       "support": "Support disponible"
+    },
+    "cta": {
+      "title": "Prêt à construire l'avenir de votre entreprise ?",
+      "description": "Explorons comment des solutions d'IA sur mesure et des plateformes modernes peuvent accélérer votre prochaine étape.",
+      "button": "Parlez à notre équipe"
     }
   },
   "blog": {
@@ -200,7 +226,8 @@
     "loading": "Chargement de notre équipe incroyable...",
     "error": "Nous rencontrons des difficultés pour charger les informations de l'équipe. Veuillez réessayer plus tard.",
     "description": "Des experts passionnés dédiés à fournir des solutions IA innovantes qui transforment votre entreprise.",
-    "linkedin": "LinkedIn"
+    "linkedin": "LinkedIn",
+    "empty": "Notre équipe grandit rapidement. Revenez bientôt pour rencontrer les nouveaux talents Monynha."
   },
   "projects": {
     "title": "Projets <0>Open Source</0>",
