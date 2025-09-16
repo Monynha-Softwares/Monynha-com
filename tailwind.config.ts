@@ -55,9 +55,9 @@ export default {
         },
         // Monynha Softwares Brand Colors
         brand: {
-          purple: '#5B2C6F',
-          blue: '#4A90E2',
-          pink: '#E06666',
+          purple: '#7C3AED',
+          blue: '#0EA5E9',
+          pink: '#EC4899',
           orange: '#F7B500',
         },
         neutral: {
@@ -74,8 +74,9 @@ export default {
       },
       backgroundImage: {
         'gradient-brand':
-          'linear-gradient(135deg, #5B2C6F 0%, #4A90E2 25%, #E06666 75%, #F7B500 100%)',
-        'gradient-hero': 'linear-gradient(135deg, #5B2C6F 0%, #4A90E2 100%)',
+          'linear-gradient(135deg, #7C3AED 0%, #0EA5E9 45%, #EC4899 100%)',
+        'gradient-hero':
+          'linear-gradient(135deg, rgba(124, 58, 237, 0.88) 0%, rgba(14, 165, 233, 0.78) 100%)',
       },
       borderRadius: {
         lg: 'var(--radius)',

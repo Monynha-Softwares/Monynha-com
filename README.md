@@ -67,18 +67,21 @@ The effect can be configured through environment variables (either Vite's
 # Enable/disable the WebGL background entirely (default: true)
 NEXT_PUBLIC_LIQUIDETHER_ENABLED=true
 
-# Downscale factor for the internal render resolution (0.2 – 1, default: 0.5)
+# Downscale factor for the internal render resolution (0.3 – 0.6, default: 0.5)
 NEXT_PUBLIC_LIQUIDETHER_RESOLUTION=0.5
 
 # Multiplier applied to highlight intensity and shimmer (default: 2.2)
 NEXT_PUBLIC_LIQUIDETHER_INTENSITY=2.2
+
+# Comma-separated list of brand colours for the shader gradient (optional)
+NEXT_PUBLIC_LIQUIDETHER_COLORS=#7C3AED,#0EA5E9,#EC4899
 ```
 
 Runtime overrides are also exposed through the `LiquidEtherClient` component:
 
 ```tsx
 <LiquidEtherClient
-  colors={["#5227FF", "#FF9FFC", "#B19EEF"]}
+  colors={["#7C3AED", "#0EA5E9", "#EC4899"]}
   mouseForce={24}
   cursorSize={140}
   resolution={0.45}
@@ -88,8 +91,8 @@ Runtime overrides are also exposed through the `LiquidEtherClient` component:
 
 By default the component samples the CSS design tokens
 `--mona-primary`, `--mona-secondary` and `--mona-accent-pink`, defined in
-`src/index.css`. Update those variables to keep the animation in sync with any
-branding changes.
+`src/index.css`. Update those variables (or the `NEXT_PUBLIC_LIQUIDETHER_COLORS`
+override) to keep the animation in sync with any branding changes.
 
 ## Technologies
 

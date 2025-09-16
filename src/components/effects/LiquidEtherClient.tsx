@@ -69,6 +69,22 @@ function parseNumber(value: unknown) {
   return undefined;
 }
 
+function parseColorList(value: unknown) {
+  if (typeof value !== 'string') return undefined;
+
+  const colors = value
+    .split(',')
+    .map((entry) => entry.trim())
+    .filter(Boolean);
+
+  return colors.length ? colors.slice(0, 6) : undefined;
+}
+
+function clampResolution(value: number | undefined) {
+  if (typeof value !== 'number' || Number.isNaN(value)) return undefined;
+  return Math.min(0.6, Math.max(0.3, value));
+}
+
 function supportsWebGL() {
   if (typeof window === 'undefined') return false;
   try {
@@ -114,26 +130,39 @@ export default function LiquidEtherClient(props: LiquidEtherProps) {
     return parseNumber(raw);
   }, []);
 
-  const defaultColors = useMemo(
+  const envColors = useMemo(() => {
+    const raw = getEnvValue('NEXT_PUBLIC_LIQUIDETHER_COLORS');
+    return parseColorList(raw);
+  }, []);
+
+  const brandColors = useMemo(
     () => [
       readTokenColor('--mona-primary', '#7C3AED'),
       readTokenColor('--mona-secondary', '#0EA5E9'),
-      readTokenColor('--mona-accent-pink', '#eaeaeaff'),
+      readTokenColor('--mona-accent-pink', '#EC4899'),
     ],
     []
   );
 
-  const fallbackBg = useMemo(
-    () => ({
-      background:
-        'radial-gradient(1200px 600px at 70% 30%, rgba(255,255,255,0.15), transparent), linear-gradient(135deg, var(--mona-primary) 0%, var(--mona-secondary) 55%, var(--mona-accent-pink) 100%)',
-    }),
-    []
+  const defaultColors = useMemo(
+    () => (envColors?.length ? envColors : brandColors),
+    [brandColors, envColors]
   );
+
+  const fallbackBg = useMemo(() => {
+    const [primary = '#7C3AED', secondary = primary, accent = secondary] = defaultColors;
+
+    return {
+      background: `radial-gradient(1200px 600px at 70% 30%, rgba(255,255,255,0.18), transparent), linear-gradient(135deg, ${primary} 0%, ${secondary} 55%, ${accent} 100%)`,
+    };
+  }, [defaultColors]);
 
   const mergedProps = useMemo(() => {
     const resolvedColors = props.colors?.length ? props.colors : defaultColors;
-    const resolution = props.resolution ?? envResolution ?? 0.5;
+    const resolution =
+      clampResolution(props.resolution) ??
+      clampResolution(envResolution) ??
+      0.5;
     const autoIntensity = props.autoIntensity ?? envIntensity ?? 2.2;
 
     return {
