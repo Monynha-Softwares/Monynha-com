@@ -2,9 +2,18 @@ import { useQuery } from '@tanstack/react-query';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-import { Linkedin } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { Linkedin, Mail } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { listActiveTeamMembers, type TeamMember } from '@/lib/team';
+
+interface TeamMember {
+  id: string;
+  name: string;
+  role: string;
+  bio: string | null;
+  image_url: string | null;
+  linkedin_url: string | null;
+}
 
 const TeamSection = () => {
   const { t } = useTranslation();
@@ -13,9 +22,18 @@ const TeamSection = () => {
     data: members,
     isLoading,
     error,
-  } = useQuery<TeamMember[]>({
+  } = useQuery({
     queryKey: ['team-members'],
-    queryFn: () => listActiveTeamMembers(),
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('team_members')
+        .select('*')
+        .eq('active', true)
+        .order('created_at', { ascending: true });
+
+      if (error) throw error;
+      return data as TeamMember[];
+    },
   });
 
   if (isLoading) {

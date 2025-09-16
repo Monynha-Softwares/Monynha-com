@@ -2,11 +2,10 @@ import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import type { PostgrestError } from '@supabase/supabase-js';
+import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { Mail, CheckCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { subscribeToNewsletter } from '@/lib/newsletter';
 
 const NewsletterSection = () => {
   const { t } = useTranslation();
@@ -31,7 +30,28 @@ const NewsletterSection = () => {
     }
 
     try {
-      await subscribeToNewsletter(email);
+      const { error } = await supabase
+        .from('newsletter_subscribers')
+        .insert([{ email: email.trim() }]);
+
+      if (error) {
+        if (error.code === '23505') {
+          // Unique constraint violation
+          toast({
+            title: t('newsletterSection.alreadySubscribedTitle'),
+            description: t('newsletterSection.alreadySubscribedDescription'),
+            variant: 'destructive',
+          });
+        } else {
+          toast({
+            title: t('newsletterSection.errorTitle'),
+            description: t('newsletterSection.errorDescription'),
+            variant: 'destructive',
+          });
+        }
+        setIsSubmitting(false);
+        return;
+      }
 
       setIsSubscribed(true);
       toast({
@@ -40,22 +60,11 @@ const NewsletterSection = () => {
       });
     } catch (error) {
       console.error('Newsletter subscription error:', error);
-
-      const postgrestError = error as PostgrestError;
-
-      if (postgrestError?.code === '23505') {
-        toast({
-          title: t('newsletterSection.alreadySubscribedTitle'),
-          description: t('newsletterSection.alreadySubscribedDescription'),
-          variant: 'destructive',
-        });
-      } else {
-        toast({
-          title: t('newsletterSection.errorTitle'),
-          description: t('newsletterSection.errorDescription'),
-          variant: 'destructive',
-        });
-      }
+      toast({
+        title: t('newsletterSection.errorTitle'),
+        description: t('newsletterSection.errorDescription'),
+        variant: 'destructive',
+      });
     } finally {
       setIsSubmitting(false);
     }

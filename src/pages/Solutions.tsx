@@ -23,8 +23,8 @@ import {
   Calendar,
   Settings,
 } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 import { useTranslation } from 'react-i18next';
-import { listActiveSolutions } from '@/lib/solutions';
 
 const fallbackSolutions = [
   {
@@ -104,7 +104,14 @@ const Solutions = () => {
   } = useQuery({
     queryKey: ['solutions'],
     queryFn: async () => {
-      const data = await listActiveSolutions();
+      const { data, error } = await supabase
+        .from('solutions')
+        .select('*')
+        .eq('active', true)
+        .order('created_at', { ascending: true });
+      if (error) {
+        throw new Error(error.message);
+      }
       return (
         data?.map((solution, index) => {
           const getFeatures = (slug: string) => {
