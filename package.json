@@ -12,6 +12,7 @@
     "cleanup-lovable": "tsx scripts/cleanup-lovable.ts",
     "preview": "vite preview",
     "test": "jest --passWithNoTests",
+    "supabase:check": "tsx scripts/test-supabase-permissions.ts",
     "format": "prettier --write .",
     "prepare": "husky install"
   },
