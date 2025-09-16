@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -15,23 +14,12 @@ import {
 } from '@/components/ui/breadcrumb';
 import { ArrowRight, CheckCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import {
-  getFallbackSolutions,
-  mapGitHubRepoToContent,
-} from '@/lib/solutions';
-import type { GitHubRepository } from '@/lib/solutions';
 import type { SolutionContent } from '@/types/solutions';
-
-const GITHUB_REPOS_URL =
-  'https://api.github.com/orgs/Monynha-Softwares/repos?per_page=100';
+import { gradientOptions } from '@/data/solutions';
+import { supabase } from '@/integrations/supabase';
 
 const Solutions = () => {
   const { t } = useTranslation();
-
-  const memoizedFallbackSolutions = useMemo(
-    () => getFallbackSolutions(),
-    []
-  );
 
   const {
     data: solutions = [],
@@ -40,46 +28,31 @@ const Solutions = () => {
   } = useQuery<SolutionContent[]>({
     queryKey: ['solutions'],
     queryFn: async () => {
-      const response = await fetch(GITHUB_REPOS_URL, {
-        headers: {
-          Accept: 'application/vnd.github+json',
-        },
-      });
+      const { data, error } = await supabase
+        .from('solutions')
+        .select('*')
+        .eq('active', true)
+        .order('created_at', { ascending: true });
 
-      if (!response.ok) {
-        throw new Error(`GitHub API responded with ${response.status}`);
+      if (error) {
+        throw new Error(error.message);
       }
 
-      const repositories: GitHubRepository[] = await response.json();
-
-      const toTimestamp = (repository: GitHubRepository) => {
-        const reference =
-          repository.pushed_at ?? repository.updated_at ?? repository.created_at;
-        const timestamp = new Date(reference).getTime();
-        return Number.isNaN(timestamp) ? 0 : timestamp;
-      };
-
-      const activeRepositories = repositories.filter(
-        (repository) =>
-          !repository.private && !repository.archived && !repository.disabled
-      );
-
-      const sortedRepositories = activeRepositories
-        .slice()
-        .sort((a, b) => toTimestamp(b) - toTimestamp(a));
-
-      return sortedRepositories.map((repository, index) =>
-        mapGitHubRepoToContent(repository, index)
-      );
+      return (data ?? []).map((solution, index) => ({
+        id: solution.id,
+        title: solution.title,
+        description: solution.description,
+        slug: solution.slug,
+        imageUrl: solution.image_url,
+        features: Array.isArray(solution.features)
+          ? (solution.features as string[])
+          : [],
+        gradient: gradientOptions[index % gradientOptions.length],
+      }));
     },
-    staleTime: 1000 * 60 * 10,
-    retry: 1,
-    keepPreviousData: true,
-    refetchOnWindowFocus: false,
   });
 
-  const displaySolutions =
-    solutions.length > 0 ? solutions : memoizedFallbackSolutions;
+  const displaySolutions = solutions;
 
   if (isLoading) {
     return (
@@ -157,6 +130,12 @@ const Solutions = () => {
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+            {displaySolutions.length === 0 && (
+              <div className="col-span-full text-center text-neutral-500">
+                {t('solutionsPage.notFound')}
+              </div>
+            )}
+
             {displaySolutions.map((solution) => (
               <Card
                 key={solution.id ?? solution.slug}
