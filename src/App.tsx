@@ -1,7 +1,6 @@
 import { Toaster } from '@/components/ui/toaster';
-import { Toaster as Sonner } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
-import { ToastProvider } from '@/hooks/use-toast';
+import { ToastProvider } from '@/hooks/ToastProvider';
 import { AuthProvider } from '@/hooks/useAuth';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -29,7 +28,6 @@ const App = () => (
       <ToastProvider>
         <TooltipProvider>
           <Toaster />
-          <Sonner />
           <BrowserRouter>
             <ScrollToTop />
             <Suspense fallback={<Loading />}>

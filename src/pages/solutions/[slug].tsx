@@ -15,11 +15,13 @@ import {
 } from '@/components/ui/breadcrumb';
 import { ArrowLeft, ArrowRight, CheckCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { supabase } from '@/integrations/supabase';
 import type { GitHubRepository } from '@/lib/solutions';
 import type { SolutionContent } from '@/types/solutions';
 import {
   getFallbackSolution,
   mapGitHubRepoToContent,
+  mapSupabaseSolutionToContent,
 } from '@/lib/solutions';
 
 const getRepositoryUrl = (repositorySlug: string) =>
@@ -46,6 +48,21 @@ const SolutionDetail = () => {
     queryFn: async () => {
       if (!slug) {
         return null;
+      }
+
+      const { data, error } = await supabase
+        .from('solutions')
+        .select('*')
+        .eq('slug', slug)
+        .eq('active', true)
+        .maybeSingle();
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      if (data) {
+        return mapSupabaseSolutionToContent(data);
       }
 
       const response = await fetch(getRepositoryUrl(slug), {

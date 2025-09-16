@@ -15,7 +15,12 @@ import {
 } from '@/components/ui/breadcrumb';
 import { ArrowRight, CheckCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { getFallbackSolutions, fetchSupabaseSolutions } from '@/lib/solutions';
+import { supabase } from '@/integrations/supabase';
+import {
+  getFallbackSolutions,
+  mapSupabaseSolutionToContent,
+} from '@/lib/solutions';
+
 import type { SolutionContent } from '@/types/solutions';
 
 const Solutions = () => {
@@ -32,7 +37,22 @@ const Solutions = () => {
     isError,
   } = useQuery<SolutionContent[]>({
     queryKey: ['solutions'],
-    queryFn: fetchSupabaseSolutions,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('solutions')
+        .select('*')
+        .eq('active', true)
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      return (data ?? []).map((solution, index) =>
+        mapSupabaseSolutionToContent(solution, { index })
+      );
+    },
+
     staleTime: 1000 * 60 * 10,
     retry: 1,
     refetchOnWindowFocus: false,
