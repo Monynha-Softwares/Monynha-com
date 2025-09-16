@@ -37,7 +37,7 @@ import {
   ToastViewport,
 } from '@/components/ui/toast';
 
-export function Toaster() {
+export function CustomToaster() {
   const { toasts } = useToast();
 
   return (
