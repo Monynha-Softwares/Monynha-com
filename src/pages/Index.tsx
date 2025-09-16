@@ -18,9 +18,8 @@ import {
 } from 'lucide-react';
 import { useTranslation, Trans } from 'react-i18next';
 import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
 import { useMemo } from 'react';
-import { listActiveHomepageFeatures } from '@/lib/homepage-features';
-import { listActiveSolutions } from '@/lib/solutions';
 
 const fallbackSolutions = [
   {
@@ -56,7 +55,13 @@ const Index = () => {
   const { data: features, isLoading: featuresLoading } = useQuery({
     queryKey: ['homepage-features'],
     queryFn: async () => {
-      const data = await listActiveHomepageFeatures();
+      const { data, error } = await supabase
+        .from('homepage_features')
+        .select('*')
+        .eq('active', true)
+        .order('order_index', { ascending: true });
+
+      if (error) throw error;
 
       // Map to the expected format with icon components
       const iconMap: Record<string, LucideIcon> = {
@@ -81,7 +86,14 @@ const Index = () => {
   const { data: solutions, isLoading: solutionsLoading } = useQuery({
     queryKey: ['solutions-preview'],
     queryFn: async () => {
-      const data = await listActiveSolutions({ limit: 2 });
+      const { data, error } = await supabase
+        .from('solutions')
+        .select('*')
+        .eq('active', true)
+        .limit(2)
+        .order('created_at', { ascending: true });
+
+      if (error) throw error;
 
       return data.map((solution, index) => ({
         name: solution.title,
