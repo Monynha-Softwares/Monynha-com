@@ -136,6 +136,47 @@
       "description": "Subscribe to our newsletter for the latest insights on AI, software development, and business automation.",
       "placeholder": "Enter your email",
       "subscribe": "Subscribe"
+    },
+    "loading": "Loading blog posts...",
+    "error": "We couldn't load the blog posts. Please try again later.",
+    "fallbackExcerpt": "Read more about this topic...",
+    "readTimeDefault": "5 min read",
+    "empty": "No articles published yet. Check back soon!",
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next",
+      "showing": "Showing {{start}}-{{end}} of {{total}} posts"
+    },
+    "post": {
+      "back": "Back to blog",
+      "published": "Published on {{date}}",
+      "author": "By {{author}}",
+      "loading": "Loading article...",
+      "error": "We couldn't load this article right now.",
+      "notFound": "This article could not be found."
+    },
+    "comments": {
+      "title": "Comments",
+      "count": "{{count}} comment",
+      "count_plural": "{{count}} comments",
+      "loading": "Loading comments...",
+      "error": "We couldn't load the comments. Please try again later.",
+      "empty": "No comments yet. Be the first to share your thoughts!",
+      "anonymous": "Anonymous",
+      "placeholder": "Share your thoughts...",
+      "submit": "Post comment",
+      "signInPrompt": "Sign in to add your comment.",
+      "signInCta": "Sign in",
+      "successTitle": "Comment published!",
+      "successDescription": "Thanks for joining the discussion.",
+      "errorTitle": "Unable to publish comment",
+      "errorDescription": "Something went wrong. Please try again.",
+      "signInRequiredTitle": "Sign-in required",
+      "signInRequiredDescription": "You need to be signed in to publish a comment.",
+      "validationErrorTitle": "Write a comment",
+      "validationErrorDescription": "Please add your message before sending it.",
+      "characters": "{{count}} / {{max}} characters",
+      "authenticating": "Checking your session..."
     }
   },
   "contact": {

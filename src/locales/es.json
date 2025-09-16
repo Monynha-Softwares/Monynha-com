@@ -128,12 +128,55 @@
     "featured": "Destacado",
     "read": "Leer Artículo Completo",
     "readMore": "Leer Más",
-    "categories": { "all": "Todos" },
+    "categories": {
+      "all": "Todos"
+    },
     "newsletter": {
       "title": "Mantente Informado",
       "description": "Suscríbete a nuestro boletín para recibir novedades sobre IA, desarrollo de software y automatización.",
       "placeholder": "Ingresa tu correo",
       "subscribe": "Suscribirse"
+    },
+    "loading": "Cargando artículos del blog...",
+    "error": "No pudimos cargar los artículos. Inténtalo de nuevo más tarde.",
+    "fallbackExcerpt": "Lee más sobre este tema...",
+    "readTimeDefault": "Lectura de 5 min",
+    "empty": "Aún no hay artículos publicados. ¡Vuelve pronto!",
+    "pagination": {
+      "previous": "Anterior",
+      "next": "Siguiente",
+      "showing": "Mostrando {{start}}-{{end}} de {{total}} artículos"
+    },
+    "post": {
+      "back": "Volver al blog",
+      "published": "Publicado el {{date}}",
+      "author": "Por {{author}}",
+      "loading": "Cargando artículo...",
+      "error": "No pudimos cargar este artículo ahora.",
+      "notFound": "El artículo que buscas no está disponible."
+    },
+    "comments": {
+      "title": "Comentarios",
+      "count": "{{count}} comentario",
+      "count_plural": "{{count}} comentarios",
+      "loading": "Cargando comentarios...",
+      "error": "No pudimos cargar los comentarios. Inténtalo de nuevo más tarde.",
+      "empty": "Aún no hay comentarios. ¡Sé el primero en participar!",
+      "anonymous": "Anónimo",
+      "placeholder": "Comparte tus ideas...",
+      "submit": "Publicar comentario",
+      "signInPrompt": "Inicia sesión para comentar.",
+      "signInCta": "Iniciar sesión",
+      "successTitle": "¡Comentario publicado!",
+      "successDescription": "Gracias por unirte a la conversación.",
+      "errorTitle": "No se pudo publicar el comentario",
+      "errorDescription": "Algo salió mal. Inténtalo de nuevo.",
+      "signInRequiredTitle": "Se requiere inicio de sesión",
+      "signInRequiredDescription": "Necesitas iniciar sesión para publicar un comentario.",
+      "validationErrorTitle": "Escribe un comentario",
+      "validationErrorDescription": "Agrega tu mensaje antes de enviarlo.",
+      "characters": "{{count}} / {{max}} caracteres",
+      "authenticating": "Verificando tu sesión..."
     }
   },
   "contact": {

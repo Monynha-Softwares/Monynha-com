@@ -15,6 +15,7 @@ const SolutionDetail = lazy(() => import('./pages/solutions/[slug]'));
 const Projects = lazy(() => import('./pages/Projects'));
 const About = lazy(() => import('./pages/About'));
 const Blog = lazy(() => import('./pages/Blog'));
+const BlogPost = lazy(() => import('./pages/blog/[slug]'));
 const Contact = lazy(() => import('./pages/Contact'));
 const Auth = lazy(() => import('./pages/Auth'));
 const Dashboard = lazy(() => import('./pages/Dashboard'));
@@ -38,6 +39,7 @@ const App = () => (
                 <Route path="/projects" element={<Projects />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/blog" element={<Blog />} />
+                <Route path="/blog/:slug" element={<BlogPost />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/auth" element={<Auth />} />
                 <Route element={<ProtectedRoute />}>

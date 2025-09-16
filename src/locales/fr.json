@@ -123,17 +123,60 @@
     "ctaButton": "Parler à notre équipe"
   },
   "blog": {
-    "title": "Idées et Actualités",
-    "description": "Restez informé des dernières tendances en IA, développement logiciel et automatisation. Contenu d'experts de notre équipe.",
+    "title": "Actualités et Idées",
+    "description": "Restez informé des dernières tendances en IA, développement logiciel et automatisation d'entreprise. Des contenus d'experts issus de notre équipe.",
     "featured": "À la une",
     "read": "Lire l'article complet",
-    "readMore": "Lire la suite",
-    "categories": { "all": "Tous" },
+    "readMore": "En savoir plus",
+    "categories": {
+      "all": "Tous"
+    },
     "newsletter": {
       "title": "Restez informé",
-      "description": "Abonnez-vous à notre newsletter pour recevoir les dernières infos sur l'IA, le développement logiciel et l'automatisation.",
+      "description": "Abonnez-vous à notre newsletter pour recevoir les dernières nouveautés sur l'IA, le développement logiciel et l'automatisation.",
       "placeholder": "Entrez votre email",
       "subscribe": "S'abonner"
+    },
+    "loading": "Chargement des articles du blog...",
+    "error": "Impossible de charger les articles pour le moment. Veuillez réessayer plus tard.",
+    "fallbackExcerpt": "En savoir plus sur ce sujet...",
+    "readTimeDefault": "Lecture de 5 min",
+    "empty": "Aucun article publié pour l'instant. Revenez bientôt !",
+    "pagination": {
+      "previous": "Précédent",
+      "next": "Suivant",
+      "showing": "Affichage de {{start}} à {{end}} sur {{total}} articles"
+    },
+    "post": {
+      "back": "Retour au blog",
+      "published": "Publié le {{date}}",
+      "author": "Par {{author}}",
+      "loading": "Chargement de l'article...",
+      "error": "Impossible de charger cet article pour le moment.",
+      "notFound": "L'article que vous recherchez est introuvable."
+    },
+    "comments": {
+      "title": "Commentaires",
+      "count": "{{count}} commentaire",
+      "count_plural": "{{count}} commentaires",
+      "loading": "Chargement des commentaires...",
+      "error": "Impossible de charger les commentaires. Veuillez réessayer plus tard.",
+      "empty": "Aucun commentaire pour le moment. Soyez le premier à participer !",
+      "anonymous": "Anonyme",
+      "placeholder": "Partagez vos idées...",
+      "submit": "Publier le commentaire",
+      "signInPrompt": "Connectez-vous pour commenter.",
+      "signInCta": "Se connecter",
+      "successTitle": "Commentaire publié !",
+      "successDescription": "Merci de participer à la conversation.",
+      "errorTitle": "Impossible de publier le commentaire",
+      "errorDescription": "Une erreur est survenue. Veuillez réessayer.",
+      "signInRequiredTitle": "Connexion requise",
+      "signInRequiredDescription": "Vous devez être authentifié pour publier un commentaire.",
+      "validationErrorTitle": "Écrivez un commentaire",
+      "validationErrorDescription": "Ajoutez votre message avant de l'envoyer.",
+      "characters": "{{count}} / {{max}} caractères",
+      "authenticating": "Vérification de votre session..."
     }
   },
   "contact": {

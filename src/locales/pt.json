@@ -134,6 +134,47 @@
       "description": "Assine nossa newsletter para receber novidades sobre IA, desenvolvimento de software e automação.",
       "placeholder": "Digite seu email",
       "subscribe": "Inscrever"
+    },
+    "loading": "Carregando artigos do blog...",
+    "error": "Não foi possível carregar os artigos. Tente novamente mais tarde.",
+    "fallbackExcerpt": "Leia mais sobre este assunto...",
+    "readTimeDefault": "Leitura de 5 min",
+    "empty": "Nenhum artigo publicado ainda. Volte em breve!",
+    "pagination": {
+      "previous": "Anterior",
+      "next": "Próxima",
+      "showing": "Mostrando {{start}}-{{end}} de {{total}} artigos"
+    },
+    "post": {
+      "back": "Voltar para o blog",
+      "published": "Publicado em {{date}}",
+      "author": "Por {{author}}",
+      "loading": "Carregando artigo...",
+      "error": "Não foi possível carregar este artigo no momento.",
+      "notFound": "O artigo que você procura não foi encontrado."
+    },
+    "comments": {
+      "title": "Comentários",
+      "count": "{{count}} comentário",
+      "count_plural": "{{count}} comentários",
+      "loading": "Carregando comentários...",
+      "error": "Não foi possível carregar os comentários. Tente novamente mais tarde.",
+      "empty": "Nenhum comentário ainda. Seja o primeiro a participar!",
+      "anonymous": "Anônimo",
+      "placeholder": "Compartilhe suas ideias...",
+      "submit": "Publicar comentário",
+      "signInPrompt": "Entre na sua conta para comentar.",
+      "signInCta": "Entrar",
+      "successTitle": "Comentário publicado!",
+      "successDescription": "Obrigado por participar da conversa.",
+      "errorTitle": "Não foi possível publicar o comentário",
+      "errorDescription": "Algo deu errado. Tente novamente.",
+      "signInRequiredTitle": "Login necessário",
+      "signInRequiredDescription": "Você precisa estar autenticado para publicar um comentário.",
+      "validationErrorTitle": "Escreva um comentário",
+      "validationErrorDescription": "Adicione sua mensagem antes de enviar.",
+      "characters": "{{count}} / {{max}} caracteres",
+      "authenticating": "Verificando sua sessão..."
     }
   },
   "contact": {
