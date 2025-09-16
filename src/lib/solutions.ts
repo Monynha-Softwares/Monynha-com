@@ -4,6 +4,8 @@ import {
   gradientOptions,
   normalizeSolutionSlug,
 } from '@/data/solutions';
+import { supabase } from '@/integrations/supabase';
+import type { Database } from '@/integrations/supabase/types';
 import type { SolutionContent } from '@/types/solutions';
 
 export interface GitHubRepository {
@@ -27,6 +29,8 @@ export interface GitHubRepository {
   html_url: string;
 }
 
+type SupabaseSolutionRow = Database['public']['Tables']['solutions']['Row'];
+
 const uniqueNonEmpty = (values: Array<string | null | undefined>): string[] => {
   const seen = new Set<string>();
   const result: string[] = [];
@@ -46,6 +50,41 @@ const uniqueNonEmpty = (values: Array<string | null | undefined>): string[] => {
   }
 
   return result;
+};
+
+const coerceToStringArray = (value: unknown): string[] => {
+  if (!value) {
+    return [];
+  }
+
+  if (Array.isArray(value)) {
+    return uniqueNonEmpty(
+      value.map((item) => {
+        if (typeof item === 'string') {
+          return item;
+        }
+
+        if (typeof item === 'number' || typeof item === 'boolean') {
+          return String(item);
+        }
+
+        return null;
+      })
+    );
+  }
+
+  if (typeof value === 'string') {
+    try {
+      const parsed = JSON.parse(value);
+      if (Array.isArray(parsed)) {
+        return coerceToStringArray(parsed);
+      }
+    } catch {
+      return uniqueNonEmpty([value]);
+    }
+  }
+
+  return [];
 };
 
 const formatDate = (value: string | null | undefined): string | null => {
@@ -127,6 +166,37 @@ export const mapGitHubRepoToContent = (
   };
 };
 
+export const mapSupabaseSolutionToContent = (
+  solution: SupabaseSolutionRow,
+  index: number
+): SolutionContent => {
+  const normalizedSlug = normalizeSolutionSlug(solution.slug);
+  const fallback =
+    fallbackSolutionsMap[normalizedSlug] ?? fallbackSolutionsMap[solution.slug];
+
+  const gradient =
+    fallback?.gradient ?? gradientOptions[index % gradientOptions.length];
+
+  const parsedFeatures = coerceToStringArray(solution.features);
+
+  const features =
+    parsedFeatures.length > 0
+      ? parsedFeatures
+      : fallback?.features
+        ? [...fallback.features]
+        : [];
+
+  return {
+    id: solution.id,
+    title: solution.title,
+    description: solution.description,
+    slug: solution.slug,
+    imageUrl: solution.image_url ?? fallback?.imageUrl ?? null,
+    features,
+    gradient,
+  };
+};
+
 export const getFallbackSolution = (
   slug: string
 ): SolutionContent | undefined => {
@@ -153,3 +223,21 @@ export const getFallbackSolutions = (): SolutionContent[] =>
     ...solution,
     features: [...solution.features],
   }));
+
+export const fetchSupabaseSolutions = async (): Promise<SolutionContent[]> => {
+  const { data, error } = await supabase
+    .from('solutions')
+    .select('*')
+    .eq('active', true)
+    .order('created_at', { ascending: true });
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  const rows = data ?? [];
+
+  return rows.map((solution, index) =>
+    mapSupabaseSolutionToContent(solution, index)
+  );
+};
