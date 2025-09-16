@@ -99,6 +99,9 @@
     "valuesDescription": "Principios que guían todo lo que hacemos y cada solución que creamos.",
     "impactTitle": "Nuestro Impacto",
     "impactDescription": "Números que reflejan nuestro compromiso con la excelencia y el éxito de los clientes.",
+    "statsLoading": "Estamos actualizando nuestras métricas...",
+    "statsError": "No pudimos cargar las últimas estadísticas. Vuelve a intentarlo pronto.",
+    "statsEmpty": "Pronto compartiremos nuevos hitos de nuestro equipo.",
     "valuesList": {
       "innovation": "Innovación Primero",
       "innovationDesc": "Aprovechamos IA y tecnologías modernas para crear soluciones que superan límites y entregan resultados excepcionales.",
@@ -114,7 +117,10 @@
       "satisfaction": "Satisfacción del Cliente",
       "experience": "Años de Experiencia",
       "support": "Soporte Disponible"
-    }
+    },
+    "ctaTitle": "Construyamos juntos el próximo capítulo de tu negocio",
+    "ctaDescription": "Cuéntanos tus objetivos y descubre cómo soluciones de IA a medida pueden acelerar tu crecimiento.",
+    "ctaButton": "Habla con nuestro equipo"
   },
   "blog": {
     "title": "Noticias e Ideas",
@@ -200,7 +206,8 @@
     "loading": "Cargando a nuestro increíble equipo...",
     "error": "Estamos teniendo problemas para cargar la información del equipo. Por favor, inténtalo más tarde.",
     "description": "Expertos apasionados dedicados a ofrecer soluciones innovadoras de IA que transforman tu negocio.",
-    "linkedin": "LinkedIn"
+    "linkedin": "LinkedIn",
+    "empty": "Pronto presentaremos a todo nuestro equipo."
   },
   "projects": {
     "title": "Proyectos <0>Open Source</0>",
