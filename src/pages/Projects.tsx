@@ -16,6 +16,7 @@ import {
 import { supabase } from '@/integrations/supabase';
 import { useTranslation, Trans } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import useRepositorySync from '@/hooks/useRepositorySync';
 
 interface Repository {
   id: string;
@@ -29,6 +30,7 @@ interface Repository {
 
 const Projects = () => {
   const { t } = useTranslation();
+  useRepositorySync();
 
   const {
     data: repositories = [],

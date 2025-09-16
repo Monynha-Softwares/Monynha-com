@@ -77,6 +77,9 @@
     "title": "Our Software Solutions",
     "description": "Discover our flagship products designed to transform how businesses operate. Each solution is crafted with AI at its core to deliver maximum efficiency and growth.",
     "requestDemo": "Request Demo",
+    "featuresTitle": "Key Capabilities",
+    "backToSolutions": "Back to Solutions",
+    "notFound": "Solution not found",
     "customTitle": "Need a Custom Solution?",
     "customDescription": "We also create bespoke software solutions tailored to your specific business needs. Let's discuss how we can build something unique for you.",
     "discuss": "Discuss Custom Project"
