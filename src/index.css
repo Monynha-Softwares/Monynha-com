@@ -34,6 +34,10 @@
     --ring: 222.2 84% 4.9%;
 
     --radius: 0.75rem;
+
+    --mona-primary: #7C3AED;
+    --mona-secondary: #0EA5E9;
+    --mona-accent-pink: #EC4899;
   }
 
   * {
