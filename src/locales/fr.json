@@ -89,12 +89,46 @@
     "description": "Nous sommes une agence de logiciels tournée vers l'IA qui transforme la manière dont les entreprises fonctionnent et se développent.",
     "missionTitle": "Notre mission",
     "mission": "Démocratiser l'intelligence artificielle en créant des solutions logicielles accessibles et puissantes qui aident les entreprises de toutes tailles à optimiser leurs opérations, améliorer l'expérience client et assurer une croissance durable.",
+    "missionHeadline": "Des solutions guidées par l'impact",
+    "missionHighlights": [
+      {
+        "title": "Stratégies co-créées",
+        "description": "Nous concevons chaque projet avec votre équipe afin d'aligner la technologie sur des objectifs mesurables."
+      },
+      {
+        "title": "IA centrée sur l'humain",
+        "description": "Une automatisation qui respecte les personnes, améliore l'expérience et favorise l'adoption dans toute l'organisation."
+      },
+      {
+        "title": "Rythme et transparence",
+        "description": "Itérations rapides, indicateurs clairs et suivi proactif pour faire avancer l'innovation."
+      }
+    ],
     "storyTitle": "Notre histoire",
     "story": {
       "p1": "Monynha Softwaresa été fondée avec une vision ambitieuse : rendre l'intelligence artificielle accessible et pratique pour toutes les entreprises.",
       "p2": "Nous avons commencé comme une petite équipe de développeurs et d'enthousiastes de l'IA qui ont constaté l'écart entre les technologies complexes et les applications réelles. Notre mission est devenue claire : combler cet écart avec des solutions intuitives et puissantes.",
       "p3": "Aujourd'hui, nous sommes un partenaire de confiance pour des entreprises de nombreux secteurs, fournissant des solutions sur mesure qui répondent aux besoins actuels et anticipent les défis futurs."
     },
+    "historyHeadline": "Notre parcours avec l'IA",
+    "historyDescription": "Notre croissance est portée par la curiosité, l'expérimentation et des partenariats durables.",
+    "historyTimeline": [
+      {
+        "year": "2019",
+        "title": "Une vision partagée fait naître Monynha",
+        "description": "Des spécialistes de l'IA s'unissent au Portugal pour rendre les logiciels intelligents accessibles aux entreprises en expansion."
+      },
+      {
+        "year": "2021",
+        "title": "Premiers déploiements internationaux",
+        "description": "Nous livrons des plateformes d'automatisation multilingues et étendons notre support en Europe et en Amérique latine."
+      },
+      {
+        "year": "2023",
+        "title": "Suite d'opérations intelligente",
+        "description": "Nous lançons notre framework d'automatisation modulaire pour orchestrer de bout en bout les flux d'IA."
+      }
+    ],
     "valuesTitle": "Nos valeurs",
     "valuesDescription": "Les principes qui guident tout ce que nous faisons et chaque solution que nous créons.",
     "impactTitle": "Notre impact",
@@ -114,7 +148,10 @@
       "satisfaction": "Satisfaction client",
       "experience": "Années d'expérience",
       "support": "Support disponible"
-    }
+    },
+    "ctaTitle": "Prêt à accélérer votre prochaine initiative IA ?",
+    "ctaDescription": "Échangez avec nos spécialistes et découvrez comment transformer des défis complexes en produits intelligents.",
+    "ctaButton": "Parlez à notre équipe"
   },
   "blog": {
     "title": "Idées et Actualités",

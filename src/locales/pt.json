@@ -89,12 +89,46 @@
     "description": "Somos uma agência de software focada em soluções com IA que transformam como empresas operam e crescem.",
     "missionTitle": "Nossa Missão",
     "mission": "Democratizar a inteligência artificial criando soluções de software acessíveis e poderosas que ajudem empresas de todos os tamanhos a otimizar operações, melhorar experiências de clientes e gerar crescimento sustentável.",
+    "missionHeadline": "Soluções guiadas por propósito e impacto",
+    "missionHighlights": [
+      {
+        "title": "Estratégias cocriadas",
+        "description": "Desenhamos cada projeto ao lado da sua equipe para alinhar tecnologia às metas mensuráveis do negócio."
+      },
+      {
+        "title": "IA centrada em pessoas",
+        "description": "Automação que respeita as pessoas, eleva experiências e impulsiona a adoção em toda a organização."
+      },
+      {
+        "title": "Ritmo e transparência",
+        "description": "Iterações rápidas, métricas claras e acompanhamento contínuo para manter a inovação em movimento."
+      }
+    ],
     "storyTitle": "Nossa História",
     "story": {
       "p1": "A Monynha Softwaresnasceu de uma visão ambiciosa: tornar a inteligência artificial acessível e prática para empresas de todos os setores.",
       "p2": "Começamos como um pequeno time de desenvolvedores e entusiastas de IA que perceberam a distância entre as tecnologias complexas e as aplicações reais de negócio. Nossa missão ficou clara: encurtar essa distância com soluções intuitivas e poderosas.",
       "p3": "Hoje somos um parceiro confiável para empresas de diversos segmentos, entregando soluções sob medida que atendem necessidades atuais e antecipam desafios futuros."
     },
+    "historyHeadline": "Nossa jornada com IA",
+    "historyDescription": "Crescemos movidos por curiosidade, experimentação e parcerias duradouras.",
+    "historyTimeline": [
+      {
+        "year": "2019",
+        "title": "Visão compartilhada dá origem à Monynha",
+        "description": "Especialistas em IA se uniram em Portugal para tornar software inteligente acessível a empresas em crescimento."
+      },
+      {
+        "year": "2021",
+        "title": "Primeiros projetos internacionais",
+        "description": "Entregamos plataformas de automação multilíngues e ampliamos o suporte pela Europa e América Latina."
+      },
+      {
+        "year": "2023",
+        "title": "Suite inteligente de operações",
+        "description": "Lançamos nossa estrutura modular de automação, ajudando clientes a orquestrar fluxos de IA de ponta a ponta."
+      }
+    ],
     "valuesTitle": "Nossos Valores",
     "valuesDescription": "Princípios que guiam tudo o que fazemos e cada solução que criamos.",
     "impactTitle": "Nosso Impacto",
@@ -114,7 +148,10 @@
       "satisfaction": "Satisfação dos Clientes",
       "experience": "Anos de Experiência",
       "support": "Suporte Disponível"
-    }
+    },
+    "ctaTitle": "Pronto para acelerar sua próxima iniciativa de IA?",
+    "ctaDescription": "Conecte-se com nossos especialistas e descubra como transformar desafios complexos em produtos inteligentes.",
+    "ctaButton": "Fale com nosso time"
   },
   "blog": {
     "title": "Insights e Novidades",

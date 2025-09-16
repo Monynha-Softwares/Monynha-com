@@ -89,12 +89,46 @@
     "description": "We're a forward-thinking software agency specializing in AI-powered solutions that transform how businesses operate and grow.",
     "missionTitle": "Our Mission",
     "mission": "To democratize artificial intelligence by creating accessible, powerful software solutions that help businesses of all sizes harness the power of AI to streamline operations, enhance customer experiences, and drive sustainable growth.",
+    "missionHeadline": "Purpose-driven solutions for modern teams",
+    "missionHighlights": [
+      {
+        "title": "Co-created strategies",
+        "description": "We design every project alongside your team to align technology with measurable business goals."
+      },
+      {
+        "title": "Human-centered AI",
+        "description": "Automation that respects people, elevates experiences, and drives adoption across the organization."
+      },
+      {
+        "title": "Momentum & transparency",
+        "description": "Rapid iterations, clear metrics, and proactive follow-up to keep innovation moving."
+      }
+    ],
     "storyTitle": "Our Story",
     "story": {
       "p1": "Monynha Softwareswas founded with a simple yet ambitious vision: to make artificial intelligence accessible and practical for businesses everywhere.",
       "p2": "Starting as a small team of passionate developers and AI enthusiasts, we recognized the gap between complex AI technologies and real-world business applications. Our mission became clear: bridge this gap with intuitive, powerful solutions.",
       "p3": "Today, we've grown into a trusted partner for businesses across industries, delivering custom software solutions that not only meet current needs but anticipate future challenges."
     },
+    "historyHeadline": "Our journey with AI",
+    "historyDescription": "We have grown through curiosity, experimentation, and long-term partnerships.",
+    "historyTimeline": [
+      {
+        "year": "2019",
+        "title": "A shared vision becomes Monynha",
+        "description": "A group of AI specialists joined forces in Portugal to make intelligent software accessible to growing companies."
+      },
+      {
+        "year": "2021",
+        "title": "First international deployments",
+        "description": "We delivered multilingual automation platforms and expanded support across Europe and Latin America."
+      },
+      {
+        "year": "2023",
+        "title": "Intelligent operations suite",
+        "description": "We launched our modular automation framework, helping clients orchestrate AI workflows end to end."
+      }
+    ],
     "valuesTitle": "Our Core Values",
     "valuesDescription": "The principles that guide everything we do and every solution we create.",
     "impactTitle": "Our Impact",
@@ -114,7 +148,10 @@
       "satisfaction": "Client Satisfaction",
       "experience": "Years Experience",
       "support": "Support Available"
-    }
+    },
+    "ctaTitle": "Ready to accelerate your next AI initiative?",
+    "ctaDescription": "Connect with our specialists and discover how we can turn complex challenges into intelligent products.",
+    "ctaButton": "Talk to our team"
   },
   "blog": {
     "title": "Insights & Updates",
