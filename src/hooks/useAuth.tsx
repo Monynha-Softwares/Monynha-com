@@ -1,6 +1,6 @@
 import { useState, useEffect, createContext, useContext } from 'react';
 import { User, Session } from '@supabase/supabase-js';
-import { supabase } from '@/integrations/supabase/client';
+import { supabase, clearSupabaseSession } from '@/integrations/supabase';
 
 interface AuthContextType {
   user: User | null;
@@ -28,7 +28,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     // Set up auth state listener
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((event, session) => {
+    } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
       setUser(session?.user ?? null);
       setIsLoading(false);
@@ -48,7 +48,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
    * Ends the current user session.
    */
   const signOut = async () => {
-    await supabase.auth.signOut();
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        throw error;
+      }
+    } catch (error) {
+      console.error('Erro ao encerrar sessão', error);
+      throw error;
+    } finally {
+      clearSupabaseSession();
+      setSession(null);
+      setUser(null);
+    }
   };
 
   return (
