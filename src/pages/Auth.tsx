@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { supabase } from '@/integrations/supabase/client';
+import { FormEvent, useEffect, useMemo, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { supabase } from '@/integrations/supabase';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -13,93 +13,117 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { Eye, EyeOff, Loader2, ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Eye, EyeOff, Loader2 } from 'lucide-react';
+
+type AuthView = 'signin' | 'signup';
 
 const Auth = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [authView, setAuthView] = useState<AuthView>('signin');
+  const [loadingView, setLoadingView] = useState<AuthView | null>(null);
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
+  const [signInForm, setSignInForm] = useState({ email: '', password: '' });
+  const [signUpForm, setSignUpForm] = useState({ name: '', email: '', password: '' });
+
   const navigate = useNavigate();
+  const location = useLocation();
   const { toast } = useToast();
 
+  const redirectPath = useMemo(() => {
+    const state = location.state as { from?: { pathname?: string } } | null;
+    return state?.from?.pathname ?? '/dashboard';
+  }, [location.state]);
+
   useEffect(() => {
-    // Check if user is already logged in
     const checkUser = async () => {
       const {
         data: { session },
       } = await supabase.auth.getSession();
+
       if (session) {
-        navigate('/');
+        navigate(redirectPath, { replace: true });
       }
     };
+
     checkUser();
-  }, [navigate]);
+  }, [navigate, redirectPath]);
 
-  const handleSignUp = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-
-    try {
-      const redirectUrl = `${window.location.origin}/`;
-
-      const { error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          emailRedirectTo: redirectUrl,
-          data: {
-            name: name,
-          },
-        },
-      });
-
-      if (error) throw error;
-
-      toast({
-        title: 'Conta criada com sucesso!',
-        description: 'Verifique seu email para confirmar a conta.',
-      });
-    } catch (error: unknown) {
-      const message = error instanceof Error ? error.message : String(error);
-      toast({
-        title: 'Erro ao criar conta',
-        description: message,
-        variant: 'destructive',
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleSignIn = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
+  const handleSignIn = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setLoadingView('signin');
 
     try {
       const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
+        email: signInForm.email.trim(),
+        password: signInForm.password,
       });
 
-      if (error) throw error;
+      if (error) {
+        throw error;
+      }
 
       toast({
         title: 'Login realizado com sucesso!',
         description: 'Bem-vindo de volta!',
       });
 
-      navigate('/');
-    } catch (error: unknown) {
-      const message = error instanceof Error ? error.message : String(error);
+      navigate(redirectPath, { replace: true });
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : 'Não foi possível fazer login.';
       toast({
         title: 'Erro ao fazer login',
         description: message,
         variant: 'destructive',
       });
     } finally {
-      setIsLoading(false);
+      setLoadingView(null);
+    }
+  };
+
+  const handleSignUp = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setLoadingView('signup');
+
+    try {
+      const redirectTo =
+        typeof window !== 'undefined'
+          ? `${window.location.origin}/dashboard`
+          : undefined;
+
+      const { error } = await supabase.auth.signUp({
+        email: signUpForm.email.trim(),
+        password: signUpForm.password,
+        options: {
+          emailRedirectTo: redirectTo,
+          data: {
+            name: signUpForm.name.trim(),
+          },
+        },
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      toast({
+        title: 'Conta criada com sucesso!',
+        description: 'Verifique seu email para confirmar a conta.',
+      });
+
+      setSignInForm({ email: signUpForm.email.trim(), password: '' });
+      setSignUpForm({ name: '', email: '', password: '' });
+      setAuthView('signin');
+      setShowPassword(false);
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : 'Não foi possível criar a conta.';
+      toast({
+        title: 'Erro ao criar conta',
+        description: message,
+        variant: 'destructive',
+      });
+    } finally {
+      setLoadingView(null);
     }
   };
 
@@ -115,15 +139,20 @@ const Auth = () => {
             Voltar para home
           </Link>
           <div className="text-center">
-            <CardTitle className="text-2xl font-bold">
-              Monynha Softwares
-            </CardTitle>
+            <CardTitle className="text-2xl font-bold">Monynha Softwares</CardTitle>
             <CardDescription>Faça login ou crie sua conta</CardDescription>
           </div>
         </CardHeader>
 
         <CardContent>
-          <Tabs defaultValue="signin" className="w-full">
+          <Tabs
+            value={authView}
+            onValueChange={(value) => {
+              setAuthView(value as AuthView);
+              setShowPassword(false);
+            }}
+            className="w-full"
+          >
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="signin">Login</TabsTrigger>
               <TabsTrigger value="signup">Cadastro</TabsTrigger>
@@ -132,26 +161,38 @@ const Auth = () => {
             <TabsContent value="signin" className="space-y-4">
               <form onSubmit={handleSignIn} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="signin-email">Email</Label>
                   <Input
-                    id="email"
+                    id="signin-email"
                     type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    value={signInForm.email}
+                    onChange={(event) =>
+                      setSignInForm((current) => ({
+                        ...current,
+                        email: event.target.value,
+                      }))
+                    }
                     placeholder="seu@email.com"
+                    autoComplete="email"
                     required
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="password">Senha</Label>
+                  <Label htmlFor="signin-password">Senha</Label>
                   <div className="relative">
                     <Input
-                      id="password"
+                      id="signin-password"
                       type={showPassword ? 'text' : 'password'}
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      value={signInForm.password}
+                      onChange={(event) =>
+                        setSignInForm((current) => ({
+                          ...current,
+                          password: event.target.value,
+                        }))
+                      }
                       placeholder="••••••••"
+                      autoComplete="current-password"
                       required
                       minLength={6}
                     />
@@ -160,7 +201,7 @@ const Auth = () => {
                       variant="ghost"
                       size="sm"
                       className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                      onClick={() => setShowPassword(!showPassword)}
+                      onClick={() => setShowPassword((previous) => !previous)}
                     >
                       {showPassword ? (
                         <EyeOff className="h-4 w-4" />
@@ -171,8 +212,12 @@ const Auth = () => {
                   </div>
                 </div>
 
-                <Button type="submit" className="w-full" disabled={isLoading}>
-                  {isLoading ? (
+                <Button
+                  type="submit"
+                  className="w-full"
+                  disabled={loadingView === 'signin'}
+                >
+                  {loadingView === 'signin' ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                       Entrando...
@@ -187,38 +232,56 @@ const Auth = () => {
             <TabsContent value="signup" className="space-y-4">
               <form onSubmit={handleSignUp} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="name">Nome</Label>
+                  <Label htmlFor="signup-name">Nome</Label>
                   <Input
-                    id="name"
+                    id="signup-name"
                     type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    value={signUpForm.name}
+                    onChange={(event) =>
+                      setSignUpForm((current) => ({
+                        ...current,
+                        name: event.target.value,
+                      }))
+                    }
                     placeholder="Seu nome"
+                    autoComplete="name"
                     required
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="email-signup">Email</Label>
+                  <Label htmlFor="signup-email">Email</Label>
                   <Input
-                    id="email-signup"
+                    id="signup-email"
                     type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    value={signUpForm.email}
+                    onChange={(event) =>
+                      setSignUpForm((current) => ({
+                        ...current,
+                        email: event.target.value,
+                      }))
+                    }
                     placeholder="seu@email.com"
+                    autoComplete="email"
                     required
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="password-signup">Senha</Label>
+                  <Label htmlFor="signup-password">Senha</Label>
                   <div className="relative">
                     <Input
-                      id="password-signup"
+                      id="signup-password"
                       type={showPassword ? 'text' : 'password'}
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      value={signUpForm.password}
+                      onChange={(event) =>
+                        setSignUpForm((current) => ({
+                          ...current,
+                          password: event.target.value,
+                        }))
+                      }
                       placeholder="••••••••"
+                      autoComplete="new-password"
                       required
                       minLength={6}
                     />
@@ -227,7 +290,7 @@ const Auth = () => {
                       variant="ghost"
                       size="sm"
                       className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                      onClick={() => setShowPassword(!showPassword)}
+                      onClick={() => setShowPassword((previous) => !previous)}
                     >
                       {showPassword ? (
                         <EyeOff className="h-4 w-4" />
@@ -236,13 +299,15 @@ const Auth = () => {
                       )}
                     </Button>
                   </div>
-                  <p className="text-xs text-muted-foreground">
-                    Mínimo de 6 caracteres
-                  </p>
+                  <p className="text-xs text-muted-foreground">Mínimo de 6 caracteres</p>
                 </div>
 
-                <Button type="submit" className="w-full" disabled={isLoading}>
-                  {isLoading ? (
+                <Button
+                  type="submit"
+                  className="w-full"
+                  disabled={loadingView === 'signup'}
+                >
+                  {loadingView === 'signup' ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                       Criando conta...
