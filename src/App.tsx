@@ -8,6 +8,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Suspense, lazy } from 'react';
 import Loading from './components/Loading';
 import ScrollToTop from './components/ScrollToTop';
+import ProtectedRoute from './components/ProtectedRoute';
 
 const Index = lazy(() => import('./pages/Index'));
 const Solutions = lazy(() => import('./pages/Solutions'));
@@ -16,6 +17,7 @@ const About = lazy(() => import('./pages/About'));
 const Blog = lazy(() => import('./pages/Blog'));
 const Contact = lazy(() => import('./pages/Contact'));
 const Auth = lazy(() => import('./pages/Auth'));
+const Dashboard = lazy(() => import('./pages/Dashboard'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
 const queryClient = new QueryClient();
@@ -38,6 +40,14 @@ const App = () => (
                 <Route path="/blog" element={<Blog />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/auth" element={<Auth />} />
+                <Route
+                  path="/dashboard"
+                  element={
+                    <ProtectedRoute>
+                      <Dashboard />
+                    </ProtectedRoute>
+                  }
+                />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </Suspense>
