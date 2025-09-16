@@ -4,8 +4,9 @@ import {
   gradientOptions,
   normalizeSolutionSlug,
 } from '@/data/solutions';
+import type { SupabaseClient } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase';
-import type { Database } from '@/integrations/supabase/types';
+import type { Database, Tables } from '@/integrations/supabase/types';
 import type { SolutionContent } from '@/types/solutions';
 
 export interface GitHubRepository {
@@ -29,7 +30,7 @@ export interface GitHubRepository {
   html_url: string;
 }
 
-type SupabaseSolutionRow = Database['public']['Tables']['solutions']['Row'];
+export type SupabaseSolutionRow = Tables<'solutions'>;
 
 const uniqueNonEmpty = (values: Array<string | null | undefined>): string[] => {
   const seen = new Set<string>();
@@ -197,6 +198,78 @@ export const mapSupabaseSolutionToContent = (
   };
 };
 
+interface SolutionOrderOptions {
+  column: keyof SupabaseSolutionRow;
+  ascending?: boolean;
+}
+
+export interface SolutionQueryOptions {
+  client?: SupabaseClient<Database>;
+  limit?: number;
+  includeInactive?: boolean;
+  order?: SolutionOrderOptions;
+}
+
+const DEFAULT_SOLUTION_ORDER: Required<SolutionOrderOptions> = {
+  column: 'created_at',
+  ascending: true,
+};
+
+const fetchSolutionsInternal = async (
+  options: SolutionQueryOptions
+): Promise<SupabaseSolutionRow[]> => {
+  const { client = supabase, limit, includeInactive = false, order } = options;
+
+  let query = client.from('solutions').select('*');
+
+  if (!includeInactive) {
+    query = query.eq('active', true);
+  }
+
+  const sortOptions = {
+    column: order?.column ?? DEFAULT_SOLUTION_ORDER.column,
+    ascending: order?.ascending ?? DEFAULT_SOLUTION_ORDER.ascending,
+  } as const;
+
+  query = query.order(sortOptions.column, { ascending: sortOptions.ascending });
+
+  if (typeof limit === 'number') {
+    query = query.limit(limit);
+  }
+
+  const { data, error } = await query.returns<SupabaseSolutionRow[]>();
+
+  if (error) {
+    throw new Error(`Failed to fetch solutions: ${error.message}`);
+  }
+
+  return data ?? [];
+};
+
+export const fetchSolutions = async (
+  options: SolutionQueryOptions = {}
+): Promise<SupabaseSolutionRow[]> => fetchSolutionsInternal(options);
+
+export const fetchActiveSolutions = async (
+  options: Omit<SolutionQueryOptions, 'includeInactive'> = {}
+): Promise<SupabaseSolutionRow[]> =>
+  fetchSolutionsInternal({ ...options, includeInactive: false });
+
+export type FetchSupabaseSolutionsOptions = Omit<
+  SolutionQueryOptions,
+  'includeInactive'
+>;
+
+export const fetchSupabaseSolutions = async (
+  options: FetchSupabaseSolutionsOptions = {}
+): Promise<SolutionContent[]> => {
+  const rows = await fetchActiveSolutions(options);
+
+  return rows.map((solution, index) =>
+    mapSupabaseSolutionToContent(solution, index)
+  );
+};
+
 export const getFallbackSolution = (
   slug: string
 ): SolutionContent | undefined => {
@@ -223,21 +296,3 @@ export const getFallbackSolutions = (): SolutionContent[] =>
     ...solution,
     features: [...solution.features],
   }));
-
-export const fetchSupabaseSolutions = async (): Promise<SolutionContent[]> => {
-  const { data, error } = await supabase
-    .from('solutions')
-    .select('*')
-    .eq('active', true)
-    .order('created_at', { ascending: true });
-
-  if (error) {
-    throw new Error(error.message);
-  }
-
-  const rows = data ?? [];
-
-  return rows.map((solution, index) =>
-    mapSupabaseSolutionToContent(solution, index)
-  );
-};

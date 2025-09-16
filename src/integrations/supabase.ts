@@ -1,14 +1,60 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import type { Database } from '@/integrations/supabase/types';
-
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
-const SUPABASE_ANON_KEY =
-  (import.meta.env.VITE_SUPABASE_ANON_KEY ||
-    import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY) as string;
 
 const AUTH_COOKIE_PREFIX = 'monynha_supabase_';
 const AUTH_STORAGE_KEY = 'auth_token';
 const DEFAULT_MAX_AGE = 60 * 60 * 24 * 30; // 30 days
+
+type EnvSource = Record<string, string | undefined>;
+
+const getImportMetaEnv = (): EnvSource => {
+  try {
+    return ((import.meta as ImportMeta & { env?: EnvSource }).env ?? {}) as EnvSource;
+  } catch (error) {
+    console.warn('Unable to access import.meta.env. Falling back to process.env.', error);
+    return {};
+  }
+};
+
+const importMetaEnv = getImportMetaEnv();
+
+const getEnvValue = (
+  keys: string[],
+  options: { required?: boolean } = { required: true }
+): string | undefined => {
+  for (const key of keys) {
+    const processValue =
+      typeof process !== 'undefined' && typeof process.env !== 'undefined'
+        ? process.env[key]
+        : undefined;
+
+    if (processValue && processValue.length > 0) {
+      return processValue;
+    }
+
+    const importMetaValue = importMetaEnv[key];
+    if (importMetaValue && importMetaValue.length > 0) {
+      return importMetaValue;
+    }
+  }
+
+  if (options.required === false) {
+    return undefined;
+  }
+
+  throw new Error(`Missing required Supabase environment variable. Tried keys: ${keys.join(', ')}`);
+};
+
+const SUPABASE_URL = getEnvValue(['VITE_SUPABASE_URL', 'SUPABASE_URL']) as string;
+const SUPABASE_ANON_KEY = getEnvValue([
+  'VITE_SUPABASE_ANON_KEY',
+  'VITE_SUPABASE_PUBLISHABLE_KEY',
+  'SUPABASE_ANON_KEY',
+]) as string;
+
+const SUPABASE_SERVICE_ROLE_KEY = getEnvValue(['SUPABASE_SERVICE_ROLE_KEY'], {
+  required: false,
+});
 
 class CookieStorage implements Storage {
   private readonly path: string;
@@ -96,14 +142,61 @@ const cookieStorage = isBrowser
   ? new CookieStorage(AUTH_COOKIE_PREFIX, { path: '/', maxAge: DEFAULT_MAX_AGE })
   : undefined;
 
-export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_ANON_KEY, {
-  auth: {
-    storage: cookieStorage,
-    storageKey: AUTH_STORAGE_KEY,
-    persistSession: true,
-    autoRefreshToken: true,
-  },
-});
+type MonynhaSupabaseClient = SupabaseClient<Database>;
+
+const createBrowserSupabaseClient = (): MonynhaSupabaseClient =>
+  createClient<Database>(SUPABASE_URL, SUPABASE_ANON_KEY, {
+    auth: {
+      storage: cookieStorage,
+      storageKey: AUTH_STORAGE_KEY,
+      persistSession: true,
+      autoRefreshToken: true,
+    },
+  });
+
+let browserClient: MonynhaSupabaseClient | undefined;
+
+export const getSupabaseBrowserClient = (): MonynhaSupabaseClient => {
+  if (!browserClient) {
+    browserClient = createBrowserSupabaseClient();
+  }
+
+  return browserClient;
+};
+
+export const createServerSupabaseClient = (
+  accessToken?: string
+): MonynhaSupabaseClient =>
+  createClient<Database>(SUPABASE_URL, SUPABASE_ANON_KEY, {
+    auth: {
+      persistSession: false,
+      autoRefreshToken: false,
+    },
+    global: accessToken
+      ? {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      : undefined,
+  });
+
+export const createServiceRoleSupabaseClient = (): MonynhaSupabaseClient => {
+  if (!SUPABASE_SERVICE_ROLE_KEY) {
+    throw new Error(
+      'SUPABASE_SERVICE_ROLE_KEY is not configured. This is required for admin operations.'
+    );
+  }
+
+  return createClient<Database>(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
+    auth: {
+      persistSession: false,
+      autoRefreshToken: false,
+    },
+  });
+};
+
+export const supabase = getSupabaseBrowserClient();
 
 export const clearSupabaseSession = () => {
   if (cookieStorage) {
