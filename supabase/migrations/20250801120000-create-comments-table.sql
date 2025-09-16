@@ -1,6 +1,6 @@
-create table if not exists public.comments (
+create table public.comments (
   id uuid primary key default gen_random_uuid(),
-  post_id text not null references public.blog_posts(id) on delete cascade,
+  post_id uuid not null references public.blog_posts(id) on delete cascade,
   user_id uuid not null references auth.users(id) on delete cascade,
   content text not null check (char_length(trim(content)) > 0),
   created_at timestamptz not null default now()
