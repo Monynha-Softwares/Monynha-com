@@ -26,6 +26,8 @@ type LiquidEtherProps = Partial<{
 
 type LiquidEtherComponent = ComponentType<LiquidEtherProps>;
 
+const MAX_COLORS = 6;
+
 function getEnvValue(name: string) {
   const metaEnv =
     typeof import.meta !== 'undefined'
@@ -69,6 +71,41 @@ function parseNumber(value: unknown) {
   return undefined;
 }
 
+function parseColorList(value: unknown) {
+  const sanitizeList = (list: unknown[]) =>
+    list
+      .map((entry) => (typeof entry === 'string' ? entry.trim() : ''))
+      .filter((entry) => entry.length > 0)
+      .slice(0, MAX_COLORS);
+
+  if (Array.isArray(value)) {
+    const colors = sanitizeList(value);
+    return colors.length ? colors : undefined;
+  }
+
+  if (typeof value === 'string') {
+    const trimmed = value.trim();
+    if (!trimmed) return undefined;
+
+    if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
+      try {
+        const parsed = JSON.parse(trimmed);
+        if (Array.isArray(parsed)) {
+          const colors = sanitizeList(parsed);
+          if (colors.length) return colors;
+        }
+      } catch (error) {
+        console.warn('Invalid NEXT_PUBLIC_LIQUIDETHER_COLORS value', error);
+      }
+    }
+
+    const colors = sanitizeList(trimmed.split(','));
+    return colors.length ? colors : undefined;
+  }
+
+  return undefined;
+}
+
 function supportsWebGL() {
   if (typeof window === 'undefined') return false;
   try {
@@ -100,6 +137,13 @@ export default function LiquidEtherClient(props: LiquidEtherProps) {
     return parsed ?? true;
   }, []);
 
+  const envColors = useMemo(() => {
+    const raw =
+      getEnvValue('NEXT_PUBLIC_LIQUIDETHER_COLORS') ??
+      getEnvValue('VITE_LIQUIDETHER_COLORS');
+    return parseColorList(raw);
+  }, []);
+
   const envResolution = useMemo(() => {
     const raw =
       getEnvValue('NEXT_PUBLIC_LIQUIDETHER_RESOLUTION') ??
@@ -114,38 +158,45 @@ export default function LiquidEtherClient(props: LiquidEtherProps) {
     return parseNumber(raw);
   }, []);
 
-  const defaultColors = useMemo(
-    () => [
+  const defaultColors = useMemo(() => {
+    if (envColors?.length) {
+      return envColors;
+    }
+
+    return [
       readTokenColor('--mona-primary', '#7C3AED'),
       readTokenColor('--mona-secondary', '#0EA5E9'),
-      readTokenColor('--mona-accent-pink', '#eaeaeaff'),
-    ],
-    []
-  );
+      readTokenColor('--mona-accent-pink', '#EC4899'),
+    ];
+  }, [envColors]);
 
-  const fallbackBg = useMemo(
-    () => ({
-      background:
-        'radial-gradient(1200px 600px at 70% 30%, rgba(255,255,255,0.15), transparent), linear-gradient(135deg, var(--mona-primary) 0%, var(--mona-secondary) 55%, var(--mona-accent-pink) 100%)',
-    }),
-    []
-  );
-
-  const mergedProps = useMemo(() => {
-    const resolvedColors = props.colors?.length ? props.colors : defaultColors;
-    const resolution = props.resolution ?? envResolution ?? 0.5;
-    const autoIntensity = props.autoIntensity ?? envIntensity ?? 2.2;
+  const fallbackBg = useMemo(() => {
+    const colors = props.colors?.length ? props.colors : defaultColors;
+    const primary = colors[0] ?? '#7C3AED';
+    const secondary = colors[1] ?? primary;
+    const accent = colors[2] ?? secondary;
 
     return {
-      ...props,
-      colors: resolvedColors,
-      resolution,
-      autoIntensity,
-    } satisfies LiquidEtherProps;
-  }, [defaultColors, envIntensity, envResolution, props]);
+      background: `radial-gradient(1200px 600px at 70% 30%, rgba(255,255,255,0.16), transparent), linear-gradient(135deg, ${primary} 0%, ${secondary} 55%, ${accent} 100%)`,
+    };
+  }, [defaultColors, props.colors]);
+
+  const resolvedColors = props.colors?.length ? props.colors : defaultColors;
+  const resolution = props.resolution ?? envResolution ?? 0.5;
+  const autoIntensity = props.autoIntensity ?? envIntensity ?? 2.2;
+
+  const mergedProps = {
+    ...props,
+    colors: resolvedColors,
+    resolution,
+    autoIntensity,
+  } satisfies LiquidEtherProps;
 
   useEffect(() => {
-    if (reduced || !envEnabled) return;
+    if (reduced || !envEnabled) {
+      setWebglReady(false);
+      return;
+    }
 
     setWebglReady(supportsWebGL());
   }, [envEnabled, reduced]);
@@ -190,7 +241,7 @@ export default function LiquidEtherClient(props: LiquidEtherProps) {
   }
 
   return (
-    <div className={clsx('pointer-events-none fixed inset-0 -z-10', props.className)}>
+    <div aria-hidden className={clsx('pointer-events-none fixed inset-0 -z-10', props.className)}>
       <LiquidEther {...mergedProps} />
     </div>
   );

@@ -44,8 +44,14 @@
     @apply border-border;
   }
 
+  html,
+  body,
+  #root {
+    background-color: transparent;
+  }
+
   body {
-    @apply bg-background text-foreground font-sans antialiased;
+    @apply text-foreground font-sans antialiased;
   }
 
   h1,
