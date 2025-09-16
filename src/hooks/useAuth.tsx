@@ -1,6 +1,6 @@
 import { useState, useEffect, createContext, useContext } from 'react';
 import { User, Session } from '@supabase/supabase-js';
-import { supabase, clearSupabaseAuthCookies } from '@/integrations/supabase';
+import { supabase } from '@/integrations/supabase/client';
 
 interface AuthContextType {
   user: User | null;
@@ -48,16 +48,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
    * Ends the current user session.
    */
   const signOut = async () => {
-    try {
-      const { error } = await supabase.auth.signOut();
-      if (error) {
-        throw error;
-      }
-    } finally {
-      clearSupabaseAuthCookies();
-      setSession(null);
-      setUser(null);
-    }
+    await supabase.auth.signOut();
   };
 
   return (

@@ -23,7 +23,7 @@ import {
   Calendar,
   Settings,
 } from 'lucide-react';
-import { supabase } from '@/integrations/supabase';
+import { supabase } from '@/integrations/supabase/client';
 import { useTranslation } from 'react-i18next';
 
 const fallbackSolutions = [

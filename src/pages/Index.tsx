@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 import { useTranslation, Trans } from 'react-i18next';
 import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase';
+import { supabase } from '@/integrations/supabase/client';
 import { useMemo } from 'react';
 
 const fallbackSolutions = [
