@@ -22,6 +22,8 @@ type Props = {
 };
 
 const MAX_COLORS = 6;
+const DEFAULT_RESOLUTION = 0.5;
+const DEFAULT_COLORS = ['#7C3AED', '#0EA5E9', '#EC4899'];
 
 const vertexShader = /* glsl */ `
   varying vec2 vUv;
@@ -156,14 +158,14 @@ function clamp01(value: number) {
 
 function clampResolution(value: number | undefined) {
   if (!Number.isFinite(value ?? Number.NaN)) {
-    return 0.5;
+    return DEFAULT_RESOLUTION;
   }
-  return Math.min(1, Math.max(0.2, value!));
+  return Math.min(0.6, Math.max(0.3, value!));
 }
 
 function normalizeColorList(colors?: string[]) {
   if (!colors || colors.length === 0) {
-    return ['#7C3AED', '#0EA5E9', '#c2aab6ff'];
+    return DEFAULT_COLORS;
   }
 
   return colors.slice(0, MAX_COLORS);
@@ -190,7 +192,7 @@ const LiquidEther = ({
   viscous = 30,
   iterationsViscous = 32,
   iterationsPoisson = 32,
-  resolution = 0.5,
+  resolution = DEFAULT_RESOLUTION,
   isBounce = false,
   autoDemo = true,
   autoSpeed = 0.5,
@@ -237,7 +239,7 @@ const LiquidEther = ({
     const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
     const geometry = new THREE.PlaneGeometry(2, 2);
 
-    const colorArray = new Float32Array(MAX_COLORS * 3);
+  const colorArray = new Float32Array(MAX_COLORS * 3);
     let colorCount = 0;
     for (let index = 0; index < MAX_COLORS; index += 1) {
       const hex = selectedColors[index];
