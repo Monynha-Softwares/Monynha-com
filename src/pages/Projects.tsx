@@ -13,19 +13,9 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
-import { supabase } from '@/integrations/supabase/client';
 import { useTranslation, Trans } from 'react-i18next';
 import { Link } from 'react-router-dom';
-
-interface Repository {
-  id: string;
-  name: string;
-  description: string;
-  github_url: string;
-  demo_url: string | null;
-  tags: string[];
-  created_at: string;
-}
+import { listActiveRepositories, type Repository } from '@/lib/repositories';
 
 const Projects = () => {
   const { t } = useTranslation();
@@ -34,21 +24,9 @@ const Projects = () => {
     data: repositories = [],
     isLoading,
     isError,
-  } = useQuery({
+  } = useQuery<Repository[]>({
     queryKey: ['repositories'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('repositories')
-        .select('*')
-        .eq('active', true)
-        .order('created_at', { ascending: false });
-
-      if (error) {
-        throw new Error(error.message);
-      }
-
-      return data || [];
-    },
+    queryFn: () => listActiveRepositories(),
   });
 
   const formatDate = (dateString: string) => {
