@@ -163,7 +163,7 @@ function clampResolution(value: number | undefined) {
 
 function normalizeColorList(colors?: string[]) {
   if (!colors || colors.length === 0) {
-    return ['#7C3AED', '#0EA5E9', '#EC4899'];
+    return ['#7C3AED', '#0EA5E9', '#c2aab6ff'];
   }
 
   return colors.slice(0, MAX_COLORS);

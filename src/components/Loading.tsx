@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Loading = () => (
-  <div className="flex items-center justify-center py-20" role="status">
+  <div className="flex items-center justify-center py-20 relative flex-1 pt-20 bg-background/70 backdrop-blur-sm supports-[backdrop-filter]:backdrop-blur-md" role="status" >
     <svg
       className="animate-spin h-8 w-8 text-brand-blue"
       xmlns="http://www.w3.org/2000/svg"

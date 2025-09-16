@@ -118,7 +118,7 @@ export default function LiquidEtherClient(props: LiquidEtherProps) {
     () => [
       readTokenColor('--mona-primary', '#7C3AED'),
       readTokenColor('--mona-secondary', '#0EA5E9'),
-      readTokenColor('--mona-accent-pink', '#EC4899'),
+      readTokenColor('--mona-accent-pink', '#eaeaeaff'),
     ],
     []
   );
