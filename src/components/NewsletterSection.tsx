@@ -1,74 +1,13 @@
 import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { supabase } from '@/integrations/supabase';
-import { useToast } from '@/hooks/use-toast';
+import NewsletterForm from '@/components/NewsletterForm';
 import { Mail, CheckCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 const NewsletterSection = () => {
   const { t } = useTranslation();
-  const [email, setEmail] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(false);
-  const { toast } = useToast();
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    // Basic email validation
-    if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      toast({
-        title: t('newsletterSection.invalidEmailTitle'),
-        description: t('newsletterSection.invalidEmailDescription'),
-        variant: 'destructive',
-      });
-      setIsSubmitting(false);
-      return;
-    }
-
-    try {
-      const { error } = await supabase
-        .from('newsletter_subscribers')
-        .insert([{ email: email.trim() }]);
-
-      if (error) {
-        if (error.code === '23505') {
-          // Unique constraint violation
-          toast({
-            title: t('newsletterSection.alreadySubscribedTitle'),
-            description: t('newsletterSection.alreadySubscribedDescription'),
-            variant: 'destructive',
-          });
-        } else {
-          toast({
-            title: t('newsletterSection.errorTitle'),
-            description: t('newsletterSection.errorDescription'),
-            variant: 'destructive',
-          });
-        }
-        setIsSubmitting(false);
-        return;
-      }
-
-      setIsSubscribed(true);
-      toast({
-        title: t('newsletterSection.successTitle'),
-        description: t('newsletterSection.successDescription'),
-      });
-    } catch (error) {
-      console.error('Newsletter subscription error:', error);
-      toast({
-        title: t('newsletterSection.errorTitle'),
-        description: t('newsletterSection.errorDescription'),
-        variant: 'destructive',
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
 
   if (isSubscribed) {
     return (
@@ -86,7 +25,6 @@ const NewsletterSection = () => {
           <Button
             onClick={() => {
               setIsSubscribed(false);
-              setEmail('');
             }}
             className="bg-white text-brand-purple hover:bg-blue-50 font-semibold px-6 py-3 rounded-xl"
           >
@@ -114,27 +52,35 @@ const NewsletterSection = () => {
               {t('newsletterSection.description')}
             </p>
 
-            <form onSubmit={handleSubmit} className="max-w-md mx-auto">
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Input
-                  type="email"
-                  placeholder={t('newsletterSection.placeholder')}
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="flex-1 rounded-xl border-white/30 bg-white/20 text-white placeholder:text-white/70 focus:border-white focus:ring-white"
-                  required
-                />
-                <Button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="bg-white text-brand-purple hover:bg-blue-50 font-semibold px-8 py-3 rounded-xl whitespace-nowrap"
-                >
-                  {isSubmitting
-                    ? t('newsletterSection.subscribing')
-                    : t('newsletterSection.subscribe')}
-                </Button>
-              </div>
-            </form>
+            <NewsletterForm
+              className="max-w-md mx-auto"
+              inputClassName="rounded-xl border-white/30 bg-white/20 text-white placeholder:text-white/70 focus:border-white focus:ring-white"
+              buttonClassName="bg-white text-brand-purple hover:bg-blue-50 font-semibold px-8 py-3 rounded-xl whitespace-nowrap"
+              placeholder={t('newsletterSection.placeholder')}
+              labels={{
+                submit: t('newsletterSection.subscribe'),
+                submitting: t('newsletterSection.subscribing'),
+              }}
+              messages={{
+                success: {
+                  title: t('newsletterSection.successTitle'),
+                  description: t('newsletterSection.successDescription'),
+                },
+                invalidEmail: {
+                  title: t('newsletterSection.invalidEmailTitle'),
+                  description: t('newsletterSection.invalidEmailDescription'),
+                },
+                duplicateEmail: {
+                  title: t('newsletterSection.alreadySubscribedTitle'),
+                  description: t('newsletterSection.alreadySubscribedDescription'),
+                },
+                error: {
+                  title: t('newsletterSection.errorTitle'),
+                  description: t('newsletterSection.errorDescription'),
+                },
+              }}
+              onSuccess={() => setIsSubscribed(true)}
+            />
 
             <p className="text-sm text-blue-200 mt-4">
               {t('newsletterSection.privacy')}

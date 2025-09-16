@@ -3,6 +3,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Layout from '@/components/Layout';
 import Meta from '@/components/Meta';
+import NewsletterForm from '@/components/NewsletterForm';
 import NewsletterSection from '@/components/NewsletterSection';
 import { ArrowRight, Clock, User } from 'lucide-react';
 import { supabase } from '@/integrations/supabase';
@@ -286,15 +287,35 @@ const Blog = () => {
           <p className="text-xl text-blue-100 mb-8">
             {t('blog.newsletter.description')}
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
-            <input
-              type="email"
+          <div className="max-w-md mx-auto">
+            <NewsletterForm
+              className="flex flex-col sm:flex-row gap-4 justify-center"
+              inputClassName="px-4 py-3 rounded-xl border-0 text-neutral-900 placeholder-neutral-500 focus:ring-2 focus:ring-white focus:outline-none"
+              buttonClassName="bg-white text-brand-purple hover:bg-blue-50 font-semibold px-6 py-3 rounded-xl transition-all ease-in-out duration-300"
               placeholder={t('blog.newsletter.placeholder')}
-              className="flex-1 px-4 py-3 rounded-xl border-0 text-neutral-900 placeholder-neutral-500 focus:ring-2 focus:ring-white focus:outline-none"
+              labels={{
+                submit: t('blog.newsletter.subscribe'),
+                submitting: t('newsletterSection.subscribing'),
+              }}
+              messages={{
+                success: {
+                  title: t('newsletterSection.successTitle'),
+                  description: t('newsletterSection.successDescription'),
+                },
+                invalidEmail: {
+                  title: t('newsletterSection.invalidEmailTitle'),
+                  description: t('newsletterSection.invalidEmailDescription'),
+                },
+                duplicateEmail: {
+                  title: t('newsletterSection.alreadySubscribedTitle'),
+                  description: t('newsletterSection.alreadySubscribedDescription'),
+                },
+                error: {
+                  title: t('newsletterSection.errorTitle'),
+                  description: t('newsletterSection.errorDescription'),
+                },
+              }}
             />
-            <Button className="bg-white text-brand-purple hover:bg-blue-50 font-semibold px-6 py-3 rounded-xl transition-all ease-in-out duration-300">
-              {t('blog.newsletter.subscribe')}
-            </Button>
           </div>
         </div>
       </section>
