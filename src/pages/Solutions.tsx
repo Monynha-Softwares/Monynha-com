@@ -20,6 +20,7 @@ import {
   getFallbackSolutions,
   mapSupabaseSolutionToContent,
 } from '@/lib/solutions';
+
 import type { SolutionContent } from '@/types/solutions';
 
 const Solutions = () => {
@@ -51,9 +52,9 @@ const Solutions = () => {
         mapSupabaseSolutionToContent(solution, { index })
       );
     },
+
     staleTime: 1000 * 60 * 10,
     retry: 1,
-    keepPreviousData: true,
     refetchOnWindowFocus: false,
   });
 
