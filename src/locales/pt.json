@@ -76,7 +76,12 @@
   "solutionsPage": {
     "title": "Nossas Soluções de Software",
     "description": "Conheça nossos produtos desenvolvidos para transformar a operação de empresas. Cada solução é criada com IA no núcleo para máxima eficiência.",
+    "featuresTitle": "Principais recursos",
     "requestDemo": "Solicitar Demonstração",
+    "viewDetails": "Ver detalhes",
+    "backToSolutions": "Voltar para soluções",
+    "notFound": "Não encontramos essa solução.",
+    "error": "Não foi possível carregar nossas soluções agora. Tente novamente mais tarde.",
     "customTitle": "Precisa de uma Solução Personalizada?",
     "customDescription": "Também criamos soluções sob medida para suas necessidades específicas de negócio. Vamos conversar sobre como construir algo único para você.",
     "discuss": "Discutir Projeto"
@@ -202,6 +207,10 @@
   "projects": {
     "title": "Projetos <0>Open Source</0>",
     "description": "Explore nossos projetos públicos no GitHub e veja como desenvolvemos soluções inovadoras com tecnologias modernas.",
+    "autoSync": "Repositórios são sincronizados automaticamente a cada hora.",
+    "lastSynced": "Última sincronização em {{time}}",
+    "syncing": "Sincronizando repositórios...",
+    "syncError": "Não foi possível atualizar os repositórios automaticamente. Exibindo os dados mais recentes salvos.",
     "viewGithub": "Ver no GitHub",
     "liveDemo": "Demo ao Vivo",
     "like": "Gostou dos projetos?",

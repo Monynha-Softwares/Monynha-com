@@ -76,7 +76,12 @@
   "solutionsPage": {
     "title": "Nos Solutions logicielles",
     "description": "Découvrez nos produits phares conçus pour transformer la façon dont les entreprises fonctionnent. Chaque solution est développée avec l'IA au cœur pour une efficacité maximale.",
+    "featuresTitle": "Fonctionnalités clés",
     "requestDemo": "Demander une démo",
+    "viewDetails": "Voir les détails",
+    "backToSolutions": "Retour aux solutions",
+    "notFound": "Nous n'avons pas trouvé cette solution.",
+    "error": "Nous ne pouvons pas charger nos solutions pour le moment. Veuillez réessayer plus tard.",
     "customTitle": "Besoin d'une solution personnalisée ?",
     "customDescription": "Nous créons également des solutions sur mesure adaptées à vos besoins spécifiques. Discutons de la manière de construire quelque chose d'unique pour vous.",
     "discuss": "Discuter du projet"
@@ -202,6 +207,10 @@
   "projects": {
     "title": "Projets <0>Open Source</0>",
     "description": "Explorez nos projets publics sur GitHub et voyez comment nous développons des solutions innovantes avec des technologies modernes.",
+    "autoSync": "Les dépôts sont synchronisés automatiquement toutes les heures.",
+    "lastSynced": "Dernière synchronisation {{time}}",
+    "syncing": "Synchronisation des dépôts...",
+    "syncError": "Impossible de mettre à jour les dépôts automatiquement. Affichage des dernières données enregistrées.",
     "viewGithub": "Voir sur GitHub",
     "liveDemo": "Démo en ligne",
     "like": "Vous aimez nos projets ?",

@@ -76,7 +76,12 @@
   "solutionsPage": {
     "title": "Our Software Solutions",
     "description": "Discover our flagship products designed to transform how businesses operate. Each solution is crafted with AI at its core to deliver maximum efficiency and growth.",
+    "featuresTitle": "Key features",
     "requestDemo": "Request Demo",
+    "viewDetails": "View details",
+    "backToSolutions": "Back to solutions",
+    "notFound": "We couldn't find this solution.",
+    "error": "We couldn't load our solutions right now. Please try again later.",
     "customTitle": "Need a Custom Solution?",
     "customDescription": "We also create bespoke software solutions tailored to your specific business needs. Let's discuss how we can build something unique for you.",
     "discuss": "Discuss Custom Project"
@@ -204,6 +209,10 @@
   "projects": {
     "title": "Projects <0>Open Source</0>",
     "description": "Explore our public projects on GitHub and see how we develop innovative solutions with modern technologies.",
+    "autoSync": "Repositories are synced automatically every hour.",
+    "lastSynced": "Last synced {{time}}",
+    "syncing": "Syncing repositories...",
+    "syncError": "We couldn't refresh repositories automatically. Showing the latest saved data.",
     "viewGithub": "View on GitHub",
     "liveDemo": "Live Demo",
     "like": "Like our projects?",

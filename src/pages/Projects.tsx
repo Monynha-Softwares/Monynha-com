@@ -1,5 +1,6 @@
-import { useQuery } from '@tanstack/react-query';
-import { Github, ExternalLink, Calendar } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { Github, ExternalLink, Calendar, RefreshCcw } from 'lucide-react';
 import Layout from '../components/Layout';
 import Meta from '@/components/Meta';
 import { Button } from '@/components/ui/button';
@@ -27,8 +28,19 @@ interface Repository {
   created_at: string;
 }
 
+const SYNC_FUNCTION_NAME =
+  import.meta.env.VITE_SUPABASE_SYNC_FUNCTION ??
+  import.meta.env.VITE_SUPABASE_SYNC_REPOSITORIES_FUNCTION ??
+  'sync-repositories';
+
+const SYNC_INTERVAL_MS = 60 * 60 * 1000; // 1 hour
+
 const Projects = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const queryClient = useQueryClient();
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [lastSyncedAt, setLastSyncedAt] = useState<Date | null>(null);
+  const [hasSyncError, setHasSyncError] = useState(false);
 
   const {
     data: repositories = [],
@@ -52,12 +64,70 @@ const Projects = () => {
   });
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
+    return new Date(dateString).toLocaleDateString(i18n.language, {
       year: 'numeric',
       month: 'short',
       day: 'numeric',
     });
   };
+
+  const formatLastSynced = (date: Date) =>
+    new Intl.DateTimeFormat(i18n.language, {
+      dateStyle: 'medium',
+      timeStyle: 'short',
+    }).format(date);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const syncRepositories = async () => {
+      if (!SYNC_FUNCTION_NAME) {
+        return;
+      }
+
+      if (!isMounted) {
+        return;
+      }
+
+      setIsSyncing(true);
+      setHasSyncError(false);
+
+      try {
+        const { error } = await supabase.functions.invoke(SYNC_FUNCTION_NAME);
+
+        if (error) {
+          throw new Error(error.message);
+        }
+
+        if (!isMounted) {
+          return;
+        }
+
+        setLastSyncedAt(new Date());
+        await queryClient.invalidateQueries({ queryKey: ['repositories'] });
+      } catch (error) {
+        console.error('Failed to sync repositories', error);
+        if (isMounted) {
+          setHasSyncError(true);
+        }
+      } finally {
+        if (isMounted) {
+          setIsSyncing(false);
+        }
+      }
+    };
+
+    void syncRepositories();
+
+    const intervalId = window.setInterval(() => {
+      void syncRepositories();
+    }, SYNC_INTERVAL_MS);
+
+    return () => {
+      isMounted = false;
+      window.clearInterval(intervalId);
+    };
+  }, [queryClient]);
 
   if (isLoading) {
     return (
@@ -140,6 +210,22 @@ const Projects = () => {
           <p className="text-xl text-neutral-600 max-w-3xl mx-auto">
             {t('projects.description')}
           </p>
+          <div className="mt-8 space-y-1 text-sm text-neutral-500">
+            <p>{t('projects.autoSync')}</p>
+            <p className="flex items-center justify-center gap-2">
+              {isSyncing && <RefreshCcw className="h-4 w-4 animate-spin" />}
+              {isSyncing
+                ? t('projects.syncing')
+                : lastSyncedAt
+                ? t('projects.lastSynced', {
+                    time: formatLastSynced(lastSyncedAt),
+                  })
+                : null}
+            </p>
+            {hasSyncError && (
+              <p className="text-sm text-red-500">{t('projects.syncError')}</p>
+            )}
+          </div>
         </div>
 
         {/* Projects Grid */}
