@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+import { Card, CardContent } from '@monynha/ui/card';
+import { Button } from '@monynha/ui/button';
+import { Avatar, AvatarImage, AvatarFallback } from '@monynha/ui/avatar';
 import { supabase } from '@/integrations/supabase';
 import { Linkedin, Mail } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -117,7 +117,7 @@ const TeamSection = () => {
                   {member.name}
                 </h3>
 
-                <p className="text-brand-blue font-medium mb-4">
+                <p className="text-brand-secondary font-medium mb-4">
                   {member.role}
                 </p>
 
@@ -132,7 +132,7 @@ const TeamSection = () => {
                     variant="outline"
                     size="sm"
                     aria-label={t('team.linkedin')}
-                    className="rounded-full border-brand-blue text-brand-blue hover:bg-brand-blue hover:text-white"
+                    className="rounded-full border-brand-secondary text-brand-secondary hover:bg-brand-secondary hover:text-white"
                     onClick={() => window.open(member.linkedin_url!, '_blank')}
                   >
                     <Linkedin className="w-4 h-4" />

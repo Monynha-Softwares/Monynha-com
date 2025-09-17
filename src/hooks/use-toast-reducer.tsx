@@ -1,4 +1,4 @@
-import type { ToastActionElement, ToastProps } from '@/components/ui/toast';
+import type { ToastActionElement, ToastProps } from '@monynha/ui/toast';
 import * as React from 'react';
 
 // How many toasts can appear simultaneously

@@ -1,6 +1,7 @@
+/* eslint-disable react-refresh/only-export-components */
 import * as React from 'react';
 import reducer, { TOAST_REMOVE_DELAY, genId } from './use-toast-reducer';
-import type { ToastActionElement, ToastProps } from '@/components/ui/toast';
+import type { ToastActionElement, ToastProps } from '@monynha/ui/toast';
 
 type ToasterToast = ToastProps & {
   id: string;

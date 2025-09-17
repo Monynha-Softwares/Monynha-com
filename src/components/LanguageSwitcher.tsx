@@ -16,8 +16,8 @@ const LanguageSwitcher = () => {
         <button
           key={lng.code}
           onClick={() => i18n.changeLanguage(lng.code)}
-          className={`text-sm font-medium hover:text-brand-blue transition-colors ease-in-out duration-300 ${
-            i18n.language === lng.code ? 'text-brand-blue' : 'text-neutral-700'
+          className={`text-sm font-medium hover:text-brand-secondary transition-colors ease-in-out duration-300 ${
+            i18n.language === lng.code ? 'text-brand-secondary' : 'text-neutral-700'
           }`}
         >
           {lng.label}

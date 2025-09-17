@@ -4,9 +4,9 @@ import { useQuery } from '@tanstack/react-query';
 import { Brain, Target, Users, Award } from 'lucide-react';
 import Layout from '@/components/Layout';
 import Meta from '@/components/Meta';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Card, CardContent } from '@monynha/ui/card';
+import { Button } from '@monynha/ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from '@monynha/ui/avatar';
 import { supabase } from '@/integrations/supabase';
 import { useTranslation } from 'react-i18next';
 
@@ -362,7 +362,7 @@ const About = () => {
                       <h3 className="text-xl font-semibold text-neutral-900">
                         {member.name}
                       </h3>
-                      <p className="text-brand-blue font-medium">{member.role}</p>
+                      <p className="text-brand-secondary font-medium">{member.role}</p>
                     </div>
                   </CardContent>
                 </Card>

@@ -17,7 +17,7 @@ import {
   BreadcrumbLink,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb';
+} from '@monynha/ui/breadcrumb';
 
 type BlogPost = Database['public']['Tables']['blog_posts']['Row'];
 
@@ -124,7 +124,7 @@ const renderLexicalNode = (node: LexicalNode, key: string): ReactNode => {
       return (
         <blockquote
           key={key}
-          className="border-l-4 border-brand-blue/40 pl-4 italic text-neutral-600"
+          className="border-l-4 border-brand-secondary/40 pl-4 italic text-neutral-600"
         >
           {renderNodes(node.children, key)}
         </blockquote>
@@ -169,7 +169,7 @@ const renderLexicalNode = (node: LexicalNode, key: string): ReactNode => {
           href={node.url ?? '#'}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-brand-blue underline-offset-4 hover:underline"
+          className="text-brand-secondary underline-offset-4 hover:underline"
         >
           {renderNodes(node.children, key)}
         </a>
@@ -361,7 +361,7 @@ const BlogPostPage = () => {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link
             to="/blog"
-            className="mb-8 inline-flex items-center text-sm font-medium text-brand-blue hover:text-brand-purple"
+            className="mb-8 inline-flex items-center text-sm font-medium text-brand-secondary hover:text-brand-primary"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
             {t('blog.post.back')}
@@ -426,7 +426,7 @@ const ButtonLink = () => {
   return (
     <Link
       to="/blog"
-      className="inline-flex items-center justify-center rounded-full border border-brand-blue/40 px-6 py-2 text-sm font-semibold text-brand-blue transition hover:border-brand-purple hover:text-brand-purple"
+      className="inline-flex items-center justify-center rounded-full border border-brand-secondary/40 px-6 py-2 text-sm font-semibold text-brand-secondary transition hover:border-brand-primary hover:text-brand-primary"
     >
       {t('blog.post.back')}
     </Link>

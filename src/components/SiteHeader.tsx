@@ -9,15 +9,15 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-} from '@/components/ui/navigation-menu';
-import { Button } from '@/components/ui/button';
-import { Sheet, SheetClose, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+} from '@monynha/ui/navigation-menu';
+import { Button } from '@monynha/ui/button';
+import { Sheet, SheetClose, SheetContent, SheetTrigger } from '@monynha/ui/sheet';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@/components/ui/accordion';
+} from '@monynha/ui/accordion';
 import { Menu, X, User, LogOut, ArrowRight } from 'lucide-react';
 import LanguageSwitcher from './LanguageSwitcher';
 import { useAuth } from '@/hooks/useAuth';
@@ -27,17 +27,17 @@ const solutionItems = [
   {
     key: 'boteco',
     href: '/solutions/boteco-pro',
-    gradient: 'from-brand-purple via-brand-blue to-brand-pink',
+    gradient: 'from-brand-primary via-brand-secondary to-brand-accent',
   },
   {
     key: 'assistina',
     href: '/solutions/assistina',
-    gradient: 'from-brand-pink to-brand-orange',
+    gradient: 'from-brand-accent to-brand-accentYellow',
   },
   {
     key: 'integration',
     href: '/solutions',
-    gradient: 'from-brand-blue to-brand-purple',
+    gradient: 'from-brand-secondary to-brand-primary',
   },
 ] as const;
 
@@ -45,22 +45,22 @@ const projectItems = [
   {
     key: 'openSource',
     href: '/projects',
-    gradient: 'from-brand-blue to-brand-purple',
+    gradient: 'from-brand-secondary to-brand-primary',
   },
   {
     key: 'caseStudies',
     href: '/projects?view=cases',
-    gradient: 'from-brand-orange to-brand-pink',
+    gradient: 'from-brand-accentYellow to-brand-accent',
   },
   {
     key: 'partnerships',
     href: '/projects?view=partners',
-    gradient: 'from-brand-purple to-brand-orange',
+    gradient: 'from-brand-primary to-brand-accentYellow',
   },
   {
     key: 'github',
     href: 'https://github.com/Monynha-Softwares',
-    gradient: 'from-brand-pink to-brand-blue',
+    gradient: 'from-brand-accent to-brand-secondary',
     external: true,
   },
 ] as const;
@@ -101,7 +101,7 @@ const SiteHeader = () => {
   const isProjectsActive = location.pathname.startsWith('/projects');
 
   const menuCardLinkClasses =
-    'group block rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2 focus-visible:ring-offset-white transition-transform duration-300 hover:-translate-y-0.5 focus-visible:-translate-y-0.5';
+    'group block rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-white transition-transform duration-300 hover:-translate-y-0.5 focus-visible:-translate-y-0.5';
 
   const renderGradientCard = (
     gradient: string,
@@ -120,7 +120,7 @@ const SiteHeader = () => {
             {content.title}
           </span>
           <ArrowRight
-            className="h-4 w-4 text-brand-blue opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
+            className="h-4 w-4 text-brand-secondary opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
             aria-hidden="true"
           />
         </div>
@@ -132,25 +132,25 @@ const SiteHeader = () => {
   );
 
   const desktopNavLinkClasses =
-    'px-4 py-2 text-sm font-medium text-neutral-700 transition-colors rounded-lg hover:text-brand-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2 focus-visible:ring-offset-white';
+    'px-4 py-2 text-sm font-medium text-neutral-700 transition-colors rounded-lg hover:text-brand-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-white';
 
   const desktopNavLinkActiveClasses =
-    'text-brand-blue bg-white/80 shadow-soft-lg';
+    'text-brand-secondary bg-white/80 shadow-soft-lg';
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/40 bg-white/70 shadow-[0_10px_35px_rgba(91,44,111,0.08)] backdrop-blur-xl supports-[backdrop-filter]:bg-white/60">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <NavLink
           to="/"
-          className="flex items-center space-x-3 rounded-xl px-2 py-1 transition-opacity duration-300 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2 focus-visible:ring-offset-white hover:opacity-80"
+          className="flex items-center space-x-3 rounded-xl px-2 py-1 transition-opacity duration-300 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-white hover:opacity-80"
         >
           <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-brand text-white shadow-soft-lg">
             <span className="text-lg font-bold">M</span>
           </div>
           <div className="flex items-center space-x-1">
-            <span className="font-brand text-xl font-semibold text-neutral-900">
+            <span className="font-display text-xl font-semibold text-neutral-900">
               Mon
-              <span className="text-brand-blue">y</span>
+              <span className="text-brand-secondary">y</span>
               nha
             </span>
             <svg
@@ -190,13 +190,13 @@ const SiteHeader = () => {
                 <NavigationMenuTrigger
                   data-active={isSolutionsActive}
                   className={cn(
-                    'px-4 py-2 text-sm font-medium text-neutral-700 transition-colors rounded-lg hover:text-brand-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2 focus-visible:ring-offset-white data-[state=open]:bg-white/90 data-[state=open]:text-brand-blue data-[active=true]:bg-white/80 data-[active=true]:text-brand-blue'
+                    'px-4 py-2 text-sm font-medium text-neutral-700 transition-colors rounded-lg hover:text-brand-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-white data-[state=open]:bg-white/90 data-[state=open]:text-brand-secondary data-[active=true]:bg-white/80 data-[active=true]:text-brand-secondary'
                   )}
                 >
                   {t('navigation.solutions')}
                 </NavigationMenuTrigger>
                 <NavigationMenuContent className="rounded-2xl shadow-soft-lg">
-                  <div className="rounded-2xl bg-gradient-to-r from-brand-purple via-brand-blue to-brand-pink p-[1px]">
+                  <div className="rounded-2xl bg-gradient-to-r from-brand-primary via-brand-secondary to-brand-accent p-[1px]">
                     <div className="md:w-[560px] rounded-[1.05rem] bg-white/95 p-6 backdrop-blur-sm">
                       <div className="grid gap-4 md:grid-cols-2">
                         {solutionItems.map((item) => {
@@ -218,7 +218,7 @@ const SiteHeader = () => {
                         <Button
                           asChild
                           variant="ghost"
-                          className="px-4 text-sm font-semibold text-brand-blue transition-colors hover:bg-gradient-to-r hover:from-brand-purple hover:via-brand-blue hover:to-brand-pink hover:text-white focus-visible:ring-brand-blue"
+                          className="px-4 text-sm font-semibold text-brand-secondary transition-colors hover:bg-gradient-to-r hover:from-brand-primary hover:via-brand-secondary hover:to-brand-accent hover:text-white focus-visible:ring-brand-secondary"
                         >
                           <Link to="/solutions">
                             {t('navigation.solutionsMenu.viewAll')}
@@ -226,7 +226,7 @@ const SiteHeader = () => {
                         </Button>
                         <Button
                           asChild
-                          className="bg-gradient-to-r from-brand-purple via-brand-blue to-brand-pink text-white shadow-soft hover:shadow-soft-lg focus-visible:ring-brand-blue focus-visible:ring-offset-2"
+                          className="bg-gradient-to-r from-brand-primary via-brand-secondary to-brand-accent text-white shadow-soft hover:shadow-soft-lg focus-visible:ring-brand-secondary focus-visible:ring-offset-2"
                         >
                           <Link to="/contact">
                             {t('navigation.startProject')}
@@ -242,13 +242,13 @@ const SiteHeader = () => {
                 <NavigationMenuTrigger
                   data-active={isProjectsActive}
                   className={cn(
-                    'px-4 py-2 text-sm font-medium text-neutral-700 transition-colors rounded-lg hover:text-brand-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2 focus-visible:ring-offset-white data-[state=open]:bg-white/90 data-[state=open]:text-brand-blue data-[active=true]:bg-white/80 data-[active=true]:text-brand-blue'
+                    'px-4 py-2 text-sm font-medium text-neutral-700 transition-colors rounded-lg hover:text-brand-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-white data-[state=open]:bg-white/90 data-[state=open]:text-brand-secondary data-[active=true]:bg-white/80 data-[active=true]:text-brand-secondary'
                   )}
                 >
                   {t('navigation.projects')}
                 </NavigationMenuTrigger>
                 <NavigationMenuContent className="rounded-2xl shadow-soft-lg">
-                  <div className="rounded-2xl bg-gradient-to-r from-brand-purple via-brand-blue to-brand-pink p-[1px]">
+                  <div className="rounded-2xl bg-gradient-to-r from-brand-primary via-brand-secondary to-brand-accent p-[1px]">
                     <div className="md:w-[560px] rounded-[1.05rem] bg-white/95 p-6 backdrop-blur-sm">
                       <div className="grid gap-4 md:grid-cols-2">
                         {projectItems.map((item) => {
@@ -285,7 +285,7 @@ const SiteHeader = () => {
                         <Button
                           asChild
                           variant="ghost"
-                          className="px-4 text-sm font-semibold text-brand-blue transition-colors hover:bg-gradient-to-r hover:from-brand-purple hover:via-brand-blue hover:to-brand-pink hover:text-white focus-visible:ring-brand-blue"
+                          className="px-4 text-sm font-semibold text-brand-secondary transition-colors hover:bg-gradient-to-r hover:from-brand-primary hover:via-brand-secondary hover:to-brand-accent hover:text-white focus-visible:ring-brand-secondary"
                         >
                           <Link to="/projects">
                             {t('navigation.projectsMenu.viewAll')}
@@ -294,7 +294,7 @@ const SiteHeader = () => {
                         <Button
                           asChild
                           variant="outline"
-                          className="border-brand-blue/20 text-brand-blue hover:border-brand-blue hover:bg-brand-blue/10 focus-visible:ring-brand-blue focus-visible:ring-offset-2"
+                          className="border-brand-secondary/20 text-brand-secondary hover:border-brand-secondary hover:bg-brand-secondary/10 focus-visible:ring-brand-secondary focus-visible:ring-offset-2"
                         >
                           <Link to="/contact">{t('navigation.startProject')}</Link>
                         </Button>
@@ -353,7 +353,7 @@ const SiteHeader = () => {
               </NavigationMenuItem>
             </NavigationMenuList>
             <NavigationMenuIndicator className="bg-transparent">
-              <div className="relative top-[60%] h-2 w-2 rotate-45 bg-gradient-to-br from-brand-purple to-brand-blue" />
+              <div className="relative top-[60%] h-2 w-2 rotate-45 bg-gradient-to-br from-brand-primary to-brand-secondary" />
             </NavigationMenuIndicator>
           </NavigationMenu>
           <LanguageSwitcher />
@@ -369,7 +369,7 @@ const SiteHeader = () => {
                 variant="outline"
                 size="sm"
                 onClick={signOut}
-                className="flex items-center gap-2 border-brand-blue/30 text-neutral-700 transition-colors hover:border-brand-blue hover:text-brand-blue focus-visible:ring-brand-blue"
+                className="flex items-center gap-2"
               >
                 <LogOut className="h-4 w-4" />
                 <span>Sair</span>
@@ -378,17 +378,13 @@ const SiteHeader = () => {
           ) : (
             <div className="flex items-center gap-3">
               <NavLink to="/auth">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="flex items-center gap-2 border-brand-purple/30 text-neutral-700 transition-colors hover:border-brand-blue hover:text-brand-blue focus-visible:ring-brand-blue"
-                >
+                <Button variant="outline" size="sm" className="flex items-center gap-2">
                   <User className="h-4 w-4" />
                   <span>Login</span>
                 </Button>
               </NavLink>
               <NavLink to="/contact">
-                <Button className="bg-gradient-to-r from-brand-purple via-brand-blue to-brand-pink text-white shadow-soft hover:shadow-soft-lg">
+                <Button variant="default" size="sm">
                   {t('navigation.startProject')}
                 </Button>
               </NavLink>
@@ -401,7 +397,7 @@ const SiteHeader = () => {
             <SheetTrigger asChild>
               <button
                 aria-label={t('navigation.toggleNavigation')}
-                className="flex items-center justify-center rounded-xl border border-white/0 bg-white/70 p-2 text-neutral-700 shadow-soft transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2 focus-visible:ring-offset-white hover:text-brand-blue"
+                className="flex items-center justify-center rounded-xl border border-white/0 bg-white/70 p-2 text-neutral-700 shadow-soft transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-white hover:text-brand-secondary"
               >
                 {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
               </button>
@@ -423,8 +419,8 @@ const SiteHeader = () => {
                     to="/"
                     className={({ isActive }) =>
                       cn(
-                        'rounded-lg px-3 py-2 transition-colors hover:text-brand-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2 focus-visible:ring-offset-white',
-                        isActive && 'text-brand-blue'
+                        'rounded-lg px-3 py-2 transition-colors hover:text-brand-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-white',
+                        isActive && 'text-brand-secondary'
                       )
                     }
                   >
@@ -458,7 +454,7 @@ const SiteHeader = () => {
                         <SheetClose asChild>
                           <Link
                             to="/solutions"
-                            className="inline-flex items-center justify-center rounded-lg border border-brand-blue/20 px-4 py-2 text-sm font-semibold text-brand-blue transition-colors hover:border-brand-blue hover:bg-brand-blue/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                            className="inline-flex items-center justify-center rounded-lg border border-brand-secondary/20 px-4 py-2 text-sm font-semibold text-brand-secondary transition-colors hover:border-brand-secondary hover:bg-brand-secondary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-white"
                           >
                             {t('navigation.solutionsMenu.viewAll')}
                           </Link>
@@ -466,7 +462,7 @@ const SiteHeader = () => {
                         <SheetClose asChild>
                           <Link
                             to="/contact"
-                            className="inline-flex items-center justify-center rounded-lg bg-gradient-to-r from-brand-purple via-brand-blue to-brand-pink px-4 py-2 text-sm font-semibold text-white shadow-soft"
+                            className="inline-flex items-center justify-center rounded-lg bg-gradient-to-r from-brand-primary via-brand-secondary to-brand-accent px-4 py-2 text-sm font-semibold text-white shadow-soft"
                           >
                             {t('navigation.startProject')}
                           </Link>
@@ -515,7 +511,7 @@ const SiteHeader = () => {
                         <SheetClose asChild>
                           <Link
                             to="/projects"
-                            className="inline-flex items-center justify-center rounded-lg border border-brand-blue/20 px-4 py-2 text-sm font-semibold text-brand-blue transition-colors hover:border-brand-blue hover:bg-brand-blue/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                            className="inline-flex items-center justify-center rounded-lg border border-brand-secondary/20 px-4 py-2 text-sm font-semibold text-brand-secondary transition-colors hover:border-brand-secondary hover:bg-brand-secondary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-white"
                           >
                             {t('navigation.projectsMenu.viewAll')}
                           </Link>
@@ -530,8 +526,8 @@ const SiteHeader = () => {
                     to="/about"
                     className={({ isActive }) =>
                       cn(
-                        'rounded-lg px-3 py-2 transition-colors hover:text-brand-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2 focus-visible:ring-offset-white',
-                        isActive && 'text-brand-blue'
+                        'rounded-lg px-3 py-2 transition-colors hover:text-brand-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-white',
+                        isActive && 'text-brand-secondary'
                       )
                     }
                   >
@@ -543,8 +539,8 @@ const SiteHeader = () => {
                     to="/blog"
                     className={({ isActive }) =>
                       cn(
-                        'rounded-lg px-3 py-2 transition-colors hover:text-brand-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2 focus-visible:ring-offset-white',
-                        isActive && 'text-brand-blue'
+                        'rounded-lg px-3 py-2 transition-colors hover:text-brand-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-white',
+                        isActive && 'text-brand-secondary'
                       )
                     }
                   >
@@ -556,8 +552,8 @@ const SiteHeader = () => {
                     to="/contact"
                     className={({ isActive }) =>
                       cn(
-                        'rounded-lg px-3 py-2 transition-colors hover:text-brand-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2 focus-visible:ring-offset-white',
-                        isActive && 'text-brand-blue'
+                        'rounded-lg px-3 py-2 transition-colors hover:text-brand-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-white',
+                        isActive && 'text-brand-secondary'
                       )
                     }
                   >
@@ -578,7 +574,7 @@ const SiteHeader = () => {
                         signOut();
                         setMobileOpen(false);
                       }}
-                      className="flex w-full items-center justify-center gap-2 border-brand-blue/30 text-neutral-700 hover:border-brand-blue hover:text-brand-blue"
+                      className="flex w-full items-center justify-center gap-2 border-brand-secondary/30 text-neutral-700 hover:border-brand-secondary hover:text-brand-secondary"
                     >
                       <LogOut className="h-4 w-4" />
                       <span>Sair</span>
@@ -589,7 +585,7 @@ const SiteHeader = () => {
                     <SheetClose asChild>
                       <Link
                         to="/auth"
-                        className="inline-flex items-center justify-center gap-2 rounded-lg border border-brand-purple/30 px-4 py-2 text-sm font-semibold text-neutral-700 transition-colors hover:border-brand-blue hover:text-brand-blue"
+                        className="inline-flex items-center justify-center gap-2 rounded-lg border border-brand-primary/30 px-4 py-2 text-sm font-semibold text-neutral-700 transition-colors hover:border-brand-secondary hover:text-brand-secondary"
                       >
                         <User className="h-4 w-4" />
                         <span>Login</span>
@@ -598,7 +594,7 @@ const SiteHeader = () => {
                     <SheetClose asChild>
                       <Link
                         to="/contact"
-                        className="inline-flex items-center justify-center rounded-lg bg-gradient-to-r from-brand-purple via-brand-blue to-brand-pink px-4 py-2 text-sm font-semibold text-white shadow-soft"
+                        className="inline-flex items-center justify-center rounded-lg bg-gradient-to-r from-brand-primary via-brand-secondary to-brand-accent px-4 py-2 text-sm font-semibold text-white shadow-soft"
                       >
                         {t('navigation.startProject')}
                       </Link>

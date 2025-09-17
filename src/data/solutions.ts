@@ -1,10 +1,10 @@
 import type { SolutionContent } from '@/types/solutions';
 
 export const gradientOptions = [
-  'from-brand-purple to-brand-blue',
-  'from-brand-pink to-brand-orange',
-  'from-brand-blue to-brand-purple',
-  'from-brand-orange to-brand-pink',
+  'from-brand-primary to-brand-secondary',
+  'from-brand-accent to-brand-accentYellow',
+  'from-brand-secondary to-brand-primary',
+  'from-brand-accentYellow to-brand-accent',
 ];
 
 export const normalizeSolutionSlug = (value: string): string =>

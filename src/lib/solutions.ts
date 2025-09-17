@@ -5,7 +5,6 @@ import {
   gradientOptions,
   normalizeSolutionSlug,
 } from '@/data/solutions';
-import type { Tables } from '@/integrations/supabase/types';
 import type { SolutionContent } from '@/types/solutions';
 import { supabase } from '@/integrations/supabase';
 import type { Database } from '@/integrations/supabase/types';
@@ -226,30 +225,6 @@ export const getFallbackSolutions = (): SolutionContent[] =>
     features: [...solution.features],
   }));
 
-// Removed duplicate type declaration
-
-const mapSupabaseFeatures = (
-  features: SupabaseSolutionRow['features'],
-  fallback?: SolutionContent
-): string[] => {
-  if (Array.isArray(features)) {
-    const entries = (features as unknown[]).filter(
-      (feature): feature is string => typeof feature === 'string'
-    );
-
-    if (entries.length > 0) {
-      return entries;
-    }
-  }
-
-  if (fallback?.features?.length) {
-    return [...fallback.features];
-  }
-
-  return [];
-};
-
-// Removed duplicate function declaration
 export const fetchSupabaseSolutions = async (): Promise<SolutionContent[]> => {
   const { data, error } = await supabase
     .from('solutions')
@@ -264,7 +239,6 @@ export const fetchSupabaseSolutions = async (): Promise<SolutionContent[]> => {
   const rows = data ?? [];
 
   return rows.map((solution, index) =>
-  mapSupabaseSolutionToContent(solution, index)
+    mapSupabaseSolutionToContent(solution, index)
   );
-
-  }
+};

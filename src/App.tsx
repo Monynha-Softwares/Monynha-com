@@ -1,5 +1,5 @@
-import { Toaster } from '@/components/ui/toaster';
-import { TooltipProvider } from '@/components/ui/tooltip';
+import { Toaster } from '@monynha/ui/toaster';
+import { TooltipProvider } from '@monynha/ui/tooltip';
 import { ToastProvider } from '@/hooks/ToastProvider';
 import { AuthProvider } from '@/hooks/useAuth';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';

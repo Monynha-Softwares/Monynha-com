@@ -4,16 +4,16 @@ import { supabase } from '@/integrations/supabase';
 import type { Database } from '@/integrations/supabase/types';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
-import { Button } from '@/components/ui/button';
+import { Button } from '@monynha/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
+} from '@monynha/ui/card';
+import { Avatar, AvatarFallback, AvatarImage } from '@monynha/ui/avatar';
+import { Badge } from '@monynha/ui/badge';
 import {
   Table,
   TableBody,
@@ -21,8 +21,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+} from '@monynha/ui/table';
+import { Alert, AlertDescription, AlertTitle } from '@monynha/ui/alert';
 import Loading from '@/components/Loading';
 import { AlertTriangle, Loader2, LogOut, RefreshCcw } from 'lucide-react';
 import { useTranslation } from 'react-i18next';

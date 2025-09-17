@@ -1,5 +1,6 @@
 import type { Config } from 'tailwindcss';
 import animatePlugin from 'tailwindcss-animate';
+import { brandTokens } from './packages/config/src';
 
 export default {
   darkMode: ['class'],
@@ -13,7 +14,7 @@ export default {
   theme: {
     container: {
       center: true,
-      padding: '2rem',
+      padding: brandTokens.spacing.containerPadding,
       screens: {
         '2xl': '1400px',
       },
@@ -53,40 +54,36 @@ export default {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
         },
-        // Monynha Softwares Brand Colors
         brand: {
-          purple: '#5B2C6F',
-          blue: '#4A90E2',
-          pink: '#E06666',
-          orange: '#F7B500',
+          primary: brandTokens.colors.primary,
+          secondary: brandTokens.colors.secondary,
+          accent: brandTokens.colors.accent.pride[0],
+          accentYellow: brandTokens.colors.accent.pride[2],
+          accentIndigo: brandTokens.colors.accent.pride[4],
         },
         neutral: {
-          50: '#F8F8F8',
-          100: '#EEEEEE',
-          400: '#888888',
-          700: '#333333',
-          900: '#000000',
+          ...brandTokens.colors.neutral,
         },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        brand: ['Quicksand', 'system-ui', 'sans-serif'],
+        sans: brandTokens.fonts.sans.split(', ').map((font) => font.replace(/^"|"$/g, '')),
+        display: brandTokens.fonts.display.split(', ').map((font) => font.replace(/^"|"$/g, '')),
+        mono: brandTokens.fonts.mono.split(', ').map((font) => font.replace(/^"|"$/g, '')),
       },
       backgroundImage: {
-        'gradient-brand':
-          'linear-gradient(135deg, #5B2C6F 0%, #4A90E2 25%, #E06666 75%, #F7B500 100%)',
-        'gradient-hero': 'linear-gradient(135deg, #5B2C6F 0%, #4A90E2 100%)',
+        'gradient-brand': brandTokens.gradients.pride,
+        'gradient-hero': brandTokens.gradients.primary,
       },
       borderRadius: {
-        lg: 'var(--radius)',
+        lg: brandTokens.radii.lg,
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
-        xl: '1rem',
-        '2xl': '1.5rem',
+        xl: brandTokens.radii.xl,
+        '2xl': brandTokens.radii.xl,
       },
       boxShadow: {
-        soft: '0 2px 15px 0 rgba(0, 0, 0, 0.08)',
-        'soft-lg': '0 4px 25px 0 rgba(0, 0, 0, 0.12)',
+        soft: brandTokens.shadows.md,
+        'soft-lg': brandTokens.shadows.lg,
       },
       keyframes: {
         'accordion-down': {

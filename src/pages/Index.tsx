@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@monynha/ui/button';
+import { Card, CardContent } from '@monynha/ui/card';
 import Layout from '@/components/Layout';
 import Meta from '@/components/Meta';
 import TeamSection from '@/components/TeamSection';
@@ -24,7 +24,7 @@ import { useMemo } from 'react';
 const fallbackSolutionsConfig = [
   {
     id: 'boteco',
-    gradient: 'from-brand-purple to-brand-blue',
+    gradient: 'from-brand-primary to-brand-secondary',
     featureKeys: [
       'orderManagement',
       'inventoryTracking',
@@ -34,7 +34,7 @@ const fallbackSolutionsConfig = [
   },
   {
     id: 'assistina',
-    gradient: 'from-brand-pink to-brand-orange',
+    gradient: 'from-brand-accent to-brand-accentYellow',
     featureKeys: ['nlp', 'taskAutomation', 'learning', 'integration'],
   },
 ];
@@ -94,8 +94,8 @@ const Index = () => {
           : [],
         gradient:
           index === 0
-            ? 'from-brand-purple to-brand-blue'
-            : 'from-brand-pink to-brand-orange',
+            ? 'from-brand-primary to-brand-secondary'
+            : 'from-brand-accent to-brand-accentYellow',
       }));
     },
   });
@@ -180,7 +180,7 @@ const Index = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/contact">
-                <Button className="btn-primary">
+                <Button variant="default">
                   {t('index.hero.cta')}
 
                   <ArrowRight className="ml-2 h-5 w-5" />
@@ -189,7 +189,7 @@ const Index = () => {
               <Link to="/solutions">
                 <Button
                   size="lg"
-                  className="bg-white text-brand-purple hover:bg-blue-50 font-semibold px-8 py-4 rounded-xl text-lg transition-all ease-in-out duration-300"
+                  variant="secondary"
                 >
                   {t('index.hero.viewSolutions')}
                 </Button>
@@ -272,14 +272,14 @@ const Index = () => {
                             key={featureIndex}
                             className="flex items-center text-neutral-700"
                           >
-                            <CheckCircle className="h-5 w-5 text-brand-blue mr-3" />
+                            <CheckCircle className="h-5 w-5 text-brand-secondary mr-3" />
                             {feature}
                           </li>
                         ))}
                       </ul>
                     )}
                   <Link to="/solutions">
-                    <Button className="btn-secondary w-full">
+                    <Button variant="secondary" className="w-full">
                       {t('index.learnMore')}
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
@@ -307,10 +307,7 @@ const Index = () => {
             {t('index.cta.description')}
           </p>
           <Link to="/contact">
-            <Button
-              size="lg"
-              className="bg-white text-brand-purple hover:bg-blue-50 font-semibold px-8 py-4 rounded-xl text-lg transition-all ease-in-out duration-300"
-            >
+            <Button size="lg" variant="secondary">
               {t('index.cta.getStarted')}
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>

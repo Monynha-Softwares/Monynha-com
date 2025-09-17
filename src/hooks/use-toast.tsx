@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import type { ToastActionElement, ToastProps } from '@/components/ui/toast';
+import type { ToastActionElement, ToastProps } from '@monynha/ui/toast';
 import reducer, {
   TOAST_REMOVE_DELAY,
   genId,

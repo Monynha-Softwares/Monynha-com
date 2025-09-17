@@ -3,7 +3,7 @@ import React from 'react';
 const Loading = () => (
   <div className="flex items-center justify-center py-20" role="status">
     <svg
-      className="animate-spin h-8 w-8 text-brand-blue"
+      className="animate-spin h-8 w-8 text-brand-secondary"
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"

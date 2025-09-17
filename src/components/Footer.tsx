@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Heart } from 'lucide-react';
-import { Separator } from '@/components/ui/separator';
+import { Separator } from '@monynha/ui/separator';
 
 const Footer = () => {
   const { t } = useTranslation();
@@ -16,8 +16,8 @@ const Footer = () => {
                 <span className="text-white text-lg font-bold">M</span>
               </div>
               <div className="flex flex-col">
-                <span className="font-brand font-semibold text-xl text-neutral-900">
-                  Mon<span className="text-brand-blue">y</span>nha.com
+                <span className="font-display font-semibold text-xl text-neutral-900">
+                  Mon<span className="text-brand-secondary">y</span>nha.com
                 </span>
                 <span className="text-sm text-neutral-400 font-medium">
                   {t('footer.tagline')}
@@ -38,7 +38,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/solutions"
-                  className="text-neutral-600 hover:text-brand-blue transition-colors ease-in-out duration-300"
+                  className="text-neutral-600 hover:text-brand-secondary transition-colors ease-in-out duration-300"
                 >
                   {t('navigation.solutions')}
                 </Link>
@@ -46,7 +46,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/about"
-                  className="text-neutral-600 hover:text-brand-blue transition-colors ease-in-out duration-300"
+                  className="text-neutral-600 hover:text-brand-secondary transition-colors ease-in-out duration-300"
                 >
                   {t('navigation.about')}
                 </Link>
@@ -54,7 +54,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/blog"
-                  className="text-neutral-600 hover:text-brand-blue transition-colors ease-in-out duration-300"
+                  className="text-neutral-600 hover:text-brand-secondary transition-colors ease-in-out duration-300"
                 >
                   {t('navigation.blog')}
                 </Link>
@@ -62,7 +62,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/contact"
-                  className="text-neutral-600 hover:text-brand-blue transition-colors ease-in-out duration-300"
+                  className="text-neutral-600 hover:text-brand-secondary transition-colors ease-in-out duration-300"
                 >
                   {t('navigation.contact')}
                 </Link>
@@ -197,13 +197,13 @@ const Footer = () => {
           <div className="flex space-x-6 mt-4 md:mt-0">
             <Link
               to="#"
-              className="text-neutral-500 hover:text-brand-blue transition-colors ease-in-out duration-300 text-sm"
+              className="text-neutral-500 hover:text-brand-secondary transition-colors ease-in-out duration-300 text-sm"
             >
               {t('footer.privacy')}
             </Link>
             <Link
               to="#"
-              className="text-neutral-500 hover:text-brand-blue transition-colors ease-in-out duration-300 text-sm"
+              className="text-neutral-500 hover:text-brand-secondary transition-colors ease-in-out duration-300 text-sm"
             >
               {t('footer.terms')}
             </Link>

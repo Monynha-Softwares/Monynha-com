@@ -26,11 +26,14 @@ The application will be available on [http://localhost:5173](http://localhost:51
 
 ```
 src/
-  components/      Reusable UI components
+  components/      Page-specific and layout components
   hooks/           Custom React hooks
   integrations/    Third‑party integrations (Supabase)
   pages/           Route components
   lib/             Utility helpers
+packages/
+  config/          Brand design tokens shared across apps
+  ui/              Shared shadcn/ui components published as @monynha/ui
 ```
 
 ## Scripts
@@ -40,6 +43,15 @@ src/
 - `npm run test` – run unit tests (none at the moment)
 - `npm run build` – create a production build
 - `npm run sitemap` – generate `public/sitemap.xml`
+
+## Design system & shared packages
+
+- **`@monynha/config`** centralises brand tokens (colors, radii, fonts, gradients). Tailwind consumes these tokens via `tailwind.config.ts`, and global CSS variables (`src/index.css`) mirror them for runtime usage.
+- **`@monynha/ui`** now hosts all shared shadcn/ui components plus utilities such as `cn`. Import UI primitives from the package instead of local paths, e.g. `import { Button } from '@monynha/ui/button'` or grouped exports `import { Button, Card } from '@monynha/ui'`.
+- Applications should extend these packages instead of duplicating styles to keep colours, rounded corners (`rounded-2xl`) and button proportions consistent.
+- Brand typography is standardised to Inter (body), Space Grotesk (display) and JetBrains Mono (code) through `src/index.css`.
+
+Run `npm install` from the repository root – the workspace will automatically link both packages.
 
 ### Environment variables
 
@@ -57,7 +69,7 @@ These variables match the placeholders in `.env.example`.
 
 - React & Vite
 - TypeScript
-- Tailwind CSS & shadcn/ui
+- Tailwind CSS & shadcn/ui (via `@monynha/ui`)
 - Supabase
 - React Query
 

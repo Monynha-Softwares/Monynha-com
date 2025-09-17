@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
+import { Card, CardContent } from '@monynha/ui/card';
+import { Button } from '@monynha/ui/button';
+import { Input } from '@monynha/ui/input';
+import { Textarea } from '@monynha/ui/textarea';
 import Layout from '@/components/Layout';
 import Meta from '@/components/Meta';
 import { Mail, Phone, MapPin, Send, CheckCircle } from 'lucide-react';
@@ -17,7 +17,7 @@ import {
   BreadcrumbLink,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb';
+} from '@monynha/ui/breadcrumb';
 import { useQuery } from '@tanstack/react-query';
 
 const PROJECT_TYPE_KEYS = [
@@ -339,7 +339,7 @@ const Contact = () => {
             </p>
             <Button
               onClick={() => setIsSubmitted(false)}
-              className="btn-secondary"
+              variant="secondary"
             >
               {t('contact.thankYou.another')}
             </Button>
@@ -415,7 +415,7 @@ const Contact = () => {
                           value={formData.name}
                           onChange={handleInputChange}
                           onBlur={handleFieldBlur}
-                          className="rounded-xl border-neutral-200 focus:border-brand-blue focus:ring-brand-blue"
+                          className="rounded-xl border-neutral-200 focus:border-brand-secondary focus:ring-brand-secondary"
                           placeholder={t('contact.form.placeholderName')}
                         />
                         {errors.name && (
@@ -439,7 +439,7 @@ const Contact = () => {
                           value={formData.email}
                           onChange={handleInputChange}
                           onBlur={handleFieldBlur}
-                          className="rounded-xl border-neutral-200 focus:border-brand-blue focus:ring-brand-blue"
+                          className="rounded-xl border-neutral-200 focus:border-brand-secondary focus:ring-brand-secondary"
                           placeholder={t('contact.form.placeholderEmail')}
                         />
                         {errors.email && (
@@ -464,7 +464,7 @@ const Contact = () => {
                           type="text"
                           value={formData.company}
                           onChange={handleInputChange}
-                          className="rounded-xl border-neutral-200 focus:border-brand-blue focus:ring-brand-blue"
+                          className="rounded-xl border-neutral-200 focus:border-brand-secondary focus:ring-brand-secondary"
                           placeholder={t('contact.form.placeholderCompany')}
                         />
                       </div>
@@ -481,7 +481,7 @@ const Contact = () => {
                           value={formData.project}
                           onChange={handleInputChange}
                           onBlur={handleFieldBlur}
-                          className="w-full px-3 py-2 border border-neutral-200 rounded-xl focus:border-brand-blue focus:ring-1 focus:ring-brand-blue focus:outline-none text-neutral-900"
+                          className="w-full px-3 py-2 border border-neutral-200 rounded-xl focus:border-brand-secondary focus:ring-1 focus:ring-brand-secondary focus:outline-none text-neutral-900"
                         >
                           <option value="">{t('contact.form.select')}</option>
                           {projectTypes.map((type, index) => (
@@ -508,7 +508,7 @@ const Contact = () => {
                         onChange={handleInputChange}
                         onBlur={handleFieldBlur}
                         rows={6}
-                        className="rounded-xl border-neutral-200 focus:border-brand-blue focus:ring-brand-blue resize-none"
+                        className="rounded-xl border-neutral-200 focus:border-brand-secondary focus:ring-brand-secondary resize-none"
                         placeholder={t('contact.form.placeholderDetails')}
                       />
                       {errors.message && (
@@ -520,7 +520,8 @@ const Contact = () => {
 
                     <Button
                       type="submit"
-                      className="btn-primary w-full"
+                      variant="default"
+                      className="w-full"
                       disabled={isSubmitting}
                     >
                       {isSubmitting
@@ -558,7 +559,7 @@ const Contact = () => {
                         <h3 className="font-semibold text-neutral-900 mb-1">
                           {info.title}
                         </h3>
-                        <p className="text-lg text-brand-blue font-medium mb-1">
+                        <p className="text-lg text-brand-secondary font-medium mb-1">
                           {info.content}
                         </p>
                         <p className="text-sm text-neutral-600">

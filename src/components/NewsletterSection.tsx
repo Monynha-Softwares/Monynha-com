@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Card, CardContent } from '@monynha/ui/card';
+import { Button } from '@monynha/ui/button';
+import { Input } from '@monynha/ui/input';
 import { supabase } from '@/integrations/supabase';
 import { useToast } from '@/hooks/use-toast';
 import { Mail, CheckCircle } from 'lucide-react';
@@ -88,7 +88,7 @@ const NewsletterSection = () => {
               setIsSubscribed(false);
               setEmail('');
             }}
-            className="bg-white text-brand-purple hover:bg-blue-50 font-semibold px-6 py-3 rounded-xl"
+            variant="secondary"
           >
             {t('newsletterSection.subscribeAnother')}
           </Button>
@@ -127,7 +127,8 @@ const NewsletterSection = () => {
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="bg-white text-brand-purple hover:bg-blue-50 font-semibold px-8 py-3 rounded-xl whitespace-nowrap"
+                  variant="default"
+                  className="px-8 whitespace-nowrap"
                 >
                   {isSubmitting
                     ? t('newsletterSection.subscribing')

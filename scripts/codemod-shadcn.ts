@@ -26,12 +26,12 @@ for (const sourceFile of project.getSourceFiles('src/**/*.{ts,tsx}')) {
       const value = classAttr.getInitializer()?.getText() || '';
       if (value.includes('btn-primary')) {
         classAttr.remove();
-        el.addAttribute({ name: 'variant', initializer: '"brandPrimary"' });
+        el.addAttribute({ name: 'variant', initializer: '"default"' });
         changed = true;
       }
       if (value.includes('btn-secondary')) {
         classAttr.remove();
-        el.addAttribute({ name: 'variant', initializer: '"brandSecondary"' });
+        el.addAttribute({ name: 'variant', initializer: '"secondary"' });
         changed = true;
       }
     }
@@ -40,23 +40,23 @@ for (const sourceFile of project.getSourceFiles('src/**/*.{ts,tsx}')) {
       if (value.includes('btn-primary') || value.includes('btn-secondary')) {
         el.setTagName('Button');
         if (value.includes('btn-primary')) {
-          el.addAttribute({ name: 'variant', initializer: '"brandPrimary"' });
+          el.addAttribute({ name: 'variant', initializer: '"default"' });
         } else {
-          el.addAttribute({ name: 'variant', initializer: '"brandSecondary"' });
+          el.addAttribute({ name: 'variant', initializer: '"secondary"' });
         }
         classAttr.remove();
-        ensureImport(sourceFile, 'Button', '@/components/ui/button');
+        ensureImport(sourceFile, 'Button', '@monynha/ui/button');
         changed = true;
       }
     }
     if (tagName === 'input') {
       el.setTagName('Input');
-      ensureImport(sourceFile, 'Input', '@/components/ui/input');
+      ensureImport(sourceFile, 'Input', '@monynha/ui/input');
       changed = true;
     }
     if (tagName === 'select') {
       el.setTagName('Select');
-      ensureImport(sourceFile, 'Select', '@/components/ui/select');
+      ensureImport(sourceFile, 'Select', '@monynha/ui/select');
       changed = true;
     }
   }

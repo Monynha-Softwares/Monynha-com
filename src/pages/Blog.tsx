@@ -1,7 +1,7 @@
 import { useState, useMemo, useCallback } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@monynha/ui/card';
+import { Button } from '@monynha/ui/button';
 import Layout from '@/components/Layout';
 import Meta from '@/components/Meta';
 import NewsletterSection from '@/components/NewsletterSection';
@@ -22,14 +22,14 @@ import {
   BreadcrumbLink,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb';
+} from '@monynha/ui/breadcrumb';
 import {
   Pagination,
   PaginationContent,
   PaginationItem,
   PaginationLink,
   PaginationEllipsis,
-} from '@/components/ui/pagination';
+} from '@monynha/ui/pagination';
 import { cn } from '@/lib/utils';
 import { getNormalizedLocale } from '@/lib/i18n';
 import type { Database } from '@/integrations/supabase/types';
@@ -277,7 +277,7 @@ const Blog = () => {
                 className={`rounded-full px-6 py-2 ${
                   index === 0
                     ? 'bg-gradient-brand text-white'
-                    : 'border-neutral-200 text-neutral-600 hover:border-brand-blue hover:text-brand-blue'
+                    : 'border-neutral-200 text-neutral-600 hover:border-brand-secondary hover:text-brand-secondary'
                 }`}
                 type="button"
               >
@@ -311,7 +311,7 @@ const Blog = () => {
                 </Link>
                 <div className="p-8 lg:p-12 flex flex-col justify-center">
                   <div className="flex items-center space-x-4 text-sm text-neutral-500 mb-4">
-                    <span className="bg-brand-blue/10 text-brand-blue px-3 py-1 rounded-full font-medium">
+                    <span className="bg-brand-secondary/10 text-brand-secondary px-3 py-1 rounded-full font-medium">
                       {featuredPost.category}
                     </span>
                     <div className="flex items-center space-x-4">
@@ -331,7 +331,7 @@ const Blog = () => {
                   <p className="text-lg text-neutral-600 mb-6">
                     {featuredPost.excerpt}
                   </p>
-                  <Button asChild className="btn-primary w-fit">
+                  <Button asChild variant="default" className="w-fit">
                     <Link
                       to={`/blog/${featuredPost.slug}`}
                       className="inline-flex items-center"
@@ -368,7 +368,7 @@ const Blog = () => {
                       className="w-full h-48 object-cover"
                     />
                     <div className="absolute top-4 left-4">
-                      <span className="bg-white/90 backdrop-blur-sm text-brand-blue px-3 py-1 rounded-full text-sm font-medium">
+                      <span className="bg-white/90 backdrop-blur-sm text-brand-secondary px-3 py-1 rounded-full text-sm font-medium">
                         {post.category}
                       </span>
                     </div>
@@ -386,7 +386,7 @@ const Blog = () => {
                     </div>
                     <Link
                       to={`/blog/${post.slug}`}
-                      className="block text-xl font-semibold text-neutral-900 mb-3 line-clamp-2 hover:text-brand-blue"
+                      className="block text-xl font-semibold text-neutral-900 mb-3 line-clamp-2 hover:text-brand-secondary"
                     >
                       {post.title}
                     </Link>
@@ -396,7 +396,7 @@ const Blog = () => {
                     <Button
                       asChild
                       variant="ghost"
-                      className="text-brand-blue hover:text-brand-purple p-0 h-auto font-semibold"
+                      className="text-brand-secondary hover:text-brand-primary p-0 h-auto font-semibold"
                     >
                       <Link
                         to={`/blog/${post.slug}`}
@@ -502,7 +502,7 @@ const Blog = () => {
               placeholder={t('blog.newsletter.placeholder')}
               className="flex-1 px-4 py-3 rounded-xl border-0 text-neutral-900 placeholder-neutral-500 focus:ring-2 focus:ring-white focus:outline-none"
             />
-            <Button className="bg-white text-brand-purple hover:bg-blue-50 font-semibold px-6 py-3 rounded-xl transition-all ease-in-out duration-300">
+            <Button variant="secondary">
               {t('blog.newsletter.subscribe')}
             </Button>
           </div>

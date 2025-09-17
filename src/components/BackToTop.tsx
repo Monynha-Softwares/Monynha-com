@@ -31,7 +31,7 @@ const BackToTop = () => {
       }}
       tabIndex={visible ? 0 : -1}
       className={cn(
-        'fixed bottom-6 right-6 z-40 flex h-10 w-10 items-center justify-center rounded-full bg-brand-blue text-white shadow-md transition-opacity',
+        'fixed bottom-6 right-6 z-40 flex h-10 w-10 items-center justify-center rounded-full bg-brand-secondary text-white shadow-md transition-opacity',
         visible ? 'opacity-100' : 'pointer-events-none opacity-0'
       )}
     >

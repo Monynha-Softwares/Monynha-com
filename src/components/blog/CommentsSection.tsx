@@ -5,10 +5,10 @@ import { supabase } from '@/integrations/supabase';
 import type { Database } from '@/integrations/supabase/types';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Card, CardContent } from '@monynha/ui/card';
+import { Button } from '@monynha/ui/button';
+import { Textarea } from '@monynha/ui/textarea';
+import { Avatar, AvatarFallback, AvatarImage } from '@monynha/ui/avatar';
 import { Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { getNormalizedLocale } from '@/lib/i18n';
@@ -283,7 +283,7 @@ const CommentsSection = ({ postId }: CommentsSectionProps) => {
                   </span>
                   <Button
                     type="submit"
-                    className="btn-primary"
+                    variant="default"
                     disabled={addComment.isPending}
                   >
                     {addComment.isPending && (
@@ -296,10 +296,10 @@ const CommentsSection = ({ postId }: CommentsSectionProps) => {
             </CardContent>
           </Card>
         ) : (
-          <Card className="border border-dashed border-brand-blue/30 bg-white">
+          <Card className="border border-dashed border-brand-secondary/30 bg-white">
             <CardContent className="flex flex-col items-center gap-4 p-6 text-center text-neutral-600">
               <p>{t('blog.comments.signInPrompt')}</p>
-              <Button asChild className="btn-primary">
+              <Button asChild variant="default">
                 <Link to="/auth">{t('blog.comments.signInCta')}</Link>
               </Button>
             </CardContent>
