@@ -1,14 +1,12 @@
-
 import {
   fallbackSolutions,
   fallbackSolutionsMap,
   gradientOptions,
   normalizeSolutionSlug,
 } from '@/data/solutions';
-import type { Tables } from '@/integrations/supabase/types';
-import type { SolutionContent } from '@/types/solutions';
 import { supabase } from '@/integrations/supabase';
 import type { Database } from '@/integrations/supabase/types';
+import type { SolutionContent } from '@monynha/ui';
 
 export interface GitHubRepository {
   id: number;
@@ -32,6 +30,26 @@ export interface GitHubRepository {
 }
 
 type SupabaseSolutionRow = Database['public']['Tables']['solutions']['Row'];
+
+type MapSupabaseOptions = number | { index?: number };
+
+const DEFAULT_GRADIENT = 'from-brand-purple to-brand-blue';
+
+const pickGradient = (index: number | undefined, fallback?: string): string => {
+  if (fallback) {
+    return fallback;
+  }
+
+  if (!Array.isArray(gradientOptions) || gradientOptions.length === 0) {
+    return DEFAULT_GRADIENT;
+  }
+
+  const safeIndex = typeof index === 'number' && Number.isFinite(index)
+    ? Math.abs(index)
+    : 0;
+
+  return gradientOptions[safeIndex % gradientOptions.length];
+};
 
 const uniqueNonEmpty = (values: Array<string | null | undefined>): string[] => {
   const seen = new Set<string>();
@@ -148,8 +166,7 @@ export const mapGitHubRepoToContent = (
   const normalizedSlug = normalizeSolutionSlug(repository.name);
   const fallback =
     fallbackSolutionsMap[normalizedSlug] ?? fallbackSolutionsMap[repository.name];
-  const gradient =
-    fallback?.gradient ?? gradientOptions[index % gradientOptions.length];
+  const gradient = pickGradient(index, fallback?.gradient);
 
   const description = repository.description?.trim();
 
@@ -165,20 +182,32 @@ export const mapGitHubRepoToContent = (
     imageUrl: fallback?.imageUrl ?? null,
     features: buildFeatureList(repository, fallback),
     gradient,
+    externalUrl: repository.html_url,
   };
+};
+
+const resolveIndexFromOptions = (options?: MapSupabaseOptions): number => {
+  if (typeof options === 'number') {
+    return options;
+  }
+
+  if (options && typeof options.index === 'number') {
+    return options.index;
+  }
+
+  return 0;
 };
 
 export const mapSupabaseSolutionToContent = (
   solution: SupabaseSolutionRow,
-  index: number
+  options?: MapSupabaseOptions
 ): SolutionContent => {
+  const index = resolveIndexFromOptions(options);
   const normalizedSlug = normalizeSolutionSlug(solution.slug);
   const fallback =
     fallbackSolutionsMap[normalizedSlug] ?? fallbackSolutionsMap[solution.slug];
 
-  const gradient =
-    fallback?.gradient ?? gradientOptions[index % gradientOptions.length];
-
+  const gradient = pickGradient(index, fallback?.gradient);
   const parsedFeatures = coerceToStringArray(solution.features);
 
   const features =
@@ -196,6 +225,7 @@ export const mapSupabaseSolutionToContent = (
     imageUrl: solution.image_url ?? fallback?.imageUrl ?? null,
     features,
     gradient,
+    externalUrl: null,
   };
 };
 
@@ -226,30 +256,6 @@ export const getFallbackSolutions = (): SolutionContent[] =>
     features: [...solution.features],
   }));
 
-// Removed duplicate type declaration
-
-const mapSupabaseFeatures = (
-  features: SupabaseSolutionRow['features'],
-  fallback?: SolutionContent
-): string[] => {
-  if (Array.isArray(features)) {
-    const entries = (features as unknown[]).filter(
-      (feature): feature is string => typeof feature === 'string'
-    );
-
-    if (entries.length > 0) {
-      return entries;
-    }
-  }
-
-  if (fallback?.features?.length) {
-    return [...fallback.features];
-  }
-
-  return [];
-};
-
-// Removed duplicate function declaration
 export const fetchSupabaseSolutions = async (): Promise<SolutionContent[]> => {
   const { data, error } = await supabase
     .from('solutions')
@@ -264,7 +270,6 @@ export const fetchSupabaseSolutions = async (): Promise<SolutionContent[]> => {
   const rows = data ?? [];
 
   return rows.map((solution, index) =>
-  mapSupabaseSolutionToContent(solution, index)
+    mapSupabaseSolutionToContent(solution, index)
   );
-
-  }
+};
