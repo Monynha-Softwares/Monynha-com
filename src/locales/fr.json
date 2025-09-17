@@ -77,6 +77,9 @@
     "title": "Nos Solutions logicielles",
     "description": "Découvrez nos produits phares conçus pour transformer la façon dont les entreprises fonctionnent. Chaque solution est développée avec l'IA au cœur pour une efficacité maximale.",
     "requestDemo": "Demander une démo",
+    "featuresTitle": "Fonctionnalités clés",
+    "backToSolutions": "Retour aux solutions",
+    "notFound": "Solution introuvable",
     "customTitle": "Besoin d'une solution personnalisée ?",
     "customDescription": "Nous créons également des solutions sur mesure adaptées à vos besoins spécifiques. Discutons de la manière de construire quelque chose d'unique pour vous.",
     "discuss": "Discuter du projet"
@@ -96,6 +99,9 @@
     "valuesDescription": "Les principes qui guident tout ce que nous faisons et chaque solution que nous créons.",
     "impactTitle": "Notre impact",
     "impactDescription": "Des chiffres qui reflètent notre engagement envers l'excellence et la réussite de nos clients.",
+    "statsLoading": "Nous mettons à jour nos chiffres...",
+    "statsError": "Impossible de charger nos dernières statistiques pour le moment. Réessayez bientôt.",
+    "statsEmpty": "Nous partagerons bientôt de nouveaux jalons de notre équipe.",
     "valuesList": {
       "innovation": "Innovation avant tout",
       "innovationDesc": "Nous utilisons l'IA et les technologies modernes pour créer des solutions qui repoussent les limites et offrent des résultats remarquables.",
@@ -111,20 +117,66 @@
       "satisfaction": "Satisfaction client",
       "experience": "Années d'expérience",
       "support": "Support disponible"
-    }
+    },
+    "ctaTitle": "Construisons ensemble le prochain chapitre de votre entreprise",
+    "ctaDescription": "Parlez-nous de vos objectifs et découvrez comment des solutions IA sur mesure peuvent accélérer votre croissance.",
+    "ctaButton": "Parler à notre équipe"
   },
   "blog": {
-    "title": "Idées et Actualités",
-    "description": "Restez informé des dernières tendances en IA, développement logiciel et automatisation. Contenu d'experts de notre équipe.",
+    "title": "Actualités et Idées",
+    "description": "Restez informé des dernières tendances en IA, développement logiciel et automatisation d'entreprise. Des contenus d'experts issus de notre équipe.",
     "featured": "À la une",
     "read": "Lire l'article complet",
-    "readMore": "Lire la suite",
-    "categories": { "all": "Tous" },
+    "readMore": "En savoir plus",
+    "categories": {
+      "all": "Tous"
+    },
     "newsletter": {
       "title": "Restez informé",
-      "description": "Abonnez-vous à notre newsletter pour recevoir les dernières infos sur l'IA, le développement logiciel et l'automatisation.",
+      "description": "Abonnez-vous à notre newsletter pour recevoir les dernières nouveautés sur l'IA, le développement logiciel et l'automatisation.",
       "placeholder": "Entrez votre email",
       "subscribe": "S'abonner"
+    },
+    "loading": "Chargement des articles du blog...",
+    "error": "Impossible de charger les articles pour le moment. Veuillez réessayer plus tard.",
+    "fallbackExcerpt": "En savoir plus sur ce sujet...",
+    "readTimeDefault": "Lecture de 5 min",
+    "empty": "Aucun article publié pour l'instant. Revenez bientôt !",
+    "pagination": {
+      "previous": "Précédent",
+      "next": "Suivant",
+      "showing": "Affichage de {{start}} à {{end}} sur {{total}} articles"
+    },
+    "post": {
+      "back": "Retour au blog",
+      "published": "Publié le {{date}}",
+      "author": "Par {{author}}",
+      "loading": "Chargement de l'article...",
+      "error": "Impossible de charger cet article pour le moment.",
+      "notFound": "L'article que vous recherchez est introuvable."
+    },
+    "comments": {
+      "title": "Commentaires",
+      "count": "{{count}} commentaire",
+      "count_plural": "{{count}} commentaires",
+      "loading": "Chargement des commentaires...",
+      "error": "Impossible de charger les commentaires. Veuillez réessayer plus tard.",
+      "empty": "Aucun commentaire pour le moment. Soyez le premier à participer !",
+      "anonymous": "Anonyme",
+      "placeholder": "Partagez vos idées...",
+      "submit": "Publier le commentaire",
+      "signInPrompt": "Connectez-vous pour commenter.",
+      "signInCta": "Se connecter",
+      "successTitle": "Commentaire publié !",
+      "successDescription": "Merci de participer à la conversation.",
+      "errorTitle": "Impossible de publier le commentaire",
+      "errorDescription": "Une erreur est survenue. Veuillez réessayer.",
+      "signInRequiredTitle": "Connexion requise",
+      "signInRequiredDescription": "Vous devez être authentifié pour publier un commentaire.",
+      "validationErrorTitle": "Écrivez un commentaire",
+      "validationErrorDescription": "Ajoutez votre message avant de l'envoyer.",
+      "characters": "{{count}} / {{max}} caractères",
+      "authenticating": "Vérification de votre session..."
     }
   },
   "contact": {
@@ -197,7 +249,8 @@
     "loading": "Chargement de notre équipe incroyable...",
     "error": "Nous rencontrons des difficultés pour charger les informations de l'équipe. Veuillez réessayer plus tard.",
     "description": "Des experts passionnés dédiés à fournir des solutions IA innovantes qui transforment votre entreprise.",
-    "linkedin": "LinkedIn"
+    "linkedin": "LinkedIn",
+    "empty": "Nous présenterons bientôt toute notre équipe."
   },
   "projects": {
     "title": "Projets <0>Open Source</0>",

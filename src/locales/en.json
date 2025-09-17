@@ -77,6 +77,9 @@
     "title": "Our Software Solutions",
     "description": "Discover our flagship products designed to transform how businesses operate. Each solution is crafted with AI at its core to deliver maximum efficiency and growth.",
     "requestDemo": "Request Demo",
+    "featuresTitle": "Key Capabilities",
+    "backToSolutions": "Back to Solutions",
+    "notFound": "Solution not found",
     "customTitle": "Need a Custom Solution?",
     "customDescription": "We also create bespoke software solutions tailored to your specific business needs. Let's discuss how we can build something unique for you.",
     "discuss": "Discuss Custom Project"
@@ -96,6 +99,9 @@
     "valuesDescription": "The principles that guide everything we do and every solution we create.",
     "impactTitle": "Our Impact",
     "impactDescription": "Numbers that reflect our commitment to excellence and client success.",
+    "statsLoading": "We're gathering updated numbers...",
+    "statsError": "We couldn't load our latest stats right now. Please check back soon.",
+    "statsEmpty": "Stay tuned for new milestones from our team.",
     "valuesList": {
       "innovation": "Innovation First",
       "innovationDesc": "We leverage cutting-edge AI and modern technologies to create solutions that push boundaries and deliver exceptional results.",
@@ -111,7 +117,10 @@
       "satisfaction": "Client Satisfaction",
       "experience": "Years Experience",
       "support": "Support Available"
-    }
+    },
+    "ctaTitle": "Let's build the next chapter of your business together",
+    "ctaDescription": "Share your goals with us and discover how tailored AI solutions can accelerate your growth.",
+    "ctaButton": "Talk to our team"
   },
   "blog": {
     "title": "Insights & Updates",
@@ -127,6 +136,47 @@
       "description": "Subscribe to our newsletter for the latest insights on AI, software development, and business automation.",
       "placeholder": "Enter your email",
       "subscribe": "Subscribe"
+    },
+    "loading": "Loading blog posts...",
+    "error": "We couldn't load the blog posts. Please try again later.",
+    "fallbackExcerpt": "Read more about this topic...",
+    "readTimeDefault": "5 min read",
+    "empty": "No articles published yet. Check back soon!",
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next",
+      "showing": "Showing {{start}}-{{end}} of {{total}} posts"
+    },
+    "post": {
+      "back": "Back to blog",
+      "published": "Published on {{date}}",
+      "author": "By {{author}}",
+      "loading": "Loading article...",
+      "error": "We couldn't load this article right now.",
+      "notFound": "This article could not be found."
+    },
+    "comments": {
+      "title": "Comments",
+      "count": "{{count}} comment",
+      "count_plural": "{{count}} comments",
+      "loading": "Loading comments...",
+      "error": "We couldn't load the comments. Please try again later.",
+      "empty": "No comments yet. Be the first to share your thoughts!",
+      "anonymous": "Anonymous",
+      "placeholder": "Share your thoughts...",
+      "submit": "Post comment",
+      "signInPrompt": "Sign in to add your comment.",
+      "signInCta": "Sign in",
+      "successTitle": "Comment published!",
+      "successDescription": "Thanks for joining the discussion.",
+      "errorTitle": "Unable to publish comment",
+      "errorDescription": "Something went wrong. Please try again.",
+      "signInRequiredTitle": "Sign-in required",
+      "signInRequiredDescription": "You need to be signed in to publish a comment.",
+      "validationErrorTitle": "Write a comment",
+      "validationErrorDescription": "Please add your message before sending it.",
+      "characters": "{{count}} / {{max}} characters",
+      "authenticating": "Checking your session..."
     }
   },
   "contact": {
@@ -199,7 +249,8 @@
     "loading": "Loading our amazing team...",
     "error": "We're having trouble loading our team information. Please try again later.",
     "description": "Passionate experts dedicated to delivering innovative AI solutions that transform your business.",
-    "linkedin": "LinkedIn"
+    "linkedin": "LinkedIn",
+    "empty": "Our team lineup will be updated soon."
   },
   "projects": {
     "title": "Projects <0>Open Source</0>",

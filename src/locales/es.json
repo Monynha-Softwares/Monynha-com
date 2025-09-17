@@ -77,6 +77,9 @@
     "title": "Nuestras Soluciones de Software",
     "description": "Conoce nuestros productos estrella diseñados para transformar la operación de las empresas. Cada solución se crea con IA en el núcleo para máxima eficiencia.",
     "requestDemo": "Solicitar Demo",
+    "featuresTitle": "Capacidades Clave",
+    "backToSolutions": "Volver a Soluciones",
+    "notFound": "Solución no encontrada",
     "customTitle": "¿Necesitas una Solución Personalizada?",
     "customDescription": "También creamos soluciones a medida para tus necesidades específicas. Conversemos sobre cómo construir algo único para ti.",
     "discuss": "Discutir Proyecto"
@@ -96,6 +99,9 @@
     "valuesDescription": "Principios que guían todo lo que hacemos y cada solución que creamos.",
     "impactTitle": "Nuestro Impacto",
     "impactDescription": "Números que reflejan nuestro compromiso con la excelencia y el éxito de los clientes.",
+    "statsLoading": "Estamos actualizando nuestras métricas...",
+    "statsError": "No pudimos cargar las últimas estadísticas. Vuelve a intentarlo pronto.",
+    "statsEmpty": "Pronto compartiremos nuevos hitos de nuestro equipo.",
     "valuesList": {
       "innovation": "Innovación Primero",
       "innovationDesc": "Aprovechamos IA y tecnologías modernas para crear soluciones que superan límites y entregan resultados excepcionales.",
@@ -111,7 +117,10 @@
       "satisfaction": "Satisfacción del Cliente",
       "experience": "Años de Experiencia",
       "support": "Soporte Disponible"
-    }
+    },
+    "ctaTitle": "Construyamos juntos el próximo capítulo de tu negocio",
+    "ctaDescription": "Cuéntanos tus objetivos y descubre cómo soluciones de IA a medida pueden acelerar tu crecimiento.",
+    "ctaButton": "Habla con nuestro equipo"
   },
   "blog": {
     "title": "Noticias e Ideas",
@@ -119,12 +128,55 @@
     "featured": "Destacado",
     "read": "Leer Artículo Completo",
     "readMore": "Leer Más",
-    "categories": { "all": "Todos" },
+    "categories": {
+      "all": "Todos"
+    },
     "newsletter": {
       "title": "Mantente Informado",
       "description": "Suscríbete a nuestro boletín para recibir novedades sobre IA, desarrollo de software y automatización.",
       "placeholder": "Ingresa tu correo",
       "subscribe": "Suscribirse"
+    },
+    "loading": "Cargando artículos del blog...",
+    "error": "No pudimos cargar los artículos. Inténtalo de nuevo más tarde.",
+    "fallbackExcerpt": "Lee más sobre este tema...",
+    "readTimeDefault": "Lectura de 5 min",
+    "empty": "Aún no hay artículos publicados. ¡Vuelve pronto!",
+    "pagination": {
+      "previous": "Anterior",
+      "next": "Siguiente",
+      "showing": "Mostrando {{start}}-{{end}} de {{total}} artículos"
+    },
+    "post": {
+      "back": "Volver al blog",
+      "published": "Publicado el {{date}}",
+      "author": "Por {{author}}",
+      "loading": "Cargando artículo...",
+      "error": "No pudimos cargar este artículo ahora.",
+      "notFound": "El artículo que buscas no está disponible."
+    },
+    "comments": {
+      "title": "Comentarios",
+      "count": "{{count}} comentario",
+      "count_plural": "{{count}} comentarios",
+      "loading": "Cargando comentarios...",
+      "error": "No pudimos cargar los comentarios. Inténtalo de nuevo más tarde.",
+      "empty": "Aún no hay comentarios. ¡Sé el primero en participar!",
+      "anonymous": "Anónimo",
+      "placeholder": "Comparte tus ideas...",
+      "submit": "Publicar comentario",
+      "signInPrompt": "Inicia sesión para comentar.",
+      "signInCta": "Iniciar sesión",
+      "successTitle": "¡Comentario publicado!",
+      "successDescription": "Gracias por unirte a la conversación.",
+      "errorTitle": "No se pudo publicar el comentario",
+      "errorDescription": "Algo salió mal. Inténtalo de nuevo.",
+      "signInRequiredTitle": "Se requiere inicio de sesión",
+      "signInRequiredDescription": "Necesitas iniciar sesión para publicar un comentario.",
+      "validationErrorTitle": "Escribe un comentario",
+      "validationErrorDescription": "Agrega tu mensaje antes de enviarlo.",
+      "characters": "{{count}} / {{max}} caracteres",
+      "authenticating": "Verificando tu sesión..."
     }
   },
   "contact": {
@@ -197,7 +249,8 @@
     "loading": "Cargando a nuestro increíble equipo...",
     "error": "Estamos teniendo problemas para cargar la información del equipo. Por favor, inténtalo más tarde.",
     "description": "Expertos apasionados dedicados a ofrecer soluciones innovadoras de IA que transforman tu negocio.",
-    "linkedin": "LinkedIn"
+    "linkedin": "LinkedIn",
+    "empty": "Pronto presentaremos a todo nuestro equipo."
   },
   "projects": {
     "title": "Proyectos <0>Open Source</0>",
