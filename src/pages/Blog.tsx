@@ -254,20 +254,20 @@ const Blog = () => {
           </BreadcrumbList>
         </Breadcrumb>
       </div>
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-white transition-colors dark:bg-neutral-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h1 className="text-4xl lg:text-5xl font-bold text-neutral-900 mb-6">
+            <h1 className="text-4xl lg:text-5xl font-bold text-neutral-900 dark:text-neutral-100 mb-6">
               {t('blog.title')}
             </h1>
-            <p className="text-xl text-neutral-600 max-w-3xl mx-auto">
+            <p className="text-xl text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto">
               {t('blog.description')}
             </p>
           </div>
         </div>
       </section>
 
-      <section className="pb-12 bg-white">
+      <section className="pb-12 bg-white transition-colors dark:bg-neutral-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap justify-center gap-4">
             {categories.map((category, index) => (
@@ -277,7 +277,7 @@ const Blog = () => {
                 className={`rounded-full px-6 py-2 ${
                   index === 0
                     ? 'bg-gradient-brand text-white'
-                    : 'border-neutral-200 text-neutral-600 hover:border-brand-blue hover:text-brand-blue'
+                    : 'border-neutral-200 dark:border-neutral-800 text-neutral-600 dark:text-neutral-300 hover:border-brand-blue hover:text-brand-blue'
                 }`}
                 type="button"
               >
@@ -289,7 +289,7 @@ const Blog = () => {
       </section>
 
       {featuredPost && (
-        <section className="pb-16 bg-white">
+        <section className="pb-16 bg-white transition-colors dark:bg-neutral-950">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <Card className="border-0 shadow-soft-lg rounded-2xl overflow-hidden">
               <div className="grid grid-cols-1 lg:grid-cols-2">
@@ -310,7 +310,7 @@ const Blog = () => {
                   </div>
                 </Link>
                 <div className="p-8 lg:p-12 flex flex-col justify-center">
-                  <div className="flex items-center space-x-4 text-sm text-neutral-500 mb-4">
+                  <div className="flex items-center space-x-4 text-sm text-neutral-500 dark:text-neutral-400 mb-4">
                     <span className="bg-brand-blue/10 text-brand-blue px-3 py-1 rounded-full font-medium">
                       {featuredPost.category}
                     </span>
@@ -325,10 +325,10 @@ const Blog = () => {
                       </div>
                     </div>
                   </div>
-                  <h2 className="text-2xl lg:text-3xl font-bold text-neutral-900 mb-4">
+                  <h2 className="text-2xl lg:text-3xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">
                     {featuredPost.title}
                   </h2>
-                  <p className="text-lg text-neutral-600 mb-6">
+                  <p className="text-lg text-neutral-600 dark:text-neutral-300 mb-6">
                     {featuredPost.excerpt}
                   </p>
                   <Button asChild className="btn-primary w-fit">
@@ -347,10 +347,10 @@ const Blog = () => {
         </section>
       )}
 
-      <section className="py-16 bg-neutral-50">
+      <section className="py-16 bg-neutral-50 dark:bg-neutral-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {totalPosts === 0 ? (
-            <div className="rounded-2xl bg-white p-10 text-center text-neutral-600 shadow-soft">
+            <div className="rounded-2xl bg-white transition-colors dark:bg-neutral-950 p-10 text-center text-neutral-600 dark:text-neutral-300 shadow-soft">
               {t('blog.empty')}
             </div>
           ) : (
@@ -358,7 +358,7 @@ const Blog = () => {
               {regularPosts.map((post) => (
                 <Card
                   key={post.id}
-                  className="border-0 shadow-soft hover:shadow-soft-lg transition-all ease-in-out duration-300 card-hover rounded-2xl overflow-hidden bg-white"
+                  className="border-0 shadow-soft hover:shadow-soft-lg transition-all ease-in-out duration-300 card-hover rounded-2xl overflow-hidden bg-white transition-colors dark:bg-neutral-950"
                 >
                   <Link to={`/blog/${post.slug}`} className="relative block">
                     <img
@@ -374,7 +374,7 @@ const Blog = () => {
                     </div>
                   </Link>
                   <CardContent className="p-6">
-                    <div className="flex items-center space-x-4 text-sm text-neutral-500 mb-3">
+                    <div className="flex items-center space-x-4 text-sm text-neutral-500 dark:text-neutral-400 mb-3">
                       <div className="flex items-center space-x-1">
                         <User className="h-4 w-4" />
                         <span>{post.author}</span>
@@ -386,11 +386,11 @@ const Blog = () => {
                     </div>
                     <Link
                       to={`/blog/${post.slug}`}
-                      className="block text-xl font-semibold text-neutral-900 mb-3 line-clamp-2 hover:text-brand-blue"
+                      className="block text-xl font-semibold text-neutral-900 dark:text-neutral-100 mb-3 line-clamp-2 hover:text-brand-blue"
                     >
                       {post.title}
                     </Link>
-                    <p className="text-neutral-600 mb-4 line-clamp-3">
+                    <p className="text-neutral-600 dark:text-neutral-300 mb-4 line-clamp-3">
                       {post.excerpt}
                     </p>
                     <Button
@@ -415,10 +415,10 @@ const Blog = () => {
       </section>
 
       {totalPosts > POSTS_PER_PAGE && (
-        <section className="bg-neutral-50 pb-16">
+        <section className="bg-neutral-50 dark:bg-neutral-950 pb-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-              <p className="text-sm text-neutral-500">
+              <p className="text-sm text-neutral-500 dark:text-neutral-400">
                 {t('blog.pagination.showing', {
                   start: showingRangeStart,
                   end: showingRangeEnd,
@@ -500,9 +500,9 @@ const Blog = () => {
             <input
               type="email"
               placeholder={t('blog.newsletter.placeholder')}
-              className="flex-1 px-4 py-3 rounded-xl border-0 text-neutral-900 placeholder-neutral-500 focus:ring-2 focus:ring-white focus:outline-none"
+              className="flex-1 px-4 py-3 rounded-xl border-0 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 focus:ring-2 focus:ring-white focus:outline-none"
             />
-            <Button className="bg-white text-brand-purple hover:bg-blue-50 font-semibold px-6 py-3 rounded-xl transition-all ease-in-out duration-300">
+            <Button className="bg-white transition-colors dark:bg-neutral-950 text-brand-purple hover:bg-blue-50 font-semibold px-6 py-3 rounded-xl transition-all ease-in-out duration-300">
               {t('blog.newsletter.subscribe')}
             </Button>
           </div>

@@ -88,7 +88,7 @@ const NewsletterSection = () => {
               setIsSubscribed(false);
               setEmail('');
             }}
-            className="bg-white text-brand-purple hover:bg-blue-50 font-semibold px-6 py-3 rounded-xl"
+            className="rounded-xl bg-white px-6 py-3 font-semibold text-brand-purple transition-colors hover:bg-blue-50 focus-visible:ring-brand-blue focus-visible:ring-offset-2 focus-visible:ring-offset-background dark:bg-neutral-900 dark:text-white dark:hover:bg-neutral-800"
           >
             {t('newsletterSection.subscribeAnother')}
           </Button>
@@ -100,7 +100,7 @@ const NewsletterSection = () => {
   return (
     <section className="py-24 bg-gradient-hero text-white">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Card className="border-0 shadow-soft-lg rounded-2xl bg-white/10 backdrop-blur-sm">
+        <Card className="rounded-2xl border-0 bg-white/10 shadow-soft-lg backdrop-blur-sm">
           <CardContent className="p-8 lg:p-12 text-center">
             <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6">
               <Mail className="h-8 w-8 text-white" />
@@ -127,7 +127,7 @@ const NewsletterSection = () => {
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="bg-white text-brand-purple hover:bg-blue-50 font-semibold px-8 py-3 rounded-xl whitespace-nowrap"
+                  className="whitespace-nowrap rounded-xl bg-white px-8 py-3 font-semibold text-brand-purple transition-colors hover:bg-blue-50 focus-visible:ring-brand-blue focus-visible:ring-offset-2 focus-visible:ring-offset-background dark:bg-neutral-900 dark:text-white dark:hover:bg-neutral-800"
                 >
                   {isSubmitting
                     ? t('newsletterSection.subscribing')
@@ -136,7 +136,7 @@ const NewsletterSection = () => {
               </div>
             </form>
 
-            <p className="text-sm text-blue-200 mt-4">
+            <p className="mt-4 text-sm text-blue-200">
               {t('newsletterSection.privacy')}
             </p>
           </CardContent>

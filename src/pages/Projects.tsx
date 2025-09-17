@@ -273,7 +273,7 @@ const Projects = () => {
       <section className={cn(sectionPaddingY, 'bg-white')}>
         <div className={sectionContainer}>
           <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-neutral-900 mb-6">
+            <h1 className="text-4xl md:text-5xl font-bold text-neutral-900 dark:text-neutral-100 mb-6">
               <Trans
                 i18nKey="projects.title"
                 components={[
@@ -284,26 +284,26 @@ const Projects = () => {
                 ]}
               />
             </h1>
-            <p className="text-xl text-neutral-600 max-w-3xl mx-auto">
+            <p className="text-xl text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto">
               {t('projects.description')}
             </p>
           </div>
         </div>
       </section>
 
-      <section className={cn(sectionPaddingY, 'bg-neutral-50')}>
+      <section className={cn(sectionPaddingY, 'bg-neutral-50 dark:bg-neutral-950')}>
         <div className={sectionContainer}>
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-neutral-900 mb-4">
+            <h2 className="text-3xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">
               {t('solutionsPage.title')}
             </h2>
-            <p className="text-neutral-600 max-w-3xl mx-auto">
+            <p className="text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto">
               {t('solutionsPage.description')}
             </p>
           </div>
 
           {supabaseSolutionsLoading ? (
-            <div className="text-center text-neutral-500">
+            <div className="text-center text-neutral-500 dark:text-neutral-400 dark:text-neutral-500">
               {t('projects.loadingSolutions')}
             </div>
           ) : (
@@ -349,7 +349,7 @@ const Projects = () => {
       <section className={cn(sectionPaddingY, 'bg-white')}>
         <div className={sectionContainer}>
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-neutral-900 mb-4">
+            <h2 className="text-3xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">
               <Trans
                 i18nKey="projects.title"
                 components={[
@@ -360,13 +360,13 @@ const Projects = () => {
                 ]}
               />
             </h2>
-            <p className="text-neutral-600 max-w-3xl mx-auto">
+            <p className="text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto">
               {t('projects.description')}
             </p>
           </div>
 
           {isGitHubLoading ? (
-            <div className="text-center text-neutral-500">
+            <div className="text-center text-neutral-500 dark:text-neutral-400 dark:text-neutral-500">
               {t('projects.loadingGithub')}
             </div>
           ) : (
@@ -428,13 +428,13 @@ const Projects = () => {
         </div>
       </section>
 
-      <section className={cn(sectionPaddingY, 'bg-neutral-50')}>
+      <section className={cn(sectionPaddingY, 'bg-neutral-50 dark:bg-neutral-950')}>
         <div className={sectionContainer}>
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-neutral-900 mb-4">
+            <h2 className="text-3xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">
               {t('navigation.projects')}
             </h2>
-            <p className="text-neutral-600 max-w-3xl mx-auto">
+            <p className="text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto">
               {t('projects.description')}
             </p>
           </div>
@@ -452,15 +452,15 @@ const Projects = () => {
                 >
                   <CardHeader className="pb-4">
                     <div className="flex items-start justify-between">
-                      <CardTitle className="text-xl font-semibold text-neutral-900">
+                      <CardTitle className="text-xl font-semibold text-neutral-900 dark:text-neutral-100">
                         {repo.name}
                       </CardTitle>
-                      <div className="flex items-center gap-1 text-sm text-neutral-500">
+                      <div className="flex items-center gap-1 text-sm text-neutral-500 dark:text-neutral-400 dark:text-neutral-500">
                         <Calendar className="h-4 w-4" />
                         {formatDate(repo.created_at)}
                       </div>
                     </div>
-                    <p className="text-neutral-600 leading-relaxed">
+                    <p className="text-neutral-600 dark:text-neutral-300 leading-relaxed">
                       {repo.description}
                     </p>
                   </CardHeader>
@@ -471,7 +471,7 @@ const Projects = () => {
                           <Badge
                             key={index}
                             variant="secondary"
-                            className="rounded-full bg-neutral-100 px-3 py-1 text-xs font-medium text-neutral-700"
+                            className="rounded-full bg-neutral-100 px-3 py-1 text-xs font-medium text-neutral-700 dark:text-neutral-300"
                           >
                             {tag}
                           </Badge>
