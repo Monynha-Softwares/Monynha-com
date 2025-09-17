@@ -31,6 +31,8 @@ src/
   integrations/    Third‑party integrations (Supabase)
   pages/           Route components
   lib/             Utility helpers
+packages/
+  ui/              Shared design tokens and UI building blocks (`@monynha/ui`)
 ```
 
 ## Scripts
@@ -103,6 +105,12 @@ sync with any branding changes.
 - Tailwind CSS & shadcn/ui
 - Supabase
 - React Query
+
+## Design system
+
+- Brand colors follow Monynha's palette: violet `#7C3AED`, blue `#0EA5E9`, and pride-inspired accents.
+- Typography: Space Grotesk for headings, Inter for body copy, and JetBrains Mono for code snippets.
+- Shared styles, gradients, and surface primitives live in `packages/ui` and are consumed via the `@monynha/ui` alias to keep screens visually consistent.
 
 ## CI/CD
 

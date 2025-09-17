@@ -1,5 +1,6 @@
+import { useMemo, useCallback } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { Github, ExternalLink, Calendar } from 'lucide-react';
+import { Github, ExternalLink, Calendar, ArrowRight } from 'lucide-react';
 import Layout from '../components/Layout';
 import Meta from '@/components/Meta';
 import { Button } from '@/components/ui/button';
@@ -13,9 +14,24 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from '@/integrations/supabase';
 import { useTranslation, Trans } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import useRepositorySync from '@/hooks/useRepositorySync';
+import {
+  fetchSupabaseSolutions,
+  getFallbackSolutions,
+  mapGitHubRepoToContent,
+} from '@/lib/solutions';
+import type { GitHubRepository } from '@/lib/solutions';
+import type { SolutionContent } from '@/types/solutions';
+import { getNormalizedLocale } from '@/lib/i18n';
+import {
+  SolutionCard,
+  sectionContainer,
+  sectionPaddingY,
+} from '@monynha/ui';
+import { cn } from '@/lib/utils';
 
 interface Repository {
   id: string;
@@ -23,18 +39,64 @@ interface Repository {
   description: string;
   github_url: string;
   demo_url: string | null;
-  tags: string[];
+  tags: string[] | null;
   created_at: string;
 }
 
+const GITHUB_REPOS_URL =
+  'https://api.github.com/orgs/Monynha-Softwares/repos?per_page=100';
+
 const Projects = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  useRepositorySync();
+
+  const memoizedFallbackSolutions = useMemo(() => getFallbackSolutions(), []);
+
+  const normalizedLocale = useMemo(
+    () => getNormalizedLocale(i18n.language),
+    [i18n.language]
+  );
+
+  const fallbackDateFormatter = useMemo(
+    () =>
+      new Intl.DateTimeFormat('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+      }),
+    []
+  );
+
+  const dateFormatter = useMemo(() => {
+    try {
+      return new Intl.DateTimeFormat(normalizedLocale, {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+      });
+    } catch (error) {
+      console.error('Unsupported locale for project date formatting', error);
+      return fallbackDateFormatter;
+    }
+  }, [fallbackDateFormatter, normalizedLocale]);
+
+  const formatDate = useCallback(
+    (dateString: string) => {
+      try {
+        return dateFormatter.format(new Date(dateString));
+      } catch (error) {
+        console.error('Error formatting project date', error);
+        return fallbackDateFormatter.format(new Date(dateString));
+      }
+    },
+    [dateFormatter, fallbackDateFormatter]
+  );
 
   const {
     data: repositories = [],
-    isLoading,
-    isError,
-  } = useQuery({
+    isLoading: repositoriesLoading,
+    isError: repositoriesError,
+  } = useQuery<Repository[]>({
     queryKey: ['repositories'],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -47,53 +109,138 @@ const Projects = () => {
         throw new Error(error.message);
       }
 
-      return data || [];
+      return (data ?? []) as Repository[];
     },
   });
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-    });
-  };
+  const {
+    data: supabaseSolutions = [],
+    isLoading: supabaseSolutionsLoading,
+    isError: supabaseSolutionsError,
+  } = useQuery<SolutionContent[]>({
+    queryKey: ['solutions'],
+    queryFn: fetchSupabaseSolutions,
+    staleTime: 1000 * 60 * 10,
+    retry: 1,
+    refetchOnWindowFocus: false,
+  });
 
-  if (isLoading) {
+  // Removed duplicate githubSolutions useQuery block
+
+  // Removed duplicate memoizedFallbackSolutions declaration
+
+  const {
+    data: githubSolutions = [],
+    isLoading: isGitHubLoading,
+    isError: isGitHubError,
+  } = useQuery<SolutionContent[]>({
+    queryKey: ['projects-github-solutions'],
+    queryFn: async () => {
+      const response = await fetch(GITHUB_REPOS_URL, {
+        headers: {
+          Accept: 'application/vnd.github+json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`GitHub API responded with ${response.status}`);
+      }
+
+      const repositories: GitHubRepository[] = await response.json();
+
+      const toTimestamp = (repository: GitHubRepository) => {
+        const reference =
+          repository.pushed_at ?? repository.updated_at ?? repository.created_at;
+        const timestamp = new Date(reference).getTime();
+        return Number.isNaN(timestamp) ? 0 : timestamp;
+      };
+
+      const activeRepositories = repositories.filter(
+        (repository) =>
+          !repository.private && !repository.archived && !repository.disabled
+      );
+
+      const sortedRepositories = activeRepositories
+        .slice()
+        .sort((a, b) => toTimestamp(b) - toTimestamp(a));
+
+      return sortedRepositories.map((repository, index) =>
+        mapGitHubRepoToContent(repository, index)
+      );
+    },
+    staleTime: 1000 * 60 * 10,
+    retry: 1,
+    refetchOnWindowFocus: false,
+  });
+
+  const primarySolutions = useMemo(() => {
+    if (Array.isArray(supabaseSolutions) && supabaseSolutions.length > 0) {
+      return supabaseSolutions.slice(0, 3);
+    }
+
+    return memoizedFallbackSolutions;
+  }, [supabaseSolutions, memoizedFallbackSolutions]);
+
+  const openSourceSolutions = useMemo(() => {
+    const excludedSlugs = new Set(
+      primarySolutions.map((solution) => solution.slug.toLowerCase())
+    );
+
+    const sourceArray =
+      Array.isArray(githubSolutions) && githubSolutions.length > 0
+        ? githubSolutions
+        : memoizedFallbackSolutions;
+
+    const filtered = sourceArray.filter((solution) => {
+      const slug = solution.slug?.toLowerCase();
+      return slug ? !excludedSlugs.has(slug) : true;
+    });
+
+    return filtered.length > 0 ? filtered : sourceArray;
+  }, [githubSolutions, memoizedFallbackSolutions, primarySolutions]);
+
+  if (repositoriesLoading) {
+
     return (
       <Layout>
         <Meta
-          title="Open Source Projects - Monynha Softwares Agency"
+          title={t('projects.metaTitle')}
           description={t('projects.description')}
-          ogTitle="Open Source Projects - Monynha Softwares Agency"
+          ogTitle={t('projects.metaTitle')}
           ogDescription={t('projects.description')}
           ogImage="/placeholder.svg"
         />
-        <div className="container mx-auto px-4 py-16">
-          <div className="text-center">
-            <div className="animate-pulse">
-              <div className="h-8 bg-muted rounded w-64 mx-auto mb-4"></div>
-              <div className="h-4 bg-muted rounded w-96 mx-auto"></div>
+        <section className={cn(sectionPaddingY, 'bg-white')}>
+          <div className={sectionContainer}>
+            <div className="text-center">
+              <div className="mx-auto max-w-md animate-pulse space-y-4">
+                <div className="h-8 rounded-full bg-neutral-100" />
+                <div className="h-4 rounded-full bg-neutral-100" />
+              </div>
             </div>
           </div>
-        </div>
+        </section>
       </Layout>
     );
   }
 
-  if (isError) {
+  if (repositoriesError && supabaseSolutionsError) {
     return (
       <Layout>
         <Meta
-          title="Open Source Projects - Monynha Softwares Agency"
+          title={t('projects.metaTitle')}
           description={t('projects.description')}
-          ogTitle="Open Source Projects - Monynha Softwares Agency"
+          ogTitle={t('projects.metaTitle')}
           ogDescription={t('projects.description')}
           ogImage="/placeholder.svg"
         />
-        <div className="container mx-auto px-4 py-16 text-center">
-          Error loading projects
-        </div>
+        <section className={cn(sectionPaddingY, 'bg-white')}>
+          <div className={sectionContainer}>
+            <p className="text-center text-red-500">
+              {t('projects.errorProjects')}
+            </p>
+          </div>
+        </section>
       </Layout>
     );
   }
@@ -101,9 +248,9 @@ const Projects = () => {
   return (
     <Layout>
       <Meta
-        title="Open Source Projects - Monynha Softwares Agency"
+        title={t('projects.metaTitle')}
         description={t('projects.description')}
-        ogTitle="Open Source Projects - Monynha Softwares Agency"
+        ogTitle={t('projects.metaTitle')}
         ogDescription={t('projects.description')}
         ogImage="/placeholder.svg"
       />
@@ -123,120 +270,271 @@ const Projects = () => {
         </Breadcrumb>
       </div>
 
-      <div className="container mx-auto px-4 py-16">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold text-neutral-900 mb-6">
-            <Trans
-              i18nKey="projects.title"
-              components={[
-                <span
-                  key="highlight"
-                  className="bg-gradient-to-r from-brand-purple to-brand-blue bg-clip-text text-transparent"
-                />,
-              ]}
-            />
-          </h1>
-          <p className="text-xl text-neutral-600 max-w-3xl mx-auto">
-            {t('projects.description')}
-          </p>
+      <section className={cn(sectionPaddingY, 'bg-white')}>
+        <div className={sectionContainer}>
+          <div className="text-center">
+            <h1 className="text-4xl md:text-5xl font-bold text-neutral-900 mb-6">
+              <Trans
+                i18nKey="projects.title"
+                components={[
+                  <span
+                    key="highlight"
+                    className="bg-gradient-to-r from-brand-purple to-brand-blue bg-clip-text text-transparent"
+                  />,
+                ]}
+              />
+            </h1>
+            <p className="text-xl text-neutral-600 max-w-3xl mx-auto">
+              {t('projects.description')}
+            </p>
+          </div>
         </div>
+      </section>
 
-        {/* Projects Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
-          {repositories.map((repo) => (
-            <Card key={repo.id} className="card-hover border-0 shadow-soft">
-              <CardHeader className="pb-4">
-                <div className="flex items-start justify-between">
-                  <CardTitle className="text-xl font-semibold text-neutral-900 mb-2">
-                    {repo.name}
-                  </CardTitle>
-                  <div className="flex items-center text-sm text-neutral-500 gap-1">
-                    <Calendar className="w-4 h-4" />
-                    {formatDate(repo.created_at)}
-                  </div>
-                </div>
-                <p className="text-neutral-600 leading-relaxed">
-                  {repo.description}
+      <section className={cn(sectionPaddingY, 'bg-neutral-50')}>
+        <div className={sectionContainer}>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-neutral-900 mb-4">
+              {t('solutionsPage.title')}
+            </h2>
+            <p className="text-neutral-600 max-w-3xl mx-auto">
+              {t('solutionsPage.description')}
+            </p>
+          </div>
+
+          {supabaseSolutionsLoading ? (
+            <div className="text-center text-neutral-500">
+              {t('projects.loadingSolutions')}
+            </div>
+          ) : (
+            <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+              {primarySolutions.map((solution) => (
+                <SolutionCard
+                  key={solution.id ?? solution.slug}
+                  solution={solution}
+                  actions={
+                    <>
+                      <Button asChild variant="outline" className="flex-1">
+                        <Link
+                          to={`/solutions/${solution.slug}`}
+                          className="flex items-center justify-center"
+                        >
+                          {t('index.learnMore')}
+                        </Link>
+                      </Button>
+                      <Button asChild className="flex-1">
+                        <Link
+                          to="/contact"
+                          className="flex items-center justify-center gap-2"
+                        >
+                          {t('solutionsPage.requestDemo')}
+                          <ArrowRight className="h-4 w-4" />
+                        </Link>
+                      </Button>
+                    </>
+                  }
+                />
+              ))}
+            </div>
+          )}
+
+          {supabaseSolutionsError && (
+            <p className="mt-6 text-center text-sm text-red-500">
+              {t('projects.errorSolutions')}
+            </p>
+          )}
+        </div>
+      </section>
+
+      <section className={cn(sectionPaddingY, 'bg-white')}>
+        <div className={sectionContainer}>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-neutral-900 mb-4">
+              <Trans
+                i18nKey="projects.title"
+                components={[
+                  <span
+                    key="highlight"
+                    className="bg-gradient-to-r from-brand-purple to-brand-blue bg-clip-text text-transparent"
+                  />,
+                ]}
+              />
+            </h2>
+            <p className="text-neutral-600 max-w-3xl mx-auto">
+              {t('projects.description')}
+            </p>
+          </div>
+
+          {isGitHubLoading ? (
+            <div className="text-center text-neutral-500">
+              {t('projects.loadingGithub')}
+            </div>
+          ) : (
+            <>
+              {isGitHubError && (
+                <p className="mb-6 text-center text-sm text-red-500">
+                  {t('projects.errorGithub')}
                 </p>
-              </CardHeader>
-
-              <CardContent className="pt-0">
-                {/* Tags */}
-                {repo.tags && repo.tags.length > 0 && (
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    {repo.tags.map((tag, index) => (
-                      <Badge
-                        key={index}
-                        variant="secondary"
-                        className="text-xs font-medium bg-neutral-100 text-neutral-700 hover:bg-neutral-200 transition-all ease-in-out duration-300"
-                      >
-                        {tag}
-                      </Badge>
-                    ))}
-                  </div>
-                )}
-
-                {/* Action Buttons */}
-                <div className="flex gap-3">
-                  <Button
-                    asChild
-                    variant="default"
-                    className="flex-1 bg-gradient-to-r from-brand-purple to-brand-blue hover:shadow-soft-lg transition-all ease-in-out duration-300"
-                  >
-                    <a
-                      href={repo.github_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center justify-center gap-2"
-                    >
-                      <Github className="w-4 h-4" />
-                      {t('projects.viewGithub')}
-                    </a>
-                  </Button>
-
-                  {repo.demo_url && (
-                    <Button
-                      asChild
-                      variant="outline"
-                      className="flex-1 border-neutral-200 hover:border-brand-blue hover:text-brand-blue transition-all ease-in-out duration-300"
-                    >
-                      <a
-                        href={repo.demo_url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center justify-center gap-2"
-                      >
-                        <ExternalLink className="w-4 h-4" />
-                        {t('projects.liveDemo')}
-                      </a>
-                    </Button>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+              )}
+              <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+                {openSourceSolutions.map((solution) => (
+                  <SolutionCard
+                    key={solution.id ?? solution.slug}
+                    solution={solution}
+                    actions={
+                      <>
+                        <Button asChild variant="outline" className="flex-1">
+                          <Link
+                            to={`/solutions/${solution.slug}`}
+                            className="flex items-center justify-center"
+                          >
+                            {t('index.learnMore')}
+                          </Link>
+                        </Button>
+                        {solution.externalUrl ? (
+                          <Button
+                            asChild
+                            variant="secondary"
+                            className="flex-1"
+                          >
+                            <a
+                              href={solution.externalUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center justify-center gap-2"
+                            >
+                              <Github className="h-4 w-4" />
+                              {t('projects.viewGithub')}
+                            </a>
+                          </Button>
+                        ) : (
+                          <Button asChild className="flex-1">
+                            <Link
+                              to="/contact"
+                              className="flex items-center justify-center gap-2"
+                            >
+                              {t('projects.contactUs')}
+                              <ArrowRight className="h-4 w-4" />
+                            </Link>
+                          </Button>
+                        )}
+                      </>
+                    }
+                  />
+                ))}
+              </div>
+            </>
+          )}
         </div>
+      </section>
 
-        {/* Call to Action */}
-        <div className="text-center mt-16">
-          <h3 className="text-2xl font-semibold text-neutral-900 mb-4">
-            {t('projects.like')}
-          </h3>
-          <p className="text-neutral-600 mb-8 max-w-2xl mx-auto">
+      <section className={cn(sectionPaddingY, 'bg-neutral-50')}>
+        <div className={sectionContainer}>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-neutral-900 mb-4">
+              {t('navigation.projects')}
+            </h2>
+            <p className="text-neutral-600 max-w-3xl mx-auto">
+              {t('projects.description')}
+            </p>
+          </div>
+
+          {repositoriesError && repositories.length === 0 ? (
+            <div className="text-center text-red-500">
+              {t('projects.errorProjects')}
+            </div>
+          ) : (
+            <div className="grid gap-8 md:grid-cols-2">
+              {repositories.map((repo) => (
+                <Card
+                  key={repo.id}
+                  className="card-hover rounded-2xl border border-white/60 bg-white/90 shadow-md"
+                >
+                  <CardHeader className="pb-4">
+                    <div className="flex items-start justify-between">
+                      <CardTitle className="text-xl font-semibold text-neutral-900">
+                        {repo.name}
+                      </CardTitle>
+                      <div className="flex items-center gap-1 text-sm text-neutral-500">
+                        <Calendar className="h-4 w-4" />
+                        {formatDate(repo.created_at)}
+                      </div>
+                    </div>
+                    <p className="text-neutral-600 leading-relaxed">
+                      {repo.description}
+                    </p>
+                  </CardHeader>
+                  <CardContent className="pt-0">
+                    {repo.tags && repo.tags.length > 0 && (
+                      <div className="mb-6 flex flex-wrap gap-2">
+                        {repo.tags.map((tag, index) => (
+                          <Badge
+                            key={index}
+                            variant="secondary"
+                            className="rounded-full bg-neutral-100 px-3 py-1 text-xs font-medium text-neutral-700"
+                          >
+                            {tag}
+                          </Badge>
+                        ))}
+                      </div>
+                    )}
+                    <div className="flex flex-col gap-3 sm:flex-row">
+                      <Button asChild className="flex-1">
+                        <a
+                          href={repo.github_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center justify-center gap-2"
+                        >
+                          <Github className="h-4 w-4" />
+                          {t('projects.viewGithub')}
+                        </a>
+                      </Button>
+                      {repo.demo_url && (
+                        <Button asChild variant="outline" className="flex-1">
+                          <a
+                            href={repo.demo_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center justify-center gap-2"
+                          >
+                            <ExternalLink className="h-4 w-4" />
+                            {t('projects.liveDemo')}
+                          </a>
+                        </Button>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
+
+          {repositoriesError && repositories.length > 0 && (
+            <p className="mt-6 text-center text-sm text-red-500">
+              {t('projects.errorProjectsPartial')}
+            </p>
+          )}
+        </div>
+      </section>
+
+      <section className={cn(sectionPaddingY, 'bg-gradient-hero text-white')}>
+        <div className="max-w-3xl mx-auto px-4 text-center">
+          <h3 className="text-3xl font-bold mb-4">{t('projects.like')}</h3>
+          <p className="text-white/80 mb-8">
             {t('projects.likeDescription')}
           </p>
-          <Button
-            asChild
-            size="lg"
-            className="bg-gradient-to-r from-brand-pink to-brand-orange hover:shadow-soft-lg transition-all ease-in-out duration-300"
-          >
-            <Link to="/contact">{t('projects.contactUs')}</Link>
+          <Button asChild size="lg" variant="default" className="px-8">
+            <Link to="/contact" className="flex items-center justify-center gap-2">
+              {t('projects.contactUs')}
+              <ArrowRight className="h-5 w-5" />
+            </Link>
           </Button>
         </div>
-      </div>
+      </section>
+
     </Layout>
   );
-};
+}
 
 export default Projects;

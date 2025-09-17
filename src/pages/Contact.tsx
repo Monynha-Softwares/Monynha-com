@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -6,10 +6,9 @@ import { Textarea } from '@/components/ui/textarea';
 import Layout from '@/components/Layout';
 import Meta from '@/components/Meta';
 import { Mail, Phone, MapPin, Send, CheckCircle } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from '@/integrations/supabase';
 import { useToast } from '@/hooks/use-toast';
 import { useTranslation } from 'react-i18next';
-import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Breadcrumb,
@@ -19,15 +18,75 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
+import { useQuery } from '@tanstack/react-query';
 
-const projectTypes = [
-  'Custom AI Assistant',
-  'Restaurant Management System',
-  'Business Automation',
-  'Legacy System Integration',
-  'Consulting Services',
-  'Other',
+const PROJECT_TYPE_KEYS = [
+  'contact.projectTypes.customAssistant',
+  'contact.projectTypes.restaurant',
+  'contact.projectTypes.automation',
+  'contact.projectTypes.legacy',
+  'contact.projectTypes.consulting',
+  'contact.projectTypes.other',
 ];
+
+const validatableFields = ['name', 'email', 'message'] as const;
+type ValidatableField = (typeof validatableFields)[number];
+
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+const isValidatableField = (value: string): value is ValidatableField =>
+  (validatableFields as readonly string[]).includes(value);
+
+const isNonEmptyString = (value: unknown): value is string =>
+  typeof value === 'string' && value.trim().length > 0;
+
+const normalizeProjectTypes = (value: unknown): string[] => {
+  if (value === null || value === undefined) {
+    return [];
+  }
+
+  let parsedValue = value;
+
+  if (typeof parsedValue === 'string') {
+    const trimmedValue = parsedValue.trim();
+
+    if (!trimmedValue) {
+      return [];
+    }
+
+    try {
+      parsedValue = JSON.parse(trimmedValue);
+    } catch {
+      return [trimmedValue];
+    }
+  }
+
+  if (Array.isArray(parsedValue)) {
+    return Array.from(
+      new Set(
+        parsedValue
+          .filter(isNonEmptyString)
+          .map((option) => option.trim())
+      )
+    );
+  }
+
+  if (typeof parsedValue === 'object' && parsedValue !== null) {
+    const record = parsedValue as Record<string, unknown>;
+
+    if (Array.isArray(record.options)) {
+      return Array.from(
+        new Set(
+          record.options
+            .filter(isNonEmptyString)
+            .map((option) => option.trim())
+        )
+      );
+    }
+  }
+
+  return [];
+};
 
 const Contact = () => {
   const { t } = useTranslation();
@@ -48,6 +107,72 @@ const Contact = () => {
   }>({});
   const { toast } = useToast();
 
+  const {
+    data: projectTypeResponse,
+    error: projectTypesError,
+  } = useQuery({
+    queryKey: ['site-settings', 'project-types'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('site_settings')
+        .select('value')
+        .eq('key', 'project_types')
+        .maybeSingle();
+
+      if (error) throw error;
+
+      return normalizeProjectTypes(data?.value);
+    },
+    staleTime: 1000 * 60 * 10,
+  });
+
+  useEffect(() => {
+    if (projectTypesError) {
+      console.error('Error loading project types:', projectTypesError);
+    }
+  }, [projectTypesError]);
+
+  const defaultProjectTypes = useMemo(
+    () => PROJECT_TYPE_KEYS.map((key) => t(key)),
+    [t]
+  );
+
+  const projectTypes = useMemo(() => {
+    if (projectTypeResponse && projectTypeResponse.length > 0) {
+      return projectTypeResponse;
+    }
+
+    return defaultProjectTypes;
+  }, [defaultProjectTypes, projectTypeResponse]);
+
+  const validateField = (field: ValidatableField, value: string) => {
+    const trimmedValue = value.trim();
+
+    if (!trimmedValue) {
+      return t('contact.validation.required');
+    }
+
+    if (field === 'email' && !emailRegex.test(trimmedValue)) {
+      return t('contact.validation.invalidEmail');
+    }
+
+    return undefined;
+  };
+
+  const validateForm = () => {
+    const validationErrors: Partial<Record<ValidatableField, string>> = {};
+
+    validatableFields.forEach((field) => {
+      const error = validateField(field, formData[field]);
+
+      if (error) {
+        validationErrors[field] = error;
+      }
+    });
+
+    return validationErrors;
+  };
+
   const handleInputChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -58,28 +183,50 @@ const Contact = () => {
       ...prev,
       [name]: value,
     }));
-    setErrors((prev) => ({
-      ...prev,
-      [name]: undefined,
-    }));
+    if (isValidatableField(name)) {
+      setErrors((prev) => {
+        if (!prev[name]) {
+          return prev;
+        }
+
+        const nextError = validateField(name, value);
+
+        if (nextError === prev[name]) {
+          return prev;
+        }
+
+        return {
+          ...prev,
+          [name]: nextError,
+        };
+      });
+    }
+  };
+
+  const handleFieldBlur = (
+    e: React.FocusEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
+    const { name, value } = e.target;
+
+    if (isValidatableField(name)) {
+      const error = validateField(name, value);
+      setErrors((prev) => ({
+        ...prev,
+        [name]: error,
+      }));
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    const newErrors: { name?: string; email?: string; message?: string } = {};
-    if (!formData.name.trim())
-      newErrors.name = t('contact.validation.required');
-    if (!formData.email.trim())
-      newErrors.email = t('contact.validation.required');
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
-      newErrors.email = t('contact.validation.invalidEmail');
-    if (!formData.message.trim())
-      newErrors.message = t('contact.validation.required');
+    const validationErrors = validateForm();
 
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
       setIsSubmitting(false);
       return;
     }
@@ -106,6 +253,14 @@ const Contact = () => {
       }
 
       setIsSubmitted(true);
+      setFormData({
+        name: '',
+        email: '',
+        company: '',
+        project: '',
+        message: '',
+      });
+      setErrors({});
       toast({
         title: t('contact.toasts.successTitle'),
         description: t('contact.toasts.successDescription'),
@@ -150,9 +305,9 @@ const Contact = () => {
     return (
       <Layout>
         <Meta
-          title="Contact - Monynha Softwares Agency"
+          title={t('contact.metaTitle')}
           description={t('contact.description')}
-          ogTitle="Contact - Monynha Softwares Agency"
+          ogTitle={t('contact.metaTitle')}
           ogDescription={t('contact.description')}
           ogImage="/placeholder.svg"
         />
@@ -197,9 +352,9 @@ const Contact = () => {
   return (
     <Layout>
       <Meta
-        title="Contact - Monynha Softwares Agency"
+        title={t('contact.metaTitle')}
         description={t('contact.description')}
-        ogTitle="Contact - Monynha Softwares Agency"
+        ogTitle={t('contact.metaTitle')}
         ogDescription={t('contact.description')}
         ogImage="/placeholder.svg"
       />
@@ -259,6 +414,7 @@ const Contact = () => {
                           required
                           value={formData.name}
                           onChange={handleInputChange}
+                          onBlur={handleFieldBlur}
                           className="rounded-xl border-neutral-200 focus:border-brand-blue focus:ring-brand-blue"
                           placeholder={t('contact.form.placeholderName')}
                         />
@@ -282,6 +438,7 @@ const Contact = () => {
                           required
                           value={formData.email}
                           onChange={handleInputChange}
+                          onBlur={handleFieldBlur}
                           className="rounded-xl border-neutral-200 focus:border-brand-blue focus:ring-brand-blue"
                           placeholder={t('contact.form.placeholderEmail')}
                         />
@@ -323,6 +480,7 @@ const Contact = () => {
                           name="project"
                           value={formData.project}
                           onChange={handleInputChange}
+                          onBlur={handleFieldBlur}
                           className="w-full px-3 py-2 border border-neutral-200 rounded-xl focus:border-brand-blue focus:ring-1 focus:ring-brand-blue focus:outline-none text-neutral-900"
                         >
                           <option value="">{t('contact.form.select')}</option>
@@ -348,6 +506,7 @@ const Contact = () => {
                         required
                         value={formData.message}
                         onChange={handleInputChange}
+                        onBlur={handleFieldBlur}
                         rows={6}
                         className="rounded-xl border-neutral-200 focus:border-brand-blue focus:ring-brand-blue resize-none"
                         placeholder={t('contact.form.placeholderDetails')}

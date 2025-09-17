@@ -8,7 +8,45 @@
     "contact": "Contacto",
     "startProject": "Comenzar Proyecto",
     "toggleNavigation": "Alternar navegación",
-    "backToTop": "Volver arriba"
+    "backToTop": "Volver arriba",
+    "solutionsMenu": {
+      "viewAll": "Ver todas las soluciones",
+      "items": {
+        "boteco": {
+          "title": "Boteco Pro",
+          "description": "Gestión inteligente para bares y restaurantes con información en tiempo real."
+        },
+        "assistina": {
+          "title": "AssisTina AI",
+          "description": "Asistente conversacional que automatiza flujos de trabajo y soporte al cliente."
+        },
+        "integration": {
+          "title": "Integración de IA",
+          "description": "Conectores de IA ética que potencian tus sistemas y equipos existentes."
+        }
+      }
+    },
+    "projectsMenu": {
+      "viewAll": "Explorar todos los proyectos",
+      "items": {
+        "openSource": {
+          "title": "Laboratorio Open Source",
+          "description": "Descubre repositorios y contribuciones comunitarias mantenidas por Monynha."
+        },
+        "caseStudies": {
+          "title": "Casos de Impacto",
+          "description": "Historias de tecnología generando equidad junto a nuestros aliados."
+        },
+        "partnerships": {
+          "title": "Alianzas de Co-creación",
+          "description": "Colaboraciones con ONGs, startups y colectivos para productos inclusivos."
+        },
+        "github": {
+          "title": "Organización en GitHub",
+          "description": "Sigue nuestro roadmap, issues y discusiones directamente en GitHub."
+        }
+      }
+    }
   },
   "footer": {
     "quickLinks": "Enlaces Rápidos",
@@ -71,15 +109,45 @@
       "description": "Hablemos de cómo nuestras soluciones con IA pueden optimizar tus operaciones y generar crecimiento.",
       "getStarted": "Empezar Hoy"
     },
-    "learnMore": "Saber Más"
+    "learnMore": "Saber Más",
+    "fallbackSolutions": {
+      "boteco": {
+        "name": "Boteco Pro",
+        "description": "Sistema completo de gestión para restaurantes y bares con analíticas impulsadas por IA y control de inventario.",
+        "features": {
+          "orderManagement": "Gestión de pedidos",
+          "inventoryTracking": "Seguimiento de inventario",
+          "analyticsDashboard": "Panel analítico",
+          "staffManagement": "Gestión de personal"
+        }
+      },
+      "assistina": {
+        "name": "AssisTina AI",
+        "description": "Asistente de IA personalizado que aprende las necesidades de tu negocio y automatiza tareas rutinarias.",
+        "features": {
+          "nlp": "Procesamiento de lenguaje natural",
+          "taskAutomation": "Automatización de tareas",
+          "learning": "Capacidades de aprendizaje",
+          "integration": "Integración personalizada"
+        }
+      }
+    }
   },
   "solutionsPage": {
     "title": "Nuestras Soluciones de Software",
     "description": "Conoce nuestros productos estrella diseñados para transformar la operación de las empresas. Cada solución se crea con IA en el núcleo para máxima eficiencia.",
     "requestDemo": "Solicitar Demo",
+    "featuresTitle": "Capacidades Clave",
+    "backToSolutions": "Volver a Soluciones",
+    "notFound": "Solución no encontrada",
     "customTitle": "¿Necesitas una Solución Personalizada?",
     "customDescription": "También creamos soluciones a medida para tus necesidades específicas. Conversemos sobre cómo construir algo único para ti.",
-    "discuss": "Discutir Proyecto"
+    "discuss": "Discutir Proyecto",
+    "metaTitle": "Nuestras Soluciones de Software - Monynha Softwares Agency",
+    "loading": "Cargando soluciones...",
+    "error": "No pudimos cargar las soluciones. Por favor, inténtalo más tarde.",
+    "detailLoading": "Cargando solución...",
+    "detailError": "No pudimos cargar esta solución. Por favor, inténtalo más tarde."
   },
   "about": {
     "title": "Sobre Monynha Softwares Agency",
@@ -96,6 +164,9 @@
     "valuesDescription": "Principios que guían todo lo que hacemos y cada solución que creamos.",
     "impactTitle": "Nuestro Impacto",
     "impactDescription": "Números que reflejan nuestro compromiso con la excelencia y el éxito de los clientes.",
+    "statsLoading": "Estamos actualizando nuestras métricas...",
+    "statsError": "No pudimos cargar las últimas estadísticas. Vuelve a intentarlo pronto.",
+    "statsEmpty": "Pronto compartiremos nuevos hitos de nuestro equipo.",
     "valuesList": {
       "innovation": "Innovación Primero",
       "innovationDesc": "Aprovechamos IA y tecnologías modernas para crear soluciones que superan límites y entregan resultados excepcionales.",
@@ -111,7 +182,11 @@
       "satisfaction": "Satisfacción del Cliente",
       "experience": "Años de Experiencia",
       "support": "Soporte Disponible"
-    }
+    },
+    "ctaTitle": "Construyamos juntos el próximo capítulo de tu negocio",
+    "ctaDescription": "Cuéntanos tus objetivos y descubre cómo soluciones de IA a medida pueden acelerar tu crecimiento.",
+    "ctaButton": "Habla con nuestro equipo",
+    "metaTitle": "Sobre Monynha Softwares Agency"
   },
   "blog": {
     "title": "Noticias e Ideas",
@@ -119,13 +194,65 @@
     "featured": "Destacado",
     "read": "Leer Artículo Completo",
     "readMore": "Leer Más",
-    "categories": { "all": "Todos" },
+    "categories": {
+      "all": "Todos",
+      "aiInsights": "Insights de IA",
+      "development": "Desarrollo",
+      "caseStudy": "Caso de estudio",
+      "business": "Negocios",
+      "security": "Seguridad",
+      "integration": "Integración"
+    },
     "newsletter": {
       "title": "Mantente Informado",
       "description": "Suscríbete a nuestro boletín para recibir novedades sobre IA, desarrollo de software y automatización.",
       "placeholder": "Ingresa tu correo",
       "subscribe": "Suscribirse"
-    }
+    },
+    "loading": "Cargando artículos del blog...",
+    "error": "No pudimos cargar los artículos. Inténtalo de nuevo más tarde.",
+    "fallbackExcerpt": "Lee más sobre este tema...",
+    "readTimeDefault": "Lectura de 5 min",
+    "empty": "Aún no hay artículos publicados. ¡Vuelve pronto!",
+    "pagination": {
+      "previous": "Anterior",
+      "next": "Siguiente",
+      "showing": "Mostrando {{start}}-{{end}} de {{total}} artículos"
+    },
+    "post": {
+      "back": "Volver al blog",
+      "published": "Publicado el {{date}}",
+      "author": "Por {{author}}",
+      "loading": "Cargando artículo...",
+      "error": "No pudimos cargar este artículo ahora.",
+      "notFound": "El artículo que buscas no está disponible."
+    },
+    "comments": {
+      "title": "Comentarios",
+      "count": "{{count}} comentario",
+      "count_plural": "{{count}} comentarios",
+      "loading": "Cargando comentarios...",
+      "error": "No pudimos cargar los comentarios. Inténtalo de nuevo más tarde.",
+      "empty": "Aún no hay comentarios. ¡Sé el primero en participar!",
+      "anonymous": "Anónimo",
+      "placeholder": "Comparte tus ideas...",
+      "submit": "Publicar comentario",
+      "signInPrompt": "Inicia sesión para comentar.",
+      "signInCta": "Iniciar sesión",
+      "successTitle": "¡Comentario publicado!",
+      "successDescription": "Gracias por unirte a la conversación.",
+      "errorTitle": "No se pudo publicar el comentario",
+      "errorDescription": "Algo salió mal. Inténtalo de nuevo.",
+      "signInRequiredTitle": "Se requiere inicio de sesión",
+      "signInRequiredDescription": "Necesitas iniciar sesión para publicar un comentario.",
+      "validationErrorTitle": "Escribe un comentario",
+      "validationErrorDescription": "Agrega tu mensaje antes de enviarlo.",
+      "characters": "{{count}} / {{max}} caracteres",
+      "authenticating": "Verificando tu sesión..."
+    },
+    "defaultCategory": "Insights de IA",
+    "defaultAuthor": "Equipo de Monynha Softwares",
+    "metaTitle": "Insights y Novedades - Monynha Softwares Agency"
   },
   "contact": {
     "title": "Construyamos Algo Increíble Juntos",
@@ -171,6 +298,15 @@
       "title": "¡Gracias!",
       "description": "Hemos recibido tu mensaje y te contactaremos en 24 horas. ¡Nuestro equipo está emocionado por saber más de tu proyecto!",
       "another": "Enviar Otro Mensaje"
+    },
+    "metaTitle": "Contacto - Monynha Softwares Agency",
+    "projectTypes": {
+      "customAssistant": "Asistente de IA personalizado",
+      "restaurant": "Sistema de gestión para restaurantes",
+      "automation": "Automatización empresarial",
+      "legacy": "Integración de sistemas heredados",
+      "consulting": "Servicios de consultoría",
+      "other": "Otro"
     }
   },
   "newsletterSection": {
@@ -197,7 +333,8 @@
     "loading": "Cargando a nuestro increíble equipo...",
     "error": "Estamos teniendo problemas para cargar la información del equipo. Por favor, inténtalo más tarde.",
     "description": "Expertos apasionados dedicados a ofrecer soluciones innovadoras de IA que transforman tu negocio.",
-    "linkedin": "LinkedIn"
+    "linkedin": "LinkedIn",
+    "empty": "Pronto presentaremos a todo nuestro equipo."
   },
   "projects": {
     "title": "Proyectos <0>Open Source</0>",
@@ -206,10 +343,126 @@
     "liveDemo": "Demo en Vivo",
     "like": "¿Te gustan nuestros proyectos?",
     "likeDescription": "Ponte en contacto para crear una solución personalizada para tu negocio.",
-    "contactUs": "Contáctanos"
+    "contactUs": "Contáctanos",
+    "metaTitle": "Proyectos Open Source - Monynha Softwares Agency",
+    "loadingProjects": "Cargando proyectos...",
+    "errorProjects": "No pudimos cargar los proyectos en este momento.",
+    "errorProjectsPartial": "No pudimos cargar proyectos adicionales.",
+    "loadingSolutions": "Cargando soluciones...",
+    "errorSolutions": "No pudimos cargar la lista de soluciones.",
+    "loadingGithub": "Cargando proyectos de GitHub...",
+    "errorGithub": "No pudimos cargar los proyectos de GitHub."
   },
   "notFound": {
     "oops": "¡Vaya! Página no encontrada",
-    "returnHome": "Volver al Inicio"
+    "returnHome": "Volver al Inicio",
+    "metaTitle": "404 - Página no encontrada",
+    "metaDescription": "La página que buscas no existe."
+  },
+  "auth": {
+    "backHome": "Volver al inicio",
+    "subtitle": "Inicia sesión o crea tu cuenta",
+    "tabs": {
+      "signin": "Iniciar sesión",
+      "signup": "Registrarse"
+    },
+    "labels": {
+      "name": "Nombre",
+      "email": "Correo electrónico",
+      "password": "Contraseña"
+    },
+    "placeholders": {
+      "name": "Tu nombre",
+      "email": "tu@ejemplo.com"
+    },
+    "actions": {
+      "signIn": "Iniciar sesión",
+      "signingIn": "Iniciando sesión...",
+      "signUp": "Crear cuenta",
+      "signingUp": "Creando cuenta..."
+    },
+    "passwordHint": "Mínimo de 6 caracteres",
+    "toast": {
+      "signInSuccess": {
+        "title": "¡Inicio de sesión realizado!",
+        "description": "¡Bienvenido de nuevo!"
+      },
+      "signInError": {
+        "title": "Error al iniciar sesión",
+        "description": "No pudimos iniciar tu sesión. Inténtalo de nuevo."
+      },
+      "signUpSuccess": {
+        "title": "¡Cuenta creada con éxito!",
+        "description": "Revisa tu correo para confirmar la cuenta."
+      },
+      "signUpError": {
+        "title": "Error al crear la cuenta",
+        "description": "No pudimos crear tu cuenta. Inténtalo de nuevo."
+      }
+    }
+  },
+  "dashboard": {
+    "title": "Panel",
+    "welcome": "Bienvenido, {{name}}",
+    "welcomeFallback": "Consulta la información de tu cuenta.",
+    "refresh": "Actualizar",
+    "signOut": "Cerrar sesión",
+    "signingOut": "Cerrando sesión...",
+    "alertTitle": "Ocurrió un problema",
+    "profile": {
+      "fallbackTitle": "Perfil del usuario",
+      "emailUnavailable": "Correo no disponible",
+      "name": "Nombre",
+      "email": "Correo electrónico",
+      "role": "Rol",
+      "updatedAt": "Última actualización",
+      "roleAdmin": "Administrador",
+      "roleUser": "Usuario"
+    },
+    "leads": {
+      "title": "Leads",
+      "description": "Contactos recibidos desde las páginas públicas.",
+      "loading": "Cargando datos de leads...",
+      "empty": "Aún no se registraron leads.",
+      "columns": {
+        "name": "Nombre",
+        "email": "Correo electrónico",
+        "company": "Empresa",
+        "project": "Proyecto",
+        "message": "Mensaje",
+        "createdAt": "Enviado el"
+      }
+    },
+    "newsletter": {
+      "title": "Newsletter",
+      "description": "Suscriptores registrados en la lista de correos.",
+      "loading": "Cargando suscriptores...",
+      "empty": "No se encontraron suscriptores.",
+      "columns": {
+        "email": "Correo electrónico",
+        "status": "Estado",
+        "subscribedAt": "Suscrito el"
+      },
+      "status": {
+        "active": "Activo",
+        "inactive": "Inactivo"
+      }
+    },
+    "toast": {
+      "loadError": {
+        "title": "Error al cargar los datos"
+      },
+      "signOutSuccess": {
+        "title": "Sesión finalizada",
+        "description": "Has cerrado sesión correctamente."
+      },
+      "signOutError": {
+        "title": "Error al cerrar sesión",
+        "description": "No pudimos cerrar tu sesión. Intenta nuevamente."
+      }
+    },
+    "errors": {
+      "loadDashboard": "No pudimos cargar el panel."
+    }
   }
 }

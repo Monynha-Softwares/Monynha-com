@@ -18,33 +18,24 @@ import {
 } from 'lucide-react';
 import { useTranslation, Trans } from 'react-i18next';
 import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from '@/integrations/supabase';
 import { useMemo } from 'react';
 
-const fallbackSolutions = [
+const fallbackSolutionsConfig = [
   {
-    name: 'Boteco Pro',
-    description:
-      'Complete restaurant and bar management system with AI-powered analytics and inventory management.',
-    features: [
-      'Order Management',
-      'Inventory Tracking',
-      'Analytics Dashboard',
-      'Staff Management',
-    ],
+    id: 'boteco',
     gradient: 'from-brand-purple to-brand-blue',
+    featureKeys: [
+      'orderManagement',
+      'inventoryTracking',
+      'analyticsDashboard',
+      'staffManagement',
+    ],
   },
   {
-    name: 'AssisTina AI',
-    description:
-      'Personalized AI assistant that learns your business needs and automates routine tasks.',
-    features: [
-      'Natural Language Processing',
-      'Task Automation',
-      'Learning Capabilities',
-      'Custom Integration',
-    ],
+    id: 'assistina',
     gradient: 'from-brand-pink to-brand-orange',
+    featureKeys: ['nlp', 'taskAutomation', 'learning', 'integration'],
   },
 ];
 
@@ -141,6 +132,21 @@ const Index = () => {
   );
 
   const displayFeatures = features || fallbackFeatures;
+  const fallbackSolutions = useMemo(
+    () =>
+      fallbackSolutionsConfig.map((solution) => ({
+        name: t(`index.fallbackSolutions.${solution.id}.name`),
+        description: t(
+          `index.fallbackSolutions.${solution.id}.description`
+        ),
+        features: solution.featureKeys.map((featureKey) =>
+          t(`index.fallbackSolutions.${solution.id}.features.${featureKey}`)
+        ),
+        gradient: solution.gradient,
+      })),
+    [t]
+  );
+
   const displaySolutions = solutions || fallbackSolutions;
 
   return (
