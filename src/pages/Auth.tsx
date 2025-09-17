@@ -15,6 +15,7 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { ArrowLeft, Eye, EyeOff, Loader2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import Meta from '@/components/Meta';
 
 type AuthView = 'signin' | 'signup';
 
@@ -132,13 +133,21 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="space-y-4">
-          <Link
-            to="/"
-            className="flex items-center text-sm text-muted-foreground hover:text-primary transition-colors"
-          >
+    <>
+      <Meta
+        title={`${t('auth.tabs.signin')} | Monynha Softwares`}
+        description={t('auth.subtitle')}
+        ogTitle={`${t('auth.tabs.signin')} | Monynha Softwares`}
+        ogDescription={t('auth.subtitle')}
+        ogImage="/placeholder.svg"
+      />
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-neutral-950 dark:to-neutral-900 transition-colors duration-300 flex items-center justify-center p-4">
+        <Card className="w-full max-w-md border border-border/60 bg-card dark:bg-neutral-900 shadow-soft-lg transition-colors duration-300">
+          <CardHeader className="space-y-4">
+            <Link
+              to="/"
+              className="flex items-center text-sm text-muted-foreground hover:text-primary transition-colors"
+            >
             <ArrowLeft className="h-4 w-4 mr-2" />
             {t('auth.backHome')}
           </Link>
@@ -340,6 +349,7 @@ const Auth = () => {
         </CardContent>
       </Card>
     </div>
+    </>
   );
 };
 

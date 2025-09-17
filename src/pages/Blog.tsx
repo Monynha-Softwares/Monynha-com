@@ -254,31 +254,32 @@ const Blog = () => {
           </BreadcrumbList>
         </Breadcrumb>
       </div>
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-background dark:bg-neutral-950 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h1 className="text-4xl lg:text-5xl font-bold text-neutral-900 mb-6">
+            <h1 className="text-4xl lg:text-5xl font-bold text-foreground mb-6">
               {t('blog.title')}
             </h1>
-            <p className="text-xl text-neutral-600 max-w-3xl mx-auto">
+            <p className="text-xl text-muted-foreground dark:text-neutral-300 max-w-3xl mx-auto">
               {t('blog.description')}
             </p>
           </div>
         </div>
       </section>
 
-      <section className="pb-12 bg-white">
+      <section className="pb-12 bg-background dark:bg-neutral-950 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap justify-center gap-4">
             {categories.map((category, index) => (
               <Button
                 key={category}
                 variant={index === 0 ? 'default' : 'outline'}
-                className={`rounded-full px-6 py-2 ${
+                className={cn(
+                  'rounded-full px-6 py-2 transition-colors',
                   index === 0
-                    ? 'bg-gradient-brand text-white'
-                    : 'border-neutral-200 text-neutral-600 hover:border-brand-blue hover:text-brand-blue'
-                }`}
+                    ? 'bg-gradient-brand text-white shadow-soft'
+                    : 'border border-border text-muted-foreground hover:border-brand-blue hover:text-brand-blue dark:hover:border-brand-blue/80 dark:hover:text-brand-blue/90'
+                )}
                 type="button"
               >
                 {category}
@@ -289,9 +290,9 @@ const Blog = () => {
       </section>
 
       {featuredPost && (
-        <section className="pb-16 bg-white">
+        <section className="pb-16 bg-background dark:bg-neutral-950 transition-colors duration-300">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <Card className="border-0 shadow-soft-lg rounded-2xl overflow-hidden">
+            <Card className="border-0 shadow-soft-lg rounded-2xl overflow-hidden bg-card dark:bg-neutral-900 transition-colors duration-300">
               <div className="grid grid-cols-1 lg:grid-cols-2">
                 <Link
                   to={`/blog/${featuredPost.slug}`}
@@ -310,8 +311,8 @@ const Blog = () => {
                   </div>
                 </Link>
                 <div className="p-8 lg:p-12 flex flex-col justify-center">
-                  <div className="flex items-center space-x-4 text-sm text-neutral-500 mb-4">
-                    <span className="bg-brand-blue/10 text-brand-blue px-3 py-1 rounded-full font-medium">
+                  <div className="flex items-center space-x-4 text-sm text-muted-foreground mb-4">
+                    <span className="bg-brand-blue/10 text-brand-blue px-3 py-1 rounded-full font-medium dark:bg-brand-blue/20 dark:text-brand-blue/90">
                       {featuredPost.category}
                     </span>
                     <div className="flex items-center space-x-4">
@@ -325,10 +326,10 @@ const Blog = () => {
                       </div>
                     </div>
                   </div>
-                  <h2 className="text-2xl lg:text-3xl font-bold text-neutral-900 mb-4">
+                  <h2 className="text-2xl lg:text-3xl font-bold text-foreground mb-4">
                     {featuredPost.title}
                   </h2>
-                  <p className="text-lg text-neutral-600 mb-6">
+                  <p className="text-lg text-muted-foreground dark:text-neutral-300 mb-6">
                     {featuredPost.excerpt}
                   </p>
                   <Button asChild className="btn-primary w-fit">
@@ -347,10 +348,10 @@ const Blog = () => {
         </section>
       )}
 
-      <section className="py-16 bg-neutral-50">
+      <section className="py-16 bg-muted/60 dark:bg-neutral-900/60 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {totalPosts === 0 ? (
-            <div className="rounded-2xl bg-white p-10 text-center text-neutral-600 shadow-soft">
+            <div className="rounded-2xl bg-card dark:bg-neutral-900 p-10 text-center text-muted-foreground dark:text-neutral-300 shadow-soft">
               {t('blog.empty')}
             </div>
           ) : (
@@ -358,7 +359,7 @@ const Blog = () => {
               {regularPosts.map((post) => (
                 <Card
                   key={post.id}
-                  className="border-0 shadow-soft hover:shadow-soft-lg transition-all ease-in-out duration-300 card-hover rounded-2xl overflow-hidden bg-white"
+                  className="border-0 shadow-soft hover:shadow-soft-lg transition-all ease-in-out duration-300 card-hover rounded-2xl overflow-hidden bg-card dark:bg-neutral-900"
                 >
                   <Link to={`/blog/${post.slug}`} className="relative block">
                     <img
@@ -368,13 +369,13 @@ const Blog = () => {
                       className="w-full h-48 object-cover"
                     />
                     <div className="absolute top-4 left-4">
-                      <span className="bg-white/90 backdrop-blur-sm text-brand-blue px-3 py-1 rounded-full text-sm font-medium">
+                      <span className="bg-white/90 dark:bg-neutral-800/80 backdrop-blur-sm text-brand-blue dark:text-brand-blue/90 px-3 py-1 rounded-full text-sm font-medium">
                         {post.category}
                       </span>
                     </div>
                   </Link>
                   <CardContent className="p-6">
-                    <div className="flex items-center space-x-4 text-sm text-neutral-500 mb-3">
+                    <div className="flex items-center space-x-4 text-sm text-muted-foreground mb-3">
                       <div className="flex items-center space-x-1">
                         <User className="h-4 w-4" />
                         <span>{post.author}</span>
@@ -386,17 +387,17 @@ const Blog = () => {
                     </div>
                     <Link
                       to={`/blog/${post.slug}`}
-                      className="block text-xl font-semibold text-neutral-900 mb-3 line-clamp-2 hover:text-brand-blue"
+                      className="block text-xl font-semibold text-foreground mb-3 line-clamp-2 hover:text-brand-blue dark:hover:text-brand-blue/80"
                     >
                       {post.title}
                     </Link>
-                    <p className="text-neutral-600 mb-4 line-clamp-3">
+                    <p className="text-muted-foreground dark:text-neutral-300 mb-4 line-clamp-3">
                       {post.excerpt}
                     </p>
                     <Button
                       asChild
                       variant="ghost"
-                      className="text-brand-blue hover:text-brand-purple p-0 h-auto font-semibold"
+                      className="text-brand-blue hover:text-brand-purple p-0 h-auto font-semibold dark:hover:text-brand-purple/90"
                     >
                       <Link
                         to={`/blog/${post.slug}`}
@@ -415,10 +416,10 @@ const Blog = () => {
       </section>
 
       {totalPosts > POSTS_PER_PAGE && (
-        <section className="bg-neutral-50 pb-16">
+        <section className="bg-muted/60 dark:bg-neutral-900/60 pb-16 transition-colors duration-300">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-              <p className="text-sm text-neutral-500">
+              <p className="text-sm text-muted-foreground">
                 {t('blog.pagination.showing', {
                   start: showingRangeStart,
                   end: showingRangeEnd,
@@ -500,9 +501,10 @@ const Blog = () => {
             <input
               type="email"
               placeholder={t('blog.newsletter.placeholder')}
-              className="flex-1 px-4 py-3 rounded-xl border-0 text-neutral-900 placeholder-neutral-500 focus:ring-2 focus:ring-white focus:outline-none"
+              aria-label={t('blog.newsletter.placeholder')}
+              className="flex-1 px-4 py-3 rounded-xl border-0 bg-white/95 text-neutral-900 placeholder-neutral-500 focus:ring-2 focus:ring-white focus:outline-none dark:bg-white"
             />
-            <Button className="bg-white text-brand-purple hover:bg-blue-50 font-semibold px-6 py-3 rounded-xl transition-all ease-in-out duration-300">
+            <Button className="bg-white text-brand-purple hover:bg-blue-50 font-semibold px-6 py-3 rounded-xl transition-all ease-in-out duration-300 dark:bg-neutral-900 dark:text-white dark:hover:bg-neutral-800">
               {t('blog.newsletter.subscribe')}
             </Button>
           </div>

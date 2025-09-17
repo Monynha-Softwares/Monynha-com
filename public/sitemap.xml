@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://monynha.com/about</loc></url>
-  <url><loc>https://monynha.com/auth</loc></url>
-  <url><loc>https://monynha.com/blog</loc></url>
-  <url><loc>https://monynha.com/contact</loc></url>
-  <url><loc>https://monynha.com/</loc></url>
-  <url><loc>https://monynha.com/projects</loc></url>
-  <url><loc>https://monynha.com/solutions</loc></url>
+  <url><loc>https://monynha.com/</loc><lastmod>2025-09-17T10:08:46.426Z</lastmod></url>
+  <url><loc>https://monynha.com/about</loc><lastmod>2025-09-17T10:08:46.426Z</lastmod></url>
+  <url><loc>https://monynha.com/auth</loc><lastmod>2025-09-17T10:08:46.426Z</lastmod></url>
+  <url><loc>https://monynha.com/blog</loc><lastmod>2025-09-17T10:08:46.426Z</lastmod></url>
+  <url><loc>https://monynha.com/contact</loc><lastmod>2025-09-17T10:08:46.426Z</lastmod></url>
+  <url><loc>https://monynha.com/projects</loc><lastmod>2025-09-17T10:08:46.426Z</lastmod></url>
+  <url><loc>https://monynha.com/solutions</loc><lastmod>2025-09-17T10:08:46.426Z</lastmod></url>
 </urlset>

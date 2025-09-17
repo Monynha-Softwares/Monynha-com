@@ -78,8 +78,9 @@ export default {
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
-        heading: ['"Space Grotesk"', 'Inter', 'system-ui', 'sans-serif'],
-        brand: ['"Space Grotesk"', 'Inter', 'system-ui', 'sans-serif'],
+        heading: ['"Quicksand"', 'Inter', 'system-ui', 'sans-serif'],
+        brand: ['"Quicksand"', 'Inter', 'system-ui', 'sans-serif'],
+        display: ['"Quicksand"', 'Inter', 'system-ui', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'monospace'],
       },
       backgroundImage: {

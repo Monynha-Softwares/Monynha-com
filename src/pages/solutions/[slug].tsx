@@ -277,7 +277,7 @@ const SolutionDetail = () => {
           <Button
             asChild
             size="lg"
-            className="bg-white text-brand-purple hover:bg-blue-50 font-semibold px-8 py-4 rounded-xl text-lg transition-all ease-in-out duration-300"
+            className="bg-white text-brand-purple hover:bg-blue-50 font-semibold px-8 py-4 rounded-xl text-lg transition-all ease-in-out duration-300 dark:bg-neutral-900 dark:text-white dark:hover:bg-neutral-800"
           >
             <Link to="/contact" className="flex items-center justify-center gap-2">
               {t('solutionsPage.discuss')}

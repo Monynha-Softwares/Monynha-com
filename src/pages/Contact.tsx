@@ -326,15 +326,15 @@ const Contact = () => {
             </BreadcrumbList>
           </Breadcrumb>
         </div>
-        <section className="py-24 bg-white min-h-screen flex items-center">
+        <section className="py-24 bg-background dark:bg-neutral-950 transition-colors duration-300 min-h-screen flex items-center">
           <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div className="w-16 h-16 bg-gradient-brand rounded-full flex items-center justify-center mx-auto mb-6">
               <CheckCircle className="h-8 w-8 text-white" />
             </div>
-            <h1 className="text-3xl lg:text-4xl font-bold text-neutral-900 mb-4">
+            <h1 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">
               {t('contact.thankYou.title')}
             </h1>
-            <p className="text-xl text-neutral-600 mb-8">
+            <p className="text-xl text-muted-foreground dark:text-neutral-300 mb-8">
               {t('contact.thankYou.description')}
             </p>
             <Button
@@ -374,13 +374,13 @@ const Contact = () => {
         </Breadcrumb>
       </div>
       {/* Hero Section */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-background dark:bg-neutral-950 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h1 className="text-4xl lg:text-5xl font-bold text-neutral-900 mb-6">
+            <h1 className="text-4xl lg:text-5xl font-bold text-foreground mb-6">
               {t('contact.title')}
             </h1>
-            <p className="text-xl text-neutral-600 max-w-3xl mx-auto">
+            <p className="text-xl text-muted-foreground dark:text-neutral-300 max-w-3xl mx-auto">
               {t('contact.description')}
             </p>
           </div>
@@ -388,14 +388,14 @@ const Contact = () => {
       </section>
 
       {/* Contact Form and Info */}
-      <section className="pb-24 bg-white">
+      <section className="pb-24 bg-background dark:bg-neutral-950 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             {/* Contact Form */}
             <div className="lg:col-span-2">
-              <Card className="border-0 shadow-soft-lg rounded-2xl">
+              <Card className="border-0 shadow-soft-lg rounded-2xl bg-card dark:bg-neutral-900 transition-colors duration-300">
                 <CardContent className="p-8">
-                  <h2 className="text-2xl font-bold text-neutral-900 mb-6">
+                  <h2 className="text-2xl font-bold text-foreground mb-6">
                     {t('contact.form.headline')}
                   </h2>
                   <form onSubmit={handleSubmit} className="space-y-6">
@@ -403,7 +403,7 @@ const Contact = () => {
                       <div>
                         <label
                           htmlFor="name"
-                          className="block text-sm font-medium text-neutral-700 mb-2"
+                          className="block text-sm font-medium text-muted-foreground dark:text-neutral-200 mb-2"
                         >
                           {t('contact.form.fullName')}
                         </label>
@@ -415,7 +415,7 @@ const Contact = () => {
                           value={formData.name}
                           onChange={handleInputChange}
                           onBlur={handleFieldBlur}
-                          className="rounded-xl border-neutral-200 focus:border-brand-blue focus:ring-brand-blue"
+                          className="rounded-xl focus-visible:ring-brand-blue focus-visible:ring-offset-2"
                           placeholder={t('contact.form.placeholderName')}
                         />
                         {errors.name && (
@@ -427,7 +427,7 @@ const Contact = () => {
                       <div>
                         <label
                           htmlFor="email"
-                          className="block text-sm font-medium text-neutral-700 mb-2"
+                          className="block text-sm font-medium text-muted-foreground dark:text-neutral-200 mb-2"
                         >
                           {t('contact.form.email')}
                         </label>
@@ -439,7 +439,7 @@ const Contact = () => {
                           value={formData.email}
                           onChange={handleInputChange}
                           onBlur={handleFieldBlur}
-                          className="rounded-xl border-neutral-200 focus:border-brand-blue focus:ring-brand-blue"
+                          className="rounded-xl focus-visible:ring-brand-blue focus-visible:ring-offset-2"
                           placeholder={t('contact.form.placeholderEmail')}
                         />
                         {errors.email && (
@@ -454,7 +454,7 @@ const Contact = () => {
                       <div>
                         <label
                           htmlFor="company"
-                          className="block text-sm font-medium text-neutral-700 mb-2"
+                          className="block text-sm font-medium text-muted-foreground dark:text-neutral-200 mb-2"
                         >
                           {t('contact.form.company')}
                         </label>
@@ -464,14 +464,14 @@ const Contact = () => {
                           type="text"
                           value={formData.company}
                           onChange={handleInputChange}
-                          className="rounded-xl border-neutral-200 focus:border-brand-blue focus:ring-brand-blue"
+                          className="rounded-xl focus-visible:ring-brand-blue focus-visible:ring-offset-2"
                           placeholder={t('contact.form.placeholderCompany')}
                         />
                       </div>
                       <div>
                         <label
                           htmlFor="project"
-                          className="block text-sm font-medium text-neutral-700 mb-2"
+                          className="block text-sm font-medium text-muted-foreground dark:text-neutral-200 mb-2"
                         >
                           {t('contact.form.projectType')}
                         </label>
@@ -481,7 +481,7 @@ const Contact = () => {
                           value={formData.project}
                           onChange={handleInputChange}
                           onBlur={handleFieldBlur}
-                          className="w-full px-3 py-2 border border-neutral-200 rounded-xl focus:border-brand-blue focus:ring-1 focus:ring-brand-blue focus:outline-none text-neutral-900"
+                          className="w-full px-3 py-2 rounded-xl border border-input bg-background text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2 dark:border-neutral-700"
                         >
                           <option value="">{t('contact.form.select')}</option>
                           {projectTypes.map((type, index) => (
@@ -496,7 +496,7 @@ const Contact = () => {
                     <div>
                       <label
                         htmlFor="message"
-                        className="block text-sm font-medium text-neutral-700 mb-2"
+                        className="block text-sm font-medium text-muted-foreground dark:text-neutral-200 mb-2"
                       >
                         {t('contact.form.details')}
                       </label>
@@ -508,7 +508,7 @@ const Contact = () => {
                         onChange={handleInputChange}
                         onBlur={handleFieldBlur}
                         rows={6}
-                        className="rounded-xl border-neutral-200 focus:border-brand-blue focus:ring-brand-blue resize-none"
+                        className="rounded-xl focus-visible:ring-brand-blue focus-visible:ring-offset-2 resize-none"
                         placeholder={t('contact.form.placeholderDetails')}
                       />
                       {errors.message && (
@@ -536,10 +536,10 @@ const Contact = () => {
             {/* Contact Information */}
             <div className="space-y-8">
               <div>
-                <h2 className="text-2xl font-bold text-neutral-900 mb-6">
+                <h2 className="text-2xl font-bold text-foreground mb-6">
                   {t('contact.info.getInTouch')}
                 </h2>
-                <p className="text-neutral-600 mb-8">
+                <p className="text-muted-foreground dark:text-neutral-300 mb-8">
                   {t('contact.info.description')}
                 </p>
               </div>
@@ -547,7 +547,7 @@ const Contact = () => {
               {contactInfo.map((info, index) => (
                 <Card
                   key={index}
-                  className="border-0 shadow-soft hover:shadow-soft-lg transition-all ease-in-out duration-300 card-hover rounded-2xl"
+                  className="border-0 shadow-soft hover:shadow-soft-lg transition-all ease-in-out duration-300 card-hover rounded-2xl bg-card dark:bg-neutral-900"
                 >
                   <CardContent className="p-6">
                     <div className="flex items-start space-x-4">
@@ -555,13 +555,13 @@ const Contact = () => {
                         <info.icon className="h-6 w-6 text-white" />
                       </div>
                       <div>
-                        <h3 className="font-semibold text-neutral-900 mb-1">
+                        <h3 className="font-semibold text-foreground mb-1">
                           {info.title}
                         </h3>
-                        <p className="text-lg text-brand-blue font-medium mb-1">
+                        <p className="text-lg text-brand-blue font-medium mb-1 dark:text-brand-blue/90">
                           {info.content}
                         </p>
-                        <p className="text-sm text-neutral-600">
+                        <p className="text-sm text-muted-foreground dark:text-neutral-300">
                           {info.description}
                         </p>
                       </div>

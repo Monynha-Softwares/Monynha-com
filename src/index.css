@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Quicksand:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,34 +6,66 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --foreground: 222 47% 10%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 222 47% 10%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 222 47% 10%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 262 83.3% 57.8%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 199 88.7% 48.4%;
+    --secondary-foreground: 210 40% 98%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 210 33% 96%;
+    --muted-foreground: 215 16% 42%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 330 81.2% 60.4%;
+    --accent-foreground: 210 40% 98%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 199 88.7% 48.4%;
 
     --radius: 1.5rem;
+  }
+
+  .dark {
+    --background: 222 47% 10%;
+    --foreground: 210 40% 98%;
+
+    --card: 222 40% 12%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222 40% 12%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 262 83.3% 57.8%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 245 57.9% 35%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217 33% 20%;
+    --muted-foreground: 213 27% 84%;
+
+    --accent: 330 81.2% 60.4%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 217 33% 24%;
+    --input: 217 33% 24%;
+    --ring: 199 88.7% 60%;
+
+    color-scheme: dark;
   }
 
   * {
@@ -41,7 +73,7 @@
   }
 
   body {
-    @apply bg-background text-neutral-900 font-sans antialiased;
+    @apply bg-background text-foreground font-sans antialiased transition-colors duration-300;
   }
 
   h1,
@@ -50,12 +82,42 @@
   h4,
   h5,
   h6 {
-    @apply font-heading font-semibold text-neutral-900;
+    @apply font-heading font-semibold text-foreground tracking-tight;
   }
 
   code,
   pre {
     @apply font-mono;
+  }
+
+  .dark .bg-white {
+    @apply bg-card;
+  }
+
+  .dark .bg-neutral-50 {
+    @apply bg-neutral-900/60;
+  }
+
+  .dark .text-neutral-900 {
+    @apply text-foreground;
+  }
+
+  .dark .text-neutral-600,
+  .dark .text-neutral-500 {
+    @apply text-muted-foreground;
+  }
+
+  .dark .text-neutral-700 {
+    @apply text-neutral-200;
+  }
+
+  .dark .border-neutral-200 {
+    @apply border-border;
+  }
+
+  .dark .bg-neutral-100,
+  .dark .bg-neutral-200 {
+    @apply bg-muted;
   }
 }
 
@@ -65,7 +127,7 @@
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 bg-white text-neutral-700 font-semibold px-6 py-3 rounded-2xl border border-neutral-200 shadow-sm hover:shadow-soft hover:border-brand-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2 transition-all ease-in-out duration-300;
+    @apply inline-flex items-center justify-center gap-2 bg-white text-neutral-700 font-semibold px-6 py-3 rounded-2xl border border-neutral-200 shadow-sm hover:shadow-soft hover:border-brand-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2 transition-all ease-in-out duration-300 dark:bg-neutral-900 dark:text-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800;
   }
 
   .card-hover {

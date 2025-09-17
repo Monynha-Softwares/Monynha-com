@@ -357,7 +357,7 @@ const BlogPostPage = () => {
           </BreadcrumbList>
         </Breadcrumb>
       </div>
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-background dark:bg-neutral-950 transition-colors duration-300">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link
             to="/blog"
