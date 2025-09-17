@@ -357,7 +357,7 @@ const BlogPostPage = () => {
           </BreadcrumbList>
         </Breadcrumb>
       </div>
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-background transition-colors duration-300 dark:bg-background/80">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link
             to="/blog"
@@ -370,14 +370,14 @@ const BlogPostPage = () => {
           <article className="space-y-10">
             <header className="space-y-6">
               <div className="space-y-4">
-                <h1 className="text-4xl font-bold text-neutral-900">
+                <h1 className="text-4xl font-bold text-foreground">
                   {post.title}
                 </h1>
                 {post.excerpt && (
-                  <p className="text-xl text-neutral-600">{post.excerpt}</p>
+                  <p className="text-xl text-muted-foreground">{post.excerpt}</p>
                 )}
               </div>
-              <div className="flex flex-wrap items-center gap-4 text-sm text-neutral-500">
+              <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
                 <div className="flex items-center gap-2">
                   <User className="h-4 w-4" />
                   <span>{t('blog.post.author', { author: defaultAuthor })}</span>
@@ -387,24 +387,25 @@ const BlogPostPage = () => {
                   <span>{readTimeLabel}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="inline-flex h-1.5 w-1.5 rounded-full bg-neutral-300" aria-hidden />
+                  <span className="inline-flex h-1.5 w-1.5 rounded-full bg-muted" aria-hidden />
                   <span>{t('blog.post.published', { date: updatedDate })}</span>
                 </div>
               </div>
             </header>
 
             {post.image_url && (
-              <div className="overflow-hidden rounded-3xl bg-neutral-100 shadow-soft">
+              <div className="overflow-hidden rounded-3xl bg-muted shadow-soft">
                 <img
                   src={post.image_url}
                   alt={post.title}
                   className="h-full w-full object-cover"
                   loading="lazy"
+                  decoding="async"
                 />
               </div>
             )}
 
-            <div className="space-y-6 text-lg leading-relaxed text-neutral-700">
+            <div className="space-y-6 text-lg leading-relaxed text-muted-foreground">
               {renderedContent.length > 0 ? (
                 renderedContent
               ) : (

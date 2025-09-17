@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Quicksand:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,34 +6,64 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --foreground: 222 23% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 222 23% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 222 23% 15%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 263 83% 60%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 199 88% 64%;
+    --secondary-foreground: 222 23% 15%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 215 32% 91%;
+    --muted-foreground: 220 15% 40%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 329 86% 67%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 347 84% 51%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 216 33% 91%;
+    --input: 216 33% 91%;
+    --ring: 263 83% 60%;
 
     --radius: 1.5rem;
+  }
+
+  .dark {
+    --background: 222 47% 11%;
+    --foreground: 210 40% 96%;
+
+    --card: 222 47% 14%;
+    --card-foreground: 210 40% 96%;
+
+    --popover: 222 47% 14%;
+    --popover-foreground: 210 40% 96%;
+
+    --primary: 264 83% 72%;
+    --primary-foreground: 222 47% 11%;
+
+    --secondary: 198 84% 53%;
+    --secondary-foreground: 210 40% 96%;
+
+    --muted: 222 36% 22%;
+    --muted-foreground: 213 18% 76%;
+
+    --accent: 329 71% 60%;
+    --accent-foreground: 210 40% 96%;
+
+    --destructive: 355 80% 63%;
+    --destructive-foreground: 210 40% 96%;
+
+    --border: 222 35% 24%;
+    --input: 222 35% 24%;
+    --ring: 264 83% 72%;
   }
 
   * {
@@ -41,7 +71,7 @@
   }
 
   body {
-    @apply bg-background text-neutral-900 font-sans antialiased;
+    @apply bg-background text-foreground font-sans antialiased transition-colors duration-300;
   }
 
   h1,
@@ -50,25 +80,72 @@
   h4,
   h5,
   h6 {
-    @apply font-heading font-semibold text-neutral-900;
+    @apply font-heading font-semibold text-foreground tracking-tight;
   }
 
   code,
   pre {
     @apply font-mono;
   }
+
+  .dark .text-neutral-900,
+  .dark .text-neutral-800 {
+    color: hsl(var(--foreground));
+  }
+
+  .dark .text-neutral-700,
+  .dark .text-neutral-600,
+  .dark .text-neutral-500 {
+    color: hsl(var(--muted-foreground));
+  }
+
+  .dark .bg-white {
+    background-color: hsl(var(--card));
+  }
+
+  .dark .bg-neutral-50 {
+    background-color: hsl(var(--background));
+  }
+
+  .dark .border-neutral-200,
+  .dark .border-white\/60 {
+    border-color: hsl(var(--border));
+  }
+
+  .dark .text-blue-100 {
+    color: #dbeafe;
+  }
+
+  a {
+    @apply transition-colors duration-200 underline-offset-4;
+  }
+
+  a:focus-visible,
+  button:focus-visible,
+  [role='button']:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    @apply outline-none ring-2 ring-ring/80 ring-offset-2 ring-offset-background;
+  }
 }
 
 @layer components {
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 bg-gradient-brand text-white font-semibold px-6 py-3 rounded-2xl shadow-md transition-all ease-in-out duration-300 hover:shadow-soft-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2;
+    @apply inline-flex items-center justify-center gap-2 bg-gradient-brand text-white font-semibold px-6 py-3 rounded-2xl shadow-md transition-all ease-in-out duration-300 hover:shadow-soft-lg focus-visible:ring-0;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 bg-white text-neutral-700 font-semibold px-6 py-3 rounded-2xl border border-neutral-200 shadow-sm hover:shadow-soft hover:border-brand-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2 transition-all ease-in-out duration-300;
+    @apply inline-flex items-center justify-center gap-2 bg-white text-neutral-700 font-semibold px-6 py-3 rounded-2xl border border-neutral-200 shadow-sm hover:shadow-soft hover:border-brand-blue focus-visible:ring-0 transition-all ease-in-out duration-300 dark:bg-neutral-900 dark:text-neutral-100 dark:border-neutral-800 dark:hover:border-primary dark:hover:text-primary;
   }
 
   .card-hover {
     @apply transition-all ease-in-out duration-300 hover:shadow-soft-lg hover:-translate-y-1;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
   }
 }

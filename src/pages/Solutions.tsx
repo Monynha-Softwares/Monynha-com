@@ -125,13 +125,18 @@ const Solutions = () => {
         </Breadcrumb>
       </div>
       {/* Hero Section */}
-      <section className={cn(sectionPaddingY, 'bg-white')}>
+      <section
+        className={cn(
+          sectionPaddingY,
+          'bg-background/95 transition-colors duration-300 dark:bg-background/80'
+        )}
+      >
         <div className={sectionContainer}>
           <div className="text-center mb-16">
-            <h1 className="text-4xl lg:text-5xl font-bold text-neutral-900 mb-6">
+            <h1 className="text-4xl lg:text-5xl font-bold text-foreground mb-6 text-balance">
               {t('solutionsPage.title')}
             </h1>
-            <p className="text-xl text-neutral-600 max-w-3xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
               {t('solutionsPage.description')}
             </p>
           </div>
@@ -139,7 +144,12 @@ const Solutions = () => {
       </section>
 
       {/* Solutions Detail */}
-      <section className={cn(sectionPaddingY, 'bg-white')}>
+      <section
+        className={cn(
+          sectionPaddingY,
+          'bg-background transition-colors duration-300 dark:bg-background/70'
+        )}
+      >
         <div className={sectionContainer}>
           <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
             {displaySolutions.map((solution) => (
@@ -180,16 +190,16 @@ const Solutions = () => {
       {/* Custom Solutions CTA */}
       <section className={cn(sectionPaddingY, 'bg-gradient-hero text-white')}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl lg:text-4xl font-bold mb-6">
+          <h2 className="text-3xl lg:text-4xl font-bold mb-6 text-balance">
             {t('solutionsPage.customTitle')}
           </h2>
-          <p className="text-xl text-blue-100 mb-8">
+          <p className="text-xl text-blue-100 mb-8 dark:text-indigo-100">
             {t('solutionsPage.customDescription')}
           </p>
           <Link to="/contact">
             <Button
               size="lg"
-              className="bg-white text-brand-purple hover:bg-blue-50 font-semibold px-8 py-4 rounded-2xl text-lg transition-all ease-in-out duration-300 shadow-md hover:shadow-soft-lg"
+              className="bg-white text-brand-purple hover:bg-blue-50 font-semibold px-8 py-4 rounded-2xl text-lg transition-all ease-in-out duration-300 shadow-md hover:shadow-soft-lg dark:bg-transparent dark:text-white dark:ring-1 dark:ring-white/40 dark:hover:bg-white/10"
             >
               {t('solutionsPage.discuss')}
               <ArrowRight className="ml-2 h-5 w-5" />

@@ -147,13 +147,13 @@ const About = () => {
         ogImage="/placeholder.svg"
       />
       {/* Hero Section */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-background/95 transition-colors duration-300 dark:bg-background/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h1 className="text-4xl lg:text-5xl font-bold text-neutral-900 mb-6">
+            <h1 className="text-4xl lg:text-5xl font-bold text-foreground mb-6 text-balance">
               {t('about.title')}
             </h1>
-            <p className="text-xl text-neutral-600 max-w-3xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
               {t('about.description')}
             </p>
           </div>
@@ -161,7 +161,7 @@ const About = () => {
       </section>
 
       {/* Mission & Values Section */}
-      <section className="py-24 bg-neutral-900 text-white">
+      <section className="py-24 bg-neutral-900 text-white transition-colors duration-300 dark:bg-neutral-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
             <div className="space-y-8">
@@ -214,7 +214,7 @@ const About = () => {
       </section>
 
       {/* Story Section */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-background/95 transition-colors duration-300 dark:bg-background/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="order-2 lg:order-1 space-y-8">
@@ -223,7 +223,7 @@ const About = () => {
                   {t('about.storyTitle')}
                 </span>
               </div>
-              <h2 className="text-3xl lg:text-4xl font-bold text-neutral-900 leading-tight">
+              <h2 className="text-3xl lg:text-4xl font-bold text-foreground leading-tight">
                 {t('about.title')}
               </h2>
               <ul className="space-y-6">
@@ -232,7 +232,7 @@ const About = () => {
                     <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-brand text-white font-semibold">
                       {(index + 1).toString().padStart(2, '0')}
                     </span>
-                    <p className="text-lg text-neutral-600 leading-relaxed">
+                    <p className="text-lg text-muted-foreground leading-relaxed">
                       {story}
                     </p>
                   </li>
@@ -240,12 +240,13 @@ const About = () => {
               </ul>
             </div>
             <div className="order-1 lg:order-2">
-              <Card className="border-0 shadow-soft-lg rounded-3xl overflow-hidden">
+              <Card className="border-0 shadow-soft-lg rounded-3xl overflow-hidden bg-card/95 transition-colors duration-300 dark:bg-card/80">
                 <div className="relative h-80">
                   <img
                     src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
                     alt="Team collaboration"
                     loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/40 via-transparent" aria-hidden="true"></div>
@@ -257,13 +258,13 @@ const About = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-24 bg-neutral-50">
+      <section className="py-24 bg-muted/60 transition-colors duration-300 dark:bg-background/70">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-neutral-900 mb-4">
+            <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">
               {t('about.impactTitle')}
             </h2>
-            <p className="text-xl text-neutral-600 max-w-3xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
               {t('about.impactDescription')}
             </p>
           </div>
@@ -277,41 +278,41 @@ const About = () => {
               {Array.from({ length: 4 }).map((_, index) => (
                 <div
                   key={index}
-                  className="h-32 rounded-2xl bg-white shadow-soft animate-pulse"
+                  className="h-32 rounded-2xl bg-card/80 shadow-soft animate-pulse"
                   aria-hidden="true"
                 ></div>
               ))}
             </div>
           ) : statsError ? (
-            <p className="text-center text-neutral-500">{t('about.statsError')}</p>
+            <p className="text-center text-muted-foreground">{t('about.statsError')}</p>
           ) : aboutStats && aboutStats.length > 0 ? (
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
               {aboutStats.map((stat, index) => (
                 <Card
                   key={`${stat.label}-${index}`}
-                  className="border-0 shadow-soft rounded-2xl bg-white text-center p-8"
+                  className="border-0 shadow-soft rounded-2xl bg-card/95 text-center p-8 transition-colors duration-300 dark:bg-card/80"
                 >
                   <div className="text-4xl lg:text-5xl font-bold text-transparent bg-clip-text bg-gradient-brand mb-2">
                     {stat.number}
                   </div>
-                  <div className="text-neutral-600 font-medium">{stat.label}</div>
+                  <div className="text-muted-foreground font-medium">{stat.label}</div>
                 </Card>
               ))}
             </div>
           ) : (
-            <p className="text-center text-neutral-500">{t('about.statsEmpty')}</p>
+            <p className="text-center text-muted-foreground">{t('about.statsEmpty')}</p>
           )}
         </div>
       </section>
 
       {/* Team Section */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-background transition-colors duration-300 dark:bg-background/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-neutral-900 mb-4">
+            <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">
               {t('team.title')}
             </h2>
-            <p className="text-xl text-neutral-600 max-w-3xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
               {t('team.description')}
             </p>
           </div>
@@ -325,25 +326,25 @@ const About = () => {
               {Array.from({ length: 4 }).map((_, index) => (
                 <Card
                   key={index}
-                  className="border-0 shadow-soft rounded-2xl p-8 animate-pulse h-full"
+                  className="border-0 shadow-soft rounded-2xl p-8 animate-pulse h-full bg-card/80"
                   aria-hidden="true"
                 >
                   <div className="flex flex-col items-center gap-4">
-                    <div className="w-24 h-24 rounded-full bg-neutral-200" />
-                    <div className="w-32 h-6 rounded bg-neutral-200" />
-                    <div className="w-24 h-4 rounded bg-neutral-200" />
+                    <div className="w-24 h-24 rounded-full bg-muted" />
+                    <div className="w-32 h-6 rounded bg-muted" />
+                    <div className="w-24 h-4 rounded bg-muted" />
                   </div>
                 </Card>
               ))}
             </div>
           ) : teamError ? (
-            <p className="text-center text-neutral-500">{t('team.error')}</p>
+            <p className="text-center text-muted-foreground">{t('team.error')}</p>
           ) : teamMembers && teamMembers.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {teamMembers.map((member) => (
                 <Card
                   key={member.id}
-                  className="border-0 shadow-soft hover:shadow-soft-lg transition-all duration-200 rounded-2xl"
+                  className="border-0 shadow-soft hover:shadow-soft-lg transition-all duration-200 rounded-2xl bg-card/95 dark:bg-card/80"
                 >
                   <CardContent className="p-8 text-center space-y-4">
                     <Avatar className="w-24 h-24 mx-auto">
@@ -359,7 +360,7 @@ const About = () => {
                       </AvatarFallback>
                     </Avatar>
                     <div className="space-y-1">
-                      <h3 className="text-xl font-semibold text-neutral-900">
+                      <h3 className="text-xl font-semibold text-foreground">
                         {member.name}
                       </h3>
                       <p className="text-brand-blue font-medium">{member.role}</p>
@@ -369,7 +370,7 @@ const About = () => {
               ))}
             </div>
           ) : (
-            <p className="text-center text-neutral-500">{t('team.empty')}</p>
+            <p className="text-center text-muted-foreground">{t('team.empty')}</p>
           )}
         </div>
       </section>
@@ -377,10 +378,10 @@ const About = () => {
       {/* CTA Section */}
       <section className="py-24 bg-gradient-hero text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
-          <h2 className="text-3xl lg:text-4xl font-bold">
+          <h2 className="text-3xl lg:text-4xl font-bold text-balance">
             {t('about.ctaTitle')}
           </h2>
-          <p className="text-xl text-blue-100">
+          <p className="text-xl text-blue-100 dark:text-indigo-100">
             {t('about.ctaDescription')}
           </p>
           <Button asChild size="lg" className="rounded-full px-10">

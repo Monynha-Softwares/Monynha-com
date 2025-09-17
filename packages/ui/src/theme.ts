@@ -9,7 +9,7 @@ export const sectionPaddingY = 'py-24 sm:py-28';
 export const sectionContainer = 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8';
 
 export const surfaceCardClass =
-  'rounded-2xl border border-white/60 bg-white/90 shadow-md backdrop-blur-sm';
+  'rounded-2xl border border-border/60 bg-card/90 shadow-md backdrop-blur-sm transition-colors duration-300 dark:border-border/40 dark:bg-card/80';
 
 export const featureIconWrapperClass =
-  'inline-flex h-8 w-8 items-center justify-center rounded-full text-white shadow-sm';
+  'inline-flex h-8 w-8 items-center justify-center rounded-full text-white shadow-sm ring-1 ring-white/40 dark:ring-white/10';

@@ -55,6 +55,7 @@ export const SolutionCard = ({
             src={imageUrl}
             alt={title}
             loading="lazy"
+            decoding="async"
             className="h-full w-full object-cover"
           />
           <div
@@ -74,15 +75,15 @@ export const SolutionCard = ({
           className={cn('h-1 w-16 rounded-full bg-gradient-to-r', gradient, 'mb-6')}
           aria-hidden="true"
         />
-        <h3 className="text-2xl font-heading font-semibold text-neutral-900">
+        <h3 className="text-2xl font-heading font-semibold text-foreground">
           {title}
         </h3>
-        <p className="mt-4 flex-1 text-neutral-600 leading-relaxed">
+        <p className="mt-4 flex-1 text-muted-foreground leading-relaxed">
           {description}
         </p>
 
         {displayFeatures.length > 0 && (
-          <ul className="mt-8 space-y-3 text-neutral-600">
+          <ul className="mt-8 space-y-3 text-muted-foreground">
             {displayFeatures.map((feature, index) => (
               <li key={`${slug}-feature-${index}`} className="flex items-start gap-3">
                 <span
