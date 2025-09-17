@@ -361,7 +361,7 @@ const BlogPostPage = () => {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link
             to="/blog"
-            className="mb-8 inline-flex items-center text-sm font-medium text-brand-blue hover:text-brand-purple"
+            className="mb-8 inline-flex items-center text-sm font-medium text-brand-blue hover:text-brand-violet"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
             {t('blog.post.back')}
@@ -426,7 +426,7 @@ const ButtonLink = () => {
   return (
     <Link
       to="/blog"
-      className="inline-flex items-center justify-center rounded-full border border-brand-blue/40 px-6 py-2 text-sm font-semibold text-brand-blue transition hover:border-brand-purple hover:text-brand-purple"
+      className="inline-flex items-center justify-center rounded-full border border-brand-blue/40 px-6 py-2 text-sm font-semibold text-brand-blue transition hover:border-brand-violet hover:text-brand-violet"
     >
       {t('blog.post.back')}
     </Link>

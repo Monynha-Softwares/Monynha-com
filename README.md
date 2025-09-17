@@ -31,7 +31,14 @@ src/
   integrations/    Third‑party integrations (Supabase)
   pages/           Route components
   lib/             Utility helpers
+packages/
+  config/          Centralised brand and configuration tokens (`@monynha/config`)
+  ui/              Shared UI primitives and helpers (`@monynha/ui`)
 ```
+
+The shared packages expose design tokens (colors, fonts, gradients) and brand-safe
+components such as the new `SolutionCard` used across the Solutions and Projects
+pages. Import them via the path aliases configured in `tsconfig.json` and `vite.config.ts`.
 
 ## Scripts
 
@@ -60,6 +67,27 @@ These variables match the placeholders in `.env.example`.
 - Tailwind CSS & shadcn/ui
 - Supabase
 - React Query
+
+### Design tokens
+
+- **Colors:** Violet `#7C3AED`, Blue `#0EA5E9`, Magenta `#EC4899`, Amber `#F97316` and a Pride gradient exposed via `@monynha/ui`.
+- **Fonts:** Inter (body text), Space Grotesk (display/headings), JetBrains Mono (code).
+- **Shape & elevation:** Buttons and cards default to `rounded-2xl` with `shadow-soft` variants.
+
+These tokens are consumed through the Tailwind config and the shared UI package to ensure a cohesive visual language.
+
+## Supabase schema updates
+
+Recent migrations add comment-related RLS policies, a secure `get_comment_authors` helper, and seed the `site_settings.about_stats` entry used on the About page. Apply migrations before running locally:
+
+```sh
+npx supabase migration up
+```
+
+The frontend expects the following:
+
+- Public read access to solutions, repositories, blog posts, homepage features, team members, site settings, and comments.
+- Authenticated users can insert leads, newsletter subscribers, and comments while admins (via the `profiles.role = 'admin'` policy) can manage restricted tables.
 
 ## CI/CD
 

@@ -88,7 +88,7 @@ const NewsletterSection = () => {
               setIsSubscribed(false);
               setEmail('');
             }}
-            className="bg-white text-brand-purple hover:bg-blue-50 font-semibold px-6 py-3 rounded-xl"
+            className="rounded-2xl bg-white px-6 py-3 font-semibold text-brand-violet hover:bg-blue-50"
           >
             {t('newsletterSection.subscribeAnother')}
           </Button>
@@ -100,7 +100,7 @@ const NewsletterSection = () => {
   return (
     <section className="py-24 bg-gradient-hero text-white">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Card className="border-0 shadow-soft-lg rounded-2xl bg-white/10 backdrop-blur-sm">
+        <Card className="rounded-2xl border-0 bg-white/10 shadow-soft-lg backdrop-blur-sm">
           <CardContent className="p-8 lg:p-12 text-center">
             <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6">
               <Mail className="h-8 w-8 text-white" />
@@ -121,13 +121,13 @@ const NewsletterSection = () => {
                   placeholder={t('newsletterSection.placeholder')}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="flex-1 rounded-xl border-white/30 bg-white/20 text-white placeholder:text-white/70 focus:border-white focus:ring-white"
+                  className="flex-1 rounded-2xl border-white/30 bg-white/20 text-white placeholder:text-white/70 focus:border-white focus:ring-white"
                   required
                 />
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="bg-white text-brand-purple hover:bg-blue-50 font-semibold px-8 py-3 rounded-xl whitespace-nowrap"
+                  className="rounded-2xl bg-white px-8 py-3 font-semibold text-brand-violet hover:bg-blue-50 whitespace-nowrap"
                 >
                   {isSubmitting
                     ? t('newsletterSection.subscribing')

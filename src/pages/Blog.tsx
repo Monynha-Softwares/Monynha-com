@@ -396,7 +396,7 @@ const Blog = () => {
                     <Button
                       asChild
                       variant="ghost"
-                      className="text-brand-blue hover:text-brand-purple p-0 h-auto font-semibold"
+                      className="text-brand-blue hover:text-brand-violet p-0 h-auto font-semibold"
                     >
                       <Link
                         to={`/blog/${post.slug}`}
@@ -502,7 +502,7 @@ const Blog = () => {
               placeholder={t('blog.newsletter.placeholder')}
               className="flex-1 px-4 py-3 rounded-xl border-0 text-neutral-900 placeholder-neutral-500 focus:ring-2 focus:ring-white focus:outline-none"
             />
-            <Button className="bg-white text-brand-purple hover:bg-blue-50 font-semibold px-6 py-3 rounded-xl transition-all ease-in-out duration-300">
+            <Button className="bg-white text-brand-violet hover:bg-blue-50 font-semibold px-6 py-3 rounded-xl transition-all ease-in-out duration-300">
               {t('blog.newsletter.subscribe')}
             </Button>
           </div>

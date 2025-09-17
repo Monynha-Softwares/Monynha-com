@@ -24,7 +24,7 @@ import { useMemo } from 'react';
 const fallbackSolutionsConfig = [
   {
     id: 'boteco',
-    gradient: 'from-brand-purple to-brand-blue',
+    gradient: 'from-brand-violet to-brand-blue',
     featureKeys: [
       'orderManagement',
       'inventoryTracking',
@@ -34,7 +34,7 @@ const fallbackSolutionsConfig = [
   },
   {
     id: 'assistina',
-    gradient: 'from-brand-pink to-brand-orange',
+    gradient: 'from-brand-magenta to-brand-amber',
     featureKeys: ['nlp', 'taskAutomation', 'learning', 'integration'],
   },
 ];
@@ -94,8 +94,8 @@ const Index = () => {
           : [],
         gradient:
           index === 0
-            ? 'from-brand-purple to-brand-blue'
-            : 'from-brand-pink to-brand-orange',
+            ? 'from-brand-violet to-brand-blue'
+            : 'from-brand-magenta to-brand-amber',
       }));
     },
   });
@@ -189,7 +189,7 @@ const Index = () => {
               <Link to="/solutions">
                 <Button
                   size="lg"
-                  className="bg-white text-brand-purple hover:bg-blue-50 font-semibold px-8 py-4 rounded-xl text-lg transition-all ease-in-out duration-300"
+                  className="bg-white text-brand-violet hover:bg-blue-50 font-semibold px-8 py-4 rounded-xl text-lg transition-all ease-in-out duration-300"
                 >
                   {t('index.hero.viewSolutions')}
                 </Button>
@@ -309,7 +309,7 @@ const Index = () => {
           <Link to="/contact">
             <Button
               size="lg"
-              className="bg-white text-brand-purple hover:bg-blue-50 font-semibold px-8 py-4 rounded-xl text-lg transition-all ease-in-out duration-300"
+              className="bg-white text-brand-violet hover:bg-blue-50 font-semibold px-8 py-4 rounded-xl text-lg transition-all ease-in-out duration-300"
             >
               {t('index.cta.getStarted')}
               <ArrowRight className="ml-2 h-5 w-5" />

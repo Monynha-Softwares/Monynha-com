@@ -15,6 +15,11 @@ export default defineConfig(({ mode }) => ({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
+      '@monynha/ui': path.resolve(__dirname, './packages/ui/src/index.ts'),
+      '@monynha/config': path.resolve(
+        __dirname,
+        './packages/config/src/index.ts'
+      ),
     },
   },
 }));

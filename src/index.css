@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@500;600;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,34 +6,34 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --foreground: 222 47% 11%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 222 47% 11%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 222 47% 11%;
 
-    --primary: 222.2 47.4% 11.2%;
+    --primary: 261 83% 58%;
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 198 87% 49%;
+    --secondary-foreground: 210 40% 98%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 20% 45%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 326 75% 63%;
+    --accent-foreground: 210 40% 98%;
 
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 0 72% 51%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 261 83% 58%;
 
-    --radius: 0.75rem;
+    --radius: 1.5rem;
   }
 
   * {
@@ -41,7 +41,7 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans antialiased;
+    @apply bg-background font-sans text-foreground antialiased;
   }
 
   h1,
@@ -50,20 +50,20 @@
   h4,
   h5,
   h6 {
-    @apply font-semibold text-neutral-900;
+    @apply font-display font-semibold text-neutral-900;
   }
 }
 
 @layer components {
   .btn-primary {
-    @apply bg-gradient-brand text-white font-medium px-6 py-3 rounded-xl hover:shadow-soft-lg transition-all ease-in-out duration-300 hover:scale-105;
+    @apply bg-gradient-brand text-white font-medium px-6 py-3 rounded-2xl shadow-md hover:shadow-soft-lg transition-all ease-in-out duration-300;
   }
 
   .btn-secondary {
-    @apply bg-white text-neutral-700 font-medium px-6 py-3 rounded-xl border border-neutral-100 hover:shadow-soft hover:border-brand-blue transition-all ease-in-out duration-300;
+    @apply bg-white text-neutral-700 font-medium px-6 py-3 rounded-2xl border border-neutral-200 hover:shadow-soft hover:border-brand-blue transition-all ease-in-out duration-300;
   }
 
   .card-hover {
-    @apply transition-all ease-in-out duration-300 hover:shadow-soft-lg hover:-translate-y-1;
+    @apply transition-all ease-in-out duration-300 hover:-translate-y-1 hover:shadow-soft-lg;
   }
 }

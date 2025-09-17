@@ -214,7 +214,7 @@ const SolutionDetail = () => {
                 </Button>
                 <Button
                   asChild
-                  className="flex-1 sm:flex-none sm:w-auto bg-gradient-to-r from-brand-purple to-brand-blue hover:shadow-soft-lg transition-all"
+                  className="flex-1 sm:flex-none sm:w-auto bg-gradient-to-r from-brand-violet to-brand-blue hover:shadow-soft-lg transition-all"
                 >
                   <Link to="/contact" className="flex items-center justify-center gap-2">
                     {t('solutionsPage.requestDemo')}
@@ -277,7 +277,7 @@ const SolutionDetail = () => {
           <Button
             asChild
             size="lg"
-            className="bg-white text-brand-purple hover:bg-blue-50 font-semibold px-8 py-4 rounded-xl text-lg transition-all ease-in-out duration-300"
+            className="bg-white text-brand-violet hover:bg-blue-50 font-semibold px-8 py-4 rounded-xl text-lg transition-all ease-in-out duration-300"
           >
             <Link to="/contact" className="flex items-center justify-center gap-2">
               {t('solutionsPage.discuss')}

@@ -20,7 +20,7 @@ interface CommentsSectionProps {
 type CommentRow = Database['public']['Tables']['comments']['Row'];
 type ProfileRow = Pick<
   Database['public']['Tables']['profiles']['Row'],
-  'name' | 'avatar_url'
+  'user_id' | 'name' | 'avatar_url'
 >;
 
 type CommentWithAuthor = CommentRow & {
@@ -96,10 +96,12 @@ const CommentsSection = ({ postId }: CommentsSectionProps) => {
       let profilesMap = new Map<string, ProfileRow>();
 
       if (userIds.length > 0) {
-        const { data: profilesData, error: profilesError } = await supabase
-          .from('profiles')
-          .select('user_id, name, avatar_url')
-          .in('user_id', userIds);
+        const { data: profilesData, error: profilesError } = await supabase.rpc(
+          'get_comment_authors',
+          {
+            user_ids: userIds,
+          }
+        );
 
         if (profilesError) {
           console.error('Error fetching comment author profiles', profilesError);

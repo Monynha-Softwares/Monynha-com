@@ -1,14 +1,12 @@
-
 import {
   fallbackSolutions,
   fallbackSolutionsMap,
   gradientOptions,
   normalizeSolutionSlug,
 } from '@/data/solutions';
-import type { Tables } from '@/integrations/supabase/types';
-import type { SolutionContent } from '@/types/solutions';
 import { supabase } from '@/integrations/supabase';
 import type { Database } from '@/integrations/supabase/types';
+import type { SolutionContent } from '@/types/solutions';
 
 export interface GitHubRepository {
   id: number;
@@ -33,25 +31,27 @@ export interface GitHubRepository {
 
 type SupabaseSolutionRow = Database['public']['Tables']['solutions']['Row'];
 
+type MapOptions = {
+  index?: number;
+};
+
 const uniqueNonEmpty = (values: Array<string | null | undefined>): string[] => {
   const seen = new Set<string>();
-  const result: string[] = [];
 
-  for (const value of values) {
-    if (!value) {
-      continue;
+  return values.reduce<string[]>((accumulator, current) => {
+    if (!current) {
+      return accumulator;
     }
 
-    const trimmed = value.trim();
+    const trimmed = current.trim();
     if (!trimmed || seen.has(trimmed)) {
-      continue;
+      return accumulator;
     }
 
     seen.add(trimmed);
-    result.push(trimmed);
-  }
-
-  return result;
+    accumulator.push(trimmed);
+    return accumulator;
+  }, []);
 };
 
 const coerceToStringArray = (value: unknown): string[] => {
@@ -106,6 +106,45 @@ const formatDate = (value: string | null | undefined): string | null => {
   });
 };
 
+const mapSupabaseFeatures = (
+  features: SupabaseSolutionRow['features'],
+  fallback?: SolutionContent
+): string[] => {
+  const parsedFeatures = coerceToStringArray(features);
+
+  if (parsedFeatures.length > 0) {
+    return parsedFeatures;
+  }
+
+  if (fallback?.features?.length) {
+    return [...fallback.features];
+  }
+
+  return [];
+};
+
+export const mapSupabaseSolutionToContent = (
+  solution: SupabaseSolutionRow,
+  options: MapOptions = {}
+): SolutionContent => {
+  const normalizedSlug = normalizeSolutionSlug(solution.slug);
+  const fallback =
+    fallbackSolutionsMap[normalizedSlug] ?? fallbackSolutionsMap[solution.slug];
+  const index = options.index ?? 0;
+  const gradient =
+    fallback?.gradient ?? gradientOptions[index % gradientOptions.length];
+
+  return {
+    id: solution.id,
+    title: solution.title,
+    description: solution.description,
+    slug: solution.slug,
+    imageUrl: solution.image_url ?? fallback?.imageUrl ?? null,
+    features: mapSupabaseFeatures(solution.features, fallback),
+    gradient,
+  };
+};
+
 const buildFeatureList = (
   repository: GitHubRepository,
   fallback?: SolutionContent
@@ -132,10 +171,8 @@ const buildFeatureList = (
     formattedUpdatedAt ? `Last updated on ${formattedUpdatedAt}` : null,
   ]);
 
-  const combined = uniqueNonEmpty([...normalizedTopics, ...metadata]);
-
-  if (combined.length > 0) {
-    return combined;
+  if (metadata.length > 0 || normalizedTopics.length > 0) {
+    return uniqueNonEmpty([...normalizedTopics, ...metadata]);
   }
 
   return fallback?.features ? [...fallback.features] : [];
@@ -168,37 +205,6 @@ export const mapGitHubRepoToContent = (
   };
 };
 
-export const mapSupabaseSolutionToContent = (
-  solution: SupabaseSolutionRow,
-  index: number
-): SolutionContent => {
-  const normalizedSlug = normalizeSolutionSlug(solution.slug);
-  const fallback =
-    fallbackSolutionsMap[normalizedSlug] ?? fallbackSolutionsMap[solution.slug];
-
-  const gradient =
-    fallback?.gradient ?? gradientOptions[index % gradientOptions.length];
-
-  const parsedFeatures = coerceToStringArray(solution.features);
-
-  const features =
-    parsedFeatures.length > 0
-      ? parsedFeatures
-      : fallback?.features
-        ? [...fallback.features]
-        : [];
-
-  return {
-    id: solution.id,
-    title: solution.title,
-    description: solution.description,
-    slug: solution.slug,
-    imageUrl: solution.image_url ?? fallback?.imageUrl ?? null,
-    features,
-    gradient,
-  };
-};
-
 export const getFallbackSolution = (
   slug: string
 ): SolutionContent | undefined => {
@@ -226,30 +232,6 @@ export const getFallbackSolutions = (): SolutionContent[] =>
     features: [...solution.features],
   }));
 
-// Removed duplicate type declaration
-
-const mapSupabaseFeatures = (
-  features: SupabaseSolutionRow['features'],
-  fallback?: SolutionContent
-): string[] => {
-  if (Array.isArray(features)) {
-    const entries = (features as unknown[]).filter(
-      (feature): feature is string => typeof feature === 'string'
-    );
-
-    if (entries.length > 0) {
-      return entries;
-    }
-  }
-
-  if (fallback?.features?.length) {
-    return [...fallback.features];
-  }
-
-  return [];
-};
-
-// Removed duplicate function declaration
 export const fetchSupabaseSolutions = async (): Promise<SolutionContent[]> => {
   const { data, error } = await supabase
     .from('solutions')
@@ -264,7 +246,6 @@ export const fetchSupabaseSolutions = async (): Promise<SolutionContent[]> => {
   const rows = data ?? [];
 
   return rows.map((solution, index) =>
-  mapSupabaseSolutionToContent(solution, index)
+    mapSupabaseSolutionToContent(solution, { index })
   );
-
-  }
+};

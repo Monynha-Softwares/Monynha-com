@@ -7,7 +7,9 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@monynha/ui": ["./packages/ui/src/index.ts"],
+      "@monynha/config": ["./packages/config/src/index.ts"]
     },
     "noImplicitAny": false,
     "noUnusedParameters": false,

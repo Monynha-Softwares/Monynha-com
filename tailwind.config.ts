@@ -8,6 +8,7 @@ export default {
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
+    './packages/ui/src/**/*.{ts,tsx}',
   ],
   prefix: '',
   theme: {
@@ -53,40 +54,46 @@ export default {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
         },
-        // Monynha Softwares Brand Colors
         brand: {
-          purple: '#5B2C6F',
-          blue: '#4A90E2',
-          pink: '#E06666',
-          orange: '#F7B500',
+          violet: '#7C3AED',
+          blue: '#0EA5E9',
+          magenta: '#EC4899',
+          amber: '#F97316',
         },
         neutral: {
-          50: '#F8F8F8',
-          100: '#EEEEEE',
-          400: '#888888',
-          700: '#333333',
-          900: '#000000',
+          50: '#F9FAFB',
+          100: '#F3F4F6',
+          200: '#E5E7EB',
+          400: '#9CA3AF',
+          600: '#4B5563',
+          700: '#374151',
+          900: '#111827',
         },
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
-        brand: ['Quicksand', 'system-ui', 'sans-serif'],
+        display: ['Space Grotesk', 'system-ui', 'sans-serif'],
+        brand: ['Space Grotesk', 'system-ui', 'sans-serif'],
+        mono: ['JetBrains Mono', 'SFMono-Regular', 'ui-monospace', 'monospace'],
       },
       backgroundImage: {
         'gradient-brand':
-          'linear-gradient(135deg, #5B2C6F 0%, #4A90E2 25%, #E06666 75%, #F7B500 100%)',
-        'gradient-hero': 'linear-gradient(135deg, #5B2C6F 0%, #4A90E2 100%)',
+          'linear-gradient(135deg, #7C3AED 0%, #0EA5E9 60%, #EC4899 100%)',
+        'gradient-hero': 'linear-gradient(135deg, #7C3AED 0%, #0EA5E9 100%)',
+        'gradient-pride':
+          'linear-gradient(135deg, #F97316 0%, #EC4899 35%, #7C3AED 70%, #0EA5E9 100%)',
       },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
-        xl: '1rem',
+        xl: '1.25rem',
         '2xl': '1.5rem',
+        '3xl': '1.75rem',
       },
       boxShadow: {
-        soft: '0 2px 15px 0 rgba(0, 0, 0, 0.08)',
-        'soft-lg': '0 4px 25px 0 rgba(0, 0, 0, 0.12)',
+        soft: '0 12px 30px rgba(124, 58, 237, 0.12)',
+        'soft-lg': '0 20px 45px rgba(14, 165, 233, 0.16)',
       },
       keyframes: {
         'accordion-down': {

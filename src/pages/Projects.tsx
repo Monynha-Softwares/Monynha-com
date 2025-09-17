@@ -5,9 +5,8 @@ import {
   ExternalLink,
   Calendar,
   ArrowRight,
-  CheckCircle,
 } from 'lucide-react';
-import Layout from '../components/Layout';
+import Layout from '@/components/Layout';
 import Meta from '@/components/Meta';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -32,6 +31,7 @@ import {
 import type { GitHubRepository } from '@/lib/solutions';
 import type { SolutionContent } from '@/types/solutions';
 import { getNormalizedLocale } from '@/lib/i18n';
+import { SectionHeading, SolutionCard } from '@monynha/ui';
 
 interface Repository {
   id: string;
@@ -50,7 +50,7 @@ const Projects = () => {
   const { t, i18n } = useTranslation();
   useRepositorySync();
 
-  const memoizedFallbackSolutions = useMemo(() => getFallbackSolutions(), []);
+  const memoizedFallbackSolutions = useMemo(getFallbackSolutions, []);
 
   const normalizedLocale = useMemo(
     () => getNormalizedLocale(i18n.language),
@@ -125,13 +125,8 @@ const Projects = () => {
     refetchOnWindowFocus: false,
   });
 
-  // Removed duplicate githubSolutions useQuery block
-
-  // Removed duplicate memoizedFallbackSolutions declaration
-
   const {
     data: githubSolutions = [],
-    isLoading: isGitHubLoading,
     isError: isGitHubError,
   } = useQuery<SolutionContent[]>({
     queryKey: ['projects-github-solutions'],
@@ -177,7 +172,7 @@ const Projects = () => {
     const seen = new Set<string>();
     const merged: SolutionContent[] = [];
 
-    const addSolution = (solution: SolutionContent) => {
+    const addSolution = (solution: SolutionContent | undefined) => {
       if (!solution) {
         return;
       }
@@ -193,31 +188,17 @@ const Projects = () => {
       merged.push(solution);
     };
 
-    // Add solutions from supabase
-    if (Array.isArray(supabaseSolutions)) {
-      supabaseSolutions.forEach(addSolution);
-    }
+    supabaseSolutions.forEach(addSolution);
+    githubSolutions.forEach(addSolution);
 
-    // Add solutions from GitHub
-    if (Array.isArray(githubSolutions)) {
-      githubSolutions.forEach(addSolution);
-    }
-
-    // Add fallback solutions if nothing else
-    if (merged.length === 0 && Array.isArray(memoizedFallbackSolutions)) {
+    if (merged.length === 0) {
       memoizedFallbackSolutions.forEach(addSolution);
     }
 
     return merged;
-  }, [supabaseSolutions, githubSolutions, memoizedFallbackSolutions]);
-
-  const displayGitHubSolutions =
-    Array.isArray(githubSolutions) && githubSolutions.length > 0
-      ? githubSolutions
-      : memoizedFallbackSolutions;
+  }, [githubSolutions, memoizedFallbackSolutions, supabaseSolutions]);
 
   if (repositoriesLoading) {
-
     return (
       <Layout>
         <Meta
@@ -230,8 +211,8 @@ const Projects = () => {
         <div className="container mx-auto px-4 py-16">
           <div className="text-center">
             <div className="animate-pulse">
-              <div className="h-8 bg-muted rounded w-64 mx-auto mb-4"></div>
-              <div className="h-4 bg-muted rounded w-96 mx-auto"></div>
+              <div className="mx-auto mb-4 h-8 w-64 rounded bg-muted"></div>
+              <div className="mx-auto h-4 w-96 rounded bg-muted"></div>
             </div>
           </div>
         </div>
@@ -265,7 +246,7 @@ const Projects = () => {
         ogDescription={t('projects.description')}
         ogImage="/placeholder.svg"
       />
-      <div className="max-w-7xl mx-auto px-4 pt-4">
+      <div className="mx-auto max-w-7xl px-4 pt-4">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
@@ -282,97 +263,127 @@ const Projects = () => {
       </div>
 
       <div className="container mx-auto px-4 py-16">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold text-neutral-900 mb-6">
+        <div className="mb-16 text-center">
+          <h1 className="text-4xl font-display font-semibold text-neutral-900 md:text-5xl">
             <Trans
               i18nKey="projects.title"
               components={[
                 <span
                   key="highlight"
-                  className="bg-gradient-to-r from-brand-purple to-brand-blue bg-clip-text text-transparent"
+                  className="bg-gradient-to-r from-brand-violet to-brand-blue bg-clip-text text-transparent"
                 />,
               ]}
             />
           </h1>
-          <p className="text-xl text-neutral-600 max-w-3xl mx-auto">
+          <p className="mx-auto mt-6 max-w-3xl text-xl text-neutral-600">
             {t('projects.description')}
           </p>
         </div>
 
-        {/* Solutions Section */}
         <section className="mb-20">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-neutral-900 mb-4">
-                {t('solutionsPage.title')}
-              </h2>
-              <p className="text-neutral-600 max-w-3xl mx-auto">
-                {t('solutionsPage.description')}
-              </p>
-            </div>
+          <SectionHeading
+            title={t('projects.solutionsHeading')}
+            description={t('projects.solutionsSubheading')}
+          />
 
-            {supabaseSolutionsLoading ? (
-              <div className="text-center text-neutral-500">
+          <div className="mt-14 grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+            {supabaseSolutionsLoading && combinedSolutions.length === 0 ? (
+              <p className="col-span-full text-center text-neutral-500">
                 {t('projects.loadingSolutions')}
-              </div>
-            ) : (
-              <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
-                {Array.isArray(combinedSolutions) && combinedSolutions.length > 0
-                  ? combinedSolutions.map((solution) => (
-                      <Card
-                        key={solution.id ?? solution.slug}
-                        className="border-0 shadow-soft-lg flex flex-col overflow-hidden"
-                      >
-                        {/* ...existing card rendering code... */}
-                      </Card>
-                    ))
-                  : null}
-              </div>
-            )}
-
-            {supabaseSolutionsError && (
-              <p className="text-sm text-red-500 text-center mt-6">
-                {t('projects.errorSolutions')}
               </p>
+            ) : (
+              combinedSolutions.map((solution) => (
+                <SolutionCard
+                  key={solution.id ?? solution.slug}
+                  solution={solution}
+                  actions={
+                    <>
+                      <Button
+                        asChild
+                        variant="outline"
+                        className="flex-1 border-neutral-200 hover:border-brand-blue hover:text-brand-blue"
+                      >
+                        <Link
+                          to={`/solutions/${solution.slug}`}
+                          className="flex items-center justify-center"
+                        >
+                          {t('index.learnMore')}
+                        </Link>
+                      </Button>
+                      <Button
+                        asChild
+                        className="flex-1 bg-gradient-to-r from-brand-violet to-brand-blue hover:shadow-soft-lg"
+                      >
+                        <Link
+                          to="/contact"
+                          className="flex items-center justify-center gap-2"
+                        >
+                          {t('solutionsPage.requestDemo')}
+                          <ArrowRight className="h-4 w-4" />
+                        </Link>
+                      </Button>
+                    </>
+                  }
+                />
+              ))
             )}
           </div>
+
+          {supabaseSolutionsError && (
+            <p className="mt-6 text-center text-sm text-red-500">
+              {t('projects.errorSolutions')}
+            </p>
+          )}
+
+          {isGitHubError && (
+            <p className="mt-2 text-center text-sm text-red-500">
+              {t('projects.errorGithub')}
+            </p>
+          )}
         </section>
 
-        {/* Projects Grid */}
         <section>
+          <SectionHeading
+            title={t('projects.repositoriesHeading')}
+            description={t('projects.repositoriesDescription')}
+            align="start"
+            className="max-w-4xl"
+          />
+
           {repositoriesError && repositories.length === 0 ? (
             <div className="text-center text-red-500">
               {t('projects.errorProjects')}
             </div>
           ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+            <div className="mx-auto mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-2">
               {repositories.map((repo) => (
-                <Card key={repo.id} className="card-hover border-0 shadow-soft">
+                <Card
+                  key={repo.id}
+                  className="card-hover rounded-2xl border border-neutral-100 bg-white/95 shadow-md"
+                >
                   <CardHeader className="pb-4">
                     <div className="flex items-start justify-between">
-                      <CardTitle className="text-xl font-semibold text-neutral-900 mb-2">
+                      <CardTitle className="text-xl font-semibold text-neutral-900">
                         {repo.name}
                       </CardTitle>
-                      <div className="flex items-center text-sm text-neutral-500 gap-1">
-                        <Calendar className="w-4 h-4" />
+                      <div className="flex items-center gap-1 text-sm text-neutral-500">
+                        <Calendar className="h-4 w-4" />
                         {formatDate(repo.created_at)}
                       </div>
                     </div>
-                    <p className="text-neutral-600 leading-relaxed">
+                    <p className="mt-3 text-neutral-600 leading-relaxed">
                       {repo.description}
                     </p>
                   </CardHeader>
 
                   <CardContent className="pt-0">
-                    {/* Tags */}
                     {repo.tags && repo.tags.length > 0 && (
-                      <div className="flex flex-wrap gap-2 mb-6">
+                      <div className="mb-6 flex flex-wrap gap-2">
                         {repo.tags.map((tag, index) => (
                           <Badge
-                            key={index}
+                            key={`${repo.id}-tag-${index}`}
                             variant="secondary"
-                            className="text-xs font-medium bg-neutral-100 text-neutral-700 hover:bg-neutral-200 transition-all ease-in-out duration-300"
+                            className="rounded-full bg-neutral-100 px-3 py-1 text-xs font-medium text-neutral-700"
                           >
                             {tag}
                           </Badge>
@@ -380,12 +391,11 @@ const Projects = () => {
                       </div>
                     )}
 
-                    {/* Action Buttons */}
                     <div className="flex gap-3">
                       <Button
                         asChild
                         variant="default"
-                        className="flex-1 bg-gradient-to-r from-brand-purple to-brand-blue hover:shadow-soft-lg transition-all ease-in-out duration-300"
+                        className="flex-1 bg-gradient-to-r from-brand-violet to-brand-blue hover:shadow-soft-lg"
                       >
                         <a
                           href={repo.github_url}
@@ -393,7 +403,7 @@ const Projects = () => {
                           rel="noopener noreferrer"
                           className="flex items-center justify-center gap-2"
                         >
-                          <Github className="w-4 h-4" />
+                          <Github className="h-4 w-4" />
                           {t('projects.viewGithub')}
                         </a>
                       </Button>
@@ -402,7 +412,7 @@ const Projects = () => {
                         <Button
                           asChild
                           variant="outline"
-                          className="flex-1 border-neutral-200 hover:border-brand-blue hover:text-brand-blue transition-all ease-in-out duration-300"
+                          className="flex-1 border-neutral-200 hover:border-brand-blue hover:text-brand-blue"
                         >
                           <a
                             href={repo.demo_url}
@@ -410,7 +420,7 @@ const Projects = () => {
                             rel="noopener noreferrer"
                             className="flex items-center justify-center gap-2"
                           >
-                            <ExternalLink className="w-4 h-4" />
+                            <ExternalLink className="h-4 w-4" />
                             {t('projects.liveDemo')}
                           </a>
                         </Button>
@@ -423,138 +433,30 @@ const Projects = () => {
           )}
 
           {repositoriesError && repositories.length > 0 && (
-            <p className="text-sm text-red-500 text-center mt-6">
+            <p className="mt-6 text-center text-sm text-red-500">
               {t('projects.errorProjectsPartial')}
             </p>
           )}
         </section>
 
-        {/* Call to Action */}
-        <div className="text-center mt-16">
-          <h3 className="text-2xl font-semibold text-neutral-900 mb-4">
+        <div className="mt-20 text-center">
+          <h3 className="text-2xl font-semibold text-neutral-900">
             {t('projects.like')}
           </h3>
-          <p className="text-neutral-600 mb-8 max-w-2xl mx-auto">
+          <p className="mx-auto mt-4 max-w-2xl text-neutral-600">
             {t('projects.likeDescription')}
           </p>
           <Button
             asChild
             size="lg"
-            className="bg-gradient-to-r from-brand-pink to-brand-orange hover:shadow-soft-lg transition-all ease-in-out duration-300"
+            className="mt-8 bg-gradient-to-r from-brand-magenta to-brand-blue hover:shadow-soft-lg"
           >
             <Link to="/contact">{t('projects.contactUs')}</Link>
           </Button>
         </div>
       </div>
-
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-neutral-900 mb-6">
-              {t('solutionsPage.title')}
-            </h2>
-            <p className="text-lg text-neutral-600 max-w-3xl mx-auto">
-              {t('solutionsPage.description')}
-            </p>
-          </div>
-
-          {isGitHubLoading ? (
-            <div className="text-center text-neutral-500">
-              {t('projects.loadingGithub')}
-            </div>
-          ) : isGitHubError ? (
-            <div className="text-center text-red-500">
-              {t('projects.errorGithub')}
-            </div>
-          ) : (
-            <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
-              {displayGitHubSolutions.map((solution) => (
-                <Card
-                  key={solution.id ?? solution.slug}
-                  className="border-0 shadow-soft-lg flex flex-col overflow-hidden"
-                >
-                  {solution.imageUrl && (
-                    <div className="relative h-48 w-full overflow-hidden">
-                      <img
-                        src={solution.imageUrl}
-                        alt={solution.title}
-                        loading="lazy"
-                        className="h-full w-full object-cover"
-                      />
-                      <div
-                        className={`absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r ${solution.gradient}`}
-                      />
-                    </div>
-                  )}
-                  <CardContent className="p-8 flex flex-col flex-1">
-                    <div
-                      className={`h-1 w-16 bg-gradient-to-r ${solution.gradient} rounded-full mb-6`}
-                    />
-                    <Link to={`/solutions/${solution.slug}`} className="group">
-                      <h3 className="text-2xl font-semibold text-neutral-900 group-hover:text-brand-blue transition-colors">
-                        {solution.title}
-                      </h3>
-                    </Link>
-                    <p className="text-neutral-600 mt-4 leading-relaxed flex-1">
-                      {solution.description}
-                    </p>
-
-                    {solution.features.length > 0 && (
-                      <ul className="mt-8 space-y-3">
-                        {solution.features.map((feature, featureIndex) => (
-                          <li
-                            key={`${solution.slug}-feature-${featureIndex}`}
-                            className="flex items-start gap-3"
-                          >
-                            <span
-                              className={`mt-1 inline-flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-r ${solution.gradient}`}
-                            >
-                              <CheckCircle className="h-4 w-4 text-white" />
-                            </span>
-                            <span className="text-sm text-neutral-600 leading-relaxed">
-                              {feature}
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-
-                    <div className="mt-10 flex flex-col sm:flex-row gap-3">
-                      <Button
-                        asChild
-                        variant="outline"
-                        className="flex-1 border-neutral-200 hover:border-brand-blue hover:text-brand-blue transition-colors"
-                      >
-                        <Link
-                          to={`/solutions/${solution.slug}`}
-                          className="flex items-center justify-center"
-                        >
-                          {t('index.learnMore')}
-                        </Link>
-                      </Button>
-                      <Button
-                        asChild
-                        className="flex-1 bg-gradient-to-r from-brand-purple to-brand-blue hover:shadow-soft-lg transition-all"
-                      >
-                        <Link
-                          to="/contact"
-                          className="flex items-center justify-center gap-2"
-                        >
-                          {t('solutionsPage.requestDemo')}
-                          <ArrowRight className="h-4 w-4" />
-                        </Link>
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
-
     </Layout>
   );
-}
+};
 
 export default Projects;

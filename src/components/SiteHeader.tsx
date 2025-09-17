@@ -27,17 +27,17 @@ const solutionItems = [
   {
     key: 'boteco',
     href: '/solutions/boteco-pro',
-    gradient: 'from-brand-purple via-brand-blue to-brand-pink',
+    gradient: 'from-brand-violet via-brand-blue to-brand-magenta',
   },
   {
     key: 'assistina',
     href: '/solutions/assistina',
-    gradient: 'from-brand-pink to-brand-orange',
+    gradient: 'from-brand-magenta to-brand-amber',
   },
   {
     key: 'integration',
     href: '/solutions',
-    gradient: 'from-brand-blue to-brand-purple',
+    gradient: 'from-brand-blue to-brand-violet',
   },
 ] as const;
 
@@ -45,22 +45,22 @@ const projectItems = [
   {
     key: 'openSource',
     href: '/projects',
-    gradient: 'from-brand-blue to-brand-purple',
+    gradient: 'from-brand-blue to-brand-violet',
   },
   {
     key: 'caseStudies',
     href: '/projects?view=cases',
-    gradient: 'from-brand-orange to-brand-pink',
+    gradient: 'from-brand-amber to-brand-magenta',
   },
   {
     key: 'partnerships',
     href: '/projects?view=partners',
-    gradient: 'from-brand-purple to-brand-orange',
+    gradient: 'from-brand-violet to-brand-amber',
   },
   {
     key: 'github',
     href: 'https://github.com/Monynha-Softwares',
-    gradient: 'from-brand-pink to-brand-blue',
+    gradient: 'from-brand-magenta to-brand-blue',
     external: true,
   },
 ] as const;
@@ -196,7 +196,7 @@ const SiteHeader = () => {
                   {t('navigation.solutions')}
                 </NavigationMenuTrigger>
                 <NavigationMenuContent className="rounded-2xl shadow-soft-lg">
-                  <div className="rounded-2xl bg-gradient-to-r from-brand-purple via-brand-blue to-brand-pink p-[1px]">
+                  <div className="rounded-2xl bg-gradient-to-r from-brand-violet via-brand-blue to-brand-magenta p-[1px]">
                     <div className="md:w-[560px] rounded-[1.05rem] bg-white/95 p-6 backdrop-blur-sm">
                       <div className="grid gap-4 md:grid-cols-2">
                         {solutionItems.map((item) => {
@@ -218,7 +218,7 @@ const SiteHeader = () => {
                         <Button
                           asChild
                           variant="ghost"
-                          className="px-4 text-sm font-semibold text-brand-blue transition-colors hover:bg-gradient-to-r hover:from-brand-purple hover:via-brand-blue hover:to-brand-pink hover:text-white focus-visible:ring-brand-blue"
+                          className="px-4 text-sm font-semibold text-brand-blue transition-colors hover:bg-gradient-to-r hover:from-brand-violet hover:via-brand-blue hover:to-brand-magenta hover:text-white focus-visible:ring-brand-blue"
                         >
                           <Link to="/solutions">
                             {t('navigation.solutionsMenu.viewAll')}
@@ -226,7 +226,7 @@ const SiteHeader = () => {
                         </Button>
                         <Button
                           asChild
-                          className="bg-gradient-to-r from-brand-purple via-brand-blue to-brand-pink text-white shadow-soft hover:shadow-soft-lg focus-visible:ring-brand-blue focus-visible:ring-offset-2"
+                          className="bg-gradient-to-r from-brand-violet via-brand-blue to-brand-magenta text-white shadow-soft hover:shadow-soft-lg focus-visible:ring-brand-blue focus-visible:ring-offset-2"
                         >
                           <Link to="/contact">
                             {t('navigation.startProject')}
@@ -248,7 +248,7 @@ const SiteHeader = () => {
                   {t('navigation.projects')}
                 </NavigationMenuTrigger>
                 <NavigationMenuContent className="rounded-2xl shadow-soft-lg">
-                  <div className="rounded-2xl bg-gradient-to-r from-brand-purple via-brand-blue to-brand-pink p-[1px]">
+                  <div className="rounded-2xl bg-gradient-to-r from-brand-violet via-brand-blue to-brand-magenta p-[1px]">
                     <div className="md:w-[560px] rounded-[1.05rem] bg-white/95 p-6 backdrop-blur-sm">
                       <div className="grid gap-4 md:grid-cols-2">
                         {projectItems.map((item) => {
@@ -285,7 +285,7 @@ const SiteHeader = () => {
                         <Button
                           asChild
                           variant="ghost"
-                          className="px-4 text-sm font-semibold text-brand-blue transition-colors hover:bg-gradient-to-r hover:from-brand-purple hover:via-brand-blue hover:to-brand-pink hover:text-white focus-visible:ring-brand-blue"
+                          className="px-4 text-sm font-semibold text-brand-blue transition-colors hover:bg-gradient-to-r hover:from-brand-violet hover:via-brand-blue hover:to-brand-magenta hover:text-white focus-visible:ring-brand-blue"
                         >
                           <Link to="/projects">
                             {t('navigation.projectsMenu.viewAll')}
@@ -353,7 +353,7 @@ const SiteHeader = () => {
               </NavigationMenuItem>
             </NavigationMenuList>
             <NavigationMenuIndicator className="bg-transparent">
-              <div className="relative top-[60%] h-2 w-2 rotate-45 bg-gradient-to-br from-brand-purple to-brand-blue" />
+              <div className="relative top-[60%] h-2 w-2 rotate-45 bg-gradient-to-br from-brand-violet to-brand-blue" />
             </NavigationMenuIndicator>
           </NavigationMenu>
           <LanguageSwitcher />
@@ -381,14 +381,14 @@ const SiteHeader = () => {
                 <Button
                   variant="outline"
                   size="sm"
-                  className="flex items-center gap-2 border-brand-purple/30 text-neutral-700 transition-colors hover:border-brand-blue hover:text-brand-blue focus-visible:ring-brand-blue"
+                  className="flex items-center gap-2 border-brand-violet/30 text-neutral-700 transition-colors hover:border-brand-blue hover:text-brand-blue focus-visible:ring-brand-blue"
                 >
                   <User className="h-4 w-4" />
                   <span>Login</span>
                 </Button>
               </NavLink>
               <NavLink to="/contact">
-                <Button className="bg-gradient-to-r from-brand-purple via-brand-blue to-brand-pink text-white shadow-soft hover:shadow-soft-lg">
+                <Button className="bg-gradient-to-r from-brand-violet via-brand-blue to-brand-magenta text-white shadow-soft hover:shadow-soft-lg">
                   {t('navigation.startProject')}
                 </Button>
               </NavLink>
@@ -466,7 +466,7 @@ const SiteHeader = () => {
                         <SheetClose asChild>
                           <Link
                             to="/contact"
-                            className="inline-flex items-center justify-center rounded-lg bg-gradient-to-r from-brand-purple via-brand-blue to-brand-pink px-4 py-2 text-sm font-semibold text-white shadow-soft"
+                            className="inline-flex items-center justify-center rounded-lg bg-gradient-to-r from-brand-violet via-brand-blue to-brand-magenta px-4 py-2 text-sm font-semibold text-white shadow-soft"
                           >
                             {t('navigation.startProject')}
                           </Link>
@@ -589,7 +589,7 @@ const SiteHeader = () => {
                     <SheetClose asChild>
                       <Link
                         to="/auth"
-                        className="inline-flex items-center justify-center gap-2 rounded-lg border border-brand-purple/30 px-4 py-2 text-sm font-semibold text-neutral-700 transition-colors hover:border-brand-blue hover:text-brand-blue"
+                        className="inline-flex items-center justify-center gap-2 rounded-lg border border-brand-violet/30 px-4 py-2 text-sm font-semibold text-neutral-700 transition-colors hover:border-brand-blue hover:text-brand-blue"
                       >
                         <User className="h-4 w-4" />
                         <span>Login</span>
@@ -598,7 +598,7 @@ const SiteHeader = () => {
                     <SheetClose asChild>
                       <Link
                         to="/contact"
-                        className="inline-flex items-center justify-center rounded-lg bg-gradient-to-r from-brand-purple via-brand-blue to-brand-pink px-4 py-2 text-sm font-semibold text-white shadow-soft"
+                        className="inline-flex items-center justify-center rounded-lg bg-gradient-to-r from-brand-violet via-brand-blue to-brand-magenta px-4 py-2 text-sm font-semibold text-white shadow-soft"
                       >
                         {t('navigation.startProject')}
                       </Link>

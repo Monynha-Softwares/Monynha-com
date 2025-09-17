@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Heart } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
+import { siteBrand } from '@monynha/config';
 
 const Footer = () => {
   const { t } = useTranslation();
@@ -11,13 +12,17 @@ const Footer = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
           {/* Logo and Description */}
           <div className="sm:col-span-2">
-            <Link to="/" className="flex items-center space-x-3 mb-4">
+            <Link
+              to="/"
+              className="mb-4 flex items-center space-x-3"
+              aria-label={siteBrand.name}
+            >
               <div className="w-10 h-10 bg-gradient-brand rounded-xl flex items-center justify-center">
                 <span className="text-white text-lg font-bold">M</span>
               </div>
               <div className="flex flex-col">
-                <span className="font-brand font-semibold text-xl text-neutral-900">
-                  Mon<span className="text-brand-blue">y</span>nha.com
+                <span className="font-brand text-xl font-semibold text-neutral-900">
+                  {siteBrand.shortName}
                 </span>
                 <span className="text-sm text-neutral-400 font-medium">
                   {t('footer.tagline')}

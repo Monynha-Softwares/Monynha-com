@@ -339,6 +339,10 @@
   "projects": {
     "title": "Projects <0>Open Source</0>",
     "description": "Explore our public projects on GitHub and see how we develop innovative solutions with modern technologies.",
+    "solutionsHeading": "Innovation we maintain together",
+    "solutionsSubheading": "Active open source and client solutions maintained by Monynha.",
+    "repositoriesHeading": "Featured repositories",
+    "repositoriesDescription": "Dive into our latest open source codebases, maintained with community contributions.",
     "viewGithub": "View on GitHub",
     "liveDemo": "Live Demo",
     "like": "Like our projects?",
