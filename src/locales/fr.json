@@ -109,7 +109,29 @@
       "description": "Discutons de la manière dont nos solutions IA peuvent rationaliser vos opérations et favoriser la croissance.",
       "getStarted": "Commencer aujourd'hui"
     },
-    "learnMore": "En savoir plus"
+    "learnMore": "En savoir plus",
+    "fallbackSolutions": {
+      "boteco": {
+        "name": "Boteco Pro",
+        "description": "Système complet de gestion pour restaurants et bars avec analyses alimentées par l'IA et gestion des stocks.",
+        "features": {
+          "orderManagement": "Gestion des commandes",
+          "inventoryTracking": "Suivi des stocks",
+          "analyticsDashboard": "Tableau de bord analytique",
+          "staffManagement": "Gestion du personnel"
+        }
+      },
+      "assistina": {
+        "name": "AssisTina AI",
+        "description": "Assistant IA personnalisé qui comprend les besoins de votre entreprise et automatise les tâches routinières.",
+        "features": {
+          "nlp": "Traitement du langage naturel",
+          "taskAutomation": "Automatisation des tâches",
+          "learning": "Capacités d'apprentissage",
+          "integration": "Intégration personnalisée"
+        }
+      }
+    }
   },
   "solutionsPage": {
     "title": "Nos Solutions logicielles",
@@ -120,7 +142,12 @@
     "notFound": "Solution introuvable",
     "customTitle": "Besoin d'une solution personnalisée ?",
     "customDescription": "Nous créons également des solutions sur mesure adaptées à vos besoins spécifiques. Discutons de la manière de construire quelque chose d'unique pour vous.",
-    "discuss": "Discuter du projet"
+    "discuss": "Discuter du projet",
+    "metaTitle": "Nos solutions logicielles - Monynha Softwares Agency",
+    "loading": "Chargement des solutions...",
+    "error": "Nous n'avons pas pu charger les solutions. Veuillez réessayer plus tard.",
+    "detailLoading": "Chargement de la solution...",
+    "detailError": "Nous n'avons pas pu charger cette solution. Veuillez réessayer plus tard."
   },
   "about": {
     "title": "À propos de Monynha Softwares Agency",
@@ -158,7 +185,8 @@
     },
     "ctaTitle": "Construisons ensemble le prochain chapitre de votre entreprise",
     "ctaDescription": "Parlez-nous de vos objectifs et découvrez comment des solutions IA sur mesure peuvent accélérer votre croissance.",
-    "ctaButton": "Parler à notre équipe"
+    "ctaButton": "Parler à notre équipe",
+    "metaTitle": "À propos de Monynha Softwares Agency"
   },
   "blog": {
     "title": "Actualités et Idées",
@@ -167,7 +195,13 @@
     "read": "Lire l'article complet",
     "readMore": "En savoir plus",
     "categories": {
-      "all": "Tous"
+      "all": "Tous",
+      "aiInsights": "Analyses IA",
+      "development": "Développement",
+      "caseStudy": "Étude de cas",
+      "business": "Affaires",
+      "security": "Sécurité",
+      "integration": "Intégration"
     },
     "newsletter": {
       "title": "Restez informé",
@@ -215,7 +249,10 @@
       "validationErrorDescription": "Ajoutez votre message avant de l'envoyer.",
       "characters": "{{count}} / {{max}} caractères",
       "authenticating": "Vérification de votre session..."
-    }
+    },
+    "defaultCategory": "Analyses IA",
+    "defaultAuthor": "Équipe Monynha Softwares",
+    "metaTitle": "Analyses & Actualités - Monynha Softwares Agency"
   },
   "contact": {
     "title": "Construisons quelque chose d'incroyable ensemble",
@@ -261,6 +298,15 @@
       "title": "Merci !",
       "description": "Nous avons bien reçu votre message et vous répondrons sous 24 heures. Notre équipe est impatiente d'en savoir plus sur votre projet !",
       "another": "Envoyer un autre message"
+    },
+    "metaTitle": "Contact - Monynha Softwares Agency",
+    "projectTypes": {
+      "customAssistant": "Assistant IA personnalisé",
+      "restaurant": "Système de gestion pour restaurants",
+      "automation": "Automatisation d'entreprise",
+      "legacy": "Intégration de systèmes hérités",
+      "consulting": "Services de conseil",
+      "other": "Autre"
     }
   },
   "newsletterSection": {
@@ -297,10 +343,126 @@
     "liveDemo": "Démo en ligne",
     "like": "Vous aimez nos projets ?",
     "likeDescription": "Contactez-nous pour créer une solution personnalisée pour votre entreprise.",
-    "contactUs": "Nous contacter"
+    "contactUs": "Nous contacter",
+    "metaTitle": "Projets Open Source - Monynha Softwares Agency",
+    "loadingProjects": "Chargement des projets...",
+    "errorProjects": "Nous n'avons pas pu charger les projets pour le moment.",
+    "errorProjectsPartial": "Nous n'avons pas pu charger d'autres projets.",
+    "loadingSolutions": "Chargement des solutions...",
+    "errorSolutions": "Nous n'avons pas pu charger la liste des solutions.",
+    "loadingGithub": "Chargement des projets GitHub...",
+    "errorGithub": "Nous n'avons pas pu charger les projets GitHub."
   },
   "notFound": {
     "oops": "Oups ! Page introuvable",
-    "returnHome": "Retour à l'accueil"
+    "returnHome": "Retour à l'accueil",
+    "metaTitle": "404 - Page introuvable",
+    "metaDescription": "La page que vous recherchez n'existe pas."
+  },
+  "auth": {
+    "backHome": "Retour à l'accueil",
+    "subtitle": "Connectez-vous ou créez votre compte",
+    "tabs": {
+      "signin": "Connexion",
+      "signup": "Inscription"
+    },
+    "labels": {
+      "name": "Nom",
+      "email": "E-mail",
+      "password": "Mot de passe"
+    },
+    "placeholders": {
+      "name": "Votre nom",
+      "email": "vous@exemple.com"
+    },
+    "actions": {
+      "signIn": "Se connecter",
+      "signingIn": "Connexion en cours...",
+      "signUp": "Créer un compte",
+      "signingUp": "Création du compte..."
+    },
+    "passwordHint": "Minimum de 6 caractères",
+    "toast": {
+      "signInSuccess": {
+        "title": "Connexion réussie !",
+        "description": "Ravi de vous revoir !"
+      },
+      "signInError": {
+        "title": "Erreur de connexion",
+        "description": "Impossible de vous connecter. Veuillez réessayer."
+      },
+      "signUpSuccess": {
+        "title": "Compte créé avec succès !",
+        "description": "Vérifiez votre e-mail pour confirmer votre compte."
+      },
+      "signUpError": {
+        "title": "Erreur lors de la création du compte",
+        "description": "Impossible de créer votre compte. Veuillez réessayer."
+      }
+    }
+  },
+  "dashboard": {
+    "title": "Tableau de bord",
+    "welcome": "Bienvenue, {{name}}",
+    "welcomeFallback": "Consultez les informations de votre compte.",
+    "refresh": "Actualiser",
+    "signOut": "Se déconnecter",
+    "signingOut": "Déconnexion...",
+    "alertTitle": "Un problème est survenu",
+    "profile": {
+      "fallbackTitle": "Profil de l'utilisateur",
+      "emailUnavailable": "E-mail indisponible",
+      "name": "Nom",
+      "email": "E-mail",
+      "role": "Rôle",
+      "updatedAt": "Dernière mise à jour",
+      "roleAdmin": "Administrateur",
+      "roleUser": "Utilisateur"
+    },
+    "leads": {
+      "title": "Leads",
+      "description": "Contacts reçus depuis les pages publiques.",
+      "loading": "Chargement des leads...",
+      "empty": "Aucun lead enregistré pour le moment.",
+      "columns": {
+        "name": "Nom",
+        "email": "E-mail",
+        "company": "Entreprise",
+        "project": "Projet",
+        "message": "Message",
+        "createdAt": "Envoyé le"
+      }
+    },
+    "newsletter": {
+      "title": "Newsletter",
+      "description": "Abonnés enregistrés dans la liste e-mail.",
+      "loading": "Chargement des abonnés...",
+      "empty": "Aucun abonné trouvé.",
+      "columns": {
+        "email": "E-mail",
+        "status": "Statut",
+        "subscribedAt": "Inscrit le"
+      },
+      "status": {
+        "active": "Actif",
+        "inactive": "Inactif"
+      }
+    },
+    "toast": {
+      "loadError": {
+        "title": "Erreur lors du chargement des données"
+      },
+      "signOutSuccess": {
+        "title": "Session terminée",
+        "description": "Vous vous êtes déconnecté avec succès."
+      },
+      "signOutError": {
+        "title": "Erreur lors de la déconnexion",
+        "description": "Nous n'avons pas pu vous déconnecter. Veuillez réessayer."
+      }
+    },
+    "errors": {
+      "loadDashboard": "Impossible de charger le tableau de bord."
+    }
   }
 }

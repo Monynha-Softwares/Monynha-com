@@ -19,10 +19,10 @@ const NotFound = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <Meta
-        title="404 - Page Not Found"
-        description="The page you are looking for does not exist."
-        ogTitle="404 - Page Not Found"
-        ogDescription="The page you are looking for does not exist."
+        title={t('notFound.metaTitle')}
+        description={t('notFound.metaDescription')}
+        ogTitle={t('notFound.metaTitle')}
+        ogDescription={t('notFound.metaDescription')}
         ogImage="/placeholder.svg"
       />
       <div className="text-center">

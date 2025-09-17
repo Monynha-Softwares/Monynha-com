@@ -20,13 +20,13 @@ import {
 } from '@/components/ui/breadcrumb';
 import { useQuery } from '@tanstack/react-query';
 
-const DEFAULT_PROJECT_TYPES = [
-  'Custom AI Assistant',
-  'Restaurant Management System',
-  'Business Automation',
-  'Legacy System Integration',
-  'Consulting Services',
-  'Other',
+const PROJECT_TYPE_KEYS = [
+  'contact.projectTypes.customAssistant',
+  'contact.projectTypes.restaurant',
+  'contact.projectTypes.automation',
+  'contact.projectTypes.legacy',
+  'contact.projectTypes.consulting',
+  'contact.projectTypes.other',
 ];
 
 const validatableFields = ['name', 'email', 'message'] as const;
@@ -132,13 +132,18 @@ const Contact = () => {
     }
   }, [projectTypesError]);
 
+  const defaultProjectTypes = useMemo(
+    () => PROJECT_TYPE_KEYS.map((key) => t(key)),
+    [t]
+  );
+
   const projectTypes = useMemo(() => {
     if (projectTypeResponse && projectTypeResponse.length > 0) {
       return projectTypeResponse;
     }
 
-    return DEFAULT_PROJECT_TYPES;
-  }, [projectTypeResponse]);
+    return defaultProjectTypes;
+  }, [defaultProjectTypes, projectTypeResponse]);
 
   const validateField = (field: ValidatableField, value: string) => {
     const trimmedValue = value.trim();
@@ -300,9 +305,9 @@ const Contact = () => {
     return (
       <Layout>
         <Meta
-          title="Contact - Monynha Softwares Agency"
+          title={t('contact.metaTitle')}
           description={t('contact.description')}
-          ogTitle="Contact - Monynha Softwares Agency"
+          ogTitle={t('contact.metaTitle')}
           ogDescription={t('contact.description')}
           ogImage="/placeholder.svg"
         />
@@ -347,9 +352,9 @@ const Contact = () => {
   return (
     <Layout>
       <Meta
-        title="Contact - Monynha Softwares Agency"
+        title={t('contact.metaTitle')}
         description={t('contact.description')}
-        ogTitle="Contact - Monynha Softwares Agency"
+        ogTitle={t('contact.metaTitle')}
         ogDescription={t('contact.description')}
         ogImage="/placeholder.svg"
       />

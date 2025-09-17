@@ -265,13 +265,14 @@ const BlogPostPage = () => {
     ? dateFormatter.format(new Date(post.updated_at))
     : '';
 
+  const fallbackMetaTitle = t('blog.metaTitle');
   const metaTitle = post
     ? `${post.title} - Monynha Softwares Agency`
-    : 'Insights & Updates - Monynha Softwares Agency';
+    : fallbackMetaTitle;
 
   const metaDescription = post?.excerpt ?? t('blog.description');
   const metaImage = post?.image_url ?? '/placeholder.svg';
-  const defaultAuthor = 'Monynha Softwares Team';
+  const defaultAuthor = t('blog.defaultAuthor');
   const readTimeLabel = t('blog.readTimeDefault');
 
   if (isLoading) {
