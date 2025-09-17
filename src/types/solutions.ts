@@ -1,9 +1,1 @@
-export interface SolutionContent {
-  id?: string;
-  title: string;
-  description: string;
-  slug: string;
-  imageUrl?: string | null;
-  features: string[];
-  gradient: string;
-}
+export type { SolutionContent } from '@monynha/ui';

@@ -1,11 +1,7 @@
-import type { SolutionContent } from '@/types/solutions';
+import type { SolutionContent } from '@monynha/ui';
+import { solutionGradientOptions } from '@monynha/ui';
 
-export const gradientOptions = [
-  'from-brand-purple to-brand-blue',
-  'from-brand-pink to-brand-orange',
-  'from-brand-blue to-brand-purple',
-  'from-brand-orange to-brand-pink',
-];
+export const gradientOptions = [...solutionGradientOptions];
 
 export const normalizeSolutionSlug = (value: string): string =>
   value
