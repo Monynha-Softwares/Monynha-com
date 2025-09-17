@@ -10,11 +10,11 @@ export const buttonVariants = cva(
         destructive:
           'bg-destructive text-destructive-foreground hover:bg-destructive/90',
         outline:
-          'border border-brand-blue/30 bg-white text-brand-purple hover:border-brand-blue hover:text-brand-blue hover:bg-brand-blue/5 shadow-sm',
+          'border border-brand-purple/25 bg-white text-brand-purple hover:border-brand-purple hover:bg-brand-purple/5 hover:text-brand-purple shadow-sm dark:border-brand-purple/40 dark:bg-neutral-900 dark:text-white',
         secondary:
-          'bg-brand-blue/10 text-brand-blue hover:bg-brand-blue/20 shadow-sm',
-        ghost: 'shadow-none hover:bg-brand-blue/10 hover:text-brand-blue',
-        link: 'shadow-none text-brand-blue underline-offset-4 hover:underline px-0',
+          'bg-brand-blue/15 text-brand-blue hover:bg-brand-blue/25 shadow-sm dark:bg-brand-blue/20 dark:text-white',
+        ghost: 'shadow-none text-brand-purple hover:bg-brand-purple/10 hover:text-brand-purple',
+        link: 'shadow-none text-brand-purple underline-offset-4 hover:underline px-0',
       },
       size: {
         default: 'h-11 px-5 py-2.5',

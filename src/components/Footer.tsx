@@ -6,8 +6,16 @@ import { Separator } from '@/components/ui/separator';
 const Footer = () => {
   const { t } = useTranslation();
   return (
-    <footer className="border-t border-neutral-100 bg-neutral-50 transition-colors dark:border-neutral-800 dark:bg-neutral-950">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <footer className="relative overflow-hidden border-t border-brand-purple/10 bg-white/90 transition-colors dark:border-neutral-800/70 dark:bg-neutral-950">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 -z-10 bg-mesh-brand opacity-70"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute right-[-20%] top-[-30%] -z-10 h-96 w-96 rounded-full bg-gradient-to-br from-brand-purple/20 via-brand-blue/15 to-brand-orange/20 blur-3xl"
+      />
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
           {/* Logo and Description */}
           <div className="sm:col-span-2">
@@ -38,7 +46,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/solutions"
-                  className="text-neutral-600 transition-colors duration-300 ease-in-out hover:text-brand-blue dark:text-neutral-300"
+                  className="text-neutral-600 transition-colors duration-300 ease-in-out hover:text-brand-purple dark:text-neutral-300"
                 >
                   {t('navigation.solutions')}
                 </Link>
@@ -46,7 +54,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/about"
-                  className="text-neutral-600 transition-colors duration-300 ease-in-out hover:text-brand-blue dark:text-neutral-300"
+                  className="text-neutral-600 transition-colors duration-300 ease-in-out hover:text-brand-purple dark:text-neutral-300"
                 >
                   {t('navigation.about')}
                 </Link>
@@ -54,7 +62,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/blog"
-                  className="text-neutral-600 transition-colors duration-300 ease-in-out hover:text-brand-blue dark:text-neutral-300"
+                  className="text-neutral-600 transition-colors duration-300 ease-in-out hover:text-brand-purple dark:text-neutral-300"
                 >
                   {t('navigation.blog')}
                 </Link>
@@ -62,7 +70,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/contact"
-                  className="text-neutral-600 transition-colors duration-300 ease-in-out hover:text-brand-blue dark:text-neutral-300"
+                  className="text-neutral-600 transition-colors duration-300 ease-in-out hover:text-brand-purple dark:text-neutral-300"
                 >
                   {t('navigation.contact')}
                 </Link>
@@ -110,7 +118,7 @@ const Footer = () => {
                   href="https://monynha.tech"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-muted-foreground transition-colors hover:text-primary dark:text-neutral-300"
+                  className="text-sm text-muted-foreground transition-colors hover:text-brand-purple dark:text-neutral-300"
                   aria-label="Visit monynha.tech"
                   title="monynha.tech"
                 >
@@ -122,7 +130,7 @@ const Footer = () => {
                   href="https://monynha.fun"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-muted-foreground transition-colors hover:text-primary dark:text-neutral-300"
+                  className="text-sm text-muted-foreground transition-colors hover:text-brand-purple dark:text-neutral-300"
                   aria-label="Visit monynha.fun"
                   title="monynha.fun"
                 >
@@ -134,7 +142,7 @@ const Footer = () => {
                   href="https://monynha.online"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-muted-foreground transition-colors hover:text-primary dark:text-neutral-300"
+                  className="text-sm text-muted-foreground transition-colors hover:text-brand-purple dark:text-neutral-300"
                   aria-label="Visit monynha.online"
                   title="monynha.online"
                 >
@@ -146,7 +154,7 @@ const Footer = () => {
                   href="https://monynha.me"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-muted-foreground transition-colors hover:text-primary dark:text-neutral-300"
+                  className="text-sm text-muted-foreground transition-colors hover:text-brand-purple dark:text-neutral-300"
                   aria-label="Visit monynha.me"
                   title="monynha.me"
                 >
@@ -166,7 +174,7 @@ const Footer = () => {
                 {t('footer.email')}: {
                   <a
                     href="mailto:hello@monynha.com"
-                    className="text-sm text-muted-foreground transition-colors hover:text-primary dark:text-neutral-300"
+                    className="text-sm text-muted-foreground transition-colors hover:text-brand-purple dark:text-neutral-300"
                     aria-label="Send email to hello@monynha.com"
                     title="hello@monynha.com"
                   >
@@ -181,7 +189,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <Separator className="my-8 bg-neutral-200 dark:bg-neutral-800" />
+        <Separator className="my-8 bg-neutral-200/60 dark:bg-neutral-800" />
 
         <div className="flex flex-col md:flex-row justify-between items-center">
           <p className="flex items-center space-x-1 text-sm text-neutral-500 dark:text-neutral-400">
@@ -197,13 +205,13 @@ const Footer = () => {
           <div className="flex space-x-6 mt-4 md:mt-0">
             <Link
               to="#"
-              className="text-sm text-neutral-500 transition-colors duration-300 ease-in-out hover:text-brand-blue dark:text-neutral-400"
+              className="text-sm text-neutral-500 transition-colors duration-300 ease-in-out hover:text-brand-purple dark:text-neutral-400"
             >
               {t('footer.privacy')}
             </Link>
             <Link
               to="#"
-              className="text-sm text-neutral-500 transition-colors duration-300 ease-in-out hover:text-brand-blue dark:text-neutral-400"
+              className="text-sm text-neutral-500 transition-colors duration-300 ease-in-out hover:text-brand-purple dark:text-neutral-400"
             >
               {t('footer.terms')}
             </Link>

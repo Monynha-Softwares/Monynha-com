@@ -38,7 +38,7 @@ const TeamSection = () => {
 
   if (isLoading) {
     return (
-      <section className="bg-neutral-50 py-24 transition-colors dark:bg-neutral-950">
+      <section className="py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="mb-4 text-3xl font-bold text-neutral-900 lg:text-4xl dark:text-neutral-100">
@@ -70,7 +70,7 @@ const TeamSection = () => {
 
   if (error) {
     return (
-      <section className="bg-neutral-50 py-24 transition-colors dark:bg-neutral-950">
+      <section className="py-24">
         <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
           <h2 className="mb-4 text-3xl font-bold text-neutral-900 lg:text-4xl dark:text-neutral-100">
             {t('team.title')}
@@ -84,34 +84,38 @@ const TeamSection = () => {
   }
 
   return (
-    <section className="bg-neutral-50 py-24 transition-colors dark:bg-neutral-950">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-16 text-center">
-          <h2 className="mb-4 text-3xl font-bold text-neutral-900 lg:text-4xl dark:text-neutral-100">
-            {t('team.title')}
-          </h2>
-          <p className="mx-auto max-w-3xl text-xl text-neutral-600 dark:text-neutral-300">
-            {t('team.description')}
-          </p>
-        </div>
+      <section className="relative py-24">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 top-0 h-full bg-surface-glow opacity-60 blur-[180px]"
+        />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-16 text-center">
+            <h2 className="mb-4 text-3xl font-bold text-neutral-900 lg:text-4xl dark:text-neutral-100">
+              {t('team.title')}
+            </h2>
+            <p className="mx-auto max-w-3xl text-xl text-neutral-600 dark:text-neutral-300">
+              {t('team.description')}
+            </p>
+          </div>
 
-        <div className="flex flex-wrap justify-center gap-8">
-          {members?.map((member) => (
-            <Card
-              key={member.id}
-              className="card-hover w-full rounded-2xl border-0 shadow-soft transition-all duration-200 hover:shadow-soft-lg md:w-1/2 lg:w-1/4 dark:bg-neutral-900/80"
-            >
-              <CardContent className="p-8 text-center">
-                <Avatar className="mx-auto mb-6 h-24 w-24">
-                  <AvatarImage
-                    src={member.image_url || undefined}
-                    alt={member.name}
-                  />
-                  <AvatarFallback className="bg-gradient-hero text-white text-xl font-semibold">
-                    {member.name
-                      .split(' ')
-                      .map((n) => n[0])
-                      .join('')}
+          <div className="flex flex-wrap justify-center gap-8">
+            {members?.map((member) => (
+              <Card
+                key={member.id}
+              className="card-hover w-full rounded-2xl border border-white/70 bg-white/90 shadow-[0_25px_65px_-35px_rgba(91,44,111,0.35)] transition-all duration-300 hover:-translate-y-2 hover:shadow-soft-lg md:w-1/2 lg:w-1/4 dark:border-neutral-800/70 dark:bg-neutral-900/75"
+              >
+                <CardContent className="p-8 text-center">
+                  <Avatar className="mx-auto mb-6 h-24 w-24">
+                    <AvatarImage
+                      src={member.image_url || undefined}
+                      alt={member.name}
+                    />
+                  <AvatarFallback className="bg-gradient-brand text-white text-xl font-semibold">
+                      {member.name
+                        .split(' ')
+                        .map((n) => n[0])
+                        .join('')}
                   </AvatarFallback>
                 </Avatar>
 
@@ -119,7 +123,7 @@ const TeamSection = () => {
                   {member.name}
                 </h3>
 
-                <p className="mb-4 font-medium text-brand-blue">
+                <p className="mb-4 font-medium text-brand-purple">
                   {member.role}
                 </p>
 
@@ -134,7 +138,7 @@ const TeamSection = () => {
                     variant="outline"
                     size="sm"
                     aria-label={t('team.linkedin')}
-                    className="rounded-full border-brand-blue text-brand-blue transition-colors hover:bg-brand-blue hover:text-white focus-visible:ring-brand-blue focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                    className="rounded-full border-brand-purple/40 text-brand-purple transition-colors hover:bg-brand-purple hover:text-white focus-visible:ring-brand-blue focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                     onClick={() => window.open(member.linkedin_url!, '_blank')}
                   >
                     <Linkedin className="h-4 w-4" />

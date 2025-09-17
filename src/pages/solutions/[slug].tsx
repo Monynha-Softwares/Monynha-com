@@ -266,18 +266,21 @@ const SolutionDetail = () => {
         </section>
       )}
 
-      <section className="py-24 bg-gradient-hero text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <section className="relative py-24">
+        <div
+          aria-hidden="true"
+          className="absolute inset-x-4 top-0 z-0 mx-auto h-full max-w-5xl rounded-[3rem] bg-gradient-hero shadow-[0_50px_120px_-60px_rgba(91,44,111,0.55)]"
+        />
+        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
           <h2 className="text-3xl lg:text-4xl font-bold mb-6">
             {t('solutionsPage.customTitle')}
           </h2>
-          <p className="text-xl text-blue-100 mb-8">
+          <p className="text-xl text-white/80 mb-8">
             {t('solutionsPage.customDescription')}
           </p>
           <Button
             asChild
-            size="lg"
-            className="bg-white transition-colors dark:bg-neutral-950 text-brand-purple hover:bg-blue-50 font-semibold px-8 py-4 rounded-xl text-lg transition-all ease-in-out duration-300"
+            className="btn-secondary px-8 py-4 text-lg"
           >
             <Link to="/contact" className="flex items-center justify-center gap-2">
               {t('solutionsPage.discuss')}

@@ -502,7 +502,7 @@ const Blog = () => {
               placeholder={t('blog.newsletter.placeholder')}
               className="flex-1 px-4 py-3 rounded-xl border-0 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 focus:ring-2 focus:ring-white focus:outline-none"
             />
-            <Button className="bg-white transition-colors dark:bg-neutral-950 text-brand-purple hover:bg-blue-50 font-semibold px-6 py-3 rounded-xl transition-all ease-in-out duration-300">
+            <Button className="btn-secondary px-6 py-3">
               {t('blog.newsletter.subscribe')}
             </Button>
           </div>

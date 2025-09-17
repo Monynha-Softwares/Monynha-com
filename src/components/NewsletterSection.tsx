@@ -80,7 +80,7 @@ const NewsletterSection = () => {
           <h2 className="text-3xl lg:text-4xl font-bold mb-4">
             {t('newsletterSection.thankYouTitle')}
           </h2>
-          <p className="text-xl text-blue-100 mb-8">
+          <p className="text-xl text-white/80 mb-8">
             {t('newsletterSection.thankYouDescription')}
           </p>
           <Button
@@ -88,7 +88,7 @@ const NewsletterSection = () => {
               setIsSubscribed(false);
               setEmail('');
             }}
-            className="rounded-xl bg-white px-6 py-3 font-semibold text-brand-purple transition-colors hover:bg-blue-50 focus-visible:ring-brand-blue focus-visible:ring-offset-2 focus-visible:ring-offset-background dark:bg-neutral-900 dark:text-white dark:hover:bg-neutral-800"
+            className="btn-secondary px-6 py-3"
           >
             {t('newsletterSection.subscribeAnother')}
           </Button>
@@ -110,7 +110,7 @@ const NewsletterSection = () => {
               {t('newsletterSection.title')}
             </h2>
 
-            <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+            <p className="text-xl text-white/80 mb-8 max-w-2xl mx-auto">
               {t('newsletterSection.description')}
             </p>
 
@@ -127,7 +127,7 @@ const NewsletterSection = () => {
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="whitespace-nowrap rounded-xl bg-white px-8 py-3 font-semibold text-brand-purple transition-colors hover:bg-blue-50 focus-visible:ring-brand-blue focus-visible:ring-offset-2 focus-visible:ring-offset-background dark:bg-neutral-900 dark:text-white dark:hover:bg-neutral-800"
+                  className="btn-secondary whitespace-nowrap px-8 py-3"
                 >
                   {isSubmitting
                     ? t('newsletterSection.subscribing')

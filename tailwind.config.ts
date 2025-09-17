@@ -56,26 +56,26 @@ export default {
         },
         // Monynha Softwares Brand Colors
         brand: {
-          DEFAULT: '#7C3AED',
-          purple: '#7C3AED',
-          blue: '#0EA5E9',
-          pink: '#EC4899',
-          orange: '#F97316',
-          indigo: '#4338CA',
-          teal: '#14B8A6',
+          DEFAULT: '#5B2C6F',
+          purple: '#5B2C6F',
+          blue: '#4A90E2',
+          pink: '#E06666',
+          orange: '#F7B500',
+          lavender: '#C7B4E2',
+          violet: '#7A4D92',
         },
         neutral: {
-          50: '#F9FAFB',
-          100: '#F3F4F6',
-          200: '#E5E7EB',
-          300: '#D1D5DB',
-          400: '#9CA3AF',
-          500: '#6B7280',
-          600: '#4B5563',
-          700: '#374151',
-          800: '#1F2937',
-          900: '#111827',
-          950: '#030712',
+          50: '#F8F7FF',
+          100: '#F1F2FB',
+          200: '#E3E6F5',
+          300: '#CED2EC',
+          400: '#AAB0D9',
+          500: '#858CC3',
+          600: '#6469A5',
+          700: '#4A4E82',
+          800: '#34355B',
+          900: '#22223D',
+          950: '#16162A',
         },
       },
       fontFamily: {
@@ -86,21 +86,25 @@ export default {
       },
       backgroundImage: {
         'gradient-brand':
-          'linear-gradient(135deg, #7C3AED 0%, #0EA5E9 40%, #EC4899 75%, #F97316 100%)',
-        'gradient-hero': 'linear-gradient(135deg, #7C3AED 0%, #0EA5E9 100%)',
+          'linear-gradient(135deg, #5B2C6F 0%, #4A90E2 35%, #E06666 70%, #F7B500 100%)',
+        'gradient-hero': 'linear-gradient(135deg, #5B2C6F 0%, #4A90E2 100%)',
         'gradient-pride':
-          'linear-gradient(135deg, #7C3AED 0%, #0EA5E9 25%, #22C55E 50%, #F97316 75%, #EC4899 100%)',
+          'linear-gradient(135deg, #5B2C6F 0%, #4A90E2 25%, #22C55E 50%, #F7B500 75%, #E06666 100%)',
+        'mesh-brand':
+          'radial-gradient(circle at 10% 20%, rgba(91, 44, 111, 0.14), transparent 55%), radial-gradient(circle at 85% 15%, rgba(74, 144, 226, 0.16), transparent 55%), radial-gradient(circle at 18% 85%, rgba(224, 102, 102, 0.18), transparent 60%)',
+        'surface-glow':
+          'linear-gradient(135deg, rgba(91, 44, 111, 0.12) 0%, rgba(74, 144, 226, 0.12) 45%, rgba(224, 102, 102, 0.12) 100%)',
       },
       borderRadius: {
         lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 4px)',
+        md: 'calc(var(--radius) - 3px)',
         sm: 'calc(var(--radius) - 6px)',
-        xl: '1.25rem',
-        '2xl': '1.75rem',
+        xl: '1.5rem',
+        '2xl': '2rem',
       },
       boxShadow: {
-        soft: '0 10px 30px -15px rgba(124, 58, 237, 0.35)',
-        'soft-lg': '0 25px 60px -20px rgba(14, 165, 233, 0.45)',
+        soft: '0 20px 45px -25px rgba(91, 44, 111, 0.4)',
+        'soft-lg': '0 28px 60px -20px rgba(74, 144, 226, 0.4)',
       },
       keyframes: {
         'accordion-down': {

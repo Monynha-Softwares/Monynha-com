@@ -188,19 +188,20 @@ const Solutions = () => {
       </section>
 
       {/* Custom Solutions CTA */}
-      <section className={cn(sectionPaddingY, 'bg-gradient-hero text-white')}>
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <section className={cn(sectionPaddingY, 'relative text-white')}>
+        <div
+          aria-hidden="true"
+          className="absolute inset-x-4 top-0 z-0 mx-auto h-full max-w-5xl rounded-[3rem] bg-gradient-hero shadow-[0_50px_120px_-60px_rgba(91,44,111,0.55)]"
+        />
+        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl lg:text-4xl font-bold mb-6">
             {t('solutionsPage.customTitle')}
           </h2>
-          <p className="text-xl text-blue-100 mb-8">
+          <p className="text-xl text-white/80 mb-8">
             {t('solutionsPage.customDescription')}
           </p>
           <Link to="/contact">
-            <Button
-              size="lg"
-              className="rounded-2xl bg-white px-8 py-4 text-lg font-semibold text-brand-purple transition-all duration-300 ease-in-out hover:bg-blue-50 shadow-md hover:shadow-soft-lg dark:text-white dark:hover:bg-neutral-800"
-            >
+            <Button className="btn-secondary px-8 py-4 text-lg">
               {t('solutionsPage.discuss')}
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
