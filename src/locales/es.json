@@ -8,7 +8,45 @@
     "contact": "Contacto",
     "startProject": "Comenzar Proyecto",
     "toggleNavigation": "Alternar navegación",
-    "backToTop": "Volver arriba"
+    "backToTop": "Volver arriba",
+    "solutionsMenu": {
+      "viewAll": "Ver todas las soluciones",
+      "items": {
+        "boteco": {
+          "title": "Boteco Pro",
+          "description": "Gestión inteligente para bares y restaurantes con información en tiempo real."
+        },
+        "assistina": {
+          "title": "AssisTina AI",
+          "description": "Asistente conversacional que automatiza flujos de trabajo y soporte al cliente."
+        },
+        "integration": {
+          "title": "Integración de IA",
+          "description": "Conectores de IA ética que potencian tus sistemas y equipos existentes."
+        }
+      }
+    },
+    "projectsMenu": {
+      "viewAll": "Explorar todos los proyectos",
+      "items": {
+        "openSource": {
+          "title": "Laboratorio Open Source",
+          "description": "Descubre repositorios y contribuciones comunitarias mantenidas por Monynha."
+        },
+        "caseStudies": {
+          "title": "Casos de Impacto",
+          "description": "Historias de tecnología generando equidad junto a nuestros aliados."
+        },
+        "partnerships": {
+          "title": "Alianzas de Co-creación",
+          "description": "Colaboraciones con ONGs, startups y colectivos para productos inclusivos."
+        },
+        "github": {
+          "title": "Organización en GitHub",
+          "description": "Sigue nuestro roadmap, issues y discusiones directamente en GitHub."
+        }
+      }
+    }
   },
   "footer": {
     "quickLinks": "Enlaces Rápidos",

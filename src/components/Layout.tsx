@@ -1,4 +1,4 @@
-import Header from './Header';
+import SiteHeader from './SiteHeader';
 import Footer from './Footer';
 import BackToTop from './BackToTop';
 
@@ -9,7 +9,7 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
   return (
     <div className="min-h-screen flex flex-col">
-      <Header />
+      <SiteHeader />
       <main className="flex-1 pt-20">{children}</main>
       <Footer />
       <BackToTop />
