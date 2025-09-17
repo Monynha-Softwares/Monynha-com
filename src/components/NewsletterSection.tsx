@@ -72,15 +72,19 @@ const NewsletterSection = () => {
 
   if (isSubscribed) {
     return (
-      <section className="py-24 bg-gradient-hero text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6">
+      <section className="relative overflow-hidden py-24 text-white">
+        <div className="absolute inset-0 -z-10 bg-gradient-hero" />
+        <div className="absolute inset-0 -z-10 bg-black/20" />
+        <div className="absolute -top-16 left-1/3 -z-10 h-44 w-44 rounded-full bg-brand-blue/40 blur-3xl" />
+        <div className="absolute -bottom-20 right-1/4 -z-10 h-48 w-48 rounded-full bg-brand-orange/40 blur-3xl" />
+        <div className="relative mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
+          <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full border border-white/30 bg-white/10">
             <CheckCircle className="h-8 w-8 text-white" />
           </div>
-          <h2 className="text-3xl lg:text-4xl font-bold mb-4">
+          <h2 className="text-3xl font-bold text-white lg:text-4xl">
             {t('newsletterSection.thankYouTitle')}
           </h2>
-          <p className="text-xl text-blue-100 mb-8">
+          <p className="mt-4 text-lg text-white/85 sm:text-xl">
             {t('newsletterSection.thankYouDescription')}
           </p>
           <Button
@@ -88,7 +92,7 @@ const NewsletterSection = () => {
               setIsSubscribed(false);
               setEmail('');
             }}
-            className="rounded-xl bg-white px-6 py-3 font-semibold text-brand-purple transition-colors hover:bg-blue-50 focus-visible:ring-brand-blue focus-visible:ring-offset-2 focus-visible:ring-offset-background dark:bg-neutral-900 dark:text-white dark:hover:bg-neutral-800"
+            className="btn-secondary mt-10 px-8 py-3 text-base font-semibold text-brand-purple shadow-none hover:text-brand-blue"
           >
             {t('newsletterSection.subscribeAnother')}
           </Button>
@@ -98,36 +102,40 @@ const NewsletterSection = () => {
   }
 
   return (
-    <section className="py-24 bg-gradient-hero text-white">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Card className="rounded-2xl border-0 bg-white/10 shadow-soft-lg backdrop-blur-sm">
-          <CardContent className="p-8 lg:p-12 text-center">
-            <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6">
+    <section className="relative overflow-hidden py-24 text-white">
+      <div className="absolute inset-0 -z-10 bg-gradient-hero" />
+      <div className="absolute inset-0 -z-10 bg-black/25" />
+      <div className="absolute -top-16 left-1/3 -z-10 h-44 w-44 rounded-full bg-brand-blue/40 blur-3xl" />
+      <div className="absolute -bottom-20 right-1/4 -z-10 h-48 w-48 rounded-full bg-brand-orange/40 blur-3xl" />
+      <div className="relative mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+        <Card className="rounded-[2rem] border border-white/30 bg-white/10 shadow-soft-lg backdrop-blur-md">
+          <CardContent className="p-8 text-center lg:p-12">
+            <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full border border-white/40 bg-white/10">
               <Mail className="h-8 w-8 text-white" />
             </div>
 
-            <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">
+            <h2 className="text-3xl font-bold text-white lg:text-4xl">
               {t('newsletterSection.title')}
             </h2>
 
-            <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+            <p className="mt-4 text-lg text-white/85 sm:text-xl">
               {t('newsletterSection.description')}
             </p>
 
-            <form onSubmit={handleSubmit} className="max-w-md mx-auto">
-              <div className="flex flex-col sm:flex-row gap-4">
+            <form onSubmit={handleSubmit} className="mx-auto mt-10 max-w-md">
+              <div className="flex flex-col gap-4 sm:flex-row">
                 <Input
                   type="email"
                   placeholder={t('newsletterSection.placeholder')}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="flex-1 rounded-xl border-white/30 bg-white/20 text-white placeholder:text-white/70 focus:border-white focus:ring-white"
+                  className="flex-1 rounded-2xl border border-white/40 bg-white/15 text-white placeholder:text-white/70 focus:border-white focus:ring-white"
                   required
                 />
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="whitespace-nowrap rounded-xl bg-white px-8 py-3 font-semibold text-brand-purple transition-colors hover:bg-blue-50 focus-visible:ring-brand-blue focus-visible:ring-offset-2 focus-visible:ring-offset-background dark:bg-neutral-900 dark:text-white dark:hover:bg-neutral-800"
+                  className="btn-secondary whitespace-nowrap px-8 py-3 text-base font-semibold text-brand-purple shadow-none hover:text-brand-blue"
                 >
                   {isSubmitting
                     ? t('newsletterSection.subscribing')
@@ -136,7 +144,7 @@ const NewsletterSection = () => {
               </div>
             </form>
 
-            <p className="mt-4 text-sm text-blue-200">
+            <p className="mt-4 text-sm text-blue-100">
               {t('newsletterSection.privacy')}
             </p>
           </CardContent>

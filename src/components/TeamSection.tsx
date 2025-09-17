@@ -36,15 +36,22 @@ const TeamSection = () => {
     },
   });
 
+  const sectionClasses =
+    'relative overflow-hidden py-24 bg-gradient-to-b from-white/90 via-neutral-50/80 to-white transition-colors dark:from-neutral-950/85 dark:via-neutral-950 dark:to-neutral-950';
+
   if (isLoading) {
     return (
-      <section className="bg-neutral-50 py-24 transition-colors dark:bg-neutral-950">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="mb-4 text-3xl font-bold text-neutral-900 lg:text-4xl dark:text-neutral-100">
+      <section className={sectionClasses}>
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute -top-24 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-brand-purple/12 blur-3xl" />
+          <div className="absolute -bottom-32 right-1/4 h-56 w-56 rounded-full bg-brand-blue/15 blur-3xl" />
+        </div>
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mb-16 text-center">
+            <h2 className="mb-4 text-3xl font-bold text-neutral-900 dark:text-neutral-100 lg:text-4xl">
               {t('team.title')}
             </h2>
-            <p className="mx-auto max-w-3xl text-xl text-neutral-600 dark:text-neutral-300">
+            <p className="mx-auto max-w-3xl text-lg text-neutral-600 dark:text-neutral-300">
               {t('team.loading')}
             </p>
           </div>
@@ -52,13 +59,13 @@ const TeamSection = () => {
             {[...Array(4)].map((_, i) => (
               <Card
                 key={i}
-                className="w-full animate-pulse rounded-2xl border-0 shadow-soft transition-colors md:w-1/2 lg:w-1/4 dark:bg-neutral-900/60"
+                className="w-full animate-pulse rounded-[1.75rem] border border-white/30 bg-white/90 shadow-soft dark:border-neutral-800/60 dark:bg-neutral-950/70 md:w-1/2 lg:w-1/4"
               >
                 <CardContent className="p-8 text-center">
-                  <div className="mx-auto mb-6 h-24 w-24 rounded-full bg-neutral-200 dark:bg-neutral-700"></div>
-                  <div className="mb-2 h-6 rounded bg-neutral-200 dark:bg-neutral-700"></div>
-                  <div className="mb-4 h-4 rounded bg-neutral-200 dark:bg-neutral-700"></div>
-                  <div className="h-16 rounded bg-neutral-200 dark:bg-neutral-700"></div>
+                  <div className="mx-auto mb-6 h-24 w-24 rounded-full bg-neutral-200 dark:bg-neutral-700" />
+                  <div className="mx-auto mb-2 h-6 w-24 rounded bg-neutral-200 dark:bg-neutral-700" />
+                  <div className="mx-auto mb-4 h-4 w-32 rounded bg-neutral-200 dark:bg-neutral-700" />
+                  <div className="mx-auto h-16 w-full rounded bg-neutral-200 dark:bg-neutral-700" />
                 </CardContent>
               </Card>
             ))}
@@ -70,12 +77,16 @@ const TeamSection = () => {
 
   if (error) {
     return (
-      <section className="bg-neutral-50 py-24 transition-colors dark:bg-neutral-950">
-        <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-          <h2 className="mb-4 text-3xl font-bold text-neutral-900 lg:text-4xl dark:text-neutral-100">
+      <section className={sectionClasses}>
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute -top-24 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-brand-purple/12 blur-3xl" />
+          <div className="absolute -bottom-32 right-1/4 h-56 w-56 rounded-full bg-brand-blue/15 blur-3xl" />
+        </div>
+        <div className="relative mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
+          <h2 className="mb-4 text-3xl font-bold text-neutral-900 dark:text-neutral-100 lg:text-4xl">
             {t('team.title')}
           </h2>
-          <p className="text-xl text-neutral-600 dark:text-neutral-300">
+          <p className="text-lg text-neutral-600 dark:text-neutral-300">
             {t('team.error')}
           </p>
         </div>
@@ -84,13 +95,17 @@ const TeamSection = () => {
   }
 
   return (
-    <section className="bg-neutral-50 py-24 transition-colors dark:bg-neutral-950">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className={sectionClasses}>
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute -top-24 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-brand-purple/12 blur-3xl" />
+        <div className="absolute -bottom-32 right-1/4 h-56 w-56 rounded-full bg-brand-blue/15 blur-3xl" />
+      </div>
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-16 text-center">
-          <h2 className="mb-4 text-3xl font-bold text-neutral-900 lg:text-4xl dark:text-neutral-100">
+          <h2 className="mb-4 text-3xl font-bold text-neutral-900 dark:text-neutral-100 lg:text-4xl">
             {t('team.title')}
           </h2>
-          <p className="mx-auto max-w-3xl text-xl text-neutral-600 dark:text-neutral-300">
+          <p className="mx-auto max-w-3xl text-lg text-neutral-600 dark:text-neutral-300">
             {t('team.description')}
           </p>
         </div>
@@ -99,15 +114,15 @@ const TeamSection = () => {
           {members?.map((member) => (
             <Card
               key={member.id}
-              className="card-hover w-full rounded-2xl border-0 shadow-soft transition-all duration-200 hover:shadow-soft-lg md:w-1/2 lg:w-1/4 dark:bg-neutral-900/80"
+              className="card-hover w-full rounded-[1.75rem] border border-white/30 bg-white/95 text-neutral-900 shadow-soft transition-all duration-200 hover:-translate-y-1 hover:shadow-soft-lg dark:border-neutral-800/60 dark:bg-neutral-950/80 dark:text-neutral-100 md:w-1/2 lg:w-1/4"
             >
               <CardContent className="p-8 text-center">
-                <Avatar className="mx-auto mb-6 h-24 w-24">
+                <Avatar className="mx-auto mb-6 h-24 w-24 border-4 border-white/60 shadow-soft dark:border-neutral-800">
                   <AvatarImage
                     src={member.image_url || undefined}
                     alt={member.name}
                   />
-                  <AvatarFallback className="bg-gradient-hero text-white text-xl font-semibold">
+                  <AvatarFallback className="bg-gradient-hero text-xl font-semibold text-white">
                     {member.name
                       .split(' ')
                       .map((n) => n[0])
@@ -115,13 +130,9 @@ const TeamSection = () => {
                   </AvatarFallback>
                 </Avatar>
 
-                <h3 className="mb-2 text-xl font-semibold text-neutral-900 dark:text-neutral-100">
-                  {member.name}
-                </h3>
+                <h3 className="mb-1 text-xl font-semibold">{member.name}</h3>
 
-                <p className="mb-4 font-medium text-brand-blue">
-                  {member.role}
-                </p>
+                <p className="mb-4 font-medium text-brand-blue">{member.role}</p>
 
                 {member.bio && (
                   <p className="mb-6 text-sm leading-relaxed text-neutral-600 dark:text-neutral-300">
@@ -131,10 +142,9 @@ const TeamSection = () => {
 
                 {member.linkedin_url && (
                   <Button
-                    variant="outline"
                     size="sm"
                     aria-label={t('team.linkedin')}
-                    className="rounded-full border-brand-blue text-brand-blue transition-colors hover:bg-brand-blue hover:text-white focus-visible:ring-brand-blue focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                    className="rounded-full bg-gradient-brand px-5 py-2 text-sm font-semibold text-white shadow-soft transition-all hover:shadow-soft-lg focus-visible:ring-brand-blue focus-visible:ring-offset-2"
                     onClick={() => window.open(member.linkedin_url!, '_blank')}
                   >
                     <Linkedin className="h-4 w-4" />

@@ -6,20 +6,24 @@ import { Separator } from '@/components/ui/separator';
 const Footer = () => {
   const { t } = useTranslation();
   return (
-    <footer className="border-t border-neutral-100 bg-neutral-50 transition-colors dark:border-neutral-800 dark:bg-neutral-950">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
+    <footer className="relative overflow-hidden border-t border-white/60 bg-gradient-to-b from-white/95 via-neutral-50/80 to-white transition-colors dark:border-neutral-800 dark:from-neutral-950/90 dark:via-neutral-950 dark:to-neutral-950">
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute -top-20 left-1/3 h-56 w-56 rounded-full bg-brand-blue/10 blur-3xl" />
+        <div className="absolute -bottom-24 right-1/4 h-48 w-48 rounded-full bg-brand-purple/12 blur-3xl" />
+      </div>
+      <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-5">
           {/* Logo and Description */}
           <div className="sm:col-span-2">
             <Link to="/" className="mb-4 flex items-center space-x-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-brand">
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-brand shadow-soft">
                 <span className="text-lg font-bold text-white">M</span>
               </div>
               <div className="flex flex-col">
                 <span className="font-brand text-xl font-semibold text-neutral-900 dark:text-neutral-100">
                   Mon<span className="text-brand-blue">y</span>nha.com
                 </span>
-                <span className="text-sm font-medium text-neutral-400 dark:text-neutral-500">
+                <span className="text-sm font-medium text-neutral-500 dark:text-neutral-400">
                   {t('footer.tagline')}
                 </span>
               </div>
@@ -38,7 +42,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/solutions"
-                  className="text-neutral-600 transition-colors duration-300 ease-in-out hover:text-brand-blue dark:text-neutral-300"
+                  className="text-neutral-600 transition-colors duration-300 ease-in-out hover:text-brand-purple dark:text-neutral-300"
                 >
                   {t('navigation.solutions')}
                 </Link>
@@ -46,7 +50,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/about"
-                  className="text-neutral-600 transition-colors duration-300 ease-in-out hover:text-brand-blue dark:text-neutral-300"
+                  className="text-neutral-600 transition-colors duration-300 ease-in-out hover:text-brand-purple dark:text-neutral-300"
                 >
                   {t('navigation.about')}
                 </Link>
@@ -54,7 +58,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/blog"
-                  className="text-neutral-600 transition-colors duration-300 ease-in-out hover:text-brand-blue dark:text-neutral-300"
+                  className="text-neutral-600 transition-colors duration-300 ease-in-out hover:text-brand-purple dark:text-neutral-300"
                 >
                   {t('navigation.blog')}
                 </Link>
@@ -62,7 +66,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/contact"
-                  className="text-neutral-600 transition-colors duration-300 ease-in-out hover:text-brand-blue dark:text-neutral-300"
+                  className="text-neutral-600 transition-colors duration-300 ease-in-out hover:text-brand-purple dark:text-neutral-300"
                 >
                   {t('navigation.contact')}
                 </Link>
@@ -110,7 +114,7 @@ const Footer = () => {
                   href="https://monynha.tech"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-muted-foreground transition-colors hover:text-primary dark:text-neutral-300"
+                  className="text-sm text-neutral-600 transition-colors hover:text-brand-purple dark:text-neutral-300"
                   aria-label="Visit monynha.tech"
                   title="monynha.tech"
                 >
@@ -122,7 +126,7 @@ const Footer = () => {
                   href="https://monynha.fun"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-muted-foreground transition-colors hover:text-primary dark:text-neutral-300"
+                  className="text-sm text-neutral-600 transition-colors hover:text-brand-purple dark:text-neutral-300"
                   aria-label="Visit monynha.fun"
                   title="monynha.fun"
                 >
@@ -134,7 +138,7 @@ const Footer = () => {
                   href="https://monynha.online"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-muted-foreground transition-colors hover:text-primary dark:text-neutral-300"
+                  className="text-sm text-neutral-600 transition-colors hover:text-brand-purple dark:text-neutral-300"
                   aria-label="Visit monynha.online"
                   title="monynha.online"
                 >
@@ -146,7 +150,7 @@ const Footer = () => {
                   href="https://monynha.me"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-muted-foreground transition-colors hover:text-primary dark:text-neutral-300"
+                  className="text-sm text-neutral-600 transition-colors hover:text-brand-purple dark:text-neutral-300"
                   aria-label="Visit monynha.me"
                   title="monynha.me"
                 >
@@ -166,7 +170,7 @@ const Footer = () => {
                 {t('footer.email')}: {
                   <a
                     href="mailto:hello@monynha.com"
-                    className="text-sm text-muted-foreground transition-colors hover:text-primary dark:text-neutral-300"
+                    className="text-sm text-neutral-600 transition-colors hover:text-brand-purple dark:text-neutral-300"
                     aria-label="Send email to hello@monynha.com"
                     title="hello@monynha.com"
                   >
@@ -181,9 +185,9 @@ const Footer = () => {
           </div>
         </div>
 
-        <Separator className="my-8 bg-neutral-200 dark:bg-neutral-800" />
+        <Separator className="my-8 bg-neutral-200/70 dark:bg-neutral-800" />
 
-        <div className="flex flex-col md:flex-row justify-between items-center">
+        <div className="flex flex-col items-center justify-between gap-6 text-center md:flex-row md:gap-0 md:text-left">
           <p className="flex items-center space-x-1 text-sm text-neutral-500 dark:text-neutral-400">
             <span>
               {t('footer.copyright', { year: new Date().getFullYear() })}
@@ -194,16 +198,16 @@ const Footer = () => {
               <span>{t('footer.andPride')}</span>
             </span>
           </p>
-          <div className="flex space-x-6 mt-4 md:mt-0">
+          <div className="flex space-x-6 md:mt-0">
             <Link
               to="#"
-              className="text-sm text-neutral-500 transition-colors duration-300 ease-in-out hover:text-brand-blue dark:text-neutral-400"
+              className="text-sm text-neutral-500 transition-colors duration-300 ease-in-out hover:text-brand-purple dark:text-neutral-400"
             >
               {t('footer.privacy')}
             </Link>
             <Link
               to="#"
-              className="text-sm text-neutral-500 transition-colors duration-300 ease-in-out hover:text-brand-blue dark:text-neutral-400"
+              className="text-sm text-neutral-500 transition-colors duration-300 ease-in-out hover:text-brand-purple dark:text-neutral-400"
             >
               {t('footer.terms')}
             </Link>
