@@ -39,6 +39,16 @@ const FALLBACK_IMAGE =
 
 const POSTS_PER_PAGE = 7;
 
+const BLOG_CATEGORY_KEYS = [
+  'blog.categories.all',
+  'blog.categories.aiInsights',
+  'blog.categories.development',
+  'blog.categories.caseStudy',
+  'blog.categories.business',
+  'blog.categories.security',
+  'blog.categories.integration',
+];
+
 type BlogPostRow = Pick<
   Database['public']['Tables']['blog_posts']['Row'],
   'id' | 'slug' | 'title' | 'excerpt' | 'image_url' | 'updated_at'
@@ -103,15 +113,7 @@ const Blog = () => {
   }, [normalizedLocale]);
 
   const categories = useMemo(
-    () => [
-      t('blog.categories.all'),
-      'AI Insights',
-      'Development',
-      'Case Study',
-      'Business',
-      'Security',
-      'Integration',
-    ],
+    () => BLOG_CATEGORY_KEYS.map((key) => t(key)),
     [t]
   );
 
@@ -156,10 +158,10 @@ const Blog = () => {
         title: post.title,
         excerpt: post.excerpt ?? t('blog.fallbackExcerpt'),
         image: post.image_url ?? FALLBACK_IMAGE,
-        author: 'Monynha Softwares Team',
+        author: t('blog.defaultAuthor'),
         date: dateFormatter.format(new Date(post.updated_at)),
         readTime: t('blog.readTimeDefault'),
-        category: 'AI Insights',
+        category: t('blog.defaultCategory'),
         featured: page === 1 && index === 0,
       })),
     [data?.posts, dateFormatter, page, t]
@@ -198,9 +200,9 @@ const Blog = () => {
     return (
       <Layout>
         <Meta
-          title="Insights & Updates - Monynha Softwares Agency"
+          title={t('blog.metaTitle')}
           description={t('blog.description')}
-          ogTitle="Insights & Updates - Monynha Softwares Agency"
+          ogTitle={t('blog.metaTitle')}
           ogDescription={t('blog.description')}
           ogImage="/placeholder.svg"
         />
@@ -215,9 +217,9 @@ const Blog = () => {
     return (
       <Layout>
         <Meta
-          title="Insights & Updates - Monynha Softwares Agency"
+          title={t('blog.metaTitle')}
           description={t('blog.description')}
-          ogTitle="Insights & Updates - Monynha Softwares Agency"
+          ogTitle={t('blog.metaTitle')}
           ogDescription={t('blog.description')}
           ogImage="/placeholder.svg"
         />
@@ -231,9 +233,9 @@ const Blog = () => {
   return (
     <Layout>
       <Meta
-        title="Insights & Updates - Monynha Softwares Agency"
+        title={t('blog.metaTitle')}
         description={t('blog.description')}
-        ogTitle="Insights & Updates - Monynha Softwares Agency"
+        ogTitle={t('blog.metaTitle')}
         ogDescription={t('blog.description')}
         ogImage="/placeholder.svg"
       />

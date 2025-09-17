@@ -24,27 +24,17 @@ import {
 } from '@/components/ui/table';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import Loading from '@/components/Loading';
-import { format } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
 import { AlertTriangle, Loader2, LogOut, RefreshCcw } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { getNormalizedLocale } from '@/lib/i18n';
 
 type Profile = Database['public']['Tables']['profiles']['Row'];
 type Lead = Database['public']['Tables']['leads']['Row'];
 type NewsletterSubscriber =
   Database['public']['Tables']['newsletter_subscribers']['Row'];
 
-const formatDate = (value: string | null | undefined) => {
-  if (!value) return '—';
-
-  try {
-    return format(new Date(value), "dd/MM/yyyy 'às' HH:mm", { locale: ptBR });
-  } catch (error) {
-    console.error('Erro ao formatar data', error);
-    return '—';
-  }
-};
-
 const Dashboard = () => {
+  const { t, i18n } = useTranslation();
   const { user, signOut } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -91,7 +81,7 @@ const Dashboard = () => {
           email: user.email ?? '',
           name: (user.user_metadata?.name as string | undefined) ??
             user.email ??
-            'Usuário',
+            t('dashboard.profile.roleUser'),
           role: (user.user_metadata?.role as string | undefined) ?? 'user',
           avatar_url: (user.user_metadata?.avatar_url as string | null) ?? null,
           created_at: new Date().toISOString(),
@@ -135,16 +125,15 @@ const Dashboard = () => {
         setSubscribers([]);
       }
     } catch (error) {
+      const fallbackMessage = t('dashboard.errors.loadDashboard');
       const message =
-        error instanceof Error
-          ? error.message
-          : 'Não foi possível carregar o dashboard.';
+        error instanceof Error ? error.message : fallbackMessage;
 
       if (isMounted.current) {
-        setErrorMessage(message);
+        setErrorMessage(message || fallbackMessage);
         toast({
-          title: 'Erro ao carregar dados',
-          description: message,
+          title: t('dashboard.toast.loadError.title'),
+          description: message || fallbackMessage,
           variant: 'destructive',
         });
       }
@@ -154,11 +143,51 @@ const Dashboard = () => {
         setIsFetchingAdminData(false);
       }
     }
-  }, [toast, user]);
+  }, [t, toast, user]);
 
   useEffect(() => {
     void loadDashboard();
   }, [loadDashboard]);
+
+  const normalizedLocale = useMemo(
+    () => getNormalizedLocale(i18n.language),
+    [i18n.language]
+  );
+
+  const fallbackDateFormatter = useMemo(
+    () =>
+      new Intl.DateTimeFormat('en-US', {
+        dateStyle: 'short',
+        timeStyle: 'short',
+      }),
+    []
+  );
+
+  const dateTimeFormatter = useMemo(() => {
+    try {
+      return new Intl.DateTimeFormat(normalizedLocale, {
+        dateStyle: 'short',
+        timeStyle: 'short',
+      });
+    } catch (error) {
+      console.error('Unsupported locale for dashboard date formatting', error);
+      return fallbackDateFormatter;
+    }
+  }, [fallbackDateFormatter, normalizedLocale]);
+
+  const formatDate = useCallback(
+    (value: string | null | undefined) => {
+      if (!value) return '—';
+
+      try {
+        return dateTimeFormatter.format(new Date(value));
+      } catch (error) {
+        console.error('Error formatting dashboard date', error);
+        return fallbackDateFormatter.format(new Date(value));
+      }
+    },
+    [dateTimeFormatter, fallbackDateFormatter]
+  );
 
   const handleRefresh = () => {
     void loadDashboard();
@@ -169,18 +198,17 @@ const Dashboard = () => {
     try {
       await signOut();
       toast({
-        title: 'Sessão encerrada',
-        description: 'Você saiu da aplicação com sucesso.',
+        title: t('dashboard.toast.signOutSuccess.title'),
+        description: t('dashboard.toast.signOutSuccess.description'),
       });
       navigate('/auth', { replace: true });
     } catch (error) {
+      const fallbackMessage = t('dashboard.toast.signOutError.description');
       const message =
-        error instanceof Error
-          ? error.message
-          : 'Não foi possível encerrar a sessão.';
+        error instanceof Error ? error.message : fallbackMessage;
       toast({
-        title: 'Erro ao sair',
-        description: message,
+        title: t('dashboard.toast.signOutError.title'),
+        description: message || fallbackMessage,
         variant: 'destructive',
       });
     } finally {
@@ -202,7 +230,10 @@ const Dashboard = () => {
     return initials || source.charAt(0).toUpperCase();
   }, [profile?.name, user?.email]);
 
-  const roleLabel = profile?.role === 'admin' ? 'Administrador' : 'Usuário';
+  const roleLabel =
+    profile?.role === 'admin'
+      ? t('dashboard.profile.roleAdmin')
+      : t('dashboard.profile.roleUser');
   const isLoadingInitialState = isFetching && !profile;
   const isRefreshing = isFetching || isFetchingAdminData;
 
@@ -219,11 +250,13 @@ const Dashboard = () => {
       <div className="max-w-6xl mx-auto px-4 space-y-8">
           <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
+              <h1 className="text-3xl font-bold tracking-tight">
+                {t('dashboard.title')}
+              </h1>
               <p className="text-muted-foreground">
                 {profile
-                  ? `Bem-vindo, ${profile.name}`
-                  : 'Confira as informações da sua conta.'}
+                  ? t('dashboard.welcome', { name: profile.name })
+                  : t('dashboard.welcomeFallback')}
               </p>
             </div>
 
@@ -237,7 +270,7 @@ const Dashboard = () => {
               <RefreshCcw
                 className={`h-4 w-4 ${isRefreshing ? 'animate-spin' : ''}`}
               />
-              Atualizar
+              {t('dashboard.refresh')}
             </Button>
             <Button
               variant="destructive"
@@ -248,12 +281,12 @@ const Dashboard = () => {
               {isSigningOut ? (
                 <>
                   <Loader2 className="h-4 w-4 animate-spin" />
-                  Saindo...
+                  {t('dashboard.signingOut')}
                 </>
               ) : (
                 <>
                   <LogOut className="h-4 w-4" />
-                  Sair
+                  {t('dashboard.signOut')}
                 </>
               )}
             </Button>
@@ -263,7 +296,7 @@ const Dashboard = () => {
         {errorMessage && (
           <Alert variant="destructive">
             <AlertTriangle className="h-4 w-4" />
-            <AlertTitle>Ocorreu um problema</AlertTitle>
+            <AlertTitle>{t('dashboard.alertTitle')}</AlertTitle>
             <AlertDescription>{errorMessage}</AlertDescription>
           </Alert>
         )}
@@ -277,10 +310,10 @@ const Dashboard = () => {
                 </Avatar>
                 <div>
                   <CardTitle className="text-2xl">
-                    {profile?.name ?? 'Perfil do usuário'}
+                    {profile?.name ?? t('dashboard.profile.fallbackTitle')}
                   </CardTitle>
                   <CardDescription>
-                    {profile?.email ?? user?.email ?? 'Email não disponível'}
+                    {profile?.email ?? user?.email ?? t('dashboard.profile.emailUnavailable')}
                   </CardDescription>
                 </div>
               </div>
@@ -291,23 +324,31 @@ const Dashboard = () => {
           <CardContent>
             <div className="grid gap-6 sm:grid-cols-2">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">Nome</p>
+                <p className="text-sm font-medium text-muted-foreground">
+                  {t('dashboard.profile.name')}
+                </p>
                 <p className="text-base font-semibold text-foreground">
                   {profile?.name ?? '—'}
                 </p>
               </div>
               <div>
-                <p className="text-sm font-medium text-muted-foreground">Email</p>
+                <p className="text-sm font-medium text-muted-foreground">
+                  {t('dashboard.profile.email')}
+                </p>
                 <p className="text-base font-semibold text-foreground">
                   {profile?.email ?? user?.email ?? '—'}
                 </p>
               </div>
               <div>
-                <p className="text-sm font-medium text-muted-foreground">Função</p>
+                <p className="text-sm font-medium text-muted-foreground">
+                  {t('dashboard.profile.role')}
+                </p>
                 <p className="text-base font-semibold text-foreground">{roleLabel}</p>
               </div>
               <div>
-                <p className="text-sm font-medium text-muted-foreground">Última atualização</p>
+                <p className="text-sm font-medium text-muted-foreground">
+                  {t('dashboard.profile.updatedAt')}
+                </p>
                 <p className="text-base font-semibold text-foreground">
                   {formatDate(profile?.updated_at)}
                 </p>
@@ -320,29 +361,35 @@ const Dashboard = () => {
           <div className="grid gap-6 lg:grid-cols-2">
             <Card>
               <CardHeader>
-                <CardTitle>Leads</CardTitle>
-                <CardDescription>Contatos recebidos pelas páginas públicas.</CardDescription>
+                <CardTitle>{t('dashboard.leads.title')}</CardTitle>
+                <CardDescription>
+                  {t('dashboard.leads.description')}
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 {isFetchingAdminData ? (
                   <div className="flex items-center justify-center gap-2 py-6 text-muted-foreground">
                     <Loader2 className="h-4 w-4 animate-spin" />
-                    Carregando dados de leads...
+                    {t('dashboard.leads.loading')}
                   </div>
                 ) : leads.length === 0 ? (
                   <p className="text-sm text-muted-foreground">
-                    Nenhum lead registrado até o momento.
+                    {t('dashboard.leads.empty')}
                   </p>
                 ) : (
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>Nome</TableHead>
-                        <TableHead>Email</TableHead>
-                        <TableHead>Empresa</TableHead>
-                        <TableHead>Projeto</TableHead>
-                        <TableHead className="max-w-sm">Mensagem</TableHead>
-                        <TableHead className="text-right">Enviado em</TableHead>
+                        <TableHead>{t('dashboard.leads.columns.name')}</TableHead>
+                        <TableHead>{t('dashboard.leads.columns.email')}</TableHead>
+                        <TableHead>{t('dashboard.leads.columns.company')}</TableHead>
+                        <TableHead>{t('dashboard.leads.columns.project')}</TableHead>
+                        <TableHead className="max-w-sm">
+                          {t('dashboard.leads.columns.message')}
+                        </TableHead>
+                        <TableHead className="text-right">
+                          {t('dashboard.leads.columns.createdAt')}
+                        </TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -366,26 +413,30 @@ const Dashboard = () => {
 
             <Card>
               <CardHeader>
-                <CardTitle>Newsletter</CardTitle>
-                <CardDescription>Assinantes cadastrados na base de emails.</CardDescription>
+                <CardTitle>{t('dashboard.newsletter.title')}</CardTitle>
+                <CardDescription>
+                  {t('dashboard.newsletter.description')}
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 {isFetchingAdminData ? (
                   <div className="flex items-center justify-center gap-2 py-6 text-muted-foreground">
                     <Loader2 className="h-4 w-4 animate-spin" />
-                    Carregando assinantes...
+                    {t('dashboard.newsletter.loading')}
                   </div>
                 ) : subscribers.length === 0 ? (
                   <p className="text-sm text-muted-foreground">
-                    Nenhum inscrito encontrado.
+                    {t('dashboard.newsletter.empty')}
                   </p>
                 ) : (
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>Email</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead className="text-right">Inscrito em</TableHead>
+                        <TableHead>{t('dashboard.newsletter.columns.email')}</TableHead>
+                        <TableHead>{t('dashboard.newsletter.columns.status')}</TableHead>
+                        <TableHead className="text-right">
+                          {t('dashboard.newsletter.columns.subscribedAt')}
+                        </TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -394,7 +445,9 @@ const Dashboard = () => {
                           <TableCell className="font-medium">{subscriber.email}</TableCell>
                           <TableCell>
                             <Badge variant={subscriber.active ? 'default' : 'secondary'}>
-                              {subscriber.active ? 'Ativo' : 'Inativo'}
+                              {subscriber.active
+                                ? t('dashboard.newsletter.status.active')
+                                : t('dashboard.newsletter.status.inactive')}
                             </Badge>
                           </TableCell>
                           <TableCell className="text-right">

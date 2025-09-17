@@ -109,7 +109,29 @@
       "description": "Let's discuss how our AI-powered solutions can streamline your operations and drive growth.",
       "getStarted": "Get Started Today"
     },
-    "learnMore": "Learn More"
+    "learnMore": "Learn More",
+    "fallbackSolutions": {
+      "boteco": {
+        "name": "Boteco Pro",
+        "description": "Complete restaurant and bar management system with AI-powered analytics and inventory management.",
+        "features": {
+          "orderManagement": "Order Management",
+          "inventoryTracking": "Inventory Tracking",
+          "analyticsDashboard": "Analytics Dashboard",
+          "staffManagement": "Staff Management"
+        }
+      },
+      "assistina": {
+        "name": "AssisTina AI",
+        "description": "Personalized AI assistant that learns your business needs and automates routine tasks.",
+        "features": {
+          "nlp": "Natural Language Processing",
+          "taskAutomation": "Task Automation",
+          "learning": "Learning Capabilities",
+          "integration": "Custom Integration"
+        }
+      }
+    }
   },
   "solutionsPage": {
     "title": "Our Software Solutions",
@@ -120,7 +142,12 @@
     "notFound": "Solution not found",
     "customTitle": "Need a Custom Solution?",
     "customDescription": "We also create bespoke software solutions tailored to your specific business needs. Let's discuss how we can build something unique for you.",
-    "discuss": "Discuss Custom Project"
+    "discuss": "Discuss Custom Project",
+    "metaTitle": "Our Software Solutions - Monynha Softwares Agency",
+    "loading": "Loading solutions...",
+    "error": "We couldn't load the solutions. Please try again later.",
+    "detailLoading": "Loading solution...",
+    "detailError": "We couldn't load this solution. Please try again later."
   },
   "about": {
     "title": "About Monynha Softwares Agency",
@@ -158,7 +185,8 @@
     },
     "ctaTitle": "Let's build the next chapter of your business together",
     "ctaDescription": "Share your goals with us and discover how tailored AI solutions can accelerate your growth.",
-    "ctaButton": "Talk to our team"
+    "ctaButton": "Talk to our team",
+    "metaTitle": "About Monynha Softwares Agency"
   },
   "blog": {
     "title": "Insights & Updates",
@@ -167,7 +195,13 @@
     "read": "Read Full Article",
     "readMore": "Read More",
     "categories": {
-      "all": "All"
+      "all": "All",
+      "aiInsights": "AI Insights",
+      "development": "Development",
+      "caseStudy": "Case Study",
+      "business": "Business",
+      "security": "Security",
+      "integration": "Integration"
     },
     "newsletter": {
       "title": "Stay in the Loop",
@@ -215,7 +249,10 @@
       "validationErrorDescription": "Please add your message before sending it.",
       "characters": "{{count}} / {{max}} characters",
       "authenticating": "Checking your session..."
-    }
+    },
+    "defaultCategory": "AI Insights",
+    "defaultAuthor": "Monynha Softwares Team",
+    "metaTitle": "Insights & Updates - Monynha Softwares Agency"
   },
   "contact": {
     "title": "Let's Build Something Amazing Together",
@@ -261,6 +298,15 @@
       "title": "Thank You!",
       "description": "We've received your message and will get back to you within 24 hours. Our team is excited to learn more about your project!",
       "another": "Send Another Message"
+    },
+    "metaTitle": "Contact - Monynha Softwares Agency",
+    "projectTypes": {
+      "customAssistant": "Custom AI Assistant",
+      "restaurant": "Restaurant Management System",
+      "automation": "Business Automation",
+      "legacy": "Legacy System Integration",
+      "consulting": "Consulting Services",
+      "other": "Other"
     }
   },
   "newsletterSection": {
@@ -297,10 +343,126 @@
     "liveDemo": "Live Demo",
     "like": "Like our projects?",
     "likeDescription": "Get in touch to craft a custom solution for your business.",
-    "contactUs": "Contact Us"
+    "contactUs": "Contact Us",
+    "metaTitle": "Open Source Projects - Monynha Softwares Agency",
+    "loadingProjects": "Loading projects...",
+    "errorProjects": "We couldn't load the projects right now.",
+    "errorProjectsPartial": "We couldn't load additional projects.",
+    "loadingSolutions": "Loading solutions...",
+    "errorSolutions": "We couldn't load the solutions list.",
+    "loadingGithub": "Loading GitHub projects...",
+    "errorGithub": "We couldn't load the GitHub projects."
   },
   "notFound": {
     "oops": "Oops! Page not found",
-    "returnHome": "Return to Home"
+    "returnHome": "Return to Home",
+    "metaTitle": "404 - Page Not Found",
+    "metaDescription": "The page you are looking for does not exist."
+  },
+  "auth": {
+    "backHome": "Back to home",
+    "subtitle": "Sign in or create your account",
+    "tabs": {
+      "signin": "Sign in",
+      "signup": "Create account"
+    },
+    "labels": {
+      "name": "Name",
+      "email": "Email",
+      "password": "Password"
+    },
+    "placeholders": {
+      "name": "Your name",
+      "email": "you@example.com"
+    },
+    "actions": {
+      "signIn": "Sign in",
+      "signingIn": "Signing in...",
+      "signUp": "Create account",
+      "signingUp": "Creating account..."
+    },
+    "passwordHint": "Minimum of 6 characters",
+    "toast": {
+      "signInSuccess": {
+        "title": "Signed in successfully!",
+        "description": "Welcome back!"
+      },
+      "signInError": {
+        "title": "Error signing in",
+        "description": "We couldn't sign you in. Please try again."
+      },
+      "signUpSuccess": {
+        "title": "Account created successfully!",
+        "description": "Check your email to confirm your account."
+      },
+      "signUpError": {
+        "title": "Error creating account",
+        "description": "We couldn't create your account. Please try again."
+      }
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome, {{name}}",
+    "welcomeFallback": "Check your account information.",
+    "refresh": "Refresh",
+    "signOut": "Sign out",
+    "signingOut": "Signing out...",
+    "alertTitle": "Something went wrong",
+    "profile": {
+      "fallbackTitle": "User profile",
+      "emailUnavailable": "Email not available",
+      "name": "Name",
+      "email": "Email",
+      "role": "Role",
+      "updatedAt": "Last updated",
+      "roleAdmin": "Administrator",
+      "roleUser": "User"
+    },
+    "leads": {
+      "title": "Leads",
+      "description": "Contacts received from the public pages.",
+      "loading": "Loading lead data...",
+      "empty": "No leads recorded yet.",
+      "columns": {
+        "name": "Name",
+        "email": "Email",
+        "company": "Company",
+        "project": "Project",
+        "message": "Message",
+        "createdAt": "Submitted on"
+      }
+    },
+    "newsletter": {
+      "title": "Newsletter",
+      "description": "Subscribers registered in the email list.",
+      "loading": "Loading subscribers...",
+      "empty": "No subscribers found.",
+      "columns": {
+        "email": "Email",
+        "status": "Status",
+        "subscribedAt": "Subscribed on"
+      },
+      "status": {
+        "active": "Active",
+        "inactive": "Inactive"
+      }
+    },
+    "toast": {
+      "loadError": {
+        "title": "Error loading data"
+      },
+      "signOutSuccess": {
+        "title": "Session ended",
+        "description": "You have signed out successfully."
+      },
+      "signOutError": {
+        "title": "Error signing out",
+        "description": "We couldn't sign you out. Please try again."
+      }
+    },
+    "errors": {
+      "loadDashboard": "We couldn't load the dashboard."
+    }
   }
 }

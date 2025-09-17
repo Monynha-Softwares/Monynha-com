@@ -99,13 +99,15 @@ const SolutionDetail = () => {
     return (
       <Layout>
         <Meta
-          title="Our Software Solutions - Monynha Softwares Agency"
+          title={t('solutionsPage.metaTitle')}
           description={t('solutionsPage.description')}
-          ogTitle="Our Software Solutions - Monynha Softwares Agency"
+          ogTitle={t('solutionsPage.metaTitle')}
           ogDescription={t('solutionsPage.description')}
           ogImage="/placeholder.svg"
         />
-        <div className="container mx-auto px-4 py-16 text-center">Loading...</div>
+        <div className="container mx-auto px-4 py-16 text-center">
+          {t('solutionsPage.detailLoading')}
+        </div>
       </Layout>
     );
   }
@@ -114,14 +116,14 @@ const SolutionDetail = () => {
     return (
       <Layout>
         <Meta
-          title="Our Software Solutions - Monynha Softwares Agency"
+          title={t('solutionsPage.metaTitle')}
           description={t('solutionsPage.description')}
-          ogTitle="Our Software Solutions - Monynha Softwares Agency"
+          ogTitle={t('solutionsPage.metaTitle')}
           ogDescription={t('solutionsPage.description')}
           ogImage="/placeholder.svg"
         />
         <div className="container mx-auto px-4 py-16 text-center">
-          Error loading solution
+          {t('solutionsPage.detailError')}
         </div>
       </Layout>
     );
@@ -131,9 +133,9 @@ const SolutionDetail = () => {
     return (
       <Layout>
         <Meta
-          title="Our Software Solutions - Monynha Softwares Agency"
+          title={t('solutionsPage.metaTitle')}
           description={t('solutionsPage.description')}
-          ogTitle="Our Software Solutions - Monynha Softwares Agency"
+          ogTitle={t('solutionsPage.metaTitle')}
           ogDescription={t('solutionsPage.description')}
           ogImage="/placeholder.svg"
         />
