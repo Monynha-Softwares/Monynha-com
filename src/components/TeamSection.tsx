@@ -38,9 +38,11 @@ const TeamSection = () => {
 
   if (isLoading) {
     return (
-      <section className="bg-neutral-50 py-24 transition-colors dark:bg-neutral-950">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+      <section className="relative py-24">
+        <div className="absolute inset-0 -z-20 bg-gradient-to-b from-white via-white to-white transition-colors dark:from-neutral-950 dark:via-neutral-950/95 dark:to-neutral-950" />
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,_rgba(91,44,111,0.08),_transparent_60%)] dark:bg-[radial-gradient(circle_at_top,_rgba(91,44,111,0.25),_transparent_65%)]" />
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mb-16 text-center">
             <h2 className="mb-4 text-3xl font-bold text-neutral-900 lg:text-4xl dark:text-neutral-100">
               {t('team.title')}
             </h2>
@@ -52,7 +54,7 @@ const TeamSection = () => {
             {[...Array(4)].map((_, i) => (
               <Card
                 key={i}
-                className="w-full animate-pulse rounded-2xl border-0 shadow-soft transition-colors md:w-1/2 lg:w-1/4 dark:bg-neutral-900/60"
+                className="w-full animate-pulse rounded-[1.75rem] border border-brand-purple/10 bg-white/85 shadow-[0_24px_60px_-30px_rgba(91,44,111,0.5)] transition-colors md:w-1/2 lg:w-1/4 dark:border-white/10 dark:bg-neutral-900/60"
               >
                 <CardContent className="p-8 text-center">
                   <div className="mx-auto mb-6 h-24 w-24 rounded-full bg-neutral-200 dark:bg-neutral-700"></div>
@@ -70,8 +72,10 @@ const TeamSection = () => {
 
   if (error) {
     return (
-      <section className="bg-neutral-50 py-24 transition-colors dark:bg-neutral-950">
-        <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
+      <section className="relative py-24">
+        <div className="absolute inset-0 -z-20 bg-gradient-to-b from-white via-white to-white transition-colors dark:from-neutral-950 dark:via-neutral-950/95 dark:to-neutral-950" />
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,_rgba(91,44,111,0.08),_transparent_60%)] dark:bg-[radial-gradient(circle_at_top,_rgba(91,44,111,0.25),_transparent_65%)]" />
+        <div className="relative mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
           <h2 className="mb-4 text-3xl font-bold text-neutral-900 lg:text-4xl dark:text-neutral-100">
             {t('team.title')}
           </h2>
@@ -84,8 +88,10 @@ const TeamSection = () => {
   }
 
   return (
-    <section className="bg-neutral-50 py-24 transition-colors dark:bg-neutral-950">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="relative py-24">
+      <div className="absolute inset-0 -z-20 bg-gradient-to-b from-white via-white to-white transition-colors dark:from-neutral-950 dark:via-neutral-950/95 dark:to-neutral-950" />
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,_rgba(91,44,111,0.08),_transparent_60%)] dark:bg-[radial-gradient(circle_at_top,_rgba(91,44,111,0.25),_transparent_65%)]" />
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-16 text-center">
           <h2 className="mb-4 text-3xl font-bold text-neutral-900 lg:text-4xl dark:text-neutral-100">
             {t('team.title')}
@@ -99,7 +105,7 @@ const TeamSection = () => {
           {members?.map((member) => (
             <Card
               key={member.id}
-              className="card-hover w-full rounded-2xl border-0 shadow-soft transition-all duration-200 hover:shadow-soft-lg md:w-1/2 lg:w-1/4 dark:bg-neutral-900/80"
+              className="card-hover w-full rounded-[1.75rem] border border-brand-purple/10 bg-white/90 shadow-[0_24px_60px_-30px_rgba(91,44,111,0.5)] transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_32px_70px_-28px_rgba(74,144,226,0.55)] md:w-1/2 lg:w-1/4 dark:border-white/10 dark:bg-neutral-900/80"
             >
               <CardContent className="p-8 text-center">
                 <Avatar className="mx-auto mb-6 h-24 w-24">
@@ -107,7 +113,7 @@ const TeamSection = () => {
                     src={member.image_url || undefined}
                     alt={member.name}
                   />
-                  <AvatarFallback className="bg-gradient-hero text-white text-xl font-semibold">
+                  <AvatarFallback className="bg-gradient-to-br from-brand-purple via-brand-blue to-brand-pink text-xl font-semibold text-white">
                     {member.name
                       .split(' ')
                       .map((n) => n[0])

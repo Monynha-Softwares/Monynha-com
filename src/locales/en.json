@@ -73,12 +73,31 @@
   },
   "index": {
     "hero": {
+      "tagline": "Technology with pride, diversity, and impact.",
       "headline": "Building the <0/><1>Future with Technology</1>",
       "description": "Democratizing innovation through inclusive, accessible solutions that empower diverse communities and promote social equity.",
       "cta": "Start Your Project",
-      "viewSolutions": "View Solutions"
+      "viewSolutions": "View Solutions",
+      "stats": {
+        "projects": "projects launched with our partners",
+        "efficiency": "average reduction in delivery time",
+        "rating": "average satisfaction rating"
+      },
+      "highlight": {
+        "tag": "Monynha Method",
+        "pill": "Ethical AI + inclusive design",
+        "title": "Solutions guided by real people",
+        "description": "Every product starts with collaborative immersions, continuous prototyping, and transparent delivery cycles.",
+        "items": {
+          "discovery": "Discovery workshops to map challenges and opportunities in your business.",
+          "design": "Human-centered design with inclusive and accessible experiences.",
+          "support": "Strategic support after launch to ensure ongoing evolution."
+        },
+        "cta": "Explore our methodology"
+      }
     },
     "why": {
+      "tagline": "How we build together",
       "title": "Why Choose Monynha Softwares Agency?",
       "description": "We combine technical expertise with business intelligence to deliver solutions that truly make a difference.",
       "features": {
@@ -101,10 +120,13 @@
       }
     },
     "solutions": {
+      "tagline": "From discovery to impact",
       "title": "Our Flagship Solutions",
-      "description": "Proven software solutions that have transformed businesses across industries."
+      "description": "Proven software solutions that have transformed businesses across industries.",
+      "badge": "End-to-end journeys"
     },
     "cta": {
+      "tagline": "Ready for the next step?",
       "title": "Ready to Transform Your Business?",
       "description": "Let's discuss how our AI-powered solutions can streamline your operations and drive growth.",
       "getStarted": "Get Started Today"

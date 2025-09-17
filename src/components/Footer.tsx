@@ -6,14 +6,19 @@ import { Separator } from '@/components/ui/separator';
 const Footer = () => {
   const { t } = useTranslation();
   return (
-    <footer className="border-t border-neutral-100 bg-neutral-50 transition-colors dark:border-neutral-800 dark:bg-neutral-950">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <footer className="relative overflow-hidden border-t border-brand-purple/10 bg-white/95 transition-colors dark:border-white/5 dark:bg-neutral-950">
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute left-[-6rem] top-[-6rem] h-48 w-48 rounded-full bg-brand-purple/12 blur-3xl dark:bg-brand-purple/25" />
+        <div className="absolute right-[-4rem] top-1/2 h-56 w-56 rounded-full bg-brand-blue/12 blur-3xl dark:bg-brand-blue/25" />
+        <div className="absolute bottom-[-5rem] left-[30%] h-44 w-44 rounded-full bg-brand-pink/10 blur-3xl dark:bg-brand-pink/22" />
+      </div>
+      <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
           {/* Logo and Description */}
           <div className="sm:col-span-2">
             <Link to="/" className="mb-4 flex items-center space-x-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-brand">
-                <span className="text-lg font-bold text-white">M</span>
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-purple via-brand-blue to-brand-pink shadow-[0_18px_40px_-22px_rgba(91,44,111,0.65)]">
+                <span className="text-xl font-bold text-white">M</span>
               </div>
               <div className="flex flex-col">
                 <span className="font-brand text-xl font-semibold text-neutral-900 dark:text-neutral-100">
@@ -181,7 +186,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <Separator className="my-8 bg-neutral-200 dark:bg-neutral-800" />
+        <Separator className="my-8 bg-brand-purple/10 dark:bg-white/5" />
 
         <div className="flex flex-col md:flex-row justify-between items-center">
           <p className="flex items-center space-x-1 text-sm text-neutral-500 dark:text-neutral-400">
@@ -194,7 +199,7 @@ const Footer = () => {
               <span>{t('footer.andPride')}</span>
             </span>
           </p>
-          <div className="flex space-x-6 mt-4 md:mt-0">
+          <div className="mt-4 flex space-x-6 md:mt-0">
             <Link
               to="#"
               className="text-sm text-neutral-500 transition-colors duration-300 ease-in-out hover:text-brand-blue dark:text-neutral-400"

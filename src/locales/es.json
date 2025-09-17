@@ -73,12 +73,31 @@
   },
   "index": {
     "hero": {
+      "tagline": "Tecnología con orgullo, diversidad e impacto.",
       "headline": "Construyendo el <0/><1>futuro con tecnología</1>",
       "description": "Democratizando la innovación con soluciones inclusivas y accesibles que empoderan a comunidades diversas y promueven la equidad social.",
       "cta": "Comenzar Proyecto",
-      "viewSolutions": "Ver Soluciones"
+      "viewSolutions": "Ver Soluciones",
+      "stats": {
+        "projects": "proyectos lanzados junto a nuestros aliados",
+        "efficiency": "reducción promedio en el tiempo de implementación",
+        "rating": "calificación promedio de satisfacción"
+      },
+      "highlight": {
+        "tag": "Método Monynha",
+        "pill": "IA ética + diseño inclusivo",
+        "title": "Soluciones guiadas por personas reales",
+        "description": "Cada producto nace de inmersiones colaborativas, prototipado continuo y ciclos de entrega transparentes.",
+        "items": {
+          "discovery": "Workshops de descubrimiento para mapear desafíos y oportunidades de tu negocio.",
+          "design": "Diseño centrado en las personas con experiencias inclusivas y accesibles.",
+          "support": "Acompañamiento estratégico después del lanzamiento para asegurar evolución continua."
+        },
+        "cta": "Conoce nuestra metodología"
+      }
     },
     "why": {
+      "tagline": "Cómo trabajamos en conjunto",
       "title": "¿Por qué elegir Monynha Softwares Agency?",
       "description": "Combinamos experiencia técnica con inteligencia de negocios para entregar soluciones que realmente marcan la diferencia.",
       "features": {
@@ -101,10 +120,13 @@
       }
     },
     "solutions": {
+      "tagline": "Del discovery al impacto",
       "title": "Nuestras Soluciones",
-      "description": "Soluciones comprobadas que han transformado negocios en diversas industrias."
+      "description": "Soluciones comprobadas que han transformado negocios en diversas industrias.",
+      "badge": "Experiencias integrales"
     },
     "cta": {
+      "tagline": "¿Listo para el siguiente paso?",
       "title": "¿Listo para Transformar tu Negocio?",
       "description": "Hablemos de cómo nuestras soluciones con IA pueden optimizar tus operaciones y generar crecimiento.",
       "getStarted": "Empezar Hoy"

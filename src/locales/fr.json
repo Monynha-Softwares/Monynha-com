@@ -73,12 +73,31 @@
   },
   "index": {
     "hero": {
+      "tagline": "Technologie avec fierté, diversité et impact.",
       "headline": "Construire l'<0/><1>Avenir avec la Technologie</1>",
       "description": "Démocratiser l'innovation grâce à des solutions inclusives et accessibles qui renforcent les communautés diverses et favorisent l'équité sociale.",
       "cta": "Démarrer le projet",
-      "viewSolutions": "Voir les solutions"
+      "viewSolutions": "Voir les solutions",
+      "stats": {
+        "projects": "projets livrés avec nos partenaires",
+        "efficiency": "réduction moyenne des délais de mise en œuvre",
+        "rating": "note moyenne de satisfaction"
+      },
+      "highlight": {
+        "tag": "Méthode Monynha",
+        "pill": "IA éthique + design inclusif",
+        "title": "Des solutions guidées par des personnes réelles",
+        "description": "Chaque produit naît d'immersion collaboratives, de prototypage continu et de cycles de livraison transparents.",
+        "items": {
+          "discovery": "Ateliers de découverte pour cartographier les défis et opportunités de votre organisation.",
+          "design": "Design centré sur l'humain avec des expériences inclusives et accessibles.",
+          "support": "Accompagnement stratégique après le lancement pour assurer une évolution continue."
+        },
+        "cta": "Découvrir notre méthodologie"
+      }
     },
     "why": {
+      "tagline": "Notre manière de co-créer",
       "title": "Pourquoi choisir Monynha Softwares?",
       "description": "Nous combinons expertise technique et intelligence d'affaires pour fournir des solutions qui font vraiment la différence.",
       "features": {
@@ -101,10 +120,13 @@
       }
     },
     "solutions": {
+      "tagline": "Du discovery à l'impact",
       "title": "Nos Solutions",
-      "description": "Des solutions éprouvées qui ont transformé des entreprises dans divers secteurs."
+      "description": "Des solutions éprouvées qui ont transformé des entreprises dans divers secteurs.",
+      "badge": "Parcours complets"
     },
     "cta": {
+      "tagline": "Prêt·e pour la prochaine étape ?",
       "title": "Prêt à transformer votre entreprise ?",
       "description": "Discutons de la manière dont nos solutions IA peuvent rationaliser vos opérations et favoriser la croissance.",
       "getStarted": "Commencer aujourd'hui"

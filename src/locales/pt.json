@@ -73,12 +73,31 @@
   },
   "index": {
     "hero": {
+      "tagline": "Tecnologia com orgulho, diversidade e impacto.",
       "headline": "Construindo o <0/><1>Futuro com Tecnologia</1>",
       "description": "Democratizando a inovação com soluções inclusivas e acessíveis que capacitam comunidades diversas e promovem a equidade social.",
       "cta": "Iniciar Projeto",
-      "viewSolutions": "Ver Soluções"
+      "viewSolutions": "Ver Soluções",
+      "stats": {
+        "projects": "projetos lançados com nossos parceiros",
+        "efficiency": "redução média no tempo de implementação",
+        "rating": "avaliação média de satisfação"
+      },
+      "highlight": {
+        "tag": "Método Monynha",
+        "pill": "IA ética + design inclusivo",
+        "title": "Soluções guiadas por pessoas reais",
+        "description": "Cada produto nasce de imersões colaborativas, prototipagem contínua e ciclos de entrega transparentes.",
+        "items": {
+          "discovery": "Workshops de descoberta para mapear desafios e oportunidades do seu negócio.",
+          "design": "Design centrado em pessoas com experiências inclusivas e acessíveis.",
+          "support": "Suporte estratégico após o lançamento para garantir evolução constante."
+        },
+        "cta": "Conheça nossa metodologia"
+      }
     },
     "why": {
+      "tagline": "Nossa forma de trabalhar",
       "title": "Por que escolher a Monynha Softwares Agency?",
       "description": "Combinamos expertise técnica com inteligência de negócios para entregar soluções que fazem a diferença.",
       "features": {
@@ -101,10 +120,13 @@
       }
     },
     "solutions": {
+      "tagline": "Do discovery ao impacto",
       "title": "Nossas Soluções",
-      "description": "Soluções comprovadas que transformaram empresas em diversos setores."
+      "description": "Soluções comprovadas que transformaram empresas em diversos setores.",
+      "badge": "Experiências completas"
     },
     "cta": {
+      "tagline": "Pronto para o próximo passo?",
       "title": "Pronto para Transformar seu Negócio?",
       "description": "Vamos discutir como nossas soluções com IA podem otimizar suas operações e gerar crescimento.",
       "getStarted": "Começar Hoje"
