@@ -6,13 +6,17 @@ import { Separator } from '@/components/ui/separator';
 const Footer = () => {
   const { t } = useTranslation();
   return (
-    <footer className="border-t border-neutral-100 bg-neutral-50 transition-colors dark:border-neutral-800 dark:bg-neutral-950">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <footer className="relative border-t border-brand-purple/10 bg-white/85 backdrop-blur-sm transition-colors dark:border-brand-purple/30 dark:bg-neutral-950/90">
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand-purple/30 to-transparent"
+        aria-hidden="true"
+      />
+      <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
           {/* Logo and Description */}
           <div className="sm:col-span-2">
             <Link to="/" className="mb-4 flex items-center space-x-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-brand">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-brand shadow-soft">
                 <span className="text-lg font-bold text-white">M</span>
               </div>
               <div className="flex flex-col">
@@ -38,7 +42,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/solutions"
-                  className="text-neutral-600 transition-colors duration-300 ease-in-out hover:text-brand-blue dark:text-neutral-300"
+                  className="text-neutral-600 transition-colors duration-300 ease-in-out hover:text-brand-purple dark:text-neutral-300"
                 >
                   {t('navigation.solutions')}
                 </Link>
@@ -46,7 +50,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/about"
-                  className="text-neutral-600 transition-colors duration-300 ease-in-out hover:text-brand-blue dark:text-neutral-300"
+                  className="text-neutral-600 transition-colors duration-300 ease-in-out hover:text-brand-purple dark:text-neutral-300"
                 >
                   {t('navigation.about')}
                 </Link>
@@ -54,7 +58,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/blog"
-                  className="text-neutral-600 transition-colors duration-300 ease-in-out hover:text-brand-blue dark:text-neutral-300"
+                  className="text-neutral-600 transition-colors duration-300 ease-in-out hover:text-brand-purple dark:text-neutral-300"
                 >
                   {t('navigation.blog')}
                 </Link>
@@ -62,7 +66,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/contact"
-                  className="text-neutral-600 transition-colors duration-300 ease-in-out hover:text-brand-blue dark:text-neutral-300"
+                  className="text-neutral-600 transition-colors duration-300 ease-in-out hover:text-brand-purple dark:text-neutral-300"
                 >
                   {t('navigation.contact')}
                 </Link>
@@ -110,7 +114,7 @@ const Footer = () => {
                   href="https://monynha.tech"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-muted-foreground transition-colors hover:text-primary dark:text-neutral-300"
+                  className="text-sm text-muted-foreground transition-colors hover:text-brand-purple dark:text-neutral-300"
                   aria-label="Visit monynha.tech"
                   title="monynha.tech"
                 >
@@ -122,7 +126,7 @@ const Footer = () => {
                   href="https://monynha.fun"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-muted-foreground transition-colors hover:text-primary dark:text-neutral-300"
+                  className="text-sm text-muted-foreground transition-colors hover:text-brand-purple dark:text-neutral-300"
                   aria-label="Visit monynha.fun"
                   title="monynha.fun"
                 >
@@ -134,7 +138,7 @@ const Footer = () => {
                   href="https://monynha.online"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-muted-foreground transition-colors hover:text-primary dark:text-neutral-300"
+                  className="text-sm text-muted-foreground transition-colors hover:text-brand-purple dark:text-neutral-300"
                   aria-label="Visit monynha.online"
                   title="monynha.online"
                 >
@@ -146,7 +150,7 @@ const Footer = () => {
                   href="https://monynha.me"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-muted-foreground transition-colors hover:text-primary dark:text-neutral-300"
+                  className="text-sm text-muted-foreground transition-colors hover:text-brand-purple dark:text-neutral-300"
                   aria-label="Visit monynha.me"
                   title="monynha.me"
                 >
@@ -166,7 +170,7 @@ const Footer = () => {
                 {t('footer.email')}: {
                   <a
                     href="mailto:hello@monynha.com"
-                    className="text-sm text-muted-foreground transition-colors hover:text-primary dark:text-neutral-300"
+                    className="text-sm text-muted-foreground transition-colors hover:text-brand-purple dark:text-neutral-300"
                     aria-label="Send email to hello@monynha.com"
                     title="hello@monynha.com"
                   >
@@ -194,16 +198,16 @@ const Footer = () => {
               <span>{t('footer.andPride')}</span>
             </span>
           </p>
-          <div className="flex space-x-6 mt-4 md:mt-0">
+          <div className="mt-4 flex space-x-6 md:mt-0">
             <Link
               to="#"
-              className="text-sm text-neutral-500 transition-colors duration-300 ease-in-out hover:text-brand-blue dark:text-neutral-400"
+              className="text-sm text-neutral-500 transition-colors duration-300 ease-in-out hover:text-brand-purple dark:text-neutral-400"
             >
               {t('footer.privacy')}
             </Link>
             <Link
               to="#"
-              className="text-sm text-neutral-500 transition-colors duration-300 ease-in-out hover:text-brand-blue dark:text-neutral-400"
+              className="text-sm text-neutral-500 transition-colors duration-300 ease-in-out hover:text-brand-purple dark:text-neutral-400"
             >
               {t('footer.terms')}
             </Link>

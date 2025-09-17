@@ -86,10 +86,13 @@ export default {
       },
       backgroundImage: {
         'gradient-brand':
-          'linear-gradient(135deg, #7C3AED 0%, #0EA5E9 40%, #EC4899 75%, #F97316 100%)',
-        'gradient-hero': 'linear-gradient(135deg, #7C3AED 0%, #0EA5E9 100%)',
+          'linear-gradient(130deg, #5B2C6F 0%, #4A90E2 40%, #E06666 75%, #F7B500 100%)',
+        'gradient-hero':
+          'linear-gradient(130deg, #5B2C6F 0%, #4A90E2 55%, #E06666 100%)',
         'gradient-pride':
-          'linear-gradient(135deg, #7C3AED 0%, #0EA5E9 25%, #22C55E 50%, #F97316 75%, #EC4899 100%)',
+          'linear-gradient(135deg, #5B2C6F 0%, #4A90E2 25%, #22C55E 50%, #E06666 75%, #F7B500 100%)',
+        'gradient-surface':
+          'radial-gradient(circle at 20% 20%, rgba(91, 44, 111, 0.18), transparent 55%), radial-gradient(circle at 85% 10%, rgba(74, 144, 226, 0.18), transparent 50%), radial-gradient(circle at 10% 85%, rgba(224, 102, 102, 0.16), transparent 45%), linear-gradient(180deg, #f8f4ff 0%, #ffffff 55%, #fff6f0 100%)',
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -99,8 +102,8 @@ export default {
         '2xl': '1.75rem',
       },
       boxShadow: {
-        soft: '0 10px 30px -15px rgba(124, 58, 237, 0.35)',
-        'soft-lg': '0 25px 60px -20px rgba(14, 165, 233, 0.45)',
+        soft: '0 18px 45px -22px rgba(91, 44, 111, 0.35)',
+        'soft-lg': '0 26px 65px -24px rgba(74, 144, 226, 0.35)',
       },
       keyframes: {
         'accordion-down': {

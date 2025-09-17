@@ -5,65 +5,65 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222 47% 9%;
+    --background: 276 40% 98%;
+    --foreground: 258 50% 16%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222 47% 9%;
+    --card-foreground: 258 50% 16%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 9%;
+    --popover-foreground: 258 50% 16%;
 
-    --primary: 262 83% 58%;
+    --primary: 282 43% 40%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 199 89% 55%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 212 72% 58%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215 16% 46%;
+    --muted: 280 44% 94%;
+    --muted-foreground: 257 24% 36%;
 
-    --accent: 330 72% 67%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 0 66% 64%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 262 83% 58%;
+    --border: 276 32% 86%;
+    --input: 276 32% 86%;
+    --ring: 212 72% 58%;
 
-    --radius: 1.5rem;
+    --radius: 1.75rem;
   }
 
   .dark {
-    --background: 240 10% 6%;
+    --background: 258 44% 8%;
     --foreground: 210 40% 96%;
 
-    --card: 240 10% 12%;
+    --card: 258 46% 12%;
     --card-foreground: 210 40% 96%;
 
-    --popover: 240 10% 12%;
+    --popover: 258 46% 12%;
     --popover-foreground: 210 40% 96%;
 
-    --primary: 262 83% 68%;
-    --primary-foreground: 240 33% 12%;
+    --primary: 282 53% 68%;
+    --primary-foreground: 250 35% 12%;
 
-    --secondary: 199 89% 62%;
-    --secondary-foreground: 240 10% 6%;
+    --secondary: 212 72% 62%;
+    --secondary-foreground: 258 44% 8%;
 
-    --muted: 240 8% 18%;
-    --muted-foreground: 215 20% 72%;
+    --muted: 258 32% 18%;
+    --muted-foreground: 260 20% 72%;
 
-    --accent: 330 72% 72%;
-    --accent-foreground: 240 10% 6%;
+    --accent: 0 66% 70%;
+    --accent-foreground: 258 44% 8%;
 
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 72% 56%;
+    --destructive-foreground: 210 40% 96%;
 
-    --border: 240 8% 22%;
-    --input: 240 8% 22%;
-    --ring: 262 83% 68%;
+    --border: 258 32% 24%;
+    --input: 258 32% 24%;
+    --ring: 212 72% 62%;
   }
 
   * {
@@ -78,6 +78,16 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
+    background-image:
+      radial-gradient(circle at 12% 20%, rgba(91, 44, 111, 0.12), transparent 55%),
+      radial-gradient(circle at 88% 16%, rgba(74, 144, 226, 0.12), transparent 50%),
+      radial-gradient(circle at 10% 82%, rgba(224, 102, 102, 0.1), transparent 45%),
+      linear-gradient(180deg, #f8f4ff 0%, #ffffff 55%, #fff6f0 100%);
+    background-attachment: fixed;
+  }
+
+  .dark body {
+    background-image: none;
   }
 
   h1,
@@ -117,14 +127,14 @@
 
 @layer components {
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 bg-gradient-brand text-white font-semibold px-6 py-3 rounded-2xl shadow-md transition-all ease-in-out duration-300 hover:shadow-soft-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+    @apply inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-brand-purple via-brand-blue to-brand-pink px-6 py-3 font-semibold text-white shadow-soft transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:shadow-soft-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2 focus-visible:ring-offset-background;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 bg-white text-neutral-700 font-semibold px-6 py-3 rounded-2xl border border-neutral-200 shadow-sm hover:shadow-soft hover:border-brand-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-all ease-in-out duration-300 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100 dark:hover:bg-neutral-800;
+    @apply inline-flex items-center justify-center gap-2 rounded-2xl border border-brand-purple/20 bg-white/90 px-6 py-3 font-semibold text-brand-purple shadow-sm backdrop-blur transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:border-brand-blue/60 hover:bg-brand-blue/10 hover:text-brand-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2 focus-visible:ring-offset-background dark:border-brand-blue/40 dark:bg-neutral-900 dark:text-neutral-100 dark:hover:bg-neutral-800 dark:hover:text-white;
   }
 
   .card-hover {
-    @apply transition-all ease-in-out duration-300 hover:shadow-soft-lg hover:-translate-y-1;
+    @apply transition-all duration-300 ease-in-out hover:-translate-y-2 hover:shadow-soft-lg;
   }
 }

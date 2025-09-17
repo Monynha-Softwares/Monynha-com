@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { supabase } from '@/integrations/supabase';
@@ -18,7 +17,6 @@ const NewsletterSection = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Basic email validation
     if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       toast({
         title: t('newsletterSection.invalidEmailTitle'),
@@ -36,7 +34,6 @@ const NewsletterSection = () => {
 
       if (error) {
         if (error.code === '23505') {
-          // Unique constraint violation
           toast({
             title: t('newsletterSection.alreadySubscribedTitle'),
             description: t('newsletterSection.alreadySubscribedDescription'),
@@ -72,75 +69,81 @@ const NewsletterSection = () => {
 
   if (isSubscribed) {
     return (
-      <section className="py-24 bg-gradient-hero text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6">
-            <CheckCircle className="h-8 w-8 text-white" />
+      <section className="relative py-24">
+        <div
+          className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-brand-blue/15 via-transparent to-transparent"
+          aria-hidden="true"
+        />
+        <div className="relative mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+          <div className="overflow-hidden rounded-[3rem] bg-gradient-hero p-[1px] shadow-soft-lg">
+            <div className="rounded-[2.9rem] bg-white/10 px-6 py-16 text-center text-white backdrop-blur-sm sm:px-12 lg:px-16">
+              <div className="mx-auto mb-8 flex h-20 w-20 items-center justify-center rounded-full bg-white/20">
+                <CheckCircle className="h-10 w-10 text-white" />
+              </div>
+              <h2 className="text-3xl font-bold lg:text-4xl">
+                {t('newsletterSection.thankYouTitle')}
+              </h2>
+              <p className="mt-4 text-lg text-white/80">
+                {t('newsletterSection.thankYouDescription')}
+              </p>
+              <Button
+                onClick={() => {
+                  setIsSubscribed(false);
+                  setEmail('');
+                }}
+                className="btn-secondary mt-10 inline-flex px-10 py-4 text-base"
+              >
+                {t('newsletterSection.subscribeAnother')}
+              </Button>
+            </div>
           </div>
-          <h2 className="text-3xl lg:text-4xl font-bold mb-4">
-            {t('newsletterSection.thankYouTitle')}
-          </h2>
-          <p className="text-xl text-blue-100 mb-8">
-            {t('newsletterSection.thankYouDescription')}
-          </p>
-          <Button
-            onClick={() => {
-              setIsSubscribed(false);
-              setEmail('');
-            }}
-            className="rounded-xl bg-white px-6 py-3 font-semibold text-brand-purple transition-colors hover:bg-blue-50 focus-visible:ring-brand-blue focus-visible:ring-offset-2 focus-visible:ring-offset-background dark:bg-neutral-900 dark:text-white dark:hover:bg-neutral-800"
-          >
-            {t('newsletterSection.subscribeAnother')}
-          </Button>
         </div>
       </section>
     );
   }
 
   return (
-    <section className="py-24 bg-gradient-hero text-white">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Card className="rounded-2xl border-0 bg-white/10 shadow-soft-lg backdrop-blur-sm">
-          <CardContent className="p-8 lg:p-12 text-center">
-            <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6">
-              <Mail className="h-8 w-8 text-white" />
+    <section className="relative py-24">
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-brand-blue/15 via-transparent to-transparent"
+        aria-hidden="true"
+      />
+      <div className="relative mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+        <div className="overflow-hidden rounded-[3rem] bg-gradient-hero p-[1px] shadow-soft-lg">
+          <div className="rounded-[2.9rem] bg-white/10 px-6 py-16 text-center text-white backdrop-blur-sm sm:px-12 lg:px-16">
+            <div className="mx-auto mb-8 flex h-20 w-20 items-center justify-center rounded-full bg-white/20">
+              <Mail className="h-10 w-10 text-white" />
             </div>
-
-            <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">
+            <h2 className="text-3xl font-bold lg:text-4xl">
               {t('newsletterSection.title')}
             </h2>
-
-            <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+            <p className="mt-4 text-lg text-white/80">
               {t('newsletterSection.description')}
             </p>
-
-            <form onSubmit={handleSubmit} className="max-w-md mx-auto">
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Input
-                  type="email"
-                  placeholder={t('newsletterSection.placeholder')}
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="flex-1 rounded-xl border-white/30 bg-white/20 text-white placeholder:text-white/70 focus:border-white focus:ring-white"
-                  required
-                />
-                <Button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="whitespace-nowrap rounded-xl bg-white px-8 py-3 font-semibold text-brand-purple transition-colors hover:bg-blue-50 focus-visible:ring-brand-blue focus-visible:ring-offset-2 focus-visible:ring-offset-background dark:bg-neutral-900 dark:text-white dark:hover:bg-neutral-800"
-                >
-                  {isSubmitting
-                    ? t('newsletterSection.subscribing')
-                    : t('newsletterSection.subscribe')}
-                </Button>
-              </div>
+            <form onSubmit={handleSubmit} className="mx-auto mt-10 flex w-full max-w-xl flex-col gap-4 sm:flex-row">
+              <Input
+                type="email"
+                placeholder={t('newsletterSection.placeholder')}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="flex-1 rounded-2xl border-white/30 bg-white/15 text-white placeholder:text-white/70 focus:border-white focus:ring-white"
+                required
+              />
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                className="rounded-2xl bg-white/90 px-10 py-3 text-base font-semibold text-brand-purple shadow-soft transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:bg-white"
+              >
+                {isSubmitting
+                  ? t('newsletterSection.subscribing')
+                  : t('newsletterSection.subscribe')}
+              </Button>
             </form>
-
-            <p className="mt-4 text-sm text-blue-200">
+            <p className="mt-6 text-sm text-white/70">
               {t('newsletterSection.privacy')}
             </p>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     </section>
   );

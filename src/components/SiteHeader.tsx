@@ -101,7 +101,7 @@ const SiteHeader = () => {
   const isProjectsActive = location.pathname.startsWith('/projects');
 
   const menuCardLinkClasses =
-    'group block rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-transform duration-300 hover:-translate-y-0.5 focus-visible:-translate-y-0.5';
+    'group block rounded-3xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-transform duration-300 hover:-translate-y-1 focus-visible:-translate-y-1';
 
   const renderGradientCard = (
     gradient: string,
@@ -114,13 +114,13 @@ const SiteHeader = () => {
         'rounded-2xl'
       )}
     >
-      <div className="rounded-[1.05rem] bg-white/95 p-4 transition-colors dark:bg-neutral-950/90">
+      <div className="rounded-[1.25rem] bg-white/95 p-4 shadow-[0_12px_30px_-18px_rgba(91,44,111,0.25)] transition-colors dark:bg-neutral-950/90 dark:shadow-none">
         <div className="flex items-center justify-between gap-3">
-          <span className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">
+          <span className="text-sm font-semibold text-brand-purple dark:text-neutral-100">
             {content.title}
           </span>
           <ArrowRight
-            className="h-4 w-4 text-brand-blue opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
+            className="h-4 w-4 text-brand-purple opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
             aria-hidden="true"
           />
         </div>
@@ -132,13 +132,13 @@ const SiteHeader = () => {
   );
 
   const desktopNavLinkClasses =
-    'px-4 py-2 text-sm font-medium text-neutral-700 transition-colors rounded-lg hover:text-brand-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2 focus-visible:ring-offset-background dark:text-neutral-200';
+    'px-4 py-2 text-sm font-medium text-neutral-600 transition-colors rounded-xl hover:text-brand-purple focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple focus-visible:ring-offset-2 focus-visible:ring-offset-background dark:text-neutral-200';
 
   const desktopNavLinkActiveClasses =
-    'text-brand-blue bg-white/80 shadow-soft-lg dark:bg-neutral-900/70';
+    'bg-white/90 text-brand-purple shadow-soft-lg dark:bg-neutral-900/70';
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/40 bg-white/70 shadow-[0_10px_35px_rgba(91,44,111,0.08)] backdrop-blur-xl supports-[backdrop-filter]:bg-white/60 transition-colors dark:border-neutral-800 dark:bg-neutral-950/85 dark:shadow-[0_12px_40px_rgba(3,7,18,0.6)] dark:supports-[backdrop-filter]:bg-neutral-950/70">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-brand-purple/10 bg-white/80 shadow-[0_18px_40px_rgba(91,44,111,0.1)] backdrop-blur-xl supports-[backdrop-filter]:bg-white/70 transition-colors dark:border-brand-purple/30 dark:bg-neutral-950/85 dark:shadow-[0_18px_40px_rgba(3,7,18,0.65)] dark:supports-[backdrop-filter]:bg-neutral-950/70">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <NavLink
           to="/"
@@ -190,7 +190,7 @@ const SiteHeader = () => {
                 <NavigationMenuTrigger
                   data-active={isSolutionsActive}
                   className={cn(
-                    'px-4 py-2 text-sm font-medium text-neutral-700 transition-colors rounded-lg hover:text-brand-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2 focus-visible:ring-offset-background data-[state=open]:bg-white/90 data-[state=open]:text-brand-blue data-[active=true]:bg-white/80 data-[active=true]:text-brand-blue dark:text-neutral-200 dark:data-[state=open]:bg-neutral-900/80 dark:data-[active=true]:bg-neutral-900/70'
+                    'px-4 py-2 text-sm font-medium text-neutral-600 transition-colors rounded-xl hover:text-brand-purple focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple focus-visible:ring-offset-2 focus-visible:ring-offset-background data-[state=open]:bg-white/90 data-[state=open]:text-brand-purple data-[active=true]:bg-white/85 data-[active=true]:text-brand-purple dark:text-neutral-200 dark:data-[state=open]:bg-neutral-900/80 dark:data-[active=true]:bg-neutral-900/70'
                   )}
                 >
                   {t('navigation.solutions')}
@@ -242,7 +242,7 @@ const SiteHeader = () => {
                 <NavigationMenuTrigger
                   data-active={isProjectsActive}
                   className={cn(
-                    'px-4 py-2 text-sm font-medium text-neutral-700 transition-colors rounded-lg hover:text-brand-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2 focus-visible:ring-offset-background data-[state=open]:bg-white/90 data-[state=open]:text-brand-blue data-[active=true]:bg-white/80 data-[active=true]:text-brand-blue dark:text-neutral-200 dark:data-[state=open]:bg-neutral-900/80 dark:data-[active=true]:bg-neutral-900/70'
+                    'px-4 py-2 text-sm font-medium text-neutral-600 transition-colors rounded-xl hover:text-brand-purple focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple focus-visible:ring-offset-2 focus-visible:ring-offset-background data-[state=open]:bg-white/90 data-[state=open]:text-brand-purple data-[active=true]:bg-white/85 data-[active=true]:text-brand-purple dark:text-neutral-200 dark:data-[state=open]:bg-neutral-900/80 dark:data-[active=true]:bg-neutral-900/70'
                   )}
                 >
                   {t('navigation.projects')}
@@ -401,14 +401,14 @@ const SiteHeader = () => {
             <SheetTrigger asChild>
               <button
                 aria-label={t('navigation.toggleNavigation')}
-                className="flex items-center justify-center rounded-xl border border-white/0 bg-white/70 p-2 text-neutral-700 shadow-soft transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2 focus-visible:ring-offset-background hover:text-brand-blue dark:border-neutral-700/60 dark:bg-neutral-900/70 dark:text-neutral-100"
+                className="flex items-center justify-center rounded-xl border border-brand-purple/15 bg-white/75 p-2 text-neutral-600 shadow-soft transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple focus-visible:ring-offset-2 focus-visible:ring-offset-background hover:text-brand-purple dark:border-brand-purple/40 dark:bg-neutral-900/70 dark:text-neutral-100"
               >
                 {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
               </button>
             </SheetTrigger>
             <SheetContent
               side="right"
-              className="w-full border-l border-white/40 bg-white/95 px-6 py-8 backdrop-blur-sm transition-colors sm:max-w-sm dark:border-neutral-800 dark:bg-neutral-950/90"
+              className="w-full border-l border-brand-purple/15 bg-white/95 px-6 py-8 backdrop-blur-sm transition-colors sm:max-w-sm dark:border-brand-purple/40 dark:bg-neutral-950/90"
             >
               <div className="flex items-center justify-between">
                 <span className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
