@@ -14,10 +14,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { ArrowLeft, Eye, EyeOff, Loader2 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 type AuthView = 'signin' | 'signup';
 
 const Auth = () => {
+  const { t } = useTranslation();
   const [authView, setAuthView] = useState<AuthView>('signin');
   const [loadingView, setLoadingView] = useState<AuthView | null>(null);
   const [showPassword, setShowPassword] = useState(false);
@@ -62,16 +64,18 @@ const Auth = () => {
       }
 
       toast({
-        title: 'Login realizado com sucesso!',
-        description: 'Bem-vindo de volta!',
+        title: t('auth.toasts.signInSuccessTitle'),
+        description: t('auth.toasts.signInSuccessDescription'),
       });
 
       navigate(redirectPath, { replace: true });
     } catch (error) {
       const message =
-        error instanceof Error ? error.message : 'Não foi possível fazer login.';
+        error instanceof Error
+          ? error.message
+          : t('auth.toasts.signInFallback');
       toast({
-        title: 'Erro ao fazer login',
+        title: t('auth.toasts.signInErrorTitle'),
         description: message,
         variant: 'destructive',
       });
@@ -106,8 +110,8 @@ const Auth = () => {
       }
 
       toast({
-        title: 'Conta criada com sucesso!',
-        description: 'Verifique seu email para confirmar a conta.',
+        title: t('auth.toasts.signUpSuccessTitle'),
+        description: t('auth.toasts.signUpSuccessDescription'),
       });
 
       setSignInForm({ email: signUpForm.email.trim(), password: '' });
@@ -116,9 +120,11 @@ const Auth = () => {
       setShowPassword(false);
     } catch (error) {
       const message =
-        error instanceof Error ? error.message : 'Não foi possível criar a conta.';
+        error instanceof Error
+          ? error.message
+          : t('auth.toasts.signUpFallback');
       toast({
-        title: 'Erro ao criar conta',
+        title: t('auth.toasts.signUpErrorTitle'),
         description: message,
         variant: 'destructive',
       });
@@ -136,11 +142,11 @@ const Auth = () => {
             className="flex items-center text-sm text-muted-foreground hover:text-primary transition-colors"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Voltar para home
+            {t('auth.link.backHome')}
           </Link>
           <div className="text-center">
-            <CardTitle className="text-2xl font-bold">Monynha Softwares</CardTitle>
-            <CardDescription>Faça login ou crie sua conta</CardDescription>
+            <CardTitle className="text-2xl font-bold">{t('auth.brand')}</CardTitle>
+            <CardDescription>{t('auth.description')}</CardDescription>
           </div>
         </CardHeader>
 
@@ -154,14 +160,14 @@ const Auth = () => {
             className="w-full"
           >
             <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="signin">Login</TabsTrigger>
-              <TabsTrigger value="signup">Cadastro</TabsTrigger>
+              <TabsTrigger value="signin">{t('auth.tabs.signIn')}</TabsTrigger>
+              <TabsTrigger value="signup">{t('auth.tabs.signUp')}</TabsTrigger>
             </TabsList>
 
             <TabsContent value="signin" className="space-y-4">
               <form onSubmit={handleSignIn} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="signin-email">Email</Label>
+                  <Label htmlFor="signin-email">{t('auth.form.email')}</Label>
                   <Input
                     id="signin-email"
                     type="email"
@@ -172,14 +178,14 @@ const Auth = () => {
                         email: event.target.value,
                       }))
                     }
-                    placeholder="seu@email.com"
+                    placeholder={t('auth.form.emailPlaceholder')}
                     autoComplete="email"
                     required
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="signin-password">Senha</Label>
+                  <Label htmlFor="signin-password">{t('auth.form.password')}</Label>
                   <div className="relative">
                     <Input
                       id="signin-password"
@@ -191,7 +197,7 @@ const Auth = () => {
                           password: event.target.value,
                         }))
                       }
-                      placeholder="••••••••"
+                      placeholder={t('auth.form.passwordPlaceholder')}
                       autoComplete="current-password"
                       required
                       minLength={6}
@@ -220,10 +226,10 @@ const Auth = () => {
                   {loadingView === 'signin' ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Entrando...
+                      {t('auth.form.signingIn')}
                     </>
                   ) : (
-                    'Entrar'
+                    t('auth.form.signIn')
                   )}
                 </Button>
               </form>
@@ -232,7 +238,7 @@ const Auth = () => {
             <TabsContent value="signup" className="space-y-4">
               <form onSubmit={handleSignUp} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="signup-name">Nome</Label>
+                  <Label htmlFor="signup-name">{t('auth.form.name')}</Label>
                   <Input
                     id="signup-name"
                     type="text"
@@ -243,14 +249,14 @@ const Auth = () => {
                         name: event.target.value,
                       }))
                     }
-                    placeholder="Seu nome"
+                    placeholder={t('auth.form.namePlaceholder')}
                     autoComplete="name"
                     required
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="signup-email">Email</Label>
+                  <Label htmlFor="signup-email">{t('auth.form.email')}</Label>
                   <Input
                     id="signup-email"
                     type="email"
@@ -261,14 +267,14 @@ const Auth = () => {
                         email: event.target.value,
                       }))
                     }
-                    placeholder="seu@email.com"
+                    placeholder={t('auth.form.emailPlaceholder')}
                     autoComplete="email"
                     required
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="signup-password">Senha</Label>
+                  <Label htmlFor="signup-password">{t('auth.form.password')}</Label>
                   <div className="relative">
                     <Input
                       id="signup-password"
@@ -280,7 +286,7 @@ const Auth = () => {
                           password: event.target.value,
                         }))
                       }
-                      placeholder="••••••••"
+                      placeholder={t('auth.form.passwordPlaceholder')}
                       autoComplete="new-password"
                       required
                       minLength={6}
@@ -299,7 +305,7 @@ const Auth = () => {
                       )}
                     </Button>
                   </div>
-                  <p className="text-xs text-muted-foreground">Mínimo de 6 caracteres</p>
+                  <p className="text-xs text-muted-foreground">{t('auth.form.passwordHint')}</p>
                 </div>
 
                 <Button
@@ -310,10 +316,10 @@ const Auth = () => {
                   {loadingView === 'signup' ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Criando conta...
+                      {t('auth.form.signingUp')}
                     </>
                   ) : (
-                    'Criar conta'
+                    t('auth.form.signUp')
                   )}
                 </Button>
               </form>

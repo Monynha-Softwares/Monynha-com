@@ -71,6 +71,16 @@
       "integration": "Intégration IA"
     }
   },
+  "meta": {
+    "index": "Monynha Softwares : technologie avec fierté, diversité et résistance",
+    "about": "À propos de Monynha Softwares Agency",
+    "projects": "Projets Open Source - Monynha Softwares Agency",
+    "solutions": "Nos solutions logicielles - Monynha Softwares Agency",
+    "contact": "Contact - Monynha Softwares Agency",
+    "blog": "Actualités et insights - Monynha Softwares Agency",
+    "blogPost": "{{title}} - Monynha Softwares Agency",
+    "solutionDetail": "{{title}} - Monynha Softwares Agency"
+  },
   "index": {
     "hero": {
       "headline": "Construire l'<0/><1>Avenir avec la Technologie</1>",
@@ -111,6 +121,43 @@
     },
     "learnMore": "En savoir plus"
   },
+  "solutionsContent": {
+    "fallback": {
+      "boteco": {
+        "title": "Boteco Pro",
+        "description": "Solution de gestion complète pour bars et restaurants avec analyses en temps réel, gestion des stocks et insights clients.",
+        "features": [
+          "Analyses en temps réel pour suivre ventes, stocks et comportement client.",
+          "Planification intelligente des équipes et suivi des performances.",
+          "Traitement des commandes simplifié avec prise en charge POS mobile.",
+          "Paiements multicanaux sécurisés et protégés contre la fraude."
+        ]
+      },
+      "assistina": {
+        "title": "AssisTina AI",
+        "description": "Assistante IA intelligente qui apprend vos processus et automatise les tâches routinières pour gagner en efficacité.",
+        "features": [
+          "Workflows de machine learning adaptatifs à vos opérations.",
+          "Conversations en langage naturel via voix et texte.",
+          "Planifications, rappels et suivis automatisés.",
+          "Intégrations personnalisées avec vos outils métiers."
+        ]
+      }
+    },
+    "github": {
+      "fallbackDescription": "Solution open source maintenue par Monynha Softwares.",
+      "metadata": {
+        "language": "Développée avec {{language}}.",
+        "homepage": "Projet en ligne : {{url}}",
+        "stars_one": "{{count}} ⭐ étoile sur GitHub",
+        "stars_other": "{{count}} ⭐ étoiles sur GitHub",
+        "issues_one": "{{count}} ticket ouvert",
+        "issues_other": "{{count}} tickets ouverts",
+        "defaultBranch": "Branche par défaut : {{branch}}",
+        "updatedAt": "Dernière mise à jour : {{date}}"
+      }
+    }
+  },
   "solutionsPage": {
     "title": "Nos Solutions logicielles",
     "description": "Découvrez nos produits phares conçus pour transformer la façon dont les entreprises fonctionnent. Chaque solution est développée avec l'IA au cœur pour une efficacité maximale.",
@@ -120,7 +167,10 @@
     "notFound": "Solution introuvable",
     "customTitle": "Besoin d'une solution personnalisée ?",
     "customDescription": "Nous créons également des solutions sur mesure adaptées à vos besoins spécifiques. Discutons de la manière de construire quelque chose d'unique pour vous.",
-    "discuss": "Discuter du projet"
+    "discuss": "Discuter du projet",
+    "loading": "Chargement...",
+    "error": "Impossible de charger les solutions pour le moment.",
+    "errorSingle": "Impossible de charger cette solution."
   },
   "about": {
     "title": "À propos de Monynha Softwares Agency",
@@ -163,6 +213,8 @@
   "blog": {
     "title": "Actualités et Idées",
     "description": "Restez informé des dernières tendances en IA, développement logiciel et automatisation d'entreprise. Des contenus d'experts issus de notre équipe.",
+    "defaultAuthor": "Équipe Monynha Softwares",
+    "defaultCategory": "Insights IA",
     "featured": "À la une",
     "read": "Lire l'article complet",
     "readMore": "En savoir plus",
@@ -297,7 +349,47 @@
     "liveDemo": "Démo en ligne",
     "like": "Vous aimez nos projets ?",
     "likeDescription": "Contactez-nous pour créer une solution personnalisée pour votre entreprise.",
-    "contactUs": "Nous contacter"
+    "contactUs": "Nous contacter",
+    "loadingSolutions": "Chargement des solutions...",
+    "errorSolutions": "Impossible de charger les solutions. Réessayez.",
+    "error": "Impossible de charger les projets pour le moment.",
+    "errorAdditional": "Impossible de charger des projets supplémentaires.",
+    "loading": "Chargement...",
+    "errorGithub": "Impossible de charger les projets GitHub."
+  },
+  "auth": {
+    "link": {
+      "backHome": "Retour à l'accueil"
+    },
+    "brand": "Monynha Softwares",
+    "description": "Connectez-vous ou créez votre compte",
+    "tabs": {
+      "signIn": "Connexion",
+      "signUp": "Inscription"
+    },
+    "form": {
+      "email": "E-mail",
+      "password": "Mot de passe",
+      "name": "Nom complet",
+      "emailPlaceholder": "votre@email.com",
+      "passwordPlaceholder": "••••••••",
+      "namePlaceholder": "Votre nom",
+      "passwordHint": "6 caractères minimum",
+      "signIn": "Se connecter",
+      "signingIn": "Connexion...",
+      "signUp": "Créer un compte",
+      "signingUp": "Création du compte..."
+    },
+    "toasts": {
+      "signInSuccessTitle": "Connexion réussie !",
+      "signInSuccessDescription": "Heureux de vous revoir !",
+      "signInFallback": "Impossible de se connecter.",
+      "signInErrorTitle": "Erreur de connexion",
+      "signUpSuccessTitle": "Compte créé avec succès !",
+      "signUpSuccessDescription": "Vérifiez votre e-mail pour confirmer votre compte.",
+      "signUpFallback": "Impossible de créer le compte.",
+      "signUpErrorTitle": "Erreur lors de la création du compte"
+    }
   },
   "notFound": {
     "oops": "Oups ! Page introuvable",

@@ -20,36 +20,21 @@ import { useTranslation, Trans } from 'react-i18next';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase';
 import { useMemo } from 'react';
-
-const fallbackSolutions = [
-  {
-    name: 'Boteco Pro',
-    description:
-      'Complete restaurant and bar management system with AI-powered analytics and inventory management.',
-    features: [
-      'Order Management',
-      'Inventory Tracking',
-      'Analytics Dashboard',
-      'Staff Management',
-    ],
-    gradient: 'from-brand-purple to-brand-blue',
-  },
-  {
-    name: 'AssisTina AI',
-    description:
-      'Personalized AI assistant that learns your business needs and automates routine tasks.',
-    features: [
-      'Natural Language Processing',
-      'Task Automation',
-      'Learning Capabilities',
-      'Custom Integration',
-    ],
-    gradient: 'from-brand-pink to-brand-orange',
-  },
-];
+import { getFallbackSolutions } from '@/lib/solutions';
 
 const Index = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+
+  const localizedFallbackSolutions = useMemo(
+    () =>
+      getFallbackSolutions(i18n.language).map((solution) => ({
+        name: solution.title,
+        description: solution.description,
+        features: solution.features,
+        gradient: solution.gradient,
+      })),
+    [i18n.language]
+  );
 
   // Fetch dynamic homepage features from database
   const { data: features, isLoading: featuresLoading } = useQuery({
@@ -141,14 +126,14 @@ const Index = () => {
   );
 
   const displayFeatures = features || fallbackFeatures;
-  const displaySolutions = solutions || fallbackSolutions;
+  const displaySolutions = solutions || localizedFallbackSolutions;
 
   return (
     <Layout>
       <Meta
-        title="Monynha Softwares: Technology with pride, diversity, and resistance"
+        title={t('meta.index')}
         description={t('index.hero.description')}
-        ogTitle="Monynha Softwares: Technology with pride, diversity, and resistance"
+        ogTitle={t('meta.index')}
         ogDescription={t('index.hero.description')}
         ogImage="/placeholder.svg"
       />

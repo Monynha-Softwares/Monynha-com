@@ -31,11 +31,11 @@ const getRepositoryUrl = (repositorySlug: string) =>
 
 const SolutionDetail = () => {
   const { slug } = useParams<{ slug: string }>();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const fallbackSolution = useMemo(
-    () => (slug ? getFallbackSolution(slug) : undefined),
-    [slug]
+    () => (slug ? getFallbackSolution(slug, i18n.language) : undefined),
+    [slug, i18n.language]
   );
 
   const {
@@ -43,7 +43,7 @@ const SolutionDetail = () => {
     isLoading,
     isError,
   } = useQuery<SolutionContent | null>({
-    queryKey: ['solution', slug],
+    queryKey: ['solution', slug, i18n.language],
     enabled: Boolean(slug),
     queryFn: async () => {
       if (!slug) {
@@ -62,7 +62,9 @@ const SolutionDetail = () => {
       }
 
       if (data) {
-        return mapSupabaseSolutionToContent(data);
+        return mapSupabaseSolutionToContent(data, {
+          language: i18n.language,
+        });
       }
 
       const response = await fetch(getRepositoryUrl(slug), {
@@ -85,7 +87,7 @@ const SolutionDetail = () => {
         return null;
       }
 
-      return mapGitHubRepoToContent(repository, 0);
+      return mapGitHubRepoToContent(repository, 0, i18n.language);
     },
     staleTime: 1000 * 60 * 10,
     retry: 1,
@@ -99,13 +101,15 @@ const SolutionDetail = () => {
     return (
       <Layout>
         <Meta
-          title="Our Software Solutions - Monynha Softwares Agency"
+          title={t('meta.solutions')}
           description={t('solutionsPage.description')}
-          ogTitle="Our Software Solutions - Monynha Softwares Agency"
+          ogTitle={t('meta.solutions')}
           ogDescription={t('solutionsPage.description')}
           ogImage="/placeholder.svg"
         />
-        <div className="container mx-auto px-4 py-16 text-center">Loading...</div>
+        <div className="container mx-auto px-4 py-16 text-center">
+          {t('solutionsPage.loading')}
+        </div>
       </Layout>
     );
   }
@@ -114,14 +118,14 @@ const SolutionDetail = () => {
     return (
       <Layout>
         <Meta
-          title="Our Software Solutions - Monynha Softwares Agency"
+          title={t('meta.solutions')}
           description={t('solutionsPage.description')}
-          ogTitle="Our Software Solutions - Monynha Softwares Agency"
+          ogTitle={t('meta.solutions')}
           ogDescription={t('solutionsPage.description')}
           ogImage="/placeholder.svg"
         />
         <div className="container mx-auto px-4 py-16 text-center">
-          Error loading solution
+          {t('solutionsPage.errorSingle')}
         </div>
       </Layout>
     );
@@ -131,9 +135,9 @@ const SolutionDetail = () => {
     return (
       <Layout>
         <Meta
-          title="Our Software Solutions - Monynha Softwares Agency"
+          title={t('meta.solutions')}
           description={t('solutionsPage.description')}
-          ogTitle="Our Software Solutions - Monynha Softwares Agency"
+          ogTitle={t('meta.solutions')}
           ogDescription={t('solutionsPage.description')}
           ogImage="/placeholder.svg"
         />
@@ -157,9 +161,9 @@ const SolutionDetail = () => {
   return (
     <Layout>
       <Meta
-        title={`${displaySolution.title} - Monynha Softwares Agency`}
+        title={t('meta.solutionDetail', { title: displaySolution.title })}
         description={displaySolution.description}
-        ogTitle={`${displaySolution.title} - Monynha Softwares Agency`}
+        ogTitle={t('meta.solutionDetail', { title: displaySolution.title })}
         ogDescription={displaySolution.description}
         ogImage={displaySolution.imageUrl ?? '/placeholder.svg'}
       />

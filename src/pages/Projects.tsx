@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import {
   Github,
@@ -31,6 +31,7 @@ import {
 } from '@/lib/solutions';
 import type { GitHubRepository } from '@/lib/solutions';
 import type { SolutionContent } from '@/types/solutions';
+import { getNormalizedLocale } from '@/lib/i18n';
 
 interface Repository {
   id: string;
@@ -46,10 +47,13 @@ const GITHUB_REPOS_URL =
   'https://api.github.com/orgs/Monynha-Softwares/repos?per_page=100';
 
 const Projects = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   useRepositorySync();
 
-  const memoizedFallbackSolutions = useMemo(() => getFallbackSolutions(), []);
+  const memoizedFallbackSolutions = useMemo(
+    () => getFallbackSolutions(i18n.language),
+    [i18n.language]
+  );
 
   const {
     data: repositories = [],
@@ -77,8 +81,8 @@ const Projects = () => {
     isLoading: supabaseSolutionsLoading,
     isError: supabaseSolutionsError,
   } = useQuery<SolutionContent[]>({
-    queryKey: ['solutions'],
-    queryFn: fetchSupabaseSolutions,
+    queryKey: ['solutions', i18n.language],
+    queryFn: () => fetchSupabaseSolutions(i18n.language),
     staleTime: 1000 * 60 * 10,
     retry: 1,
     refetchOnWindowFocus: false,
@@ -93,7 +97,7 @@ const Projects = () => {
     isLoading: isGitHubLoading,
     isError: isGitHubError,
   } = useQuery<SolutionContent[]>({
-    queryKey: ['projects-github-solutions'],
+    queryKey: ['projects-github-solutions', i18n.language],
     queryFn: async () => {
       const response = await fetch(GITHUB_REPOS_URL, {
         headers: {
@@ -124,7 +128,7 @@ const Projects = () => {
         .sort((a, b) => toTimestamp(b) - toTimestamp(a));
 
       return sortedRepositories.map((repository, index) =>
-        mapGitHubRepoToContent(repository, index)
+        mapGitHubRepoToContent(repository, index, i18n.language)
       );
     },
     staleTime: 1000 * 60 * 10,
@@ -175,14 +179,37 @@ const Projects = () => {
       ? githubSolutions
       : memoizedFallbackSolutions;
 
-  if (repositoriesLoading) {
+  const normalizedLocale = useMemo(
+    () => getNormalizedLocale(i18n.language),
+    [i18n.language]
+  );
 
+  const formatDate = useCallback(
+    (dateString: string) => {
+      try {
+        return new Intl.DateTimeFormat(normalizedLocale, {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+        }).format(new Date(dateString));
+      } catch {
+        return new Date(dateString).toLocaleDateString(undefined, {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+        });
+      }
+    },
+    [normalizedLocale]
+  );
+
+  if (repositoriesLoading) {
     return (
       <Layout>
         <Meta
-          title="Open Source Projects - Monynha Softwares Agency"
+          title={t('meta.projects')}
           description={t('projects.description')}
-          ogTitle="Open Source Projects - Monynha Softwares Agency"
+          ogTitle={t('meta.projects')}
           ogDescription={t('projects.description')}
           ogImage="/placeholder.svg"
         />
@@ -198,25 +225,18 @@ const Projects = () => {
     );
   }
 
-  const formatDate = (dateString: string) =>
-    new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-    });
-
   if (repositoriesError && supabaseSolutionsError) {
     return (
       <Layout>
         <Meta
-          title="Open Source Projects - Monynha Softwares Agency"
+          title={t('meta.projects')}
           description={t('projects.description')}
-          ogTitle="Open Source Projects - Monynha Softwares Agency"
+          ogTitle={t('meta.projects')}
           ogDescription={t('projects.description')}
           ogImage="/placeholder.svg"
         />
         <div className="container mx-auto px-4 py-16 text-center">
-          Error loading projects
+          {t('projects.error')}
         </div>
       </Layout>
     );
@@ -225,9 +245,9 @@ const Projects = () => {
   return (
     <Layout>
       <Meta
-        title="Open Source Projects - Monynha Softwares Agency"
+        title={t('meta.projects')}
         description={t('projects.description')}
-        ogTitle="Open Source Projects - Monynha Softwares Agency"
+        ogTitle={t('meta.projects')}
         ogDescription={t('projects.description')}
         ogImage="/placeholder.svg"
       />
@@ -280,7 +300,7 @@ const Projects = () => {
 
             {supabaseSolutionsLoading ? (
               <div className="text-center text-neutral-500">
-                Loading solutions...
+                {t('projects.loadingSolutions')}
               </div>
             ) : (
               <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
@@ -299,7 +319,7 @@ const Projects = () => {
 
             {supabaseSolutionsError && (
               <p className="text-sm text-red-500 text-center mt-6">
-                Error loading solutions
+                {t('projects.errorSolutions')}
               </p>
             )}
           </div>
@@ -309,7 +329,7 @@ const Projects = () => {
         <section>
           {repositoriesError && repositories.length === 0 ? (
             <div className="text-center text-red-500">
-              Error loading projects
+              {t('projects.error')}
             </div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
@@ -390,7 +410,7 @@ const Projects = () => {
 
           {repositoriesError && repositories.length > 0 && (
             <p className="text-sm text-red-500 text-center mt-6">
-              Error loading additional projects
+              {t('projects.errorAdditional')}
             </p>
           )}
         </section>
@@ -425,10 +445,12 @@ const Projects = () => {
           </div>
 
           {isGitHubLoading ? (
-            <div className="text-center text-neutral-500">Loading...</div>
+            <div className="text-center text-neutral-500">
+              {t('projects.loading')}
+            </div>
           ) : isGitHubError ? (
             <div className="text-center text-red-500">
-              Error loading GitHub projects
+              {t('projects.errorGithub')}
             </div>
           ) : (
             <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">

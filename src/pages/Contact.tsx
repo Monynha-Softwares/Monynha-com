@@ -300,9 +300,9 @@ const Contact = () => {
     return (
       <Layout>
         <Meta
-          title="Contact - Monynha Softwares Agency"
+          title={t('meta.contact')}
           description={t('contact.description')}
-          ogTitle="Contact - Monynha Softwares Agency"
+          ogTitle={t('meta.contact')}
           ogDescription={t('contact.description')}
           ogImage="/placeholder.svg"
         />
@@ -347,9 +347,9 @@ const Contact = () => {
   return (
     <Layout>
       <Meta
-        title="Contact - Monynha Softwares Agency"
+        title={t('meta.contact')}
         description={t('contact.description')}
-        ogTitle="Contact - Monynha Softwares Agency"
+        ogTitle={t('meta.contact')}
         ogDescription={t('contact.description')}
         ogImage="/placeholder.svg"
       />

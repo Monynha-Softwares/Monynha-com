@@ -24,11 +24,11 @@ import {
 import type { SolutionContent } from '@/types/solutions';
 
 const Solutions = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const memoizedFallbackSolutions = useMemo(
-    () => getFallbackSolutions(),
-    []
+    () => getFallbackSolutions(i18n.language),
+    [i18n.language]
   );
 
   const {
@@ -36,7 +36,7 @@ const Solutions = () => {
     isLoading,
     isError,
   } = useQuery<SolutionContent[]>({
-    queryKey: ['solutions'],
+    queryKey: ['solutions', i18n.language],
     queryFn: async () => {
       const { data, error } = await supabase
         .from('solutions')
@@ -49,7 +49,10 @@ const Solutions = () => {
       }
 
       return (data ?? []).map((solution, index) =>
-        mapSupabaseSolutionToContent(solution, { index })
+        mapSupabaseSolutionToContent(solution, {
+          index,
+          language: i18n.language,
+        })
       );
     },
 
@@ -65,14 +68,14 @@ const Solutions = () => {
     return (
       <Layout>
         <Meta
-          title="Our Software Solutions - Monynha Softwares Agency"
+          title={t('meta.solutions')}
           description={t('solutionsPage.description')}
-          ogTitle="Our Software Solutions - Monynha Softwares Agency"
+          ogTitle={t('meta.solutions')}
           ogDescription={t('solutionsPage.description')}
           ogImage="/placeholder.svg"
         />
         <div className="container mx-auto px-4 py-16 text-center">
-          Loading...
+          {t('solutionsPage.loading')}
         </div>
       </Layout>
     );
@@ -82,14 +85,14 @@ const Solutions = () => {
     return (
       <Layout>
         <Meta
-          title="Our Software Solutions - Monynha Softwares Agency"
+          title={t('meta.solutions')}
           description={t('solutionsPage.description')}
-          ogTitle="Our Software Solutions - Monynha Softwares Agency"
+          ogTitle={t('meta.solutions')}
           ogDescription={t('solutionsPage.description')}
           ogImage="/placeholder.svg"
         />
         <div className="container mx-auto px-4 py-16 text-center">
-          Error loading solutions
+          {t('solutionsPage.error')}
         </div>
       </Layout>
     );
@@ -98,9 +101,9 @@ const Solutions = () => {
   return (
     <Layout>
       <Meta
-        title="Our Software Solutions - Monynha Softwares Agency"
+        title={t('meta.solutions')}
         description={t('solutionsPage.description')}
-        ogTitle="Our Software Solutions - Monynha Softwares Agency"
+        ogTitle={t('meta.solutions')}
         ogDescription={t('solutionsPage.description')}
         ogImage="/placeholder.svg"
       />

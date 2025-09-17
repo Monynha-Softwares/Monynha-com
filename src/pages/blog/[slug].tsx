@@ -266,12 +266,12 @@ const BlogPostPage = () => {
     : '';
 
   const metaTitle = post
-    ? `${post.title} - Monynha Softwares Agency`
-    : 'Insights & Updates - Monynha Softwares Agency';
+    ? t('meta.blogPost', { title: post.title })
+    : t('meta.blog');
 
   const metaDescription = post?.excerpt ?? t('blog.description');
   const metaImage = post?.image_url ?? '/placeholder.svg';
-  const defaultAuthor = 'Monynha Softwares Team';
+  const defaultAuthor = t('blog.defaultAuthor');
   const readTimeLabel = t('blog.readTimeDefault');
 
   if (isLoading) {

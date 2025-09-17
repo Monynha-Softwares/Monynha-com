@@ -149,19 +149,23 @@ const Blog = () => {
   const totalPages = totalPosts > 0 ? Math.ceil(totalPosts / POSTS_PER_PAGE) : 1;
 
   const formattedPosts = useMemo(
-    () =>
-      (data?.posts ?? []).map((post, index) => ({
+    () => {
+      const defaultAuthor = t('blog.defaultAuthor');
+      const defaultCategory = t('blog.defaultCategory');
+
+      return (data?.posts ?? []).map((post, index) => ({
         id: post.id,
         slug: post.slug,
         title: post.title,
         excerpt: post.excerpt ?? t('blog.fallbackExcerpt'),
         image: post.image_url ?? FALLBACK_IMAGE,
-        author: 'Monynha Softwares Team',
+        author: defaultAuthor,
         date: dateFormatter.format(new Date(post.updated_at)),
         readTime: t('blog.readTimeDefault'),
-        category: 'AI Insights',
+        category: defaultCategory,
         featured: page === 1 && index === 0,
-      })),
+      }));
+    },
     [data?.posts, dateFormatter, page, t]
   );
 
@@ -194,14 +198,17 @@ const Blog = () => {
     [page, totalPages]
   );
 
+  const metaTitle = t('meta.blog');
+  const metaDescription = t('blog.description');
+
   if (isLoading && !data) {
     return (
       <Layout>
         <Meta
-          title="Insights & Updates - Monynha Softwares Agency"
-          description={t('blog.description')}
-          ogTitle="Insights & Updates - Monynha Softwares Agency"
-          ogDescription={t('blog.description')}
+          title={metaTitle}
+          description={metaDescription}
+          ogTitle={metaTitle}
+          ogDescription={metaDescription}
           ogImage="/placeholder.svg"
         />
         <div className="container mx-auto px-4 py-16 text-center">
@@ -215,10 +222,10 @@ const Blog = () => {
     return (
       <Layout>
         <Meta
-          title="Insights & Updates - Monynha Softwares Agency"
-          description={t('blog.description')}
-          ogTitle="Insights & Updates - Monynha Softwares Agency"
-          ogDescription={t('blog.description')}
+          title={metaTitle}
+          description={metaDescription}
+          ogTitle={metaTitle}
+          ogDescription={metaDescription}
           ogImage="/placeholder.svg"
         />
         <div className="container mx-auto px-4 py-16 text-center">
@@ -231,10 +238,10 @@ const Blog = () => {
   return (
     <Layout>
       <Meta
-        title="Insights & Updates - Monynha Softwares Agency"
-        description={t('blog.description')}
-        ogTitle="Insights & Updates - Monynha Softwares Agency"
-        ogDescription={t('blog.description')}
+        title={metaTitle}
+        description={metaDescription}
+        ogTitle={metaTitle}
+        ogDescription={metaDescription}
         ogImage="/placeholder.svg"
       />
       <div className="max-w-7xl mx-auto px-4 pt-4">

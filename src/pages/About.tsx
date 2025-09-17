@@ -140,9 +140,9 @@ const About = () => {
   return (
     <Layout>
       <Meta
-        title="About Monynha Softwares Agency"
+        title={t('meta.about')}
         description={t('about.description')}
-        ogTitle="About Monynha Softwares Agency"
+        ogTitle={t('meta.about')}
         ogDescription={t('about.description')}
         ogImage="/placeholder.svg"
       />

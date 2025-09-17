@@ -1,14 +1,15 @@
-
-import {
-  fallbackSolutions,
-  fallbackSolutionsMap,
-  gradientOptions,
-  normalizeSolutionSlug,
-} from '@/data/solutions';
-import type { Tables } from '@/integrations/supabase/types';
-import type { SolutionContent } from '@/types/solutions';
+import i18n from '@/i18n';
 import { supabase } from '@/integrations/supabase';
 import type { Database } from '@/integrations/supabase/types';
+import {
+  fallbackSolutionDefinitions,
+  fallbackSolutionDefinitionMap,
+  gradientOptions,
+  normalizeSolutionSlug,
+  type FallbackSolutionDefinition,
+} from '@/data/solutions';
+import { getNormalizedLocale } from '@/lib/i18n';
+import type { SolutionContent } from '@/types/solutions';
 
 export interface GitHubRepository {
   id: number;
@@ -32,6 +33,10 @@ export interface GitHubRepository {
 }
 
 type SupabaseSolutionRow = Database['public']['Tables']['solutions']['Row'];
+
+type NullableString = string | null | undefined;
+
+type TranslationLanguage = string;
 
 const uniqueNonEmpty = (values: Array<string | null | undefined>): string[] => {
   const seen = new Set<string>();
@@ -89,7 +94,10 @@ const coerceToStringArray = (value: unknown): string[] => {
   return [];
 };
 
-const formatDate = (value: string | null | undefined): string | null => {
+const formatDate = (
+  value: NullableString,
+  language: TranslationLanguage
+): string | null => {
   if (!value) {
     return null;
   }
@@ -99,37 +107,113 @@ const formatDate = (value: string | null | undefined): string | null => {
     return null;
   }
 
-  return date.toLocaleDateString(undefined, {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  });
+  const locale = getNormalizedLocale(language);
+
+  try {
+    return new Intl.DateTimeFormat(locale, {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    }).format(date);
+  } catch {
+    return date.toLocaleDateString(undefined, {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    });
+  }
+};
+
+const findFallbackDefinition = (
+  slugOrKey: NullableString
+): FallbackSolutionDefinition | undefined => {
+  if (!slugOrKey) {
+    return undefined;
+  }
+
+  return (
+    fallbackSolutionDefinitionMap[slugOrKey] ??
+    fallbackSolutionDefinitionMap[normalizeSolutionSlug(slugOrKey)]
+  );
+};
+
+const translateFallbackDefinition = (
+  definition: FallbackSolutionDefinition,
+  language: TranslationLanguage
+): SolutionContent => {
+  const t = i18n.getFixedT(language);
+  const baseKey = `solutionsContent.fallback.${definition.key}`;
+
+  const features = t(`${baseKey}.features`, {
+    returnObjects: true,
+    defaultValue: [],
+  }) as unknown;
+
+  const featureList = Array.isArray(features)
+    ? uniqueNonEmpty(
+        features.map((feature) =>
+          typeof feature === 'string' ? feature : null
+        )
+      )
+    : [];
+
+  return {
+    id: definition.slug,
+    title: t(`${baseKey}.title`),
+    description: t(`${baseKey}.description`),
+    slug: definition.slug,
+    imageUrl: definition.imageUrl ?? null,
+    features: featureList,
+    gradient: definition.gradient,
+  } satisfies SolutionContent;
 };
 
 const buildFeatureList = (
   repository: GitHubRepository,
-  fallback?: SolutionContent
+  fallback: SolutionContent | undefined,
+  language: TranslationLanguage
 ): string[] => {
+  const t = i18n.getFixedT(language);
+
   const normalizedTopics = Array.isArray(repository.topics)
     ? uniqueNonEmpty(repository.topics)
     : [];
 
   const formattedUpdatedAt =
-    formatDate(repository.updated_at ?? repository.pushed_at) ?? undefined;
+    formatDate(repository.updated_at ?? repository.pushed_at, language) ??
+    undefined;
 
   const metadata = uniqueNonEmpty([
-    repository.language ? `Built with ${repository.language}.` : null,
-    repository.homepage ? `Live project: ${repository.homepage}` : null,
+    repository.language
+      ? t('solutionsContent.github.metadata.language', {
+          language: repository.language,
+        })
+      : null,
+    repository.homepage
+      ? t('solutionsContent.github.metadata.homepage', {
+          url: repository.homepage,
+        })
+      : null,
     repository.stargazers_count > 0
-      ? `${repository.stargazers_count} ⭐ stars on GitHub`
+      ? t('solutionsContent.github.metadata.stars', {
+          count: repository.stargazers_count,
+        })
       : null,
     repository.open_issues_count > 0
-      ? `${repository.open_issues_count} open issues`
+      ? t('solutionsContent.github.metadata.issues', {
+          count: repository.open_issues_count,
+        })
       : null,
     repository.default_branch
-      ? `Default branch: ${repository.default_branch}`
+      ? t('solutionsContent.github.metadata.defaultBranch', {
+          branch: repository.default_branch,
+        })
       : null,
-    formattedUpdatedAt ? `Last updated on ${formattedUpdatedAt}` : null,
+    formattedUpdatedAt
+      ? t('solutionsContent.github.metadata.updatedAt', {
+          date: formattedUpdatedAt,
+        })
+      : null,
   ]);
 
   const combined = uniqueNonEmpty([...normalizedTopics, ...metadata]);
@@ -143,114 +227,111 @@ const buildFeatureList = (
 
 export const mapGitHubRepoToContent = (
   repository: GitHubRepository,
-  index: number
+  index: number,
+  language: TranslationLanguage = i18n.language
 ): SolutionContent => {
-  const normalizedSlug = normalizeSolutionSlug(repository.name);
-  const fallback =
-    fallbackSolutionsMap[normalizedSlug] ?? fallbackSolutionsMap[repository.name];
+  const fallbackDefinition = findFallbackDefinition(repository.name);
+  const fallbackContent = fallbackDefinition
+    ? translateFallbackDefinition(fallbackDefinition, language)
+    : undefined;
+
   const gradient =
-    fallback?.gradient ?? gradientOptions[index % gradientOptions.length];
+    fallbackContent?.gradient ??
+    fallbackDefinition?.gradient ??
+    gradientOptions[index % gradientOptions.length];
 
   const description = repository.description?.trim();
+  const t = i18n.getFixedT(language);
+
+  const fallbackDescription =
+    fallbackContent?.description ??
+    t('solutionsContent.github.fallbackDescription');
 
   return {
     id: String(repository.id),
-    title: fallback?.title ?? repository.name,
+    title: fallbackContent?.title ?? repository.name,
     description:
       description && description.length > 0
         ? description
-        : fallback?.description ??
-          'Open-source solution maintained by Monynha Softwares.',
+        : fallbackDescription,
     slug: repository.name,
-    imageUrl: fallback?.imageUrl ?? null,
-    features: buildFeatureList(repository, fallback),
+    imageUrl: fallbackContent?.imageUrl ?? null,
+    features: buildFeatureList(repository, fallbackContent, language),
     gradient,
-  };
+  } satisfies SolutionContent;
 };
+
+interface MapSupabaseOptions {
+  index?: number;
+  language?: TranslationLanguage;
+}
 
 export const mapSupabaseSolutionToContent = (
   solution: SupabaseSolutionRow,
-  index: number
+  options: MapSupabaseOptions = {}
 ): SolutionContent => {
-  const normalizedSlug = normalizeSolutionSlug(solution.slug);
-  const fallback =
-    fallbackSolutionsMap[normalizedSlug] ?? fallbackSolutionsMap[solution.slug];
+  const { index = 0, language = i18n.language } = options;
+
+  const fallbackDefinition = findFallbackDefinition(solution.slug);
+  const fallbackContent = fallbackDefinition
+    ? translateFallbackDefinition(fallbackDefinition, language)
+    : undefined;
 
   const gradient =
-    fallback?.gradient ?? gradientOptions[index % gradientOptions.length];
+    fallbackContent?.gradient ??
+    fallbackDefinition?.gradient ??
+    gradientOptions[index % gradientOptions.length];
 
   const parsedFeatures = coerceToStringArray(solution.features);
-
   const features =
     parsedFeatures.length > 0
       ? parsedFeatures
-      : fallback?.features
-        ? [...fallback.features]
-        : [];
+      : fallbackContent?.features ?? [];
+
+  const rawDescription =
+    typeof solution.description === 'string'
+      ? solution.description.trim()
+      : '';
+
+  const description =
+    rawDescription.length > 0
+      ? rawDescription
+      : fallbackContent?.description ?? '';
 
   return {
     id: solution.id,
-    title: solution.title,
-    description: solution.description,
+    title: solution.title ?? fallbackContent?.title ?? solution.slug,
+    description,
     slug: solution.slug,
-    imageUrl: solution.image_url ?? fallback?.imageUrl ?? null,
+    imageUrl: solution.image_url ?? fallbackContent?.imageUrl ?? null,
     features,
     gradient,
-  };
+  } satisfies SolutionContent;
 };
 
 export const getFallbackSolution = (
-  slug: string
+  slug: string,
+  language: TranslationLanguage = i18n.language
 ): SolutionContent | undefined => {
-  if (!slug) {
+  const fallbackDefinition = findFallbackDefinition(slug);
+
+  if (!fallbackDefinition) {
     return undefined;
   }
 
-  const normalizedSlug = normalizeSolutionSlug(slug);
-  const fallback =
-    fallbackSolutionsMap[normalizedSlug] ?? fallbackSolutionsMap[slug];
-
-  if (!fallback) {
-    return undefined;
-  }
-
-  return {
-    ...fallback,
-    features: [...fallback.features],
-  };
+  return translateFallbackDefinition(fallbackDefinition, language);
 };
 
-export const getFallbackSolutions = (): SolutionContent[] =>
-  fallbackSolutions.map((solution) => ({
-    ...solution,
-    features: [...solution.features],
-  }));
+export const getFallbackSolutions = (
+  language: TranslationLanguage = i18n.language
+): SolutionContent[] =>
+  fallbackSolutionDefinitions.map((definition) =>
+    translateFallbackDefinition(definition, language)
+  );
 
-// Removed duplicate type declaration
-
-const mapSupabaseFeatures = (
-  features: SupabaseSolutionRow['features'],
-  fallback?: SolutionContent
-): string[] => {
-  if (Array.isArray(features)) {
-    const entries = (features as unknown[]).filter(
-      (feature): feature is string => typeof feature === 'string'
-    );
-
-    if (entries.length > 0) {
-      return entries;
-    }
-  }
-
-  if (fallback?.features?.length) {
-    return [...fallback.features];
-  }
-
-  return [];
-};
-
-// Removed duplicate function declaration
-export const fetchSupabaseSolutions = async (): Promise<SolutionContent[]> => {
+export const fetchSupabaseSolutions = async (
+  language: TranslationLanguage = i18n.language
+): Promise<SolutionContent[]> => {
   const { data, error } = await supabase
     .from('solutions')
     .select('*')
@@ -264,7 +345,6 @@ export const fetchSupabaseSolutions = async (): Promise<SolutionContent[]> => {
   const rows = data ?? [];
 
   return rows.map((solution, index) =>
-  mapSupabaseSolutionToContent(solution, index)
+    mapSupabaseSolutionToContent(solution, { index, language })
   );
-
-  }
+};
