@@ -210,12 +210,12 @@ const Projects = () => {
           ogDescription={t('projects.description')}
           ogImage="/placeholder.svg"
         />
-        <section className={cn(sectionPaddingY, 'bg-white')}>
+        <section className={cn(sectionPaddingY, 'bg-surface')}>
           <div className={sectionContainer}>
             <div className="text-center">
               <div className="mx-auto max-w-md animate-pulse space-y-4">
-                <div className="h-8 rounded-full bg-neutral-100" />
-                <div className="h-4 rounded-full bg-neutral-100" />
+                <div className="h-8 rounded-full bg-surface-muted" />
+                <div className="h-4 rounded-full bg-surface-muted" />
               </div>
             </div>
           </div>
@@ -234,7 +234,7 @@ const Projects = () => {
           ogDescription={t('projects.description')}
           ogImage="/placeholder.svg"
         />
-        <section className={cn(sectionPaddingY, 'bg-white')}>
+        <section className={cn(sectionPaddingY, 'bg-surface')}>
           <div className={sectionContainer}>
             <p className="text-center text-red-500">
               {t('projects.errorProjects')}
@@ -270,10 +270,10 @@ const Projects = () => {
         </Breadcrumb>
       </div>
 
-      <section className={cn(sectionPaddingY, 'bg-white')}>
+      <section className={cn(sectionPaddingY, 'bg-surface')}>
         <div className={sectionContainer}>
           <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-neutral-900 mb-6">
+            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
               <Trans
                 i18nKey="projects.title"
                 components={[
@@ -284,26 +284,26 @@ const Projects = () => {
                 ]}
               />
             </h1>
-            <p className="text-xl text-neutral-600 max-w-3xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
               {t('projects.description')}
             </p>
           </div>
         </div>
       </section>
 
-      <section className={cn(sectionPaddingY, 'bg-neutral-50')}>
+      <section className={cn(sectionPaddingY, 'bg-surface')}>
         <div className={sectionContainer}>
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-neutral-900 mb-4">
+            <h2 className="text-3xl font-bold text-foreground mb-4">
               {t('solutionsPage.title')}
             </h2>
-            <p className="text-neutral-600 max-w-3xl mx-auto">
+            <p className="text-muted-foreground max-w-3xl mx-auto">
               {t('solutionsPage.description')}
             </p>
           </div>
 
           {supabaseSolutionsLoading ? (
-            <div className="text-center text-neutral-500">
+            <div className="text-center text-muted-foreground/80">
               {t('projects.loadingSolutions')}
             </div>
           ) : (
@@ -346,10 +346,10 @@ const Projects = () => {
         </div>
       </section>
 
-      <section className={cn(sectionPaddingY, 'bg-white')}>
+      <section className={cn(sectionPaddingY, 'bg-surface')}>
         <div className={sectionContainer}>
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-neutral-900 mb-4">
+            <h2 className="text-3xl font-bold text-foreground mb-4">
               <Trans
                 i18nKey="projects.title"
                 components={[
@@ -360,13 +360,13 @@ const Projects = () => {
                 ]}
               />
             </h2>
-            <p className="text-neutral-600 max-w-3xl mx-auto">
+            <p className="text-muted-foreground max-w-3xl mx-auto">
               {t('projects.description')}
             </p>
           </div>
 
           {isGitHubLoading ? (
-            <div className="text-center text-neutral-500">
+            <div className="text-center text-muted-foreground/80">
               {t('projects.loadingGithub')}
             </div>
           ) : (
@@ -428,13 +428,13 @@ const Projects = () => {
         </div>
       </section>
 
-      <section className={cn(sectionPaddingY, 'bg-neutral-50')}>
+      <section className={cn(sectionPaddingY, 'bg-surface')}>
         <div className={sectionContainer}>
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-neutral-900 mb-4">
+            <h2 className="text-3xl font-bold text-foreground mb-4">
               {t('navigation.projects')}
             </h2>
-            <p className="text-neutral-600 max-w-3xl mx-auto">
+            <p className="text-muted-foreground max-w-3xl mx-auto">
               {t('projects.description')}
             </p>
           </div>
@@ -448,19 +448,19 @@ const Projects = () => {
               {repositories.map((repo) => (
                 <Card
                   key={repo.id}
-                  className="card-hover rounded-2xl border border-white/60 bg-white/90 shadow-md"
+                  className="card-hover rounded-2xl border border-border/60 dark:border-border bg-surface/90 dark:bg-surface-muted/90 shadow-md"
                 >
                   <CardHeader className="pb-4">
                     <div className="flex items-start justify-between">
-                      <CardTitle className="text-xl font-semibold text-neutral-900">
+                      <CardTitle className="text-xl font-semibold text-foreground">
                         {repo.name}
                       </CardTitle>
-                      <div className="flex items-center gap-1 text-sm text-neutral-500">
+                      <div className="flex items-center gap-1 text-sm text-muted-foreground/80">
                         <Calendar className="h-4 w-4" />
                         {formatDate(repo.created_at)}
                       </div>
                     </div>
-                    <p className="text-neutral-600 leading-relaxed">
+                    <p className="text-muted-foreground leading-relaxed">
                       {repo.description}
                     </p>
                   </CardHeader>
@@ -471,7 +471,7 @@ const Projects = () => {
                           <Badge
                             key={index}
                             variant="secondary"
-                            className="rounded-full bg-neutral-100 px-3 py-1 text-xs font-medium text-neutral-700"
+                            className="rounded-full bg-surface-muted px-3 py-1 text-xs font-medium text-muted-foreground"
                           >
                             {tag}
                           </Badge>

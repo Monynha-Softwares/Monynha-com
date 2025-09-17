@@ -160,7 +160,7 @@ const Index = () => {
       />
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-hero text-white">
-        <div className="absolute inset-0 bg-black/20"></div>
+        <div className="absolute inset-0 bg-black/20 dark:bg-black/60"></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
           <div className="text-center animate-fade-in">
             <h1 className="text-4xl lg:text-6xl font-bold mb-6 text-white">
@@ -175,7 +175,7 @@ const Index = () => {
                 ]}
               />
             </h1>
-            <p className="text-xl lg:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto">
+            <p className="text-xl lg:text-2xl text-blue-100 dark:text-brand-blue-100 mb-8 max-w-3xl mx-auto">
               {t('index.hero.description')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -189,7 +189,7 @@ const Index = () => {
               <Link to="/solutions">
                 <Button
                   size="lg"
-                  className="bg-white text-brand-purple hover:bg-blue-50 font-semibold px-8 py-4 rounded-xl text-lg transition-all ease-in-out duration-300"
+                  className="bg-surface text-brand-purple hover:bg-brand-blue/10 dark:bg-surface dark:text-white dark:hover:bg-surface-muted font-semibold px-8 py-4 rounded-xl text-lg transition-all ease-in-out duration-300"
                 >
                   {t('index.hero.viewSolutions')}
                 </Button>
@@ -200,13 +200,13 @@ const Index = () => {
       </section>
 
       {/* Features Section */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-surface">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-neutral-900 mb-4">
+            <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">
               {t('index.why.title')}
             </h2>
-            <p className="text-xl text-neutral-600 max-w-3xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
               {t('index.why.description')}
             </p>
           </div>
@@ -224,10 +224,10 @@ const Index = () => {
                     <div className="w-16 h-16 bg-gradient-hero rounded-2xl flex items-center justify-center mx-auto mb-6">
                       <feature.icon className="h-8 w-8 text-white" />
                     </div>
-                    <h3 className="text-xl font-semibold text-neutral-900 mb-4">
+                    <h3 className="text-xl font-semibold text-foreground mb-4">
                       {feature.title}
                     </h3>
-                    <p className="text-neutral-600">{feature.description}</p>
+                    <p className="text-muted-foreground">{feature.description}</p>
                   </CardContent>
                 </Card>
               </a>
@@ -237,13 +237,13 @@ const Index = () => {
       </section>
 
       {/* Solutions Preview */}
-      <section className="py-24 bg-neutral-50">
+      <section className="py-24 bg-surface">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-neutral-900 mb-4">
+            <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">
               {t('index.solutions.title')}
             </h2>
-            <p className="text-xl text-neutral-600 max-w-3xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
               {t('index.solutions.description')}
             </p>
           </div>
@@ -257,10 +257,10 @@ const Index = () => {
                   className={`h-4 bg-gradient-to-r ${solution.gradient}`}
                 ></div>
                 <CardContent className="p-8">
-                  <h3 className="text-2xl font-bold text-neutral-900 mb-4">
+                  <h3 className="text-2xl font-bold text-foreground mb-4">
                     {solution.name}
                   </h3>
-                  <p className="text-neutral-600 mb-6">
+                  <p className="text-muted-foreground mb-6">
                     {solution.description}
                   </p>
                   {solution.features &&
@@ -270,7 +270,7 @@ const Index = () => {
                         {solution.features.map((feature, featureIndex) => (
                           <li
                             key={featureIndex}
-                            className="flex items-center text-neutral-700"
+                            className="flex items-center text-muted-foreground"
                           >
                             <CheckCircle className="h-5 w-5 text-brand-blue mr-3" />
                             {feature}
@@ -303,13 +303,13 @@ const Index = () => {
           <h2 className="text-3xl lg:text-4xl font-bold mb-6">
             {t('index.cta.title')}
           </h2>
-          <p className="text-xl text-blue-100 mb-8">
+          <p className="text-xl text-blue-100 dark:text-brand-blue-100 mb-8">
             {t('index.cta.description')}
           </p>
           <Link to="/contact">
             <Button
               size="lg"
-              className="bg-white text-brand-purple hover:bg-blue-50 font-semibold px-8 py-4 rounded-xl text-lg transition-all ease-in-out duration-300"
+              className="bg-surface text-brand-purple hover:bg-brand-blue/10 dark:bg-surface dark:text-white dark:hover:bg-surface-muted font-semibold px-8 py-4 rounded-xl text-lg transition-all ease-in-out duration-300"
             >
               {t('index.cta.getStarted')}
               <ArrowRight className="ml-2 h-5 w-5" />

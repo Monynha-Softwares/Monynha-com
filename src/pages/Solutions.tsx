@@ -125,13 +125,13 @@ const Solutions = () => {
         </Breadcrumb>
       </div>
       {/* Hero Section */}
-      <section className={cn(sectionPaddingY, 'bg-white')}>
+      <section className={cn(sectionPaddingY, 'bg-surface')}>
         <div className={sectionContainer}>
           <div className="text-center mb-16">
-            <h1 className="text-4xl lg:text-5xl font-bold text-neutral-900 mb-6">
+            <h1 className="text-4xl lg:text-5xl font-bold text-foreground mb-6">
               {t('solutionsPage.title')}
             </h1>
-            <p className="text-xl text-neutral-600 max-w-3xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
               {t('solutionsPage.description')}
             </p>
           </div>
@@ -139,7 +139,7 @@ const Solutions = () => {
       </section>
 
       {/* Solutions Detail */}
-      <section className={cn(sectionPaddingY, 'bg-white')}>
+      <section className={cn(sectionPaddingY, 'bg-surface')}>
         <div className={sectionContainer}>
           <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
             {displaySolutions.map((solution) => (
@@ -183,13 +183,13 @@ const Solutions = () => {
           <h2 className="text-3xl lg:text-4xl font-bold mb-6">
             {t('solutionsPage.customTitle')}
           </h2>
-          <p className="text-xl text-blue-100 mb-8">
+          <p className="text-xl text-blue-100 dark:text-brand-blue-100 mb-8">
             {t('solutionsPage.customDescription')}
           </p>
           <Link to="/contact">
             <Button
               size="lg"
-              className="bg-white text-brand-purple hover:bg-blue-50 font-semibold px-8 py-4 rounded-2xl text-lg transition-all ease-in-out duration-300 shadow-md hover:shadow-soft-lg"
+              className="bg-surface text-brand-purple hover:bg-brand-blue/10 dark:bg-surface dark:text-white dark:hover:bg-surface-muted font-semibold px-8 py-4 rounded-2xl text-lg transition-all ease-in-out duration-300 shadow-md hover:shadow-soft-lg"
             >
               {t('solutionsPage.discuss')}
               <ArrowRight className="ml-2 h-5 w-5" />

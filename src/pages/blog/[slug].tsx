@@ -31,13 +31,13 @@ type LexicalNode = {
 };
 
 const headingStyles: Record<string, string> = {
-  h1: 'text-4xl font-bold text-neutral-900',
-  h2: 'text-3xl font-bold text-neutral-900',
-  h3: 'text-2xl font-semibold text-neutral-900',
-  h4: 'text-xl font-semibold text-neutral-900',
-  h5: 'text-lg font-semibold text-neutral-900',
-  h6: 'text-lg font-semibold text-neutral-900',
-  default: 'text-3xl font-bold text-neutral-900',
+  h1: 'text-4xl font-bold text-foreground',
+  h2: 'text-3xl font-bold text-foreground',
+  h3: 'text-2xl font-semibold text-foreground',
+  h4: 'text-xl font-semibold text-foreground',
+  h5: 'text-lg font-semibold text-foreground',
+  h6: 'text-lg font-semibold text-foreground',
+  default: 'text-3xl font-bold text-foreground',
 };
 
 const renderNodes = (
@@ -67,7 +67,7 @@ const renderTextNode = (node: LexicalNode, key: string): ReactNode => {
     if ((format & 16) === 16) {
       wrapWith(
         'code',
-        'rounded bg-neutral-900 px-1.5 py-0.5 font-mono text-sm text-white'
+        'rounded bg-neutral-900 dark:bg-neutral-800 px-1.5 py-0.5 font-mono text-sm text-white'
       );
     } else {
       if ((format & 1) === 1) wrapWith('strong');
@@ -80,7 +80,7 @@ const renderTextNode = (node: LexicalNode, key: string): ReactNode => {
     if (tokens.includes('code')) {
       wrapWith(
         'code',
-        'rounded bg-neutral-900 px-1.5 py-0.5 font-mono text-sm text-white'
+        'rounded bg-neutral-900 dark:bg-neutral-800 px-1.5 py-0.5 font-mono text-sm text-white'
       );
     }
     if (tokens.includes('bold')) wrapWith('strong');
@@ -107,7 +107,7 @@ const renderLexicalNode = (node: LexicalNode, key: string): ReactNode => {
       return <React.Fragment key={key}>{renderNodes(node.children, key)}</React.Fragment>;
     case 'paragraph':
       return (
-        <p key={key} className="leading-relaxed text-neutral-700">
+        <p key={key} className="leading-relaxed text-muted-foreground">
           {renderNodes(node.children, key)}
         </p>
       );
@@ -124,7 +124,7 @@ const renderLexicalNode = (node: LexicalNode, key: string): ReactNode => {
       return (
         <blockquote
           key={key}
-          className="border-l-4 border-brand-blue/40 pl-4 italic text-neutral-600"
+          className="border-l-4 border-brand-blue/40 pl-4 italic text-muted-foreground"
         >
           {renderNodes(node.children, key)}
         </blockquote>
@@ -133,8 +133,8 @@ const renderLexicalNode = (node: LexicalNode, key: string): ReactNode => {
       const ListTag = node.tag === 'ol' ? 'ol' : 'ul';
       const listClasses =
         ListTag === 'ol'
-          ? 'ml-6 list-decimal space-y-2 text-neutral-700'
-          : 'ml-6 list-disc space-y-2 text-neutral-700';
+          ? 'ml-6 list-decimal space-y-2 text-muted-foreground'
+          : 'ml-6 list-disc space-y-2 text-muted-foreground';
       return (
         <ListTag key={key} className={listClasses}>
           {renderNodes(node.children, key)}
@@ -143,7 +143,7 @@ const renderLexicalNode = (node: LexicalNode, key: string): ReactNode => {
     }
     case 'listitem':
       return (
-        <li key={key} className="leading-relaxed text-neutral-700">
+        <li key={key} className="leading-relaxed text-muted-foreground">
           {renderNodes(node.children, key)}
         </li>
       );
@@ -154,7 +154,7 @@ const renderLexicalNode = (node: LexicalNode, key: string): ReactNode => {
       return (
         <pre
           key={key}
-          className="overflow-x-auto rounded-xl bg-neutral-900 p-4 text-sm text-neutral-100"
+          className="overflow-x-auto rounded-xl bg-neutral-900 dark:bg-neutral-800 p-4 text-sm text-neutral-100"
         >
           <code>{codeChildren}</code>
         </pre>
@@ -203,7 +203,7 @@ const renderBlogContent = (content: string): ReactNode[] => {
     .split(/\n{2,}/)
     .filter((paragraph) => paragraph.trim().length > 0)
     .map((paragraph, index) => (
-      <p key={`paragraph-${index}`} className="leading-relaxed text-neutral-700">
+      <p key={`paragraph-${index}`} className="leading-relaxed text-muted-foreground">
         {paragraph.trim()}
       </p>
     ));
@@ -320,7 +320,7 @@ const BlogPostPage = () => {
           ogImage={metaImage}
         />
         <div className="container mx-auto px-4 py-16 text-center space-y-4">
-          <p className="text-lg text-neutral-600">{t('blog.post.notFound')}</p>
+          <p className="text-lg text-muted-foreground">{t('blog.post.notFound')}</p>
           <ButtonLink />
         </div>
       </Layout>
@@ -357,7 +357,7 @@ const BlogPostPage = () => {
           </BreadcrumbList>
         </Breadcrumb>
       </div>
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-surface">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link
             to="/blog"
@@ -370,14 +370,14 @@ const BlogPostPage = () => {
           <article className="space-y-10">
             <header className="space-y-6">
               <div className="space-y-4">
-                <h1 className="text-4xl font-bold text-neutral-900">
+                <h1 className="text-4xl font-bold text-foreground">
                   {post.title}
                 </h1>
                 {post.excerpt && (
-                  <p className="text-xl text-neutral-600">{post.excerpt}</p>
+                  <p className="text-xl text-muted-foreground">{post.excerpt}</p>
                 )}
               </div>
-              <div className="flex flex-wrap items-center gap-4 text-sm text-neutral-500">
+              <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground/80">
                 <div className="flex items-center gap-2">
                   <User className="h-4 w-4" />
                   <span>{t('blog.post.author', { author: defaultAuthor })}</span>
@@ -387,24 +387,24 @@ const BlogPostPage = () => {
                   <span>{readTimeLabel}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="inline-flex h-1.5 w-1.5 rounded-full bg-neutral-300" aria-hidden />
+                  <span className="inline-flex h-1.5 w-1.5 rounded-full bg-muted" aria-hidden />
                   <span>{t('blog.post.published', { date: updatedDate })}</span>
                 </div>
               </div>
             </header>
 
             {post.image_url && (
-              <div className="overflow-hidden rounded-3xl bg-neutral-100 shadow-soft">
+              <div className="overflow-hidden rounded-3xl bg-surface shadow-soft">
                 <img
                   src={post.image_url}
                   alt={post.title}
                   className="h-full w-full object-cover"
-                  loading="lazy"
+                  loading="lazy" decoding="async"
                 />
               </div>
             )}
 
-            <div className="space-y-6 text-lg leading-relaxed text-neutral-700">
+            <div className="space-y-6 text-lg leading-relaxed text-muted-foreground">
               {renderedContent.length > 0 ? (
                 renderedContent
               ) : (

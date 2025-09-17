@@ -141,10 +141,10 @@ const SolutionDetail = () => {
         />
         <div className="container mx-auto px-4 py-24 text-center">
           <div className="max-w-lg mx-auto space-y-6">
-            <h1 className="text-3xl font-semibold text-neutral-900">
+            <h1 className="text-3xl font-semibold text-foreground">
               {t('solutionsPage.notFound')}
             </h1>
-            <p className="text-neutral-600">
+            <p className="text-muted-foreground">
               {t('solutionsPage.description')}
             </p>
             <Button asChild>
@@ -194,10 +194,10 @@ const SolutionDetail = () => {
               <div
                 className={`h-1 w-16 bg-gradient-to-r ${displaySolution.gradient} rounded-full mb-6`}
               />
-              <h1 className="text-4xl font-bold text-neutral-900 mb-6">
+              <h1 className="text-4xl font-bold text-foreground mb-6">
                 {displaySolution.title}
               </h1>
-              <p className="text-lg text-neutral-600 leading-relaxed">
+              <p className="text-lg text-muted-foreground leading-relaxed">
                 {displaySolution.description}
               </p>
 
@@ -205,7 +205,7 @@ const SolutionDetail = () => {
                 <Button
                   asChild
                   variant="outline"
-                  className="flex-1 sm:flex-none sm:w-auto border-neutral-200 hover:border-brand-blue hover:text-brand-blue transition-colors"
+                  className="flex-1 sm:flex-none sm:w-auto border-border hover:border-brand-blue hover:text-brand-blue transition-colors"
                 >
                   <Link to="/solutions" className="flex items-center justify-center gap-2">
                     <ArrowLeft className="h-4 w-4" />
@@ -229,7 +229,7 @@ const SolutionDetail = () => {
                 <img
                   src={displaySolution.imageUrl}
                   alt={displaySolution.title}
-                  loading="lazy"
+                  loading="lazy" decoding="async"
                   className="w-full h-full object-cover"
                 />
                 <div
@@ -242,23 +242,23 @@ const SolutionDetail = () => {
       </section>
 
       {displaySolution.features.length > 0 && (
-        <section className="py-16 bg-neutral-50">
+        <section className="py-16 bg-surface">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl font-semibold text-neutral-900 mb-8">
+            <h2 className="text-2xl font-semibold text-foreground mb-8">
               {t('solutionsPage.featuresTitle')}
             </h2>
             <div className="space-y-4">
               {displaySolution.features.map((feature, index) => (
                 <div
                   key={`${displaySolution.slug}-detail-feature-${index}`}
-                  className="bg-white rounded-2xl shadow-soft p-6 flex items-start gap-4"
+                  className="bg-surface dark:bg-surface-muted rounded-2xl shadow-soft p-6 flex items-start gap-4"
                 >
                   <span
                     className={`inline-flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-r ${displaySolution.gradient}`}
                   >
                     <CheckCircle className="h-5 w-5 text-white" />
                   </span>
-                  <p className="text-neutral-700 leading-relaxed">{feature}</p>
+                  <p className="text-muted-foreground leading-relaxed">{feature}</p>
                 </div>
               ))}
             </div>
@@ -271,13 +271,13 @@ const SolutionDetail = () => {
           <h2 className="text-3xl lg:text-4xl font-bold mb-6">
             {t('solutionsPage.customTitle')}
           </h2>
-          <p className="text-xl text-blue-100 mb-8">
+          <p className="text-xl text-blue-100 dark:text-brand-blue-100 mb-8">
             {t('solutionsPage.customDescription')}
           </p>
           <Button
             asChild
             size="lg"
-            className="bg-white text-brand-purple hover:bg-blue-50 font-semibold px-8 py-4 rounded-xl text-lg transition-all ease-in-out duration-300"
+            className="bg-surface text-brand-purple hover:bg-brand-blue/10 dark:bg-surface dark:text-white dark:hover:bg-surface-muted font-semibold px-8 py-4 rounded-xl text-lg transition-all ease-in-out duration-300"
           >
             <Link to="/contact" className="flex items-center justify-center gap-2">
               {t('solutionsPage.discuss')}

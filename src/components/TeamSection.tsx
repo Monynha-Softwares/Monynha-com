@@ -38,13 +38,13 @@ const TeamSection = () => {
 
   if (isLoading) {
     return (
-      <section className="py-24 bg-neutral-50">
+      <section className="py-24 bg-surface">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-neutral-900 mb-4">
+            <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">
               {t('team.title')}
             </h2>
-            <p className="text-xl text-neutral-600 max-w-3xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
               {t('team.loading')}
             </p>
           </div>
@@ -55,10 +55,10 @@ const TeamSection = () => {
                 className="w-full md:w-1/2 lg:w-1/4 border-0 shadow-soft rounded-2xl animate-pulse"
               >
                 <CardContent className="p-8 text-center">
-                  <div className="w-24 h-24 bg-neutral-200 rounded-full mx-auto mb-6"></div>
-                  <div className="h-6 bg-neutral-200 rounded mb-2"></div>
-                  <div className="h-4 bg-neutral-200 rounded mb-4"></div>
-                  <div className="h-16 bg-neutral-200 rounded"></div>
+                  <div className="w-24 h-24 bg-surface-muted rounded-full mx-auto mb-6"></div>
+                  <div className="h-6 bg-surface-muted rounded mb-2"></div>
+                  <div className="h-4 bg-surface-muted rounded mb-4"></div>
+                  <div className="h-16 bg-surface-muted rounded"></div>
                 </CardContent>
               </Card>
             ))}
@@ -70,25 +70,25 @@ const TeamSection = () => {
 
   if (error) {
     return (
-      <section className="py-24 bg-neutral-50">
+      <section className="py-24 bg-surface">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl lg:text-4xl font-bold text-neutral-900 mb-4">
+          <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">
             {t('team.title')}
           </h2>
-          <p className="text-xl text-neutral-600">{t('team.error')}</p>
+          <p className="text-xl text-muted-foreground">{t('team.error')}</p>
         </div>
       </section>
     );
   }
 
   return (
-    <section className="py-24 bg-neutral-50">
+    <section className="py-24 bg-surface">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl lg:text-4xl font-bold text-neutral-900 mb-4">
+          <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">
             {t('team.title')}
           </h2>
-          <p className="text-xl text-neutral-600 max-w-3xl mx-auto">
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
             {t('team.description')}
           </p>
         </div>
@@ -113,7 +113,7 @@ const TeamSection = () => {
                   </AvatarFallback>
                 </Avatar>
 
-                <h3 className="text-xl font-semibold text-neutral-900 mb-2">
+                <h3 className="text-xl font-semibold text-foreground mb-2">
                   {member.name}
                 </h3>
 
@@ -122,7 +122,7 @@ const TeamSection = () => {
                 </p>
 
                 {member.bio && (
-                  <p className="text-neutral-600 text-sm mb-6 leading-relaxed">
+                  <p className="text-muted-foreground text-sm mb-6 leading-relaxed">
                     {member.bio}
                   </p>
                 )}

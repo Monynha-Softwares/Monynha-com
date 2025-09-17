@@ -147,13 +147,13 @@ const About = () => {
         ogImage="/placeholder.svg"
       />
       {/* Hero Section */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-surface">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h1 className="text-4xl lg:text-5xl font-bold text-neutral-900 mb-6">
+            <h1 className="text-4xl lg:text-5xl font-bold text-foreground mb-6">
               {t('about.title')}
             </h1>
-            <p className="text-xl text-neutral-600 max-w-3xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
               {t('about.description')}
             </p>
           </div>
@@ -166,23 +166,23 @@ const About = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
             <div className="space-y-8">
               <div>
-                <span className="inline-flex items-center px-4 py-2 text-sm font-medium uppercase tracking-widest rounded-full bg-white/10 text-blue-100">
+                <span className="inline-flex items-center px-4 py-2 text-sm font-medium uppercase tracking-widest rounded-full bg-surface/10 dark:bg-white/10 text-blue-100 dark:text-brand-blue-100">
                   {t('about.missionTitle')}
                 </span>
               </div>
               <h2 className="text-3xl lg:text-4xl font-bold leading-tight">
                 {t('about.description')}
               </h2>
-              <p className="text-lg text-blue-100/90 leading-relaxed">
+              <p className="text-lg text-blue-100 dark:text-brand-blue-100/90 leading-relaxed">
                 {t('about.mission')}
               </p>
             </div>
             <div>
               <div className="mb-10">
-                <h3 className="text-xl font-semibold uppercase tracking-widest text-blue-100 mb-2">
+                <h3 className="text-xl font-semibold uppercase tracking-widest text-blue-100 dark:text-brand-blue-100 mb-2">
                   {t('about.valuesTitle')}
                 </h3>
-                <p className="text-blue-100/80">
+                <p className="text-blue-100 dark:text-brand-blue-100/80">
                   {t('about.valuesDescription')}
                 </p>
               </div>
@@ -190,7 +190,7 @@ const About = () => {
                 {values.map((value, index) => (
                   <Card
                     key={index}
-                    className="border border-white/10 bg-white/10 backdrop-blur-md transition-all duration-300 hover:bg-white/20 hover:shadow-lg rounded-2xl"
+                    className="border border-white/10 dark:border-white/20 bg-surface/10 dark:bg-white/10 backdrop-blur-md transition-all duration-300 hover:bg-surface/20 dark:bg-white/20 hover:shadow-lg rounded-2xl"
                   >
                     <CardContent className="p-6 space-y-4">
                       <div className="w-12 h-12 rounded-2xl bg-gradient-brand flex items-center justify-center">
@@ -200,7 +200,7 @@ const About = () => {
                         <h4 className="text-lg font-semibold text-white mb-2">
                           {value.title}
                         </h4>
-                        <p className="text-sm text-blue-100/90 leading-relaxed">
+                        <p className="text-sm text-blue-100 dark:text-brand-blue-100/90 leading-relaxed">
                           {value.description}
                         </p>
                       </div>
@@ -214,7 +214,7 @@ const About = () => {
       </section>
 
       {/* Story Section */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-surface">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="order-2 lg:order-1 space-y-8">
@@ -223,7 +223,7 @@ const About = () => {
                   {t('about.storyTitle')}
                 </span>
               </div>
-              <h2 className="text-3xl lg:text-4xl font-bold text-neutral-900 leading-tight">
+              <h2 className="text-3xl lg:text-4xl font-bold text-foreground leading-tight">
                 {t('about.title')}
               </h2>
               <ul className="space-y-6">
@@ -232,7 +232,7 @@ const About = () => {
                     <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-brand text-white font-semibold">
                       {(index + 1).toString().padStart(2, '0')}
                     </span>
-                    <p className="text-lg text-neutral-600 leading-relaxed">
+                    <p className="text-lg text-muted-foreground leading-relaxed">
                       {story}
                     </p>
                   </li>
@@ -245,10 +245,10 @@ const About = () => {
                   <img
                     src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
                     alt="Team collaboration"
-                    loading="lazy"
+                    loading="lazy" decoding="async"
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/40 via-transparent" aria-hidden="true"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/40 via-transparent dark:from-black/70 dark:via-transparent" aria-hidden="true"></div>
                 </div>
               </Card>
             </div>
@@ -257,13 +257,13 @@ const About = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-24 bg-neutral-50">
+      <section className="py-24 bg-surface">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-neutral-900 mb-4">
+            <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">
               {t('about.impactTitle')}
             </h2>
-            <p className="text-xl text-neutral-600 max-w-3xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
               {t('about.impactDescription')}
             </p>
           </div>
@@ -277,41 +277,41 @@ const About = () => {
               {Array.from({ length: 4 }).map((_, index) => (
                 <div
                   key={index}
-                  className="h-32 rounded-2xl bg-white shadow-soft animate-pulse"
+                  className="h-32 rounded-2xl bg-surface dark:bg-surface-muted shadow-soft animate-pulse"
                   aria-hidden="true"
                 ></div>
               ))}
             </div>
           ) : statsError ? (
-            <p className="text-center text-neutral-500">{t('about.statsError')}</p>
+            <p className="text-center text-muted-foreground/80">{t('about.statsError')}</p>
           ) : aboutStats && aboutStats.length > 0 ? (
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
               {aboutStats.map((stat, index) => (
                 <Card
                   key={`${stat.label}-${index}`}
-                  className="border-0 shadow-soft rounded-2xl bg-white text-center p-8"
+                  className="border-0 shadow-soft rounded-2xl bg-surface dark:bg-surface-muted text-center p-8"
                 >
                   <div className="text-4xl lg:text-5xl font-bold text-transparent bg-clip-text bg-gradient-brand mb-2">
                     {stat.number}
                   </div>
-                  <div className="text-neutral-600 font-medium">{stat.label}</div>
+                  <div className="text-muted-foreground font-medium">{stat.label}</div>
                 </Card>
               ))}
             </div>
           ) : (
-            <p className="text-center text-neutral-500">{t('about.statsEmpty')}</p>
+            <p className="text-center text-muted-foreground/80">{t('about.statsEmpty')}</p>
           )}
         </div>
       </section>
 
       {/* Team Section */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-surface">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-neutral-900 mb-4">
+            <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">
               {t('team.title')}
             </h2>
-            <p className="text-xl text-neutral-600 max-w-3xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
               {t('team.description')}
             </p>
           </div>
@@ -329,15 +329,15 @@ const About = () => {
                   aria-hidden="true"
                 >
                   <div className="flex flex-col items-center gap-4">
-                    <div className="w-24 h-24 rounded-full bg-neutral-200" />
-                    <div className="w-32 h-6 rounded bg-neutral-200" />
-                    <div className="w-24 h-4 rounded bg-neutral-200" />
+                    <div className="w-24 h-24 rounded-full bg-surface-muted" />
+                    <div className="w-32 h-6 rounded bg-surface-muted" />
+                    <div className="w-24 h-4 rounded bg-surface-muted" />
                   </div>
                 </Card>
               ))}
             </div>
           ) : teamError ? (
-            <p className="text-center text-neutral-500">{t('team.error')}</p>
+            <p className="text-center text-muted-foreground/80">{t('team.error')}</p>
           ) : teamMembers && teamMembers.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {teamMembers.map((member) => (
@@ -359,7 +359,7 @@ const About = () => {
                       </AvatarFallback>
                     </Avatar>
                     <div className="space-y-1">
-                      <h3 className="text-xl font-semibold text-neutral-900">
+                      <h3 className="text-xl font-semibold text-foreground">
                         {member.name}
                       </h3>
                       <p className="text-brand-blue font-medium">{member.role}</p>
@@ -369,7 +369,7 @@ const About = () => {
               ))}
             </div>
           ) : (
-            <p className="text-center text-neutral-500">{t('team.empty')}</p>
+            <p className="text-center text-muted-foreground/80">{t('team.empty')}</p>
           )}
         </div>
       </section>
@@ -380,7 +380,7 @@ const About = () => {
           <h2 className="text-3xl lg:text-4xl font-bold">
             {t('about.ctaTitle')}
           </h2>
-          <p className="text-xl text-blue-100">
+          <p className="text-xl text-blue-100 dark:text-brand-blue-100">
             {t('about.ctaDescription')}
           </p>
           <Button asChild size="lg" className="rounded-full px-10">

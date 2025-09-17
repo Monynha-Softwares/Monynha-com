@@ -184,10 +184,10 @@ const CommentsSection = ({ postId }: CommentsSectionProps) => {
     <section className="mt-16">
       <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h2 className="text-3xl font-semibold text-neutral-900">
+          <h2 className="text-3xl font-semibold text-foreground">
             {t('blog.comments.title')}
           </h2>
-          <p className="text-sm text-neutral-500">
+          <p className="text-sm text-muted-foreground/80">
             {t('blog.comments.count', { count: commentCount })}
           </p>
         </div>
@@ -195,8 +195,8 @@ const CommentsSection = ({ postId }: CommentsSectionProps) => {
 
       <div className="mt-8 space-y-4">
         {isLoading && (
-          <Card className="border-0 bg-white shadow-soft">
-            <CardContent className="p-6 text-neutral-500">
+          <Card className="border-0 bg-surface dark:bg-surface-muted shadow-soft">
+            <CardContent className="p-6 text-muted-foreground/80">
               {t('blog.comments.loading')}
             </CardContent>
           </Card>
@@ -211,8 +211,8 @@ const CommentsSection = ({ postId }: CommentsSectionProps) => {
         )}
 
         {!isLoading && !isError && commentCount === 0 && (
-          <Card className="border-0 bg-white shadow-soft">
-            <CardContent className="p-6 text-neutral-600">
+          <Card className="border-0 bg-surface dark:bg-surface-muted shadow-soft">
+            <CardContent className="p-6 text-muted-foreground">
               {t('blog.comments.empty')}
             </CardContent>
           </Card>
@@ -228,7 +228,7 @@ const CommentsSection = ({ postId }: CommentsSectionProps) => {
             return (
               <Card
                 key={comment.id}
-                className="border-0 bg-white shadow-soft transition hover:shadow-soft-lg"
+                className="border-0 bg-surface dark:bg-surface-muted shadow-soft transition hover:shadow-soft-lg"
               >
                 <CardContent className="flex gap-4 p-6">
                   <Avatar>
@@ -243,12 +243,12 @@ const CommentsSection = ({ postId }: CommentsSectionProps) => {
                   </Avatar>
                   <div>
                     <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
-                      <p className="font-medium text-neutral-900">
+                      <p className="font-medium text-foreground">
                         {authorName}
                       </p>
-                      <p className="text-sm text-neutral-500">{formattedDate}</p>
+                      <p className="text-sm text-muted-foreground/80">{formattedDate}</p>
                     </div>
-                    <p className="mt-3 whitespace-pre-line text-neutral-700">
+                    <p className="mt-3 whitespace-pre-line text-muted-foreground">
                       {comment.content}
                     </p>
                   </div>
@@ -260,13 +260,13 @@ const CommentsSection = ({ postId }: CommentsSectionProps) => {
 
       <div className="mt-10">
         {isAuthLoading ? (
-          <Card className="border-0 bg-white shadow-soft">
-            <CardContent className="p-6 text-neutral-500">
+          <Card className="border-0 bg-surface dark:bg-surface-muted shadow-soft">
+            <CardContent className="p-6 text-muted-foreground/80">
               {t('blog.comments.authenticating')}
             </CardContent>
           </Card>
         ) : user ? (
-          <Card className="border-0 bg-white shadow-soft-lg">
+          <Card className="border-0 bg-surface dark:bg-surface-muted shadow-soft-lg">
             <CardContent className="p-6">
               <form onSubmit={handleSubmit} className="space-y-4">
                 <Textarea
@@ -277,7 +277,7 @@ const CommentsSection = ({ postId }: CommentsSectionProps) => {
                   maxLength={1000}
                   className="resize-none text-base"
                 />
-                <div className="flex items-center justify-between text-sm text-neutral-500">
+                <div className="flex items-center justify-between text-sm text-muted-foreground/80">
                   <span>
                     {t('blog.comments.characters', { count: newComment.length, max: 1000 })}
                   </span>
@@ -296,8 +296,8 @@ const CommentsSection = ({ postId }: CommentsSectionProps) => {
             </CardContent>
           </Card>
         ) : (
-          <Card className="border border-dashed border-brand-blue/30 bg-white">
-            <CardContent className="flex flex-col items-center gap-4 p-6 text-center text-neutral-600">
+          <Card className="border border-dashed border-brand-blue/30 bg-surface dark:bg-surface-muted">
+            <CardContent className="flex flex-col items-center gap-4 p-6 text-center text-muted-foreground">
               <p>{t('blog.comments.signInPrompt')}</p>
               <Button asChild className="btn-primary">
                 <Link to="/auth">{t('blog.comments.signInCta')}</Link>

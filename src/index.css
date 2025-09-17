@@ -1,39 +1,79 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Quicksand:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    color-scheme: light;
+    --background: 210 40% 98%;
+    --foreground: 224 47% 12%;
+
+    --surface: 0 0% 100%;
+    --surface-foreground: 224 47% 12%;
+    --surface-muted: 210 40% 96%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 224 47% 12%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 224 47% 12%;
 
-    --primary: 222.2 47.4% 11.2%;
+    --primary: 262 83% 58%;
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 199 90% 50%;
+    --secondary-foreground: 210 40% 98%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 46%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 330 84% 65%;
+    --accent-foreground: 210 40% 98%;
 
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 0 72% 51%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 215 28% 84%;
+    --input: 215 28% 84%;
+    --ring: 262 83% 58%;
 
     --radius: 1.5rem;
+  }
+
+  .dark {
+    color-scheme: dark;
+    --background: 230 30% 10%;
+    --foreground: 210 40% 96%;
+
+    --surface: 228 25% 15%;
+    --surface-foreground: 210 40% 96%;
+    --surface-muted: 228 24% 18%;
+
+    --card: 228 25% 15%;
+    --card-foreground: 210 40% 96%;
+
+    --popover: 228 25% 15%;
+    --popover-foreground: 210 40% 96%;
+
+    --primary: 262 83% 70%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 199 90% 60%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 228 24% 18%;
+    --muted-foreground: 215 20% 72%;
+
+    --accent: 330 84% 70%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 72% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 228 22% 30%;
+    --input: 228 22% 30%;
+    --ring: 262 83% 70%;
   }
 
   * {
@@ -41,7 +81,7 @@
   }
 
   body {
-    @apply bg-background text-neutral-900 font-sans antialiased;
+    @apply bg-background text-foreground font-sans antialiased transition-colors duration-300;
   }
 
   h1,
@@ -50,7 +90,7 @@
   h4,
   h5,
   h6 {
-    @apply font-heading font-semibold text-neutral-900;
+    @apply font-heading font-semibold text-foreground;
   }
 
   code,
@@ -65,7 +105,7 @@
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 bg-white text-neutral-700 font-semibold px-6 py-3 rounded-2xl border border-neutral-200 shadow-sm hover:shadow-soft hover:border-brand-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2 transition-all ease-in-out duration-300;
+    @apply inline-flex items-center justify-center gap-2 bg-surface text-muted-foreground font-semibold px-6 py-3 rounded-2xl border border-border shadow-sm hover:shadow-soft hover:border-brand-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2 transition-all ease-in-out duration-300 dark:bg-surface-muted dark:text-foreground;
   }
 
   .card-hover {
