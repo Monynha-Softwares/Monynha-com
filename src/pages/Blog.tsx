@@ -80,6 +80,7 @@ const getPaginationRange = (
   return range;
 };
 
+
 const Blog = () => {
   const { t, i18n } = useTranslation();
   const [page, setPage] = useState(1);
