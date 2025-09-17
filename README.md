@@ -55,6 +55,49 @@ VITE_SUPABASE_ANON_KEY=<your-anon-key>
 
 These variables match the placeholders in `.env.example`.
 
+### Liquid Ether background
+
+The animated "Liquid Ether" background is rendered with Three.js and loads on
+the client only. It sits behind every page and automatically falls back to a
+static gradient when WebGL is not available or when visitors prefer reduced
+motion.
+
+The effect can be configured through environment variables (either Vite's
+`VITE_` prefix or the `NEXT_PUBLIC_` prefix for parity with Next.js setups):
+
+```bash
+# Enable/disable the WebGL background entirely (default: true)
+NEXT_PUBLIC_LIQUIDETHER_ENABLED=true
+
+# Downscale factor for the internal render resolution (0.2 – 1, default: 0.5)
+NEXT_PUBLIC_LIQUIDETHER_RESOLUTION=0.5
+
+# Multiplier applied to highlight intensity and shimmer (default: 2.2)
+NEXT_PUBLIC_LIQUIDETHER_INTENSITY=2.2
+
+# Override the gradient palette (comma-separated list, max 6 colors)
+NEXT_PUBLIC_LIQUIDETHER_COLORS=#7C3AED,#0EA5E9,#EC4899
+```
+
+Runtime overrides are also exposed through the `LiquidEtherClient` component:
+
+```tsx
+<LiquidEtherClient
+  colors={["#5227FF", "#FF9FFC", "#B19EEF"]}
+  mouseForce={24}
+  cursorSize={140}
+  resolution={0.45}
+  autoIntensity={2.8}
+/>
+```
+
+By default the component samples the CSS design tokens
+`--mona-primary`, `--mona-secondary` and `--mona-accent-pink`, defined in
+`src/index.css`, and falls back to the brand palette
+(`#7C3AED`, `#0EA5E9`, `#EC4899`). Update those variables—or the
+`NEXT_PUBLIC_LIQUIDETHER_COLORS` environment variable—to keep the animation in
+sync with any branding changes.
+
 ## Technologies
 
 - React & Vite

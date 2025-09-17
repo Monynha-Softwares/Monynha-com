@@ -40,6 +40,12 @@
     @apply border-border;
   }
 
+  html,
+  body,
+  #root {
+    background-color: transparent;
+  }
+
   body {
     @apply bg-background text-neutral-900 font-sans antialiased;
   }
