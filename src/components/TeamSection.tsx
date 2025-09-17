@@ -3,7 +3,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { supabase } from '@/integrations/supabase';
-import { Linkedin, Mail } from 'lucide-react';
+import { Linkedin } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 interface TeamMember {
@@ -38,13 +38,13 @@ const TeamSection = () => {
 
   if (isLoading) {
     return (
-      <section className="py-24 bg-neutral-50">
+      <section className="bg-neutral-50 py-24 transition-colors dark:bg-neutral-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-neutral-900 mb-4">
+            <h2 className="mb-4 text-3xl font-bold text-neutral-900 lg:text-4xl dark:text-neutral-100">
               {t('team.title')}
             </h2>
-            <p className="text-xl text-neutral-600 max-w-3xl mx-auto">
+            <p className="mx-auto max-w-3xl text-xl text-neutral-600 dark:text-neutral-300">
               {t('team.loading')}
             </p>
           </div>
@@ -52,13 +52,13 @@ const TeamSection = () => {
             {[...Array(4)].map((_, i) => (
               <Card
                 key={i}
-                className="w-full md:w-1/2 lg:w-1/4 border-0 shadow-soft rounded-2xl animate-pulse"
+                className="w-full animate-pulse rounded-2xl border-0 shadow-soft transition-colors md:w-1/2 lg:w-1/4 dark:bg-neutral-900/60"
               >
                 <CardContent className="p-8 text-center">
-                  <div className="w-24 h-24 bg-neutral-200 rounded-full mx-auto mb-6"></div>
-                  <div className="h-6 bg-neutral-200 rounded mb-2"></div>
-                  <div className="h-4 bg-neutral-200 rounded mb-4"></div>
-                  <div className="h-16 bg-neutral-200 rounded"></div>
+                  <div className="mx-auto mb-6 h-24 w-24 rounded-full bg-neutral-200 dark:bg-neutral-700"></div>
+                  <div className="mb-2 h-6 rounded bg-neutral-200 dark:bg-neutral-700"></div>
+                  <div className="mb-4 h-4 rounded bg-neutral-200 dark:bg-neutral-700"></div>
+                  <div className="h-16 rounded bg-neutral-200 dark:bg-neutral-700"></div>
                 </CardContent>
               </Card>
             ))}
@@ -70,25 +70,27 @@ const TeamSection = () => {
 
   if (error) {
     return (
-      <section className="py-24 bg-neutral-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl lg:text-4xl font-bold text-neutral-900 mb-4">
+      <section className="bg-neutral-50 py-24 transition-colors dark:bg-neutral-950">
+        <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
+          <h2 className="mb-4 text-3xl font-bold text-neutral-900 lg:text-4xl dark:text-neutral-100">
             {t('team.title')}
           </h2>
-          <p className="text-xl text-neutral-600">{t('team.error')}</p>
+          <p className="text-xl text-neutral-600 dark:text-neutral-300">
+            {t('team.error')}
+          </p>
         </div>
       </section>
     );
   }
 
   return (
-    <section className="py-24 bg-neutral-50">
+    <section className="bg-neutral-50 py-24 transition-colors dark:bg-neutral-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl lg:text-4xl font-bold text-neutral-900 mb-4">
+        <div className="mb-16 text-center">
+          <h2 className="mb-4 text-3xl font-bold text-neutral-900 lg:text-4xl dark:text-neutral-100">
             {t('team.title')}
           </h2>
-          <p className="text-xl text-neutral-600 max-w-3xl mx-auto">
+          <p className="mx-auto max-w-3xl text-xl text-neutral-600 dark:text-neutral-300">
             {t('team.description')}
           </p>
         </div>
@@ -97,10 +99,10 @@ const TeamSection = () => {
           {members?.map((member) => (
             <Card
               key={member.id}
-              className="w-full md:w-1/2 lg:w-1/4 border-0 shadow-soft hover:shadow-soft-lg transition-all duration-200 card-hover rounded-2xl"
+              className="card-hover w-full rounded-2xl border-0 shadow-soft transition-all duration-200 hover:shadow-soft-lg md:w-1/2 lg:w-1/4 dark:bg-neutral-900/80"
             >
               <CardContent className="p-8 text-center">
-                <Avatar className="w-24 h-24 mx-auto mb-6">
+                <Avatar className="mx-auto mb-6 h-24 w-24">
                   <AvatarImage
                     src={member.image_url || undefined}
                     alt={member.name}
@@ -113,16 +115,16 @@ const TeamSection = () => {
                   </AvatarFallback>
                 </Avatar>
 
-                <h3 className="text-xl font-semibold text-neutral-900 mb-2">
+                <h3 className="mb-2 text-xl font-semibold text-neutral-900 dark:text-neutral-100">
                   {member.name}
                 </h3>
 
-                <p className="text-brand-blue font-medium mb-4">
+                <p className="mb-4 font-medium text-brand-blue">
                   {member.role}
                 </p>
 
                 {member.bio && (
-                  <p className="text-neutral-600 text-sm mb-6 leading-relaxed">
+                  <p className="mb-6 text-sm leading-relaxed text-neutral-600 dark:text-neutral-300">
                     {member.bio}
                   </p>
                 )}
@@ -132,10 +134,10 @@ const TeamSection = () => {
                     variant="outline"
                     size="sm"
                     aria-label={t('team.linkedin')}
-                    className="rounded-full border-brand-blue text-brand-blue hover:bg-brand-blue hover:text-white"
+                    className="rounded-full border-brand-blue text-brand-blue transition-colors hover:bg-brand-blue hover:text-white focus-visible:ring-brand-blue focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                     onClick={() => window.open(member.linkedin_url!, '_blank')}
                   >
-                    <Linkedin className="w-4 h-4" />
+                    <Linkedin className="h-4 w-4" />
                     <span className="sr-only">{t('team.linkedin')}</span>
                   </Button>
                 )}

@@ -56,6 +56,7 @@ export default {
         },
         // Monynha Softwares Brand Colors
         brand: {
+          DEFAULT: '#7C3AED',
           purple: '#7C3AED',
           blue: '#0EA5E9',
           pink: '#EC4899',
@@ -74,12 +75,13 @@ export default {
           700: '#374151',
           800: '#1F2937',
           900: '#111827',
+          950: '#030712',
         },
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
-        heading: ['"Space Grotesk"', 'Inter', 'system-ui', 'sans-serif'],
-        brand: ['"Space Grotesk"', 'Inter', 'system-ui', 'sans-serif'],
+        heading: ['"Quicksand"', 'Inter', 'system-ui', 'sans-serif'],
+        brand: ['"Quicksand"', 'Inter', 'system-ui', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'monospace'],
       },
       backgroundImage: {

@@ -6,39 +6,39 @@ import { Separator } from '@/components/ui/separator';
 const Footer = () => {
   const { t } = useTranslation();
   return (
-    <footer className="bg-neutral-50 border-t border-neutral-100">
+    <footer className="border-t border-neutral-100 bg-neutral-50 transition-colors dark:border-neutral-800 dark:bg-neutral-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
           {/* Logo and Description */}
           <div className="sm:col-span-2">
-            <Link to="/" className="flex items-center space-x-3 mb-4">
-              <div className="w-10 h-10 bg-gradient-brand rounded-xl flex items-center justify-center">
-                <span className="text-white text-lg font-bold">M</span>
+            <Link to="/" className="mb-4 flex items-center space-x-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-brand">
+                <span className="text-lg font-bold text-white">M</span>
               </div>
               <div className="flex flex-col">
-                <span className="font-brand font-semibold text-xl text-neutral-900">
+                <span className="font-brand text-xl font-semibold text-neutral-900 dark:text-neutral-100">
                   Mon<span className="text-brand-blue">y</span>nha.com
                 </span>
-                <span className="text-sm text-neutral-400 font-medium">
+                <span className="text-sm font-medium text-neutral-400 dark:text-neutral-500">
                   {t('footer.tagline')}
                 </span>
               </div>
             </Link>
-            <p className="text-neutral-600 max-w-md">
+            <p className="max-w-md text-neutral-600 dark:text-neutral-300">
               {t('footer.description')}
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h3 className="font-semibold text-neutral-900 mb-4">
+            <h3 className="mb-4 font-semibold text-neutral-900 dark:text-neutral-100">
               {t('footer.quickLinks')}
             </h3>
             <ul className="space-y-2">
               <li>
                 <Link
                   to="/solutions"
-                  className="text-neutral-600 hover:text-brand-blue transition-colors ease-in-out duration-300"
+                  className="text-neutral-600 transition-colors duration-300 ease-in-out hover:text-brand-blue dark:text-neutral-300"
                 >
                   {t('navigation.solutions')}
                 </Link>
@@ -46,7 +46,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/about"
-                  className="text-neutral-600 hover:text-brand-blue transition-colors ease-in-out duration-300"
+                  className="text-neutral-600 transition-colors duration-300 ease-in-out hover:text-brand-blue dark:text-neutral-300"
                 >
                   {t('navigation.about')}
                 </Link>
@@ -54,7 +54,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/blog"
-                  className="text-neutral-600 hover:text-brand-blue transition-colors ease-in-out duration-300"
+                  className="text-neutral-600 transition-colors duration-300 ease-in-out hover:text-brand-blue dark:text-neutral-300"
                 >
                   {t('navigation.blog')}
                 </Link>
@@ -62,7 +62,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/contact"
-                  className="text-neutral-600 hover:text-brand-blue transition-colors ease-in-out duration-300"
+                  className="text-neutral-600 transition-colors duration-300 ease-in-out hover:text-brand-blue dark:text-neutral-300"
                 >
                   {t('navigation.contact')}
                 </Link>
@@ -72,27 +72,27 @@ const Footer = () => {
 
           {/* Solutions */}
           <div>
-            <h3 className="font-semibold text-neutral-900 mb-4">
+            <h3 className="mb-4 font-semibold text-neutral-900 dark:text-neutral-100">
               {t('footer.solutions')}
             </h3>
             <ul className="space-y-2">
               <li>
-                <span className="text-neutral-600">
+                <span className="text-neutral-600 dark:text-neutral-300">
                   {t('footer.solutionList.boteco')}
                 </span>
               </li>
               <li>
-                <span className="text-neutral-600">
+                <span className="text-neutral-600 dark:text-neutral-300">
                   {t('footer.solutionList.assistina')}
                 </span>
               </li>
               <li>
-                <span className="text-neutral-600">
+                <span className="text-neutral-600 dark:text-neutral-300">
                   {t('footer.solutionList.custom')}
                 </span>
               </li>
               <li>
-                <span className="text-neutral-600">
+                <span className="text-neutral-600 dark:text-neutral-300">
                   {t('footer.solutionList.integration')}
                 </span>
               </li>
@@ -101,7 +101,7 @@ const Footer = () => {
 
           {/* Monynha Ecosystem */}
           <div>
-            <h3 className="font-semibold text-neutral-900 mb-4">
+            <h3 className="mb-4 font-semibold text-neutral-900 dark:text-neutral-100">
               {t('footer.ecosystem')}
             </h3>
             <ul className="space-y-2">
@@ -110,7 +110,7 @@ const Footer = () => {
                   href="https://monynha.tech"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                  className="text-sm text-muted-foreground transition-colors hover:text-primary dark:text-neutral-300"
                   aria-label="Visit monynha.tech"
                   title="monynha.tech"
                 >
@@ -122,7 +122,7 @@ const Footer = () => {
                   href="https://monynha.fun"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                  className="text-sm text-muted-foreground transition-colors hover:text-primary dark:text-neutral-300"
                   aria-label="Visit monynha.fun"
                   title="monynha.fun"
                 >
@@ -134,7 +134,7 @@ const Footer = () => {
                   href="https://monynha.online"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                  className="text-sm text-muted-foreground transition-colors hover:text-primary dark:text-neutral-300"
                   aria-label="Visit monynha.online"
                   title="monynha.online"
                 >
@@ -146,7 +146,7 @@ const Footer = () => {
                   href="https://monynha.me"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                  className="text-sm text-muted-foreground transition-colors hover:text-primary dark:text-neutral-300"
                   aria-label="Visit monynha.me"
                   title="monynha.me"
                 >
@@ -158,15 +158,15 @@ const Footer = () => {
 
           {/* Contact */}
           <div>
-            <h3 className="font-semibold text-neutral-900 mb-4">
+            <h3 className="mb-4 font-semibold text-neutral-900 dark:text-neutral-100">
               {t('footer.contact')}
             </h3>
             <ul className="space-y-2">
-              <li className="text-sm text-muted-foreground">
+              <li className="text-sm text-muted-foreground dark:text-neutral-300">
                 {t('footer.email')}: {
                   <a
                     href="mailto:hello@monynha.com"
-                    className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                    className="text-sm text-muted-foreground transition-colors hover:text-primary dark:text-neutral-300"
                     aria-label="Send email to hello@monynha.com"
                     title="hello@monynha.com"
                   >
@@ -174,17 +174,17 @@ const Footer = () => {
                   </a>
                 }
               </li>
-              <li className="text-sm text-muted-foreground">
+              <li className="text-sm text-muted-foreground dark:text-neutral-300">
                 {t('footer.location')}: Faro, Portugal
               </li>
             </ul>
           </div>
         </div>
 
-        <Separator className="my-8" />
+        <Separator className="my-8 bg-neutral-200 dark:bg-neutral-800" />
 
         <div className="flex flex-col md:flex-row justify-between items-center">
-          <p className="text-neutral-500 text-sm flex items-center space-x-1">
+          <p className="flex items-center space-x-1 text-sm text-neutral-500 dark:text-neutral-400">
             <span>
               {t('footer.copyright', { year: new Date().getFullYear() })}
             </span>
@@ -197,13 +197,13 @@ const Footer = () => {
           <div className="flex space-x-6 mt-4 md:mt-0">
             <Link
               to="#"
-              className="text-neutral-500 hover:text-brand-blue transition-colors ease-in-out duration-300 text-sm"
+              className="text-sm text-neutral-500 transition-colors duration-300 ease-in-out hover:text-brand-blue dark:text-neutral-400"
             >
               {t('footer.privacy')}
             </Link>
             <Link
               to="#"
-              className="text-neutral-500 hover:text-brand-blue transition-colors ease-in-out duration-300 text-sm"
+              className="text-sm text-neutral-500 transition-colors duration-300 ease-in-out hover:text-brand-blue dark:text-neutral-400"
             >
               {t('footer.terms')}
             </Link>

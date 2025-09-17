@@ -189,7 +189,7 @@ const Index = () => {
               <Link to="/solutions">
                 <Button
                   size="lg"
-                  className="bg-white text-brand-purple hover:bg-blue-50 font-semibold px-8 py-4 rounded-xl text-lg transition-all ease-in-out duration-300"
+                  className="rounded-xl bg-white transition-colors dark:bg-neutral-950 px-8 py-4 text-lg font-semibold text-brand-purple transition-all duration-300 ease-in-out hover:bg-blue-50 dark:text-white dark:hover:bg-neutral-800"
                 >
                   {t('index.hero.viewSolutions')}
                 </Button>
@@ -200,13 +200,13 @@ const Index = () => {
       </section>
 
       {/* Features Section */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-white transition-colors dark:bg-neutral-950 transition-colors dark:bg-neutral-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-neutral-900 mb-4">
+            <h2 className="text-3xl lg:text-4xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">
               {t('index.why.title')}
             </h2>
-            <p className="text-xl text-neutral-600 max-w-3xl mx-auto">
+            <p className="text-xl text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto">
               {t('index.why.description')}
             </p>
           </div>
@@ -224,10 +224,10 @@ const Index = () => {
                     <div className="w-16 h-16 bg-gradient-hero rounded-2xl flex items-center justify-center mx-auto mb-6">
                       <feature.icon className="h-8 w-8 text-white" />
                     </div>
-                    <h3 className="text-xl font-semibold text-neutral-900 mb-4">
+                    <h3 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100 mb-4">
                       {feature.title}
                     </h3>
-                    <p className="text-neutral-600">{feature.description}</p>
+                    <p className="text-neutral-600 dark:text-neutral-300">{feature.description}</p>
                   </CardContent>
                 </Card>
               </a>
@@ -237,13 +237,13 @@ const Index = () => {
       </section>
 
       {/* Solutions Preview */}
-      <section className="py-24 bg-neutral-50">
+      <section className="py-24 bg-neutral-50 dark:bg-neutral-950 transition-colors dark:bg-neutral-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-neutral-900 mb-4">
+            <h2 className="text-3xl lg:text-4xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">
               {t('index.solutions.title')}
             </h2>
-            <p className="text-xl text-neutral-600 max-w-3xl mx-auto">
+            <p className="text-xl text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto">
               {t('index.solutions.description')}
             </p>
           </div>
@@ -257,10 +257,10 @@ const Index = () => {
                   className={`h-4 bg-gradient-to-r ${solution.gradient}`}
                 ></div>
                 <CardContent className="p-8">
-                  <h3 className="text-2xl font-bold text-neutral-900 mb-4">
+                  <h3 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">
                     {solution.name}
                   </h3>
-                  <p className="text-neutral-600 mb-6">
+                  <p className="text-neutral-600 dark:text-neutral-300 mb-6">
                     {solution.description}
                   </p>
                   {solution.features &&
@@ -270,7 +270,7 @@ const Index = () => {
                         {solution.features.map((feature, featureIndex) => (
                           <li
                             key={featureIndex}
-                            className="flex items-center text-neutral-700"
+                            className="flex items-center text-neutral-700 dark:text-neutral-300"
                           >
                             <CheckCircle className="h-5 w-5 text-brand-blue mr-3" />
                             {feature}
@@ -309,7 +309,7 @@ const Index = () => {
           <Link to="/contact">
             <Button
               size="lg"
-              className="bg-white text-brand-purple hover:bg-blue-50 font-semibold px-8 py-4 rounded-xl text-lg transition-all ease-in-out duration-300"
+              className="rounded-xl bg-white transition-colors dark:bg-neutral-950 px-8 py-4 text-lg font-semibold text-brand-purple transition-all duration-300 ease-in-out hover:bg-blue-50 dark:text-white dark:hover:bg-neutral-800"
             >
               {t('index.cta.getStarted')}
               <ArrowRight className="ml-2 h-5 w-5" />
