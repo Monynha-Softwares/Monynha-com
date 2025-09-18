@@ -3,7 +3,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { ComponentType } from 'react';
 import clsx from 'clsx';
-import { useReducedMotion } from '@/lib/a11y';
 
 type LiquidEtherProps = Partial<{
   colors: string[];
@@ -25,6 +24,38 @@ type LiquidEtherProps = Partial<{
 }>;
 
 type LiquidEtherComponent = ComponentType<LiquidEtherProps>;
+
+function getPrefersReducedMotion() {
+  if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
+    return false;
+  }
+
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
+function usePrefersReducedMotion() {
+  const [prefersReduced, setPrefersReduced] = useState(getPrefersReducedMotion);
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
+      return;
+    }
+
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const handleChange = () => {
+      setPrefersReduced(mediaQuery.matches);
+    };
+
+    handleChange();
+    mediaQuery.addEventListener('change', handleChange);
+
+    return () => {
+      mediaQuery.removeEventListener('change', handleChange);
+    };
+  }, []);
+
+  return prefersReduced;
+}
 
 const MAX_COLORS = 6;
 
@@ -126,7 +157,7 @@ function readTokenColor(variableName: string, fallback: string) {
 }
 
 export default function LiquidEtherClient(props: LiquidEtherProps) {
-  const reduced = useReducedMotion();
+  const reduced = usePrefersReducedMotion();
   const [LiquidEther, setLiquidEther] = useState<LiquidEtherComponent | null>(null);
   const [loadError, setLoadError] = useState(false);
   const [webglReady, setWebglReady] = useState(false);

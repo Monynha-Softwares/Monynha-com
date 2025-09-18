@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Layout from '@/components/Layout';
@@ -122,7 +122,7 @@ const Blog = () => {
     total: number;
   }>({
     queryKey: ['blog_posts', page],
-    keepPreviousData: true,
+    placeholderData: keepPreviousData,
     queryFn: async () => {
       const from = (page - 1) * POSTS_PER_PAGE;
       const to = from + POSTS_PER_PAGE - 1;

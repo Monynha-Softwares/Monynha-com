@@ -1,3 +1,2 @@
-import { useToast, ToastProvider } from '@/hooks/use-toast';
-
-export { useToast, ToastProvider };
+export { useToast } from '@/hooks/use-toast';
+export { ToastProvider } from '@/hooks/ToastProvider';

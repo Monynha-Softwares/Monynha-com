@@ -23,11 +23,8 @@ type ProfileRow = Pick<
   'name' | 'avatar_url'
 >;
 
-type CommentAuthor = {
-  user_id: string;
-  name: string;
-  avatar_url: string | null;
-};
+type RpcCommentAuthor =
+  Database['public']['Functions']['get_comment_authors']['Returns'][number];
 
 type CommentWithAuthor = CommentRow & {
   author: ProfileRow | null;
@@ -102,11 +99,12 @@ const CommentsSection = ({ postId }: CommentsSectionProps) => {
       let profilesMap = new Map<string, ProfileRow>();
 
       if (userIds.length > 0) {
-        const { data: profilesData, error: profilesError } = await supabase.rpc<
-          CommentAuthor[]
-        >('get_comment_authors', {
-          user_ids: userIds,
-        });
+        const { data: profilesData, error: profilesError } = await supabase.rpc(
+          'get_comment_authors',
+          {
+            user_ids: userIds,
+          }
+        );
 
         if (profilesError) {
           console.error(
@@ -118,13 +116,24 @@ const CommentsSection = ({ postId }: CommentsSectionProps) => {
             description: t('blog.comments.error'),
             variant: 'destructive',
           });
-        } else if (profilesData && Array.isArray(profilesData)) {
-          profilesMap = new Map(
-            profilesData.map(({ user_id, name, avatar_url }) => [
-              user_id,
-              { name, avatar_url },
-            ])
-          );
+        } else if (Array.isArray(profilesData)) {
+          const entries = profilesData
+            .filter(
+              (item): item is RpcCommentAuthor & { user_id: string } =>
+                typeof item.user_id === 'string' && item.user_id.length > 0
+            )
+            .map((item): readonly [string, ProfileRow] => [
+              item.user_id,
+              {
+                name:
+                  typeof item.name === 'string' && item.name.trim().length > 0
+                    ? item.name
+                    : '',
+                avatar_url: item.avatar_url,
+              },
+            ]);
+
+          profilesMap = new Map(entries);
         }
       }
 

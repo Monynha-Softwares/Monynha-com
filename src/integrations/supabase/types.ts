@@ -334,7 +334,16 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
-      [_ in never]: never;
+      get_comment_authors: {
+        Args: {
+          user_ids: string[];
+        };
+        Returns: Array<{
+          user_id: string | null;
+          name: string | null;
+          avatar_url: string | null;
+        }>;
+      };
     };
     Enums: {
       [_ in never]: never;
