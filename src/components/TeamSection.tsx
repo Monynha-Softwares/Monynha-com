@@ -135,7 +135,7 @@ const TeamSection = () => {
                     size="sm"
                     aria-label={t('team.linkedin')}
                     className="rounded-full border-brand-blue text-brand-blue transition-colors hover:bg-brand-blue hover:text-white focus-visible:ring-brand-blue focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-                    onClick={() => window.open(member.linkedin_url!, '_blank')}
+                    onClick={() => window.open(member.linkedin_url!, '_blank', 'noopener,noreferrer')}
                   >
                     <Linkedin className="h-4 w-4" />
                     <span className="sr-only">{t('team.linkedin')}</span>
