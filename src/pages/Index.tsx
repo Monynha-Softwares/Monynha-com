@@ -20,6 +20,7 @@ import { useTranslation, Trans } from 'react-i18next';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase';
 import { useMemo } from 'react';
+import type { Database } from '@/integrations/supabase/types';
 
 const fallbackSolutionsConfig = [
   {
@@ -39,11 +40,29 @@ const fallbackSolutionsConfig = [
   },
 ];
 
+type HomepageFeatureRow =
+  Database['public']['Tables']['homepage_features']['Row'];
+type SolutionRow = Database['public']['Tables']['solutions']['Row'];
+
+type FeatureCard = {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+  url: string;
+};
+
+type SolutionPreview = {
+  name: string;
+  description: string;
+  features: string[];
+  gradient: string;
+};
+
 const Index = () => {
   const { t } = useTranslation();
 
   // Fetch dynamic homepage features from database
-  const { data: features, isLoading: featuresLoading } = useQuery({
+  const { data: features } = useQuery<FeatureCard[]>({
     queryKey: ['homepage-features'],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -54,7 +73,6 @@ const Index = () => {
 
       if (error) throw error;
 
-      // Map to the expected format with icon components
       const iconMap: Record<string, LucideIcon> = {
         Brain,
         Zap,
@@ -64,17 +82,20 @@ const Index = () => {
         Laptop,
       };
 
-      return data.map((feature) => ({
-        icon: iconMap[feature.icon as keyof typeof iconMap] ?? Laptop,
-        title: feature.title,
-        description: feature.description,
-        url: feature.url,
-      }));
+      return (data ?? []).map((feature: HomepageFeatureRow) => {
+        const iconKey = feature.icon as keyof typeof iconMap;
+        return {
+          icon: iconMap[iconKey] ?? Laptop,
+          title: feature.title,
+          description: feature.description,
+          url: feature.url,
+        } satisfies FeatureCard;
+      });
     },
   });
 
   // Fetch dynamic solutions from database
-  const { data: solutions, isLoading: solutionsLoading } = useQuery({
+  const { data: solutions } = useQuery<SolutionPreview[]>({
     queryKey: ['solutions-preview'],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -86,17 +107,23 @@ const Index = () => {
 
       if (error) throw error;
 
-      return data.map((solution, index) => ({
-        name: solution.title,
-        description: solution.description,
-        features: Array.isArray(solution.features)
-          ? (solution.features as string[])
-          : [],
-        gradient:
-          index === 0
-            ? 'from-brand-purple to-brand-blue'
-            : 'from-brand-pink to-brand-orange',
-      }));
+      return (data ?? []).map((solution: SolutionRow, index) => {
+        const featuresList = Array.isArray(solution.features)
+          ? solution.features.filter(
+              (feature): feature is string => typeof feature === 'string'
+            )
+          : [];
+
+        return {
+          name: solution.title,
+          description: solution.description,
+          features: featuresList,
+          gradient:
+            index === 0
+              ? 'from-brand-purple to-brand-blue'
+              : 'from-brand-pink to-brand-orange',
+        } satisfies SolutionPreview;
+      });
     },
   });
 

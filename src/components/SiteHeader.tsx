@@ -41,7 +41,12 @@ const solutionItems = [
   },
 ] as const;
 
-const projectItems = [
+const projectItems: ReadonlyArray<{
+  key: string;
+  href: string;
+  gradient: string;
+  external?: boolean;
+}> = [
   {
     key: 'openSource',
     href: '/projects',
@@ -63,7 +68,7 @@ const projectItems = [
     gradient: 'from-brand-pink to-brand-blue',
     external: true,
   },
-] as const;
+];
 
 type MenuTranslation = Record<
   string,

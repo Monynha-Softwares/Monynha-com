@@ -33,6 +33,23 @@ type CommentWithAuthor = CommentRow & {
   author: ProfileRow | null;
 };
 
+const isCommentAuthorArray = (value: unknown): value is CommentAuthor[] =>
+  Array.isArray(value) &&
+  value.every((entry) => {
+    if (!entry || typeof entry !== 'object') {
+      return false;
+    }
+
+    const candidate = entry as Record<string, unknown>;
+    return (
+      typeof candidate.user_id === 'string' &&
+      typeof candidate.name === 'string' &&
+      ('avatar_url' in candidate &&
+        (typeof candidate.avatar_url === 'string' ||
+          candidate.avatar_url === null))
+    );
+  });
+
 const getInitials = (name: string) => {
   const parts = name
     .split(' ')
@@ -102,11 +119,12 @@ const CommentsSection = ({ postId }: CommentsSectionProps) => {
       let profilesMap = new Map<string, ProfileRow>();
 
       if (userIds.length > 0) {
-        const { data: profilesData, error: profilesError } = await supabase.rpc<
-          CommentAuthor[]
-        >('get_comment_authors', {
-          user_ids: userIds,
-        });
+        const { data: profilesData, error: profilesError } = await supabase.rpc(
+          'get_comment_authors',
+          {
+            user_ids: userIds,
+          }
+        );
 
         if (profilesError) {
           console.error(
@@ -118,7 +136,7 @@ const CommentsSection = ({ postId }: CommentsSectionProps) => {
             description: t('blog.comments.error'),
             variant: 'destructive',
           });
-        } else if (profilesData && Array.isArray(profilesData)) {
+        } else if (isCommentAuthorArray(profilesData)) {
           profilesMap = new Map(
             profilesData.map(({ user_id, name, avatar_url }) => [
               user_id,

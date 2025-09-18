@@ -1,5 +1,3 @@
-import React from 'react';
-
 const Loading = () => (
   <div className="flex items-center justify-center py-20 relative flex-1 pt-20 bg-background/70 backdrop-blur-sm supports-[backdrop-filter]:backdrop-blur-md" role="status" >
     <svg
