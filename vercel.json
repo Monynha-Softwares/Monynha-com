@@ -9,7 +9,7 @@
       "headers": [
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; img-src 'self' data: https://images.unsplash.com; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://bbbyhjhiucptqgqidfki.supabase.co"
+          "value": "default-src 'self'; img-src 'self' data: https://images.unsplash.com; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://bbbyhjhiucptqgqidfki.supabase.co https://api.github.com https://avatars.githubusercontent.com https://raw.githubusercontent.com https://objects.githubusercontent.com"
         },
         {
           "key": "Strict-Transport-Security",
