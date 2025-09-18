@@ -23,6 +23,12 @@ type ProfileRow = Pick<
   'name' | 'avatar_url'
 >;
 
+type CommentAuthor = {
+  user_id: string;
+  name: string;
+  avatar_url: string | null;
+};
+
 type CommentWithAuthor = CommentRow & {
   author: ProfileRow | null;
 };
@@ -96,16 +102,28 @@ const CommentsSection = ({ postId }: CommentsSectionProps) => {
       let profilesMap = new Map<string, ProfileRow>();
 
       if (userIds.length > 0) {
-        const { data: profilesData, error: profilesError } = await supabase
-          .from('profiles')
-          .select('user_id, name, avatar_url')
-          .in('user_id', userIds);
+        const { data: profilesData, error: profilesError } = await supabase.rpc<
+          CommentAuthor[]
+        >('get_comment_authors', {
+          user_ids: userIds,
+        });
 
         if (profilesError) {
-          console.error('Error fetching comment author profiles', profilesError);
-        } else if (profilesData) {
+          console.error(
+            'Error fetching comment author profiles via RPC',
+            profilesError
+          );
+          toast({
+            title: t('blog.comments.errorTitle'),
+            description: t('blog.comments.error'),
+            variant: 'destructive',
+          });
+        } else if (profilesData && Array.isArray(profilesData)) {
           profilesMap = new Map(
-            profilesData.map((profile) => [profile.user_id, profile])
+            profilesData.map(({ user_id, name, avatar_url }) => [
+              user_id,
+              { name, avatar_url },
+            ])
           );
         }
       }
