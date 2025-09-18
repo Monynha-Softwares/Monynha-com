@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import Layout from '@/components/Layout';
 import Meta from '@/components/Meta';
 import { Button } from '@/components/ui/button';
@@ -89,7 +89,7 @@ const SolutionDetail = () => {
     },
     staleTime: 1000 * 60 * 10,
     retry: 1,
-    keepPreviousData: true,
+    placeholderData: keepPreviousData,
     refetchOnWindowFocus: false,
   });
 
