@@ -9,7 +9,7 @@ type ToasterToast = ToastProps & {
   action?: ToastActionElement;
 };
 
-interface ToastContextValue {
+export interface ToastContextValue {
   toasts: ToasterToast[];
   toast: (toast: Omit<ToasterToast, 'id'>) => {
     id: string;

@@ -257,7 +257,7 @@ const SiteHeader = () => {
                             return null;
                           }
 
-                          if (item.external) {
+                          if ('external' in item && item.external) {
                             return (
                               <NavigationMenuLink asChild key={item.key}>
                                 <a
@@ -487,7 +487,7 @@ const SiteHeader = () => {
                             return null;
                           }
 
-                          if (item.external) {
+                          if ('external' in item && item.external) {
                             return (
                               <SheetClose asChild key={item.key}>
                                 <a

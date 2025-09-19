@@ -102,11 +102,17 @@ const CommentsSection = ({ postId }: CommentsSectionProps) => {
       let profilesMap = new Map<string, ProfileRow>();
 
       if (userIds.length > 0) {
-        const { data: profilesData, error: profilesError } = await supabase.rpc<
-          CommentAuthor[]
-        >('get_comment_authors', {
+        const {
+          data: rawProfilesData,
+          error: profilesError,
+        } = (await (supabase as unknown as {
+          rpc: (
+            fn: string,
+            args: Record<string, unknown>
+          ) => Promise<{ data: unknown; error: unknown }>;
+        }).rpc('get_comment_authors', {
           user_ids: userIds,
-        });
+        })) as { data: CommentAuthor[] | null; error: Error | null };
 
         if (profilesError) {
           console.error(
@@ -118,7 +124,8 @@ const CommentsSection = ({ postId }: CommentsSectionProps) => {
             description: t('blog.comments.error'),
             variant: 'destructive',
           });
-        } else if (profilesData && Array.isArray(profilesData)) {
+        } else if (Array.isArray(rawProfilesData)) {
+          const profilesData = rawProfilesData as CommentAuthor[];
           profilesMap = new Map(
             profilesData.map(({ user_id, name, avatar_url }) => [
               user_id,

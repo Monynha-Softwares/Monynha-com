@@ -20,6 +20,7 @@ import { useTranslation, Trans } from 'react-i18next';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase';
 import { useMemo } from 'react';
+import type { Database } from '@/integrations/supabase/types';
 
 const fallbackSolutionsConfig = [
   {
@@ -39,11 +40,32 @@ const fallbackSolutionsConfig = [
   },
 ];
 
+type HomepageFeatureRow =
+  Database['public']['Tables']['homepage_features']['Row'];
+type SolutionRow = Database['public']['Tables']['solutions']['Row'];
+
+type FeatureItem = {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+  url: string;
+};
+
+type SolutionPreview = {
+  name: string;
+  description: string;
+  features: string[];
+  gradient: string;
+};
+
 const Index = () => {
   const { t } = useTranslation();
 
   // Fetch dynamic homepage features from database
-  const { data: features, isLoading: featuresLoading } = useQuery({
+  const { data: features } = useQuery<
+    FeatureItem[],
+    Error
+  >({
     queryKey: ['homepage-features'],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -64,8 +86,10 @@ const Index = () => {
         Laptop,
       };
 
-      return data.map((feature) => ({
-        icon: iconMap[feature.icon as keyof typeof iconMap] ?? Laptop,
+      const safeData: HomepageFeatureRow[] = Array.isArray(data) ? data : [];
+
+      return safeData.map((feature) => ({
+        icon: iconMap[feature.icon] ?? Laptop,
         title: feature.title,
         description: feature.description,
         url: feature.url,
@@ -74,7 +98,10 @@ const Index = () => {
   });
 
   // Fetch dynamic solutions from database
-  const { data: solutions, isLoading: solutionsLoading } = useQuery({
+  const { data: solutions } = useQuery<
+    SolutionPreview[],
+    Error
+  >({
     queryKey: ['solutions-preview'],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -86,11 +113,15 @@ const Index = () => {
 
       if (error) throw error;
 
-      return data.map((solution, index) => ({
+      const safeData: SolutionRow[] = Array.isArray(data) ? data : [];
+
+      return safeData.map((solution, index) => ({
         name: solution.title,
         description: solution.description,
         features: Array.isArray(solution.features)
-          ? (solution.features as string[])
+          ? solution.features.filter(
+              (feature): feature is string => typeof feature === 'string'
+            )
           : [],
         gradient:
           index === 0

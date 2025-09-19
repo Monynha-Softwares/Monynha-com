@@ -122,7 +122,7 @@ const Blog = () => {
     total: number;
   }>({
     queryKey: ['blog_posts', page],
-    keepPreviousData: true,
+    placeholderData: (previousData) => previousData,
     queryFn: async () => {
       const from = (page - 1) * POSTS_PER_PAGE;
       const to = from + POSTS_PER_PAGE - 1;

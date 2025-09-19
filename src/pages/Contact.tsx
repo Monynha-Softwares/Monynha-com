@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import Layout from '@/components/Layout';
 import Meta from '@/components/Meta';
-import { Mail, Phone, MapPin, Send, CheckCircle } from 'lucide-react';
+import { Mail, Send, CheckCircle } from 'lucide-react';
 import { supabase } from '@/integrations/supabase';
 import { useToast } from '@/hooks/use-toast';
 import { useTranslation } from 'react-i18next';
@@ -110,7 +110,7 @@ const Contact = () => {
   const {
     data: projectTypeResponse,
     error: projectTypesError,
-  } = useQuery({
+  } = useQuery<string[], Error>({
     queryKey: ['site-settings', 'project-types'],
     queryFn: async () => {
       const { data, error } = await supabase
