@@ -1,5 +1,15 @@
 import { useTheme } from 'next-themes';
-import { Toaster as Sonner, toast as sonnerToast } from 'sonner';
+import { Toaster as Sonner } from 'sonner';
+
+import { useToast } from '@/hooks/use-toast';
+import {
+  Toast,
+  ToastClose,
+  ToastDescription,
+  ToastProvider,
+  ToastTitle,
+  ToastViewport,
+} from '@/components/ui/toast';
 
 type ToasterProps = React.ComponentProps<typeof Sonner>;
 
@@ -27,15 +37,6 @@ export const Toaster = ({ ...props }: ToasterProps) => {
 };
 
 export default Toaster;
-import { useToast } from '@/hooks/use-toast';
-import {
-  Toast,
-  ToastClose,
-  ToastDescription,
-  ToastProvider,
-  ToastTitle,
-  ToastViewport,
-} from '@/components/ui/toast';
 
 export function CustomToaster() {
   const { toasts } = useToast();

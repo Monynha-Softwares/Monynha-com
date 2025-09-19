@@ -259,7 +259,7 @@ const LiquidEther = ({
       uIntensity: { value: autoIntensity },
       uColors: { value: colorArray },
       uColorCount: { value: Math.max(1, colorCount) },
-    } satisfies Record<string, THREE.IUniform>;
+    } satisfies Record<string, { value: unknown }>;
 
     const material = new THREE.ShaderMaterial({
       vertexShader,

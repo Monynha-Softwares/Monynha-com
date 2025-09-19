@@ -23,15 +23,33 @@ type ProfileRow = Pick<
   'name' | 'avatar_url'
 >;
 
-type CommentAuthor = {
+type CommentAuthor = ProfileRow & {
   user_id: string;
-  name: string;
-  avatar_url: string | null;
 };
 
 type CommentWithAuthor = CommentRow & {
   author: ProfileRow | null;
 };
+
+const isCommentAuthorArray = (value: unknown): value is CommentAuthor[] =>
+  Array.isArray(value) &&
+  value.every((entry) => {
+    if (!entry || typeof entry !== 'object') {
+      return false;
+    }
+
+    const candidate = entry as {
+      user_id?: unknown;
+      name?: unknown;
+      avatar_url?: unknown;
+    };
+
+    return (
+      typeof candidate.user_id === 'string' &&
+      typeof candidate.name === 'string' &&
+      (typeof candidate.avatar_url === 'string' || candidate.avatar_url === null)
+    );
+  });
 
 const getInitials = (name: string) => {
   const parts = name
@@ -95,18 +113,15 @@ const CommentsSection = ({ postId }: CommentsSectionProps) => {
         return [];
       }
 
-      const userIds = Array.from(
-        new Set(data.map((comment) => comment.user_id).filter(Boolean))
-      );
+      const userIds = Array.from(new Set(data.map((comment) => comment.user_id)));
 
-      let profilesMap = new Map<string, ProfileRow>();
+      const profilesMap = new Map<string, ProfileRow>();
 
       if (userIds.length > 0) {
-        const { data: profilesData, error: profilesError } = await supabase.rpc<
-          CommentAuthor[]
-        >('get_comment_authors', {
-          user_ids: userIds,
-        });
+        const { data: profilesData, error: profilesError } = await supabase
+          .from('profiles')
+          .select('user_id, name, avatar_url')
+          .in('user_id', userIds);
 
         if (profilesError) {
           console.error(
@@ -118,13 +133,10 @@ const CommentsSection = ({ postId }: CommentsSectionProps) => {
             description: t('blog.comments.error'),
             variant: 'destructive',
           });
-        } else if (profilesData && Array.isArray(profilesData)) {
-          profilesMap = new Map(
-            profilesData.map(({ user_id, name, avatar_url }) => [
-              user_id,
-              { name, avatar_url },
-            ])
-          );
+        } else if (isCommentAuthorArray(profilesData)) {
+          profilesData.forEach(({ user_id, ...profile }) => {
+            profilesMap.set(user_id, profile);
+          });
         }
       }
 

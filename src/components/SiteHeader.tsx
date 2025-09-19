@@ -23,7 +23,14 @@ import LanguageSwitcher from './LanguageSwitcher';
 import { useAuth } from '@/hooks/useAuth';
 import { cn } from '@/lib/utils';
 
-const solutionItems = [
+type MenuItem = {
+  key: string;
+  href: string;
+  gradient: string;
+  external?: boolean;
+};
+
+const solutionItems: readonly MenuItem[] = [
   {
     key: 'boteco',
     href: '/solutions/boteco-pro',
@@ -39,9 +46,9 @@ const solutionItems = [
     href: '/solutions',
     gradient: 'from-brand-blue to-brand-purple',
   },
-] as const;
+];
 
-const projectItems = [
+const projectItems: readonly MenuItem[] = [
   {
     key: 'openSource',
     href: '/projects',
@@ -63,7 +70,7 @@ const projectItems = [
     gradient: 'from-brand-pink to-brand-blue',
     external: true,
   },
-] as const;
+];
 
 type MenuTranslation = Record<
   string,

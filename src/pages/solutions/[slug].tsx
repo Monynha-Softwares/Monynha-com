@@ -89,7 +89,7 @@ const SolutionDetail = () => {
     },
     staleTime: 1000 * 60 * 10,
     retry: 1,
-    keepPreviousData: true,
+    placeholderData: (previousData) => previousData,
     refetchOnWindowFocus: false,
   });
 

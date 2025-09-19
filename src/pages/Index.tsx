@@ -21,6 +21,20 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase';
 import { useMemo } from 'react';
 
+type FeatureItem = {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+  url: string;
+};
+
+type SolutionPreview = {
+  name: string;
+  description: string;
+  features: string[];
+  gradient: string;
+};
+
 const fallbackSolutionsConfig = [
   {
     id: 'boteco',
@@ -43,7 +57,7 @@ const Index = () => {
   const { t } = useTranslation();
 
   // Fetch dynamic homepage features from database
-  const { data: features, isLoading: featuresLoading } = useQuery({
+  const { data: features } = useQuery<FeatureItem[]>({
     queryKey: ['homepage-features'],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -74,7 +88,7 @@ const Index = () => {
   });
 
   // Fetch dynamic solutions from database
-  const { data: solutions, isLoading: solutionsLoading } = useQuery({
+  const { data: solutions } = useQuery<SolutionPreview[]>({
     queryKey: ['solutions-preview'],
     queryFn: async () => {
       const { data, error } = await supabase
