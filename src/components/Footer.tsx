@@ -163,7 +163,8 @@ const Footer = () => {
             </h3>
             <ul className="space-y-2">
               <li className="text-sm text-muted-foreground dark:text-neutral-300">
-                {t('footer.email')}: {
+                {t('footer.email')}:{' '}
+                {
                   <a
                     href="mailto:hello@monynha.com"
                     className="text-sm text-muted-foreground transition-colors hover:text-primary dark:text-neutral-300"

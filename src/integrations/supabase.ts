@@ -2,9 +2,8 @@ import { createClient } from '@supabase/supabase-js';
 import type { Database } from '@/integrations/supabase/types';
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
-const SUPABASE_ANON_KEY =
-  (import.meta.env.VITE_SUPABASE_ANON_KEY ||
-    import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY) as string;
+const SUPABASE_ANON_KEY = (import.meta.env.VITE_SUPABASE_ANON_KEY ||
+  import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY) as string;
 
 const AUTH_COOKIE_PREFIX = 'monynha_supabase_';
 const AUTH_STORAGE_KEY = 'auth_token';
@@ -50,8 +49,7 @@ class CookieStorage implements Storage {
       typeof window !== 'undefined' && window.location.protocol === 'https:'
         ? '; Secure'
         : '';
-    document.cookie =
-      `${cookieName}=; Path=${this.path}; Expires=Thu, 01 Jan 1970 00:00:00 GMT; SameSite=Lax${secureSuffix}`;
+    document.cookie = `${cookieName}=; Path=${this.path}; Expires=Thu, 01 Jan 1970 00:00:00 GMT; SameSite=Lax${secureSuffix}`;
   }
 
   setItem(key: string, value: string): void {
@@ -61,8 +59,7 @@ class CookieStorage implements Storage {
       typeof window !== 'undefined' && window.location.protocol === 'https:'
         ? '; Secure'
         : '';
-    document.cookie =
-      `${cookieName}=${encodeURIComponent(value)}; Path=${this.path}; Max-Age=${this.maxAge}; SameSite=Lax${secureSuffix}`;
+    document.cookie = `${cookieName}=${encodeURIComponent(value)}; Path=${this.path}; Max-Age=${this.maxAge}; SameSite=Lax${secureSuffix}`;
   }
 
   private getCookieName(key: string): string {
@@ -90,20 +87,28 @@ class CookieStorage implements Storage {
   }
 }
 
-const isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined';
+const isBrowser =
+  typeof window !== 'undefined' && typeof document !== 'undefined';
 
 const cookieStorage = isBrowser
-  ? new CookieStorage(AUTH_COOKIE_PREFIX, { path: '/', maxAge: DEFAULT_MAX_AGE })
+  ? new CookieStorage(AUTH_COOKIE_PREFIX, {
+      path: '/',
+      maxAge: DEFAULT_MAX_AGE,
+    })
   : undefined;
 
-export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_ANON_KEY, {
-  auth: {
-    storage: cookieStorage,
-    storageKey: AUTH_STORAGE_KEY,
-    persistSession: true,
-    autoRefreshToken: true,
-  },
-});
+export const supabase = createClient<Database>(
+  SUPABASE_URL,
+  SUPABASE_ANON_KEY,
+  {
+    auth: {
+      storage: cookieStorage,
+      storageKey: AUTH_STORAGE_KEY,
+      persistSession: true,
+      autoRefreshToken: true,
+    },
+  }
+);
 
 export const clearSupabaseSession = () => {
   if (cookieStorage) {

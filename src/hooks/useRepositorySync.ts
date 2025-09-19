@@ -22,9 +22,7 @@ const parseInterval = (value: string | undefined, fallback: number): number => {
 
 const DEFAULT_INTERVAL = 1000 * 60 * 60 * 6; // 6 hours
 
-export const useRepositorySync = (
-  options: UseRepositorySyncOptions = {}
-) => {
+export const useRepositorySync = (options: UseRepositorySyncOptions = {}) => {
   const { enabled = true, intervalMs } = options;
   const queryClient = useQueryClient();
 
@@ -37,7 +35,8 @@ export const useRepositorySync = (
       return;
     }
 
-    const resolvedInterval = intervalMs ??
+    const resolvedInterval =
+      intervalMs ??
       parseInterval(
         import.meta.env.VITE_REPOSITORY_SYNC_INTERVAL_MS as string | undefined,
         DEFAULT_INTERVAL

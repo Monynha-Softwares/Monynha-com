@@ -23,7 +23,11 @@ const Auth = () => {
   const [loadingView, setLoadingView] = useState<AuthView | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [signInForm, setSignInForm] = useState({ email: '', password: '' });
-  const [signUpForm, setSignUpForm] = useState({ name: '', email: '', password: '' });
+  const [signUpForm, setSignUpForm] = useState({
+    name: '',
+    email: '',
+    password: '',
+  });
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -71,8 +75,7 @@ const Auth = () => {
       navigate(redirectPath, { replace: true });
     } catch (error) {
       const fallbackMessage = t('auth.toast.signInError.description');
-      const message =
-        error instanceof Error ? error.message : fallbackMessage;
+      const message = error instanceof Error ? error.message : fallbackMessage;
       toast({
         title: t('auth.toast.signInError.title'),
         description: message || fallbackMessage,
@@ -119,8 +122,7 @@ const Auth = () => {
       setShowPassword(false);
     } catch (error) {
       const fallbackMessage = t('auth.toast.signUpError.description');
-      const message =
-        error instanceof Error ? error.message : fallbackMessage;
+      const message = error instanceof Error ? error.message : fallbackMessage;
       toast({
         title: t('auth.toast.signUpError.title'),
         description: message || fallbackMessage,
@@ -143,7 +145,9 @@ const Auth = () => {
             {t('auth.backHome')}
           </Link>
           <div className="text-center">
-            <CardTitle className="text-2xl font-bold">Monynha Softwares</CardTitle>
+            <CardTitle className="text-2xl font-bold">
+              Monynha Softwares
+            </CardTitle>
             <CardDescription className="text-balance">
               {t('auth.subtitle')}
             </CardDescription>
@@ -195,7 +199,9 @@ const Auth = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="signin-password">{t('auth.labels.password')}</Label>
+                  <Label htmlFor="signin-password">
+                    {t('auth.labels.password')}
+                  </Label>
                   <div className="relative">
                     <Input
                       id="signin-password"
@@ -284,7 +290,9 @@ const Auth = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="signup-password">{t('auth.labels.password')}</Label>
+                  <Label htmlFor="signup-password">
+                    {t('auth.labels.password')}
+                  </Label>
                   <div className="relative">
                     <Input
                       id="signup-password"

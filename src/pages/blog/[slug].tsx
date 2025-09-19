@@ -86,16 +86,11 @@ const renderTextNode = (node: LexicalNode, key: string): ReactNode => {
     if (tokens.includes('bold')) wrapWith('strong');
     if (tokens.includes('italic')) wrapWith('em');
     if (tokens.includes('underline')) wrapWith('span', 'underline');
-    if (tokens.includes('strikethrough'))
-      wrapWith('span', 'line-through');
+    if (tokens.includes('strikethrough')) wrapWith('span', 'line-through');
   }
 
   if (typeof content === 'string') {
-    content = (
-      <span key={`${key}-text`}>
-        {content}
-      </span>
-    );
+    content = <span key={`${key}-text`}>{content}</span>;
   }
 
   return <React.Fragment key={key}>{content}</React.Fragment>;
@@ -104,16 +99,24 @@ const renderTextNode = (node: LexicalNode, key: string): ReactNode => {
 const renderLexicalNode = (node: LexicalNode, key: string): ReactNode => {
   switch (node.type) {
     case 'root':
-      return <React.Fragment key={key}>{renderNodes(node.children, key)}</React.Fragment>;
+      return (
+        <React.Fragment key={key}>
+          {renderNodes(node.children, key)}
+        </React.Fragment>
+      );
     case 'paragraph':
       return (
-        <p key={key} className="leading-relaxed text-neutral-700 dark:text-neutral-300">
+        <p
+          key={key}
+          className="leading-relaxed text-neutral-700 dark:text-neutral-300"
+        >
           {renderNodes(node.children, key)}
         </p>
       );
     case 'heading': {
       const Tag = (node.tag ?? 'h2') as keyof JSX.IntrinsicElements;
-      const baseClass = headingStyles[node.tag ?? 'default'] ?? headingStyles.default;
+      const baseClass =
+        headingStyles[node.tag ?? 'default'] ?? headingStyles.default;
       return (
         <Tag key={key} className={`${baseClass} mt-10 first:mt-0`}>
           {renderNodes(node.children, key)}
@@ -143,7 +146,10 @@ const renderLexicalNode = (node: LexicalNode, key: string): ReactNode => {
     }
     case 'listitem':
       return (
-        <li key={key} className="leading-relaxed text-neutral-700 dark:text-neutral-300">
+        <li
+          key={key}
+          className="leading-relaxed text-neutral-700 dark:text-neutral-300"
+        >
           {renderNodes(node.children, key)}
         </li>
       );
@@ -178,7 +184,11 @@ const renderLexicalNode = (node: LexicalNode, key: string): ReactNode => {
       return renderTextNode(node, key);
     default:
       if (node.children) {
-        return <React.Fragment key={key}>{renderNodes(node.children, key)}</React.Fragment>;
+        return (
+          <React.Fragment key={key}>
+            {renderNodes(node.children, key)}
+          </React.Fragment>
+        );
       }
       return null;
   }
@@ -196,14 +206,20 @@ const renderBlogContent = (content: string): ReactNode[] => {
       return renderNodes(root.root?.children, 'node');
     }
   } catch (error) {
-    console.warn('Unable to parse rich text content, falling back to plain text.', error);
+    console.warn(
+      'Unable to parse rich text content, falling back to plain text.',
+      error
+    );
   }
 
   return content
     .split(/\n{2,}/)
     .filter((paragraph) => paragraph.trim().length > 0)
     .map((paragraph, index) => (
-      <p key={`paragraph-${index}`} className="leading-relaxed text-neutral-700 dark:text-neutral-300">
+      <p
+        key={`paragraph-${index}`}
+        className="leading-relaxed text-neutral-700 dark:text-neutral-300"
+      >
         {paragraph.trim()}
       </p>
     ));
@@ -243,7 +259,9 @@ const BlogPostPage = () => {
 
       const { data, error } = await supabase
         .from('blog_posts')
-        .select('id, slug, title, content, excerpt, image_url, updated_at, created_at, published')
+        .select(
+          'id, slug, title, content, excerpt, image_url, updated_at, created_at, published'
+        )
         .eq('slug', slug)
         .eq('published', true)
         .maybeSingle();
@@ -320,7 +338,9 @@ const BlogPostPage = () => {
           ogImage={metaImage}
         />
         <div className="container mx-auto px-4 py-16 text-center space-y-4">
-          <p className="text-lg text-neutral-600 dark:text-neutral-300">{t('blog.post.notFound')}</p>
+          <p className="text-lg text-neutral-600 dark:text-neutral-300">
+            {t('blog.post.notFound')}
+          </p>
           <ButtonLink />
         </div>
       </Layout>
@@ -374,20 +394,27 @@ const BlogPostPage = () => {
                   {post.title}
                 </h1>
                 {post.excerpt && (
-                  <p className="text-xl text-neutral-600 dark:text-neutral-300">{post.excerpt}</p>
+                  <p className="text-xl text-neutral-600 dark:text-neutral-300">
+                    {post.excerpt}
+                  </p>
                 )}
               </div>
               <div className="flex flex-wrap items-center gap-4 text-sm text-neutral-500 dark:text-neutral-400">
                 <div className="flex items-center gap-2">
                   <User className="h-4 w-4" />
-                  <span>{t('blog.post.author', { author: defaultAuthor })}</span>
+                  <span>
+                    {t('blog.post.author', { author: defaultAuthor })}
+                  </span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Clock className="h-4 w-4" />
                   <span>{readTimeLabel}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="inline-flex h-1.5 w-1.5 rounded-full bg-neutral-300" aria-hidden />
+                  <span
+                    className="inline-flex h-1.5 w-1.5 rounded-full bg-neutral-300"
+                    aria-hidden
+                  />
                   <span>{t('blog.post.published', { date: updatedDate })}</span>
                 </div>
               </div>

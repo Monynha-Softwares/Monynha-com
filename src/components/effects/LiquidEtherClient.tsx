@@ -26,7 +26,10 @@ type LiquidEtherProps = Partial<{
 type LiquidEtherComponent = ComponentType<LiquidEtherProps>;
 
 function getPrefersReducedMotion() {
-  if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
+  if (
+    typeof window === 'undefined' ||
+    typeof window.matchMedia !== 'function'
+  ) {
     return false;
   }
 
@@ -37,7 +40,10 @@ function usePrefersReducedMotion() {
   const [prefersReduced, setPrefersReduced] = useState(getPrefersReducedMotion);
 
   useEffect(() => {
-    if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
+    if (
+      typeof window === 'undefined' ||
+      typeof window.matchMedia !== 'function'
+    ) {
       return;
     }
 
@@ -62,9 +68,11 @@ const MAX_COLORS = 6;
 function getEnvValue(name: string) {
   const metaEnv =
     typeof import.meta !== 'undefined'
-      ? ((import.meta as ImportMeta & {
-          env?: Record<string, string | boolean | undefined>;
-        }).env ?? undefined)
+      ? ((
+          import.meta as ImportMeta & {
+            env?: Record<string, string | boolean | undefined>;
+          }
+        ).env ?? undefined)
       : undefined;
   const fallbackName = name.startsWith('NEXT_PUBLIC_')
     ? `VITE_${name.slice('NEXT_PUBLIC_'.length)}`
@@ -72,12 +80,14 @@ function getEnvValue(name: string) {
 
   if (metaEnv) {
     if (metaEnv[name] !== undefined) return metaEnv[name];
-    if (fallbackName && metaEnv[fallbackName] !== undefined) return metaEnv[fallbackName];
+    if (fallbackName && metaEnv[fallbackName] !== undefined)
+      return metaEnv[fallbackName];
   }
 
   if (typeof process !== 'undefined' && process.env) {
     if (process.env[name] !== undefined) return process.env[name];
-    if (fallbackName && process.env[fallbackName] !== undefined) return process.env[fallbackName];
+    if (fallbackName && process.env[fallbackName] !== undefined)
+      return process.env[fallbackName];
   }
 
   return undefined;
@@ -152,13 +162,17 @@ function supportsWebGL() {
 
 function readTokenColor(variableName: string, fallback: string) {
   if (typeof window === 'undefined') return fallback;
-  const value = getComputedStyle(document.documentElement).getPropertyValue(variableName).trim();
+  const value = getComputedStyle(document.documentElement)
+    .getPropertyValue(variableName)
+    .trim();
   return value || fallback;
 }
 
 export default function LiquidEtherClient(props: LiquidEtherProps) {
   const reduced = usePrefersReducedMotion();
-  const [LiquidEther, setLiquidEther] = useState<LiquidEtherComponent | null>(null);
+  const [LiquidEther, setLiquidEther] = useState<LiquidEtherComponent | null>(
+    null
+  );
   const [loadError, setLoadError] = useState(false);
   const [webglReady, setWebglReady] = useState(false);
 
@@ -265,16 +279,24 @@ export default function LiquidEtherClient(props: LiquidEtherProps) {
     return (
       <div
         aria-hidden
-        className={clsx('pointer-events-none fixed inset-0 -z-10', props.className)}
+        className={clsx(
+          'pointer-events-none fixed inset-0 -z-10',
+          props.className
+        )}
         style={fallbackBg}
       />
     );
   }
 
   return (
-    <div aria-hidden className={clsx('pointer-events-none fixed inset-0 -z-10', props.className)}>
+    <div
+      aria-hidden
+      className={clsx(
+        'pointer-events-none fixed inset-0 -z-10',
+        props.className
+      )}
+    >
       <LiquidEther {...mergedProps} />
     </div>
   );
 }
-

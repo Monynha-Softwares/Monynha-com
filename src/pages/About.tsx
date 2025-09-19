@@ -45,7 +45,10 @@ const normalizeAboutStats = (value: unknown): AboutStat[] => {
           const number = record.number;
           const label = record.label;
 
-          if ((typeof number === 'string' || typeof number === 'number') && typeof label === 'string') {
+          if (
+            (typeof number === 'string' || typeof number === 'number') &&
+            typeof label === 'string'
+          ) {
             return {
               number: number.toString(),
               label,
@@ -248,7 +251,10 @@ const About = () => {
                     loading="lazy"
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/40 via-transparent" aria-hidden="true"></div>
+                  <div
+                    className="absolute inset-0 bg-gradient-to-t from-neutral-900/40 via-transparent"
+                    aria-hidden="true"
+                  ></div>
                 </div>
               </Card>
             </div>
@@ -283,7 +289,9 @@ const About = () => {
               ))}
             </div>
           ) : statsError ? (
-            <p className="text-center text-neutral-500 dark:text-neutral-400">{t('about.statsError')}</p>
+            <p className="text-center text-neutral-500 dark:text-neutral-400">
+              {t('about.statsError')}
+            </p>
           ) : aboutStats && aboutStats.length > 0 ? (
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
               {aboutStats.map((stat, index) => (
@@ -294,12 +302,16 @@ const About = () => {
                   <div className="text-4xl lg:text-5xl font-bold text-transparent bg-clip-text bg-gradient-brand mb-2">
                     {stat.number}
                   </div>
-                  <div className="text-neutral-600 dark:text-neutral-300 font-medium">{stat.label}</div>
+                  <div className="text-neutral-600 dark:text-neutral-300 font-medium">
+                    {stat.label}
+                  </div>
                 </Card>
               ))}
             </div>
           ) : (
-            <p className="text-center text-neutral-500 dark:text-neutral-400">{t('about.statsEmpty')}</p>
+            <p className="text-center text-neutral-500 dark:text-neutral-400">
+              {t('about.statsEmpty')}
+            </p>
           )}
         </div>
       </section>
@@ -337,7 +349,9 @@ const About = () => {
               ))}
             </div>
           ) : teamError ? (
-            <p className="text-center text-neutral-500 dark:text-neutral-400">{t('team.error')}</p>
+            <p className="text-center text-neutral-500 dark:text-neutral-400">
+              {t('team.error')}
+            </p>
           ) : teamMembers && teamMembers.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {teamMembers.map((member) => (
@@ -362,14 +376,18 @@ const About = () => {
                       <h3 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100">
                         {member.name}
                       </h3>
-                      <p className="text-brand-blue font-medium">{member.role}</p>
+                      <p className="text-brand-blue font-medium">
+                        {member.role}
+                      </p>
                     </div>
                   </CardContent>
                 </Card>
               ))}
             </div>
           ) : (
-            <p className="text-center text-neutral-500 dark:text-neutral-400">{t('team.empty')}</p>
+            <p className="text-center text-neutral-500 dark:text-neutral-400">
+              {t('team.empty')}
+            </p>
           )}
         </div>
       </section>
@@ -380,9 +398,7 @@ const About = () => {
           <h2 className="text-3xl lg:text-4xl font-bold">
             {t('about.ctaTitle')}
           </h2>
-          <p className="text-xl text-blue-100">
-            {t('about.ctaDescription')}
-          </p>
+          <p className="text-xl text-blue-100">{t('about.ctaDescription')}</p>
           <Button asChild size="lg" className="rounded-full px-10">
             <Link to="/contact">{t('about.ctaButton')}</Link>
           </Button>

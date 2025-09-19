@@ -32,7 +32,11 @@ function collectRoutes(dir: string, segments: string[] = []): string[] {
     }
 
     const name = path.basename(entry.name, path.extname(entry.name));
-    if (IGNORE_FILES.has(name) || name.startsWith('[') || name.startsWith('_')) {
+    if (
+      IGNORE_FILES.has(name) ||
+      name.startsWith('[') ||
+      name.startsWith('_')
+    ) {
       continue;
     }
 
@@ -51,7 +55,9 @@ function collectRoutes(dir: string, segments: string[] = []): string[] {
 }
 
 const routes = collectRoutes(pagesDir)
-  .map((route) => (route.endsWith('/') && route !== '/' ? route.slice(0, -1) : route))
+  .map((route) =>
+    route.endsWith('/') && route !== '/' ? route.slice(0, -1) : route
+  )
   .sort((a, b) => (a === '/' ? -1 : a.localeCompare(b)));
 
 const xml =

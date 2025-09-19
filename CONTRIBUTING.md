@@ -24,4 +24,3 @@ chore: short description
 - Include a clear description of the problem and solution.
 - Make sure `npm run lint` passes.
 - Add tests if you add new functionality.
-

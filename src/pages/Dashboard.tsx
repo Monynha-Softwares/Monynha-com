@@ -79,7 +79,8 @@ const Dashboard = () => {
           id: user.id,
           user_id: user.id,
           email: user.email ?? '',
-          name: (user.user_metadata?.name as string | undefined) ??
+          name:
+            (user.user_metadata?.name as string | undefined) ??
             user.email ??
             t('dashboard.profile.roleUser'),
           role: (user.user_metadata?.role as string | undefined) ?? 'user',
@@ -126,8 +127,7 @@ const Dashboard = () => {
       }
     } catch (error) {
       const fallbackMessage = t('dashboard.errors.loadDashboard');
-      const message =
-        error instanceof Error ? error.message : fallbackMessage;
+      const message = error instanceof Error ? error.message : fallbackMessage;
 
       if (isMounted.current) {
         setErrorMessage(message || fallbackMessage);
@@ -204,8 +204,7 @@ const Dashboard = () => {
       navigate('/auth', { replace: true });
     } catch (error) {
       const fallbackMessage = t('dashboard.toast.signOutError.description');
-      const message =
-        error instanceof Error ? error.message : fallbackMessage;
+      const message = error instanceof Error ? error.message : fallbackMessage;
       toast({
         title: t('dashboard.toast.signOutError.title'),
         description: message || fallbackMessage,
@@ -248,17 +247,17 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-slate-50 py-10">
       <div className="max-w-6xl mx-auto px-4 space-y-8">
-          <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <h1 className="text-3xl font-bold tracking-tight">
-                {t('dashboard.title')}
-              </h1>
-              <p className="text-muted-foreground">
-                {profile
-                  ? t('dashboard.welcome', { name: profile.name })
-                  : t('dashboard.welcomeFallback')}
-              </p>
-            </div>
+        <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight">
+              {t('dashboard.title')}
+            </h1>
+            <p className="text-muted-foreground">
+              {profile
+                ? t('dashboard.welcome', { name: profile.name })
+                : t('dashboard.welcomeFallback')}
+            </p>
+          </div>
 
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
             <Button
@@ -303,21 +302,28 @@ const Dashboard = () => {
 
         <Card>
           <CardHeader className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-              <div className="flex items-center gap-4">
-                <Avatar className="h-16 w-16">
-                  <AvatarImage src={profile?.avatar_url ?? undefined} alt={profile?.name} />
-                  <AvatarFallback>{avatarFallback}</AvatarFallback>
-                </Avatar>
-                <div>
-                  <CardTitle className="text-2xl">
-                    {profile?.name ?? t('dashboard.profile.fallbackTitle')}
-                  </CardTitle>
-                  <CardDescription>
-                    {profile?.email ?? user?.email ?? t('dashboard.profile.emailUnavailable')}
-                  </CardDescription>
-                </div>
+            <div className="flex items-center gap-4">
+              <Avatar className="h-16 w-16">
+                <AvatarImage
+                  src={profile?.avatar_url ?? undefined}
+                  alt={profile?.name}
+                />
+                <AvatarFallback>{avatarFallback}</AvatarFallback>
+              </Avatar>
+              <div>
+                <CardTitle className="text-2xl">
+                  {profile?.name ?? t('dashboard.profile.fallbackTitle')}
+                </CardTitle>
+                <CardDescription>
+                  {profile?.email ??
+                    user?.email ??
+                    t('dashboard.profile.emailUnavailable')}
+                </CardDescription>
               </div>
-            <Badge variant={profile?.role === 'admin' ? 'default' : 'secondary'}>
+            </div>
+            <Badge
+              variant={profile?.role === 'admin' ? 'default' : 'secondary'}
+            >
               {roleLabel}
             </Badge>
           </CardHeader>
@@ -343,7 +349,9 @@ const Dashboard = () => {
                 <p className="text-sm font-medium text-muted-foreground">
                   {t('dashboard.profile.role')}
                 </p>
-                <p className="text-base font-semibold text-foreground">{roleLabel}</p>
+                <p className="text-base font-semibold text-foreground">
+                  {roleLabel}
+                </p>
               </div>
               <div>
                 <p className="text-sm font-medium text-muted-foreground">
@@ -380,10 +388,18 @@ const Dashboard = () => {
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>{t('dashboard.leads.columns.name')}</TableHead>
-                        <TableHead>{t('dashboard.leads.columns.email')}</TableHead>
-                        <TableHead>{t('dashboard.leads.columns.company')}</TableHead>
-                        <TableHead>{t('dashboard.leads.columns.project')}</TableHead>
+                        <TableHead>
+                          {t('dashboard.leads.columns.name')}
+                        </TableHead>
+                        <TableHead>
+                          {t('dashboard.leads.columns.email')}
+                        </TableHead>
+                        <TableHead>
+                          {t('dashboard.leads.columns.company')}
+                        </TableHead>
+                        <TableHead>
+                          {t('dashboard.leads.columns.project')}
+                        </TableHead>
                         <TableHead className="max-w-sm">
                           {t('dashboard.leads.columns.message')}
                         </TableHead>
@@ -395,11 +411,15 @@ const Dashboard = () => {
                     <TableBody>
                       {leads.map((lead) => (
                         <TableRow key={lead.id}>
-                          <TableCell className="font-medium">{lead.name}</TableCell>
+                          <TableCell className="font-medium">
+                            {lead.name}
+                          </TableCell>
                           <TableCell>{lead.email}</TableCell>
                           <TableCell>{lead.company ?? '—'}</TableCell>
                           <TableCell>{lead.project ?? '—'}</TableCell>
-                          <TableCell className="max-w-sm truncate">{lead.message}</TableCell>
+                          <TableCell className="max-w-sm truncate">
+                            {lead.message}
+                          </TableCell>
                           <TableCell className="text-right">
                             {formatDate(lead.created_at)}
                           </TableCell>
@@ -432,8 +452,12 @@ const Dashboard = () => {
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>{t('dashboard.newsletter.columns.email')}</TableHead>
-                        <TableHead>{t('dashboard.newsletter.columns.status')}</TableHead>
+                        <TableHead>
+                          {t('dashboard.newsletter.columns.email')}
+                        </TableHead>
+                        <TableHead>
+                          {t('dashboard.newsletter.columns.status')}
+                        </TableHead>
                         <TableHead className="text-right">
                           {t('dashboard.newsletter.columns.subscribedAt')}
                         </TableHead>
@@ -442,9 +466,15 @@ const Dashboard = () => {
                     <TableBody>
                       {subscribers.map((subscriber) => (
                         <TableRow key={subscriber.id}>
-                          <TableCell className="font-medium">{subscriber.email}</TableCell>
+                          <TableCell className="font-medium">
+                            {subscriber.email}
+                          </TableCell>
                           <TableCell>
-                            <Badge variant={subscriber.active ? 'default' : 'secondary'}>
+                            <Badge
+                              variant={
+                                subscriber.active ? 'default' : 'secondary'
+                              }
+                            >
                               {subscriber.active
                                 ? t('dashboard.newsletter.status.active')
                                 : t('dashboard.newsletter.status.inactive')}
