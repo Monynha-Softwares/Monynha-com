@@ -44,9 +44,8 @@ const pickGradient = (index: number | undefined, fallback?: string): string => {
     return DEFAULT_GRADIENT;
   }
 
-  const safeIndex = typeof index === 'number' && Number.isFinite(index)
-    ? Math.abs(index)
-    : 0;
+  const safeIndex =
+    typeof index === 'number' && Number.isFinite(index) ? Math.abs(index) : 0;
 
   return gradientOptions[safeIndex % gradientOptions.length];
 };
@@ -165,7 +164,8 @@ export const mapGitHubRepoToContent = (
 ): SolutionContent => {
   const normalizedSlug = normalizeSolutionSlug(repository.name);
   const fallback =
-    fallbackSolutionsMap[normalizedSlug] ?? fallbackSolutionsMap[repository.name];
+    fallbackSolutionsMap[normalizedSlug] ??
+    fallbackSolutionsMap[repository.name];
   const gradient = pickGradient(index, fallback?.gradient);
 
   const description = repository.description?.trim();
@@ -176,8 +176,8 @@ export const mapGitHubRepoToContent = (
     description:
       description && description.length > 0
         ? description
-        : fallback?.description ??
-          'Open-source solution maintained by Monynha Softwares.',
+        : (fallback?.description ??
+          'Open-source solution maintained by Monynha Softwares.'),
     slug: repository.name,
     imageUrl: fallback?.imageUrl ?? null,
     features: buildFeatureList(repository, fallback),

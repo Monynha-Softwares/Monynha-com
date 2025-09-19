@@ -13,6 +13,7 @@
     "preview": "vite preview",
     "test": "jest --passWithNoTests",
     "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "prepare": "husky install"
   },
   "dependencies": {

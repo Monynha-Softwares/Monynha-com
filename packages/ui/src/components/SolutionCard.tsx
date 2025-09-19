@@ -3,10 +3,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { CheckCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { SolutionContent } from '../types';
-import {
-  featureIconWrapperClass,
-  surfaceCardClass,
-} from '../theme';
+import { featureIconWrapperClass, surfaceCardClass } from '../theme';
 
 export interface SolutionCardProps {
   solution: SolutionContent;
@@ -58,7 +55,10 @@ export const SolutionCard = ({
             className="h-full w-full object-cover"
           />
           <div
-            className={cn('absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r', gradient)}
+            className={cn(
+              'absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r',
+              gradient
+            )}
             aria-hidden="true"
           />
         </div>
@@ -71,7 +71,11 @@ export const SolutionCard = ({
 
       <CardContent className={cn('flex flex-1 flex-col p-8', contentClassName)}>
         <div
-          className={cn('h-1 w-16 rounded-full bg-gradient-to-r', gradient, 'mb-6')}
+          className={cn(
+            'h-1 w-16 rounded-full bg-gradient-to-r',
+            gradient,
+            'mb-6'
+          )}
           aria-hidden="true"
         />
         <h3 className="text-2xl font-heading font-semibold text-neutral-900">
@@ -84,7 +88,10 @@ export const SolutionCard = ({
         {displayFeatures.length > 0 && (
           <ul className="mt-8 space-y-3 text-neutral-600">
             {displayFeatures.map((feature, index) => (
-              <li key={`${slug}-feature-${index}`} className="flex items-start gap-3">
+              <li
+                key={`${slug}-feature-${index}`}
+                className="flex items-start gap-3"
+              >
                 <span
                   className={cn(
                     featureIconWrapperClass,

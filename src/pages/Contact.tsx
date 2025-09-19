@@ -64,9 +64,7 @@ const normalizeProjectTypes = (value: unknown): string[] => {
   if (Array.isArray(parsedValue)) {
     return Array.from(
       new Set(
-        parsedValue
-          .filter(isNonEmptyString)
-          .map((option) => option.trim())
+        parsedValue.filter(isNonEmptyString).map((option) => option.trim())
       )
     );
   }
@@ -77,9 +75,7 @@ const normalizeProjectTypes = (value: unknown): string[] => {
     if (Array.isArray(record.options)) {
       return Array.from(
         new Set(
-          record.options
-            .filter(isNonEmptyString)
-            .map((option) => option.trim())
+          record.options.filter(isNonEmptyString).map((option) => option.trim())
         )
       );
     }
@@ -107,10 +103,7 @@ const Contact = () => {
   }>({});
   const { toast } = useToast();
 
-  const {
-    data: projectTypeResponse,
-    error: projectTypesError,
-  } = useQuery({
+  const { data: projectTypeResponse, error: projectTypesError } = useQuery({
     queryKey: ['site-settings', 'project-types'],
     queryFn: async () => {
       const { data, error } = await supabase

@@ -80,7 +80,12 @@ export default {
         sans: ['Inter', 'system-ui', 'sans-serif'],
         heading: ['"Quicksand"', 'Inter', 'system-ui', 'sans-serif'],
         brand: ['"Quicksand"', 'Inter', 'system-ui', 'sans-serif'],
-        mono: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'monospace'],
+        mono: [
+          '"JetBrains Mono"',
+          'ui-monospace',
+          'SFMono-Regular',
+          'monospace',
+        ],
       },
       backgroundImage: {
         'gradient-brand':

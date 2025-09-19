@@ -26,11 +26,7 @@ import {
 import type { GitHubRepository } from '@/lib/solutions';
 import type { SolutionContent } from '@/types/solutions';
 import { getNormalizedLocale } from '@/lib/i18n';
-import {
-  SolutionCard,
-  sectionContainer,
-  sectionPaddingY,
-} from '@monynha/ui';
+import { SolutionCard, sectionContainer, sectionPaddingY } from '@monynha/ui';
 import { cn } from '@/lib/utils';
 
 interface Repository {
@@ -150,7 +146,9 @@ const Projects = () => {
 
       const toTimestamp = (repository: GitHubRepository) => {
         const reference =
-          repository.pushed_at ?? repository.updated_at ?? repository.created_at;
+          repository.pushed_at ??
+          repository.updated_at ??
+          repository.created_at;
         const timestamp = new Date(reference).getTime();
         return Number.isNaN(timestamp) ? 0 : timestamp;
       };
@@ -200,7 +198,6 @@ const Projects = () => {
   }, [githubSolutions, memoizedFallbackSolutions, primarySolutions]);
 
   if (repositoriesLoading) {
-
     return (
       <Layout>
         <Meta
@@ -291,7 +288,9 @@ const Projects = () => {
         </div>
       </section>
 
-      <section className={cn(sectionPaddingY, 'bg-neutral-50 dark:bg-neutral-950')}>
+      <section
+        className={cn(sectionPaddingY, 'bg-neutral-50 dark:bg-neutral-950')}
+      >
         <div className={sectionContainer}>
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">
@@ -428,7 +427,9 @@ const Projects = () => {
         </div>
       </section>
 
-      <section className={cn(sectionPaddingY, 'bg-neutral-50 dark:bg-neutral-950')}>
+      <section
+        className={cn(sectionPaddingY, 'bg-neutral-50 dark:bg-neutral-950')}
+      >
         <div className={sectionContainer}>
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">
@@ -521,20 +522,20 @@ const Projects = () => {
       <section className={cn(sectionPaddingY, 'bg-gradient-hero text-white')}>
         <div className="max-w-3xl mx-auto px-4 text-center">
           <h3 className="text-3xl font-bold mb-4">{t('projects.like')}</h3>
-          <p className="text-white/80 mb-8">
-            {t('projects.likeDescription')}
-          </p>
+          <p className="text-white/80 mb-8">{t('projects.likeDescription')}</p>
           <Button asChild size="lg" variant="default" className="px-8">
-            <Link to="/contact" className="flex items-center justify-center gap-2">
+            <Link
+              to="/contact"
+              className="flex items-center justify-center gap-2"
+            >
               {t('projects.contactUs')}
               <ArrowRight className="h-5 w-5" />
             </Link>
           </Button>
         </div>
       </section>
-
     </Layout>
   );
-}
+};
 
 export default Projects;

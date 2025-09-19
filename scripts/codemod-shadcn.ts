@@ -1,7 +1,9 @@
 import { Project, SyntaxKind, SourceFile, ImportDeclaration } from 'ts-morph';
 import path from 'node:path';
 
-const project = new Project({ tsConfigFilePath: path.join(process.cwd(), 'tsconfig.json') });
+const project = new Project({
+  tsConfigFilePath: path.join(process.cwd(), 'tsconfig.json'),
+});
 
 function ensureImport(sourceFile: SourceFile, name: string, spec: string) {
   const existing = sourceFile
@@ -12,13 +14,18 @@ function ensureImport(sourceFile: SourceFile, name: string, spec: string) {
       existing.addNamedImport(name);
     }
   } else {
-    sourceFile.addImportDeclaration({ moduleSpecifier: spec, namedImports: [name] });
+    sourceFile.addImportDeclaration({
+      moduleSpecifier: spec,
+      namedImports: [name],
+    });
   }
 }
 
 for (const sourceFile of project.getSourceFiles('src/**/*.{ts,tsx}')) {
   let changed = false;
-  const jsx = sourceFile.getDescendantsOfKind(SyntaxKind.JsxOpeningElement).concat(sourceFile.getDescendantsOfKind(SyntaxKind.JsxSelfClosingElement));
+  const jsx = sourceFile
+    .getDescendantsOfKind(SyntaxKind.JsxOpeningElement)
+    .concat(sourceFile.getDescendantsOfKind(SyntaxKind.JsxSelfClosingElement));
   for (const el of jsx) {
     const tagName = el.getTagNameNode().getText();
     const classAttr = el.getAttribute('className');

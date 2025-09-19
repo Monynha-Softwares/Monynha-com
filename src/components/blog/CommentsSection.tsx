@@ -172,8 +172,7 @@ const CommentsSection = ({ postId }: CommentsSectionProps) => {
       console.error('Error creating comment', error);
       toast({
         title: t('blog.comments.errorTitle'),
-        description:
-          error.message || t('blog.comments.errorDescription'),
+        description: error.message || t('blog.comments.errorDescription'),
         variant: 'destructive',
       });
     },
@@ -245,9 +244,11 @@ const CommentsSection = ({ postId }: CommentsSectionProps) => {
           </Card>
         )}
 
-        {!isLoading && !isError &&
+        {!isLoading &&
+          !isError &&
           comments?.map((comment) => {
-            const authorName = comment.author?.name ?? t('blog.comments.anonymous');
+            const authorName =
+              comment.author?.name ?? t('blog.comments.anonymous');
             const formattedDate = dateFormatter.format(
               new Date(comment.created_at)
             );
@@ -273,7 +274,9 @@ const CommentsSection = ({ postId }: CommentsSectionProps) => {
                       <p className="font-medium text-neutral-900">
                         {authorName}
                       </p>
-                      <p className="text-sm text-neutral-500">{formattedDate}</p>
+                      <p className="text-sm text-neutral-500">
+                        {formattedDate}
+                      </p>
                     </div>
                     <p className="mt-3 whitespace-pre-line text-neutral-700">
                       {comment.content}
@@ -306,7 +309,10 @@ const CommentsSection = ({ postId }: CommentsSectionProps) => {
                 />
                 <div className="flex items-center justify-between text-sm text-neutral-500">
                   <span>
-                    {t('blog.comments.characters', { count: newComment.length, max: 1000 })}
+                    {t('blog.comments.characters', {
+                      count: newComment.length,
+                      max: 1000,
+                    })}
                   </span>
                   <Button
                     type="submit"

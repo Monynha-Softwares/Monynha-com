@@ -207,7 +207,10 @@ const SolutionDetail = () => {
                   variant="outline"
                   className="flex-1 sm:flex-none sm:w-auto border-neutral-200 dark:border-neutral-800 hover:border-brand-blue hover:text-brand-blue transition-colors"
                 >
-                  <Link to="/solutions" className="flex items-center justify-center gap-2">
+                  <Link
+                    to="/solutions"
+                    className="flex items-center justify-center gap-2"
+                  >
                     <ArrowLeft className="h-4 w-4" />
                     {t('solutionsPage.backToSolutions')}
                   </Link>
@@ -216,7 +219,10 @@ const SolutionDetail = () => {
                   asChild
                   className="flex-1 sm:flex-none sm:w-auto bg-gradient-to-r from-brand-purple to-brand-blue hover:shadow-soft-lg transition-all"
                 >
-                  <Link to="/contact" className="flex items-center justify-center gap-2">
+                  <Link
+                    to="/contact"
+                    className="flex items-center justify-center gap-2"
+                  >
                     {t('solutionsPage.requestDemo')}
                     <ArrowRight className="h-4 w-4" />
                   </Link>
@@ -258,7 +264,9 @@ const SolutionDetail = () => {
                   >
                     <CheckCircle className="h-5 w-5 text-white" />
                   </span>
-                  <p className="text-neutral-700 dark:text-neutral-300 leading-relaxed">{feature}</p>
+                  <p className="text-neutral-700 dark:text-neutral-300 leading-relaxed">
+                    {feature}
+                  </p>
                 </div>
               ))}
             </div>
@@ -279,7 +287,10 @@ const SolutionDetail = () => {
             size="lg"
             className="bg-white transition-colors dark:bg-neutral-950 text-brand-purple hover:bg-blue-50 font-semibold px-8 py-4 rounded-xl text-lg transition-all ease-in-out duration-300"
           >
-            <Link to="/contact" className="flex items-center justify-center gap-2">
+            <Link
+              to="/contact"
+              className="flex items-center justify-center gap-2"
+            >
               {t('solutionsPage.discuss')}
               <ArrowRight className="h-5 w-5" />
             </Link>

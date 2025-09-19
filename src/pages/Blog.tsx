@@ -148,7 +148,8 @@ const Blog = () => {
   });
 
   const totalPosts = data?.total ?? 0;
-  const totalPages = totalPosts > 0 ? Math.ceil(totalPosts / POSTS_PER_PAGE) : 1;
+  const totalPages =
+    totalPosts > 0 ? Math.ceil(totalPosts / POSTS_PER_PAGE) : 1;
 
   const formattedPosts = useMemo(
     () =>

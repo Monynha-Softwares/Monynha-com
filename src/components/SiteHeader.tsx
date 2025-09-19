@@ -11,7 +11,12 @@ import {
   NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetClose, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetTrigger,
+} from '@/components/ui/sheet';
 import {
   Accordion,
   AccordionContent,
@@ -214,7 +219,10 @@ const SiteHeader = () => {
 
                           return (
                             <NavigationMenuLink asChild key={item.key}>
-                              <Link to={item.href} className={menuCardLinkClasses}>
+                              <Link
+                                to={item.href}
+                                className={menuCardLinkClasses}
+                              >
                                 {renderGradientCard(item.gradient, content)}
                               </Link>
                             </NavigationMenuLink>
@@ -281,7 +289,10 @@ const SiteHeader = () => {
 
                           return (
                             <NavigationMenuLink asChild key={item.key}>
-                              <Link to={item.href} className={menuCardLinkClasses}>
+                              <Link
+                                to={item.href}
+                                className={menuCardLinkClasses}
+                              >
                                 {renderGradientCard(item.gradient, content)}
                               </Link>
                             </NavigationMenuLink>
@@ -303,7 +314,9 @@ const SiteHeader = () => {
                           variant="outline"
                           className="border-brand-blue/20 text-brand-blue hover:border-brand-blue hover:bg-brand-blue/10 focus-visible:ring-brand-blue focus-visible:ring-offset-2"
                         >
-                          <Link to="/contact">{t('navigation.startProject')}</Link>
+                          <Link to="/contact">
+                            {t('navigation.startProject')}
+                          </Link>
                         </Button>
                       </div>
                     </div>
@@ -410,7 +423,11 @@ const SiteHeader = () => {
                 aria-label={t('navigation.toggleNavigation')}
                 className="flex items-center justify-center rounded-xl border border-white/0 bg-white/70 p-2 text-neutral-700 shadow-soft transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2 focus-visible:ring-offset-background hover:text-brand-blue dark:border-neutral-700/60 dark:bg-neutral-900/70 dark:text-neutral-100"
               >
-                {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                {mobileOpen ? (
+                  <X className="h-6 w-6" />
+                ) : (
+                  <Menu className="h-6 w-6" />
+                )}
               </button>
             </SheetTrigger>
             <SheetContent
@@ -439,7 +456,11 @@ const SiteHeader = () => {
                   </NavLink>
                 </SheetClose>
 
-                <Accordion type="single" collapsible className="w-full border-none">
+                <Accordion
+                  type="single"
+                  collapsible
+                  className="w-full border-none"
+                >
                   <AccordionItem value="solutions" className="border-none">
                     <AccordionTrigger className="rounded-lg bg-neutral-50 px-3 py-2 text-left text-base font-semibold text-neutral-900 transition-colors dark:bg-neutral-900 dark:text-neutral-100">
                       {t('navigation.solutions')}
@@ -454,7 +475,10 @@ const SiteHeader = () => {
 
                           return (
                             <SheetClose asChild key={item.key}>
-                              <Link to={item.href} className={menuCardLinkClasses}>
+                              <Link
+                                to={item.href}
+                                className={menuCardLinkClasses}
+                              >
                                 {renderGradientCard(item.gradient, content)}
                               </Link>
                             </SheetClose>
@@ -511,7 +535,10 @@ const SiteHeader = () => {
 
                           return (
                             <SheetClose asChild key={item.key}>
-                              <Link to={item.href} className={menuCardLinkClasses}>
+                              <Link
+                                to={item.href}
+                                className={menuCardLinkClasses}
+                              >
                                 {renderGradientCard(item.gradient, content)}
                               </Link>
                             </SheetClose>

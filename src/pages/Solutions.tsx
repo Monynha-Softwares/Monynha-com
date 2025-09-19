@@ -19,11 +19,7 @@ import {
   getFallbackSolutions,
   mapSupabaseSolutionToContent,
 } from '@/lib/solutions';
-import {
-  SolutionCard,
-  sectionContainer,
-  sectionPaddingY,
-} from '@monynha/ui';
+import { SolutionCard, sectionContainer, sectionPaddingY } from '@monynha/ui';
 import { cn } from '@/lib/utils';
 
 import type { SolutionContent } from '@/types/solutions';
@@ -31,10 +27,7 @@ import type { SolutionContent } from '@/types/solutions';
 const Solutions = () => {
   const { t } = useTranslation();
 
-  const memoizedFallbackSolutions = useMemo(
-    () => getFallbackSolutions(),
-    []
-  );
+  const memoizedFallbackSolutions = useMemo(() => getFallbackSolutions(), []);
 
   const {
     data: solutions = [],
@@ -158,11 +151,7 @@ const Solutions = () => {
                 solution={solution}
                 actions={
                   <>
-                    <Button
-                      asChild
-                      variant="outline"
-                      className="flex-1"
-                    >
+                    <Button asChild variant="outline" className="flex-1">
                       <Link
                         to={`/solutions/${solution.slug}`}
                         className="flex items-center justify-center"

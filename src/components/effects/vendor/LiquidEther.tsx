@@ -219,7 +219,11 @@ const LiquidEther = ({
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
 
     const devicePixelRatio = window.devicePixelRatio || 1;
-    const pixelRatio = THREE.MathUtils.clamp(devicePixelRatio * resolvedResolution, 0.3, 1.5);
+    const pixelRatio = THREE.MathUtils.clamp(
+      devicePixelRatio * resolvedResolution,
+      0.3,
+      1.5
+    );
     renderer.setPixelRatio(pixelRatio);
 
     const size = new THREE.Vector2(window.innerWidth, window.innerHeight);
@@ -291,7 +295,11 @@ const LiquidEther = ({
     const viscosityFactor = isViscous ? Math.max(4, viscous) : 18;
     const viscousIterations = Math.max(1, iterationsViscous);
     const poissonIterations = Math.max(1, iterationsPoisson);
-    const manualDecay = THREE.MathUtils.clamp(viscosityFactor / viscousIterations / 12, 0.6, 2.4);
+    const manualDecay = THREE.MathUtils.clamp(
+      viscosityFactor / viscousIterations / 12,
+      0.6,
+      2.4
+    );
     const autoDecay = THREE.MathUtils.clamp(poissonIterations / 32, 0.4, 1.2);
     const followSpeed = 1 / Math.max(0.05, takeoverDuration);
 
@@ -335,8 +343,12 @@ const LiquidEther = ({
       updateManualPointer(touch.clientX, touch.clientY);
     };
 
-    window.addEventListener('pointermove', handlePointerMove, { passive: true });
-    window.addEventListener('pointerdown', handlePointerDown, { passive: true });
+    window.addEventListener('pointermove', handlePointerMove, {
+      passive: true,
+    });
+    window.addEventListener('pointerdown', handlePointerDown, {
+      passive: true,
+    });
     window.addEventListener('touchmove', handleTouchMove, { passive: true });
     window.addEventListener('resize', resize);
 
@@ -354,7 +366,11 @@ const LiquidEther = ({
         }
 
         const rampSpeed = delta / Math.max(0.05, autoRampDuration);
-        autoRamp = THREE.MathUtils.clamp(autoRamp + (autoActive ? rampSpeed : -rampSpeed), 0, 1);
+        autoRamp = THREE.MathUtils.clamp(
+          autoRamp + (autoActive ? rampSpeed : -rampSpeed),
+          0,
+          1
+        );
 
         if (autoActive) {
           if (isBounce) {
@@ -375,12 +391,18 @@ const LiquidEther = ({
             const amplitudeX = 0.18 + autoIntensity * 0.05;
             const amplitudeY = 0.14 + autoIntensity * 0.04;
             autoPointer.x = clamp01(0.5 + Math.sin(autoPhase) * amplitudeX);
-            autoPointer.y = clamp01(0.5 + Math.cos(autoPhase * 0.82 + 1.2) * amplitudeY);
+            autoPointer.y = clamp01(
+              0.5 + Math.cos(autoPhase * 0.82 + 1.2) * amplitudeY
+            );
           }
         }
 
         const targetAutoStrength = autoActive
-          ? THREE.MathUtils.clamp(autoIntensity * 0.35 * (0.6 + autoRamp), 0.1, 2)
+          ? THREE.MathUtils.clamp(
+              autoIntensity * 0.35 * (0.6 + autoRamp),
+              0.1,
+              2
+            )
           : 0;
         const autoLerp = 1 - Math.exp(-delta * (2.4 + autoDecay * 2));
         autoStrength += (targetAutoStrength - autoStrength) * autoLerp;
@@ -400,10 +422,15 @@ const LiquidEther = ({
 
       blendedPointer.copy(autoPointer).lerp(manualPointer, pointerBlend);
 
-      const finalStrength = autoStrength * (1 - pointerBlend) + manualStrength * pointerBlend;
+      const finalStrength =
+        autoStrength * (1 - pointerBlend) + manualStrength * pointerBlend;
 
       uniforms.uPointer.value.copy(blendedPointer);
-      uniforms.uPointerStrength.value = THREE.MathUtils.clamp(finalStrength, 0, 4);
+      uniforms.uPointerStrength.value = THREE.MathUtils.clamp(
+        finalStrength,
+        0,
+        4
+      );
       uniforms.uCursorSize.value = cursorSize;
       uniforms.uIntensity.value = autoIntensity;
       uniforms.uTime.value += delta;
@@ -447,8 +474,9 @@ const LiquidEther = ({
     viscous,
   ]);
 
-  return <div ref={containerRef} className={clsx('h-full w-full', className)} />;
+  return (
+    <div ref={containerRef} className={clsx('h-full w-full', className)} />
+  );
 };
 
 export default LiquidEther;
-

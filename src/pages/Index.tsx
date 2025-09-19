@@ -136,9 +136,7 @@ const Index = () => {
     () =>
       fallbackSolutionsConfig.map((solution) => ({
         name: t(`index.fallbackSolutions.${solution.id}.name`),
-        description: t(
-          `index.fallbackSolutions.${solution.id}.description`
-        ),
+        description: t(`index.fallbackSolutions.${solution.id}.description`),
         features: solution.featureKeys.map((featureKey) =>
           t(`index.fallbackSolutions.${solution.id}.features.${featureKey}`)
         ),
@@ -227,7 +225,9 @@ const Index = () => {
                     <h3 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100 mb-4">
                       {feature.title}
                     </h3>
-                    <p className="text-neutral-600 dark:text-neutral-300">{feature.description}</p>
+                    <p className="text-neutral-600 dark:text-neutral-300">
+                      {feature.description}
+                    </p>
                   </CardContent>
                 </Card>
               </a>
