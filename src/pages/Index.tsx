@@ -158,27 +158,27 @@ const Index = () => {
       />
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-hero text-white">
-        <div className="absolute inset-0 bg-black/20"></div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
-          <div className="text-center animate-fade-in">
-            <h1 className="text-4xl lg:text-6xl font-bold mb-6 text-white">
+        <div className="absolute inset-0 bg-primary/80 mix-blend-multiply dark:bg-primary/60"></div>
+        <div className="container relative z-10 mx-auto flex flex-col items-center py-24 sm:py-28 lg:py-32">
+          <div className="animate-fade-in space-y-8 text-center">
+            <h1 className="font-heading text-4xl leading-tight sm:text-5xl lg:text-6xl">
               <Trans
                 i18nKey="index.hero.headline"
                 components={[
                   <br key="lb" />,
                   <span
                     key="gradient"
-                    className="text-transparent bg-clip-text bg-gradient-to-r from-white to-blue-200"
+                    className="bg-gradient-to-r from-white via-blue-100 to-blue-200 bg-clip-text text-transparent"
                   />,
                 ]}
               />
             </h1>
-            <p className="text-xl lg:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto">
+            <p className="mx-auto max-w-2xl text-lg text-blue-100/90 sm:text-xl">
               {t('index.hero.description')}
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-center">
               <Link to="/contact">
-                <Button className="btn-primary">
+                <Button size="lg">
                   {t('index.hero.cta')}
 
                   <ArrowRight className="ml-2 h-5 w-5" />
@@ -187,7 +187,8 @@ const Index = () => {
               <Link to="/solutions">
                 <Button
                   size="lg"
-                  className="rounded-xl bg-white transition-colors dark:bg-neutral-950 px-8 py-4 text-lg font-semibold text-brand-purple transition-all duration-300 ease-in-out hover:bg-blue-50 dark:text-white dark:hover:bg-neutral-800"
+                  variant="outline"
+                  className="border-white/70 bg-white/10 text-white hover:bg-white/20 hover:text-white dark:border-white/40"
                 >
                   {t('index.hero.viewSolutions')}
                 </Button>
@@ -198,13 +199,13 @@ const Index = () => {
       </section>
 
       {/* Features Section */}
-      <section className="py-24 bg-white transition-colors dark:bg-neutral-950 transition-colors dark:bg-neutral-950">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">
+      <section className="bg-white py-24 transition-colors dark:bg-neutral-950">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-16 text-center">
+            <h2 className="font-heading text-3xl font-semibold text-neutral-900 dark:text-neutral-100 sm:text-4xl">
               {t('index.why.title')}
             </h2>
-            <p className="text-xl text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto">
+            <p className="mx-auto mt-4 max-w-3xl text-lg text-neutral-600 dark:text-neutral-300 sm:text-xl">
               {t('index.why.description')}
             </p>
           </div>
@@ -217,12 +218,15 @@ const Index = () => {
                 rel="noopener noreferrer"
                 className="block"
               >
-                <Card className="border-0 shadow-soft hover:shadow-soft-lg transition-all ease-in-out duration-300 card-hover rounded-2xl cursor-pointer">
-                  <CardContent className="p-8 text-center">
-                    <div className="w-16 h-16 bg-gradient-hero rounded-2xl flex items-center justify-center mx-auto mb-6">
+                <Card
+                  variant="elevated"
+                  className="cursor-pointer bg-white/90 text-neutral-900 transition-transform dark:bg-neutral-900/70"
+                >
+                  <CardContent className="space-y-5 px-8 pb-10 pt-10 text-center">
+                    <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-hero">
                       <feature.icon className="h-8 w-8 text-white" />
                     </div>
-                    <h3 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100 mb-4">
+                    <h3 className="font-heading text-xl font-semibold text-neutral-900 dark:text-neutral-100">
                       {feature.title}
                     </h3>
                     <p className="text-neutral-600 dark:text-neutral-300">
@@ -237,13 +241,13 @@ const Index = () => {
       </section>
 
       {/* Solutions Preview */}
-      <section className="py-24 bg-neutral-50 dark:bg-neutral-950 transition-colors dark:bg-neutral-950">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">
+      <section className="bg-neutral-50 py-24 transition-colors dark:bg-neutral-950">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-16 text-center">
+            <h2 className="font-heading text-3xl font-semibold text-neutral-900 dark:text-neutral-100 sm:text-4xl">
               {t('index.solutions.title')}
             </h2>
-            <p className="text-xl text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto">
+            <p className="mx-auto mt-4 max-w-3xl text-lg text-neutral-600 dark:text-neutral-300 sm:text-xl">
               {t('index.solutions.description')}
             </p>
           </div>
@@ -251,22 +255,23 @@ const Index = () => {
             {displaySolutions.map((solution, index) => (
               <Card
                 key={index}
-                className="border-0 shadow-soft hover:shadow-soft-lg transition-all ease-in-out duration-300 card-hover rounded-2xl overflow-hidden"
+                variant="bordered"
+                className="overflow-hidden bg-white/95 shadow-soft transition-all dark:bg-neutral-900/80"
               >
                 <div
                   className={`h-4 bg-gradient-to-r ${solution.gradient}`}
                 ></div>
-                <CardContent className="p-8">
-                  <h3 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">
+                <CardContent className="space-y-6 px-8 pb-10 pt-10">
+                  <h3 className="font-heading text-2xl font-semibold text-neutral-900 dark:text-neutral-100">
                     {solution.name}
                   </h3>
-                  <p className="text-neutral-600 dark:text-neutral-300 mb-6">
+                  <p className="text-neutral-600 dark:text-neutral-300">
                     {solution.description}
                   </p>
                   {solution.features &&
                     Array.isArray(solution.features) &&
                     solution.features.length > 0 && (
-                      <ul className="space-y-3 mb-8">
+                      <ul className="space-y-3">
                         {solution.features.map((feature, featureIndex) => (
                           <li
                             key={featureIndex}
@@ -279,7 +284,11 @@ const Index = () => {
                       </ul>
                     )}
                   <Link to="/solutions">
-                    <Button className="btn-secondary w-full">
+                    <Button
+                      variant="secondary"
+                      size="lg"
+                      className="w-full justify-center"
+                    >
                       {t('index.learnMore')}
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
@@ -298,19 +307,16 @@ const Index = () => {
       <NewsletterSection />
 
       {/* CTA Section */}
-      <section className="py-24 bg-gradient-hero text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl lg:text-4xl font-bold mb-6">
+      <section className="bg-gradient-hero py-24 text-white">
+        <div className="container mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
+          <h2 className="font-heading text-3xl font-semibold sm:text-4xl">
             {t('index.cta.title')}
           </h2>
-          <p className="text-xl text-blue-100 mb-8">
+          <p className="mt-6 text-lg text-blue-100/90 sm:text-xl">
             {t('index.cta.description')}
           </p>
           <Link to="/contact">
-            <Button
-              size="lg"
-              className="rounded-xl bg-white transition-colors dark:bg-neutral-950 px-8 py-4 text-lg font-semibold text-brand-purple transition-all duration-300 ease-in-out hover:bg-blue-50 dark:text-white dark:hover:bg-neutral-800"
-            >
+            <Button size="lg">
               {t('index.cta.getStarted')}
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>

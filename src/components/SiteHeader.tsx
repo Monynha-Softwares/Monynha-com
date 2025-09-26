@@ -25,6 +25,7 @@ import {
 } from '@/components/ui/accordion';
 import { Menu, X, User, LogOut, ArrowRight } from 'lucide-react';
 import LanguageSwitcher from './LanguageSwitcher';
+import ThemeToggle from './ThemeToggle';
 import { useAuth } from '@/hooks/useAuth';
 import { cn } from '@/lib/utils';
 
@@ -376,7 +377,10 @@ const SiteHeader = () => {
               <div className="relative top-[60%] h-2 w-2 rotate-45 bg-gradient-to-br from-brand-purple to-brand-blue" />
             </NavigationMenuIndicator>
           </NavigationMenu>
-          <LanguageSwitcher />
+          <div className="flex items-center gap-3">
+            <ThemeToggle />
+            <LanguageSwitcher />
+          </div>
         </div>
 
         <div className="hidden items-center gap-3 lg:flex">
@@ -416,7 +420,8 @@ const SiteHeader = () => {
           )}
         </div>
 
-        <div className="flex items-center gap-2 lg:hidden">
+        <div className="flex items-center gap-3 lg:hidden">
+          <ThemeToggle />
           <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
             <SheetTrigger asChild>
               <button
@@ -434,11 +439,14 @@ const SiteHeader = () => {
               side="right"
               className="w-full border-l border-white/40 bg-white/95 px-6 py-8 backdrop-blur-sm transition-colors sm:max-w-sm dark:border-neutral-800 dark:bg-neutral-950/90"
             >
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between gap-4">
                 <span className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
                   {t('navigation.toggleNavigation')}
                 </span>
-                <LanguageSwitcher />
+                <div className="flex items-center gap-3">
+                  <ThemeToggle variant="surface" />
+                  <LanguageSwitcher />
+                </div>
               </div>
 
               <nav className="mt-8 flex flex-col gap-4 text-base font-medium text-neutral-800 dark:text-neutral-200">

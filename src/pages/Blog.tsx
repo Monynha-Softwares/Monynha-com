@@ -332,7 +332,7 @@ const Blog = () => {
                   <p className="text-lg text-neutral-600 dark:text-neutral-300 mb-6">
                     {featuredPost.excerpt}
                   </p>
-                  <Button asChild className="btn-primary w-fit">
+                  <Button asChild size="lg" className="w-fit">
                     <Link
                       to={`/blog/${featuredPost.slug}`}
                       className="inline-flex items-center"
