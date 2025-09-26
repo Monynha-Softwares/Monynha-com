@@ -1,9 +1,22 @@
 import { createClient } from '@supabase/supabase-js';
 import type { Database } from '@/integrations/supabase/types';
 
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
-const SUPABASE_ANON_KEY = (import.meta.env.VITE_SUPABASE_ANON_KEY ||
-  import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY) as string;
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string | undefined;
+const SUPABASE_ANON_KEY =
+  (import.meta.env.VITE_SUPABASE_ANON_KEY ||
+    import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY) as
+    | string
+    | undefined;
+
+export const isSupabaseConfigured = Boolean(
+  SUPABASE_URL && SUPABASE_ANON_KEY
+);
+
+if (!isSupabaseConfigured) {
+  console.warn(
+    'Supabase environment variables are not configured. Falling back to local-only mode.'
+  );
+}
 
 const AUTH_COOKIE_PREFIX = 'monynha_supabase_';
 const AUTH_STORAGE_KEY = 'auth_token';
@@ -98,14 +111,33 @@ const cookieStorage = isBrowser
   : undefined;
 
 export const supabase = createClient<Database>(
-  SUPABASE_URL,
-  SUPABASE_ANON_KEY,
+  SUPABASE_URL ?? 'https://placeholder.supabase.co',
+  SUPABASE_ANON_KEY ?? 'public-anon-key',
   {
     auth: {
       storage: cookieStorage,
       storageKey: AUTH_STORAGE_KEY,
       persistSession: true,
       autoRefreshToken: true,
+    },
+    global: {
+      fetch: async (input: RequestInfo | URL, init?: RequestInit) => {
+        if (!isSupabaseConfigured) {
+          return new Response(
+            JSON.stringify({
+              error: 'supabase_not_configured',
+              message:
+                'Supabase environment variables are missing. Configure them to enable cloud data features.',
+            }),
+            {
+              status: 503,
+              headers: { 'Content-Type': 'application/json' },
+            }
+          );
+        }
+
+        return fetch(input, init);
+      },
     },
   }
 );
