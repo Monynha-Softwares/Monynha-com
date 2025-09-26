@@ -178,7 +178,7 @@ const Index = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/contact">
-                <Button className="btn-primary">
+                <Button variant="brandPrimary" size="lg">
                   {t('index.hero.cta')}
 
                   <ArrowRight className="ml-2 h-5 w-5" />
@@ -279,7 +279,7 @@ const Index = () => {
                       </ul>
                     )}
                   <Link to="/solutions">
-                    <Button className="btn-secondary w-full">
+                    <Button variant="brandSecondary" size="md" className="w-full">
                       {t('index.learnMore')}
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>

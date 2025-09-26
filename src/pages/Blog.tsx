@@ -332,7 +332,12 @@ const Blog = () => {
                   <p className="text-lg text-neutral-600 dark:text-neutral-300 mb-6">
                     {featuredPost.excerpt}
                   </p>
-                  <Button asChild className="btn-primary w-fit">
+                  <Button
+                    asChild
+                    variant="brandPrimary"
+                    size="md"
+                    className="w-fit"
+                  >
                     <Link
                       to={`/blog/${featuredPost.slug}`}
                       className="inline-flex items-center"
@@ -431,7 +436,7 @@ const Blog = () => {
                   <PaginationItem>
                     <PaginationLink
                       href="#"
-                      size="default"
+                      size="md"
                       className={cn(
                         'gap-1 pl-2.5',
                         page === 1 && 'pointer-events-none opacity-50'
@@ -467,7 +472,7 @@ const Blog = () => {
                   <PaginationItem>
                     <PaginationLink
                       href="#"
-                      size="default"
+                      size="md"
                       className={cn(
                         'gap-1 pr-2.5',
                         page === totalPages && 'pointer-events-none opacity-50'

@@ -1,4 +1,11 @@
-import { Project, SyntaxKind, SourceFile, ImportDeclaration } from 'ts-morph';
+import {
+  Project,
+  SyntaxKind,
+  SourceFile,
+  ImportDeclaration,
+  Node,
+  JsxAttribute,
+} from 'ts-morph';
 import path from 'node:path';
 
 const project = new Project({
@@ -21,6 +28,33 @@ function ensureImport(sourceFile: SourceFile, name: string, spec: string) {
   }
 }
 
+function stripButtonClasses(
+  classAttr: JsxAttribute,
+  ...classesToRemove: string[]
+) {
+  const initializer = classAttr.getInitializer();
+  if (
+    !initializer ||
+    !(
+      Node.isStringLiteral(initializer) ||
+      Node.isNoSubstitutionTemplateLiteral(initializer)
+    )
+  ) {
+    return;
+  }
+  const filtered = initializer
+    .getLiteralValue()
+    .split(/\s+/)
+    .filter(
+      (token) => token && !classesToRemove.includes(token.trim())
+    );
+  if (filtered.length === 0) {
+    classAttr.remove();
+  } else {
+    initializer.setLiteralValue(filtered.join(' '));
+  }
+}
+
 for (const sourceFile of project.getSourceFiles('src/**/*.{ts,tsx}')) {
   let changed = false;
   const jsx = sourceFile
@@ -32,13 +66,23 @@ for (const sourceFile of project.getSourceFiles('src/**/*.{ts,tsx}')) {
     if (tagName === 'Button' && classAttr) {
       const value = classAttr.getInitializer()?.getText() || '';
       if (value.includes('btn-primary')) {
-        classAttr.remove();
-        el.addAttribute({ name: 'variant', initializer: '"brandPrimary"' });
+        stripButtonClasses(classAttr, 'btn-primary');
+        const existingVariant = el.getAttribute('variant');
+        if (existingVariant) {
+          existingVariant.setInitializer('"brandPrimary"');
+        } else {
+          el.addAttribute({ name: 'variant', initializer: '"brandPrimary"' });
+        }
         changed = true;
       }
       if (value.includes('btn-secondary')) {
-        classAttr.remove();
-        el.addAttribute({ name: 'variant', initializer: '"brandSecondary"' });
+        stripButtonClasses(classAttr, 'btn-secondary');
+        const existingVariant = el.getAttribute('variant');
+        if (existingVariant) {
+          existingVariant.setInitializer('"brandSecondary"');
+        } else {
+          el.addAttribute({ name: 'variant', initializer: '"brandSecondary"' });
+        }
         changed = true;
       }
     }
@@ -51,7 +95,13 @@ for (const sourceFile of project.getSourceFiles('src/**/*.{ts,tsx}')) {
         } else {
           el.addAttribute({ name: 'variant', initializer: '"brandSecondary"' });
         }
-        classAttr.remove();
+        stripButtonClasses(classAttr, 'btn-primary', 'btn-secondary');
+        if (!el.getAttribute('variant')) {
+          el.addAttribute({ name: 'variant', initializer: '"brandPrimary"' });
+        }
+        if (!classAttr.wasForgotten() && classAttr.getInitializer() === undefined) {
+          classAttr.remove();
+        }
         ensureImport(sourceFile, 'Button', '@/components/ui/button');
         changed = true;
       }
