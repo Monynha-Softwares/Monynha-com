@@ -118,18 +118,14 @@ const Solutions = () => {
         </Breadcrumb>
       </div>
       {/* Hero Section */}
-      <section
-        className={cn(
-          sectionPaddingY,
-          'bg-white transition-colors dark:bg-neutral-950'
-        )}
-      >
-        <div className={sectionContainer}>
-          <div className="text-center mb-16">
-            <h1 className="text-4xl lg:text-5xl font-bold text-neutral-900 dark:text-neutral-100 mb-6">
+      <section className="relative overflow-hidden bg-gradient-hero text-white">
+        <div className="absolute inset-0 bg-gradient-to-br from-neutral-950/20 via-brand-purple/20 to-brand-blue/30 dark:from-neutral-950/40 dark:via-neutral-950/60 dark:to-brand-purple/40" />
+        <div className={cn(sectionPaddingY, 'relative z-10')}>
+          <div className={cn(sectionContainer, 'text-center mb-16')}>
+            <h1 className="mb-6 text-4xl font-bold lg:text-5xl">
               {t('solutionsPage.title')}
             </h1>
-            <p className="text-xl text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto">
+            <p className="mx-auto max-w-3xl text-xl text-blue-100/90 dark:text-blue-100">
               {t('solutionsPage.description')}
             </p>
           </div>
@@ -149,6 +145,7 @@ const Solutions = () => {
               <SolutionCard
                 key={solution.id ?? solution.slug}
                 solution={solution}
+                className="min-h-[32rem]"
                 actions={
                   <>
                     <Button asChild variant="outline" className="flex-1">
@@ -159,7 +156,7 @@ const Solutions = () => {
                         {t('index.learnMore')}
                       </Link>
                     </Button>
-                    <Button asChild className="flex-1">
+                    <Button asChild variant="gradient" className="flex-1">
                       <Link
                         to="/contact"
                         className="flex items-center justify-center gap-2"

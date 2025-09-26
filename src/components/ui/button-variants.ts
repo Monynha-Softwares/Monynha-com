@@ -7,6 +7,8 @@ export const buttonVariants = cva(
       variant: {
         default:
           'bg-gradient-to-r from-primary via-primary/90 to-secondary text-primary-foreground shadow-soft hover:shadow-soft-lg hover:brightness-105 focus-visible:ring-primary/50',
+        gradient:
+          'bg-gradient-to-r from-brand-purple via-brand-blue to-brand-pink text-white shadow-soft hover:shadow-soft-lg hover:brightness-110 focus-visible:ring-brand-purple/50',
         destructive:
           'bg-destructive text-destructive-foreground shadow-soft hover:bg-destructive/90 focus-visible:ring-destructive/60',
         outline:
