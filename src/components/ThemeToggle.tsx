@@ -64,14 +64,18 @@ const ThemeToggle = ({ className, variant = 'header' }: ThemeToggleProps) => {
         aria-hidden="true"
         className={cn(
           'h-5 w-5 transition-all duration-200',
-          mounted && isDark ? 'rotate-90 scale-0 opacity-0' : 'rotate-0 scale-100 opacity-100'
+          mounted && isDark
+            ? 'rotate-90 scale-0 opacity-0'
+            : 'rotate-0 scale-100 opacity-100'
         )}
       />
       <Moon
         aria-hidden="true"
         className={cn(
           'absolute h-5 w-5 transition-all duration-200',
-          mounted && isDark ? 'rotate-0 scale-100 opacity-100' : '-rotate-90 scale-0 opacity-0'
+          mounted && isDark
+            ? 'rotate-0 scale-100 opacity-100'
+            : '-rotate-90 scale-0 opacity-0'
         )}
       />
       <span className="sr-only">{label}</span>
