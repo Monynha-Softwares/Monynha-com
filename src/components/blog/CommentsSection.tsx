@@ -316,7 +316,8 @@ const CommentsSection = ({ postId }: CommentsSectionProps) => {
                   </span>
                   <Button
                     type="submit"
-                    className="btn-primary"
+                    variant="brandPrimary"
+                    size="md"
                     disabled={addComment.isPending}
                   >
                     {addComment.isPending && (
@@ -332,7 +333,7 @@ const CommentsSection = ({ postId }: CommentsSectionProps) => {
           <Card className="border border-dashed border-brand-blue/30 bg-white">
             <CardContent className="flex flex-col items-center gap-4 p-6 text-center text-neutral-600">
               <p>{t('blog.comments.signInPrompt')}</p>
-              <Button asChild className="btn-primary">
+              <Button asChild variant="brandPrimary" size="md">
                 <Link to="/auth">{t('blog.comments.signInCta')}</Link>
               </Button>
             </CardContent>

@@ -1,4 +1,13 @@
-import { Project, SyntaxKind, SourceFile, ImportDeclaration } from 'ts-morph';
+import {
+  Project,
+  SyntaxKind,
+  SourceFile,
+  ImportDeclaration,
+  Node,
+  JsxAttribute,
+  JsxOpeningElement,
+  JsxSelfClosingElement,
+} from 'ts-morph';
 import path from 'node:path';
 
 const project = new Project({
@@ -21,6 +30,63 @@ function ensureImport(sourceFile: SourceFile, name: string, spec: string) {
   }
 }
 
+function getLiteralFromAttribute(attr: JsxAttribute) {
+  const initializer = attr.getInitializer();
+  if (!initializer) return undefined;
+  if (Node.isStringLiteral(initializer) || Node.isNoSubstitutionTemplateLiteral(initializer)) {
+    return initializer;
+  }
+  if (Node.isJsxExpression(initializer)) {
+    const expression = initializer.getExpression();
+    if (!expression) return undefined;
+    if (Node.isStringLiteral(expression) || Node.isNoSubstitutionTemplateLiteral(expression)) {
+      return expression;
+    }
+  }
+  return undefined;
+}
+
+function stripClasses(attr: JsxAttribute, classesToRemove: string[]) {
+  const literal = getLiteralFromAttribute(attr);
+  if (!literal) return false;
+  const initializer = attr.getInitializer();
+  const classList = literal.getLiteralText().split(/\s+/).filter(Boolean);
+  const filtered = classList.filter((cls) => !classesToRemove.includes(cls));
+  if (filtered.length === classList.length) {
+    return false;
+  }
+  if (filtered.length === 0) {
+    attr.remove();
+    return true;
+  }
+  const newValue = filtered.join(' ');
+  if (literal === initializer) {
+    literal.setLiteralValue(newValue);
+  } else if (initializer && Node.isJsxExpression(initializer)) {
+    initializer.setExpression(`"${newValue}"`);
+  }
+  return true;
+}
+
+function hasClass(attr: JsxAttribute, className: string) {
+  const literal = getLiteralFromAttribute(attr);
+  if (!literal) return false;
+  return literal.getLiteralText().split(/\s+/).includes(className);
+}
+
+function upsertAttribute(
+  element: JsxOpeningElement | JsxSelfClosingElement,
+  name: string,
+  value: string,
+) {
+  const existing = element.getAttribute(name);
+  if (existing) {
+    existing.setInitializer(`"${value}"`);
+  } else {
+    element.addAttribute({ name, initializer: `"${value}"` });
+  }
+}
+
 for (const sourceFile of project.getSourceFiles('src/**/*.{ts,tsx}')) {
   let changed = false;
   const jsx = sourceFile
@@ -28,30 +94,33 @@ for (const sourceFile of project.getSourceFiles('src/**/*.{ts,tsx}')) {
     .concat(sourceFile.getDescendantsOfKind(SyntaxKind.JsxSelfClosingElement));
   for (const el of jsx) {
     const tagName = el.getTagNameNode().getText();
-    const classAttr = el.getAttribute('className');
+    let classAttr = el.getAttribute('className');
     if (tagName === 'Button' && classAttr) {
-      const value = classAttr.getInitializer()?.getText() || '';
-      if (value.includes('btn-primary')) {
-        classAttr.remove();
-        el.addAttribute({ name: 'variant', initializer: '"brandPrimary"' });
+      if (hasClass(classAttr, 'btn-primary')) {
+        stripClasses(classAttr, ['btn-primary']);
+        upsertAttribute(el, 'variant', 'brandPrimary');
         changed = true;
       }
-      if (value.includes('btn-secondary')) {
-        classAttr.remove();
-        el.addAttribute({ name: 'variant', initializer: '"brandSecondary"' });
+      classAttr = el.getAttribute('className');
+      if (classAttr && hasClass(classAttr, 'btn-secondary')) {
+        stripClasses(classAttr, ['btn-secondary']);
+        upsertAttribute(el, 'variant', 'brandSecondary');
         changed = true;
       }
     }
+    classAttr = el.getAttribute('className');
     if (tagName === 'button' && classAttr) {
-      const value = classAttr.getInitializer()?.getText() || '';
-      if (value.includes('btn-primary') || value.includes('btn-secondary')) {
+      const isPrimary = hasClass(classAttr, 'btn-primary');
+      const isSecondary = hasClass(classAttr, 'btn-secondary');
+      if (isPrimary || isSecondary) {
         el.setTagName('Button');
-        if (value.includes('btn-primary')) {
-          el.addAttribute({ name: 'variant', initializer: '"brandPrimary"' });
+        if (isPrimary) {
+          stripClasses(classAttr, ['btn-primary']);
+          upsertAttribute(el, 'variant', 'brandPrimary');
         } else {
-          el.addAttribute({ name: 'variant', initializer: '"brandSecondary"' });
+          stripClasses(classAttr, ['btn-secondary']);
+          upsertAttribute(el, 'variant', 'brandSecondary');
         }
-        classAttr.remove();
         ensureImport(sourceFile, 'Button', '@/components/ui/button');
         changed = true;
       }
