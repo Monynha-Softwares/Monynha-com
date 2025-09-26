@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase';
+import { supabase, isSupabaseConfigured } from '@/integrations/supabase';
 
 interface UseRepositorySyncOptions {
   enabled?: boolean;
@@ -27,7 +27,11 @@ export const useRepositorySync = (options: UseRepositorySyncOptions = {}) => {
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    if (!enabled) {
+    if (
+      !enabled ||
+      !isSupabaseConfigured ||
+      import.meta.env.MODE !== 'production'
+    ) {
       return;
     }
 

@@ -12,6 +12,20 @@ export default defineConfig(({ mode }) => ({
   plugins: [react(), mode === 'development' && componentTagger()].filter(
     Boolean
   ),
+  define: {
+    'process.env.NODE_ENV': JSON.stringify(
+      mode === 'development' ? 'development' : 'production'
+    ),
+  },
+  optimizeDeps: {
+    esbuildOptions: {
+      define: {
+        'process.env.NODE_ENV': JSON.stringify(
+          mode === 'development' ? 'development' : 'production'
+        ),
+      },
+    },
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
