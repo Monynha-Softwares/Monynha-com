@@ -1,7 +1,7 @@
 import { cva } from 'class-variance-authority';
 
 export const buttonVariants = cva(
-  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-2xl text-sm font-semibold shadow-md transition-all ease-in-out duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2 focus-visible:ring-offset-white disabled:pointer-events-none disabled:opacity-60 [&_svg]:pointer-events-none [&_svg]:h-4 [&_svg]:w-4 [&_svg]:shrink-0',
+  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-2xl font-semibold shadow-md transition-all ease-in-out duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-60 [&_svg]:pointer-events-none [&_svg]:h-4 [&_svg]:w-4 [&_svg]:shrink-0',
   {
     variants: {
       variant: {
@@ -15,17 +15,21 @@ export const buttonVariants = cva(
           'bg-brand-blue/10 text-brand-blue hover:bg-brand-blue/20 shadow-sm',
         ghost: 'shadow-none hover:bg-brand-blue/10 hover:text-brand-blue',
         link: 'shadow-none text-brand-blue underline-offset-4 hover:underline px-0',
+        brandPrimary:
+          'bg-gradient-brand text-white shadow-md hover:shadow-soft-lg focus-visible:ring-offset-background',
+        brandSecondary:
+          'border border-neutral-200 bg-white text-neutral-700 shadow-sm hover:border-brand-blue hover:shadow-soft focus-visible:ring-offset-background dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100 dark:hover:bg-neutral-800',
       },
       size: {
-        default: 'h-11 px-5 py-2.5',
-        sm: 'h-10 px-4 py-2 text-sm',
-        lg: 'h-12 px-8 text-base',
+        sm: 'h-9 px-4 text-sm',
+        md: 'h-11 px-5 text-base',
+        lg: 'h-12 px-6 text-lg',
         icon: 'h-11 w-11',
       },
     },
     defaultVariants: {
       variant: 'default',
-      size: 'default',
+      size: 'md',
     },
   }
 );
