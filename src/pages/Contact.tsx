@@ -332,7 +332,8 @@ const Contact = () => {
             </p>
             <Button
               onClick={() => setIsSubmitted(false)}
-              className="btn-secondary"
+              variant="secondary"
+              size="lg"
             >
               {t('contact.thankYou.another')}
             </Button>
@@ -513,7 +514,8 @@ const Contact = () => {
 
                     <Button
                       type="submit"
-                      className="btn-primary w-full"
+                      size="lg"
+                      className="w-full justify-center"
                       disabled={isSubmitting}
                     >
                       {isSubmitting

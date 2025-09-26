@@ -8,6 +8,10 @@
     "contact": "Contato",
     "startProject": "Iniciar Projeto",
     "toggleNavigation": "Alternar navegação",
+    "themeToggle": {
+      "light": "Ativar modo claro",
+      "dark": "Ativar modo escuro"
+    },
     "backToTop": "Voltar ao topo",
     "solutionsMenu": {
       "viewAll": "Ver todas as soluções",

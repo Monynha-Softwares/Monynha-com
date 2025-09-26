@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 
-import { ToastContext } from './ToastProvider';
+import { ToastContext } from './toast-context';
 
 /**
  * Access the toast context helper for showing notifications.

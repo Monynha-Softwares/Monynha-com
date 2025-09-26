@@ -56,11 +56,11 @@ export default {
         },
         // Monynha Softwares Brand Colors
         brand: {
-          DEFAULT: '#5B2C6F',
-          purple: '#5B2C6F',
-          blue: '#4A90E2',
-          pink: '#E06666',
-          orange: '#F7B500',
+          DEFAULT: '#5F2EEA',
+          purple: '#5F2EEA',
+          blue: '#3D5AF1',
+          pink: '#F472B6',
+          orange: '#F59E0B',
         },
         neutral: {
           50: '#F8F8F8',
@@ -77,9 +77,9 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        heading: ['"Quicksand"', 'Inter', 'system-ui', 'sans-serif'],
-        brand: ['"Quicksand"', 'Inter', 'system-ui', 'sans-serif'],
+        sans: ['"Open Sans"', 'system-ui', 'sans-serif'],
+        heading: ['"Poppins"', '"Open Sans"', 'system-ui', 'sans-serif'],
+        brand: ['"Poppins"', '"Open Sans"', 'system-ui', 'sans-serif'],
         mono: [
           '"JetBrains Mono"',
           'ui-monospace',
@@ -89,10 +89,10 @@ export default {
       },
       backgroundImage: {
         'gradient-brand':
-          'linear-gradient(135deg, #5B2C6F 0%, #4A90E2 25%, #E06666 75%, #F7B500 100%)',
-        'gradient-hero': 'linear-gradient(135deg, #5B2C6F 0%, #4A90E2 100%)',
+          'linear-gradient(135deg, #5F2EEA 0%, #3D5AF1 30%, #38BDF8 70%, #F59E0B 100%)',
+        'gradient-hero': 'linear-gradient(135deg, #5F2EEA 0%, #3D5AF1 100%)',
         'gradient-pride':
-          'linear-gradient(135deg, #5B2C6F 0%, #4A90E2 25%, #22C55E 50%, #F7B500 75%, #E06666 100%)',
+          'linear-gradient(135deg, #5F2EEA 0%, #3D5AF1 25%, #22C55E 50%, #F59E0B 75%, #F472B6 100%)',
       },
       borderRadius: {
         lg: 'var(--radius)',
