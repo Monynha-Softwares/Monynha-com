@@ -1,27 +1,10 @@
 import * as React from 'react';
 import reducer, { TOAST_REMOVE_DELAY, genId } from './use-toast-reducer';
-import type { ToastActionElement, ToastProps } from '@/components/ui/toast';
-
-type ToasterToast = ToastProps & {
-  id: string;
-  title?: React.ReactNode;
-  description?: React.ReactNode;
-  action?: ToastActionElement;
-};
-
-interface ToastContextValue {
-  toasts: ToasterToast[];
-  toast: (toast: Omit<ToasterToast, 'id'>) => {
-    id: string;
-    dismiss: () => void;
-    update: (props: ToasterToast) => void;
-  };
-  dismiss: (toastId?: string) => void;
-}
-
-export const ToastContext = React.createContext<ToastContextValue | undefined>(
-  undefined
-);
+import {
+  ToastContext,
+  type ToastContextValue,
+  type ToasterToast,
+} from './toast-context';
 
 export function ToastProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = React.useReducer(reducer, { toasts: [] });
