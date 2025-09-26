@@ -69,7 +69,12 @@ export const SolutionCard = ({
         />
       )}
 
-      <CardContent className={cn('flex flex-1 flex-col p-8', contentClassName)}>
+      <CardContent
+        className={cn(
+          'flex flex-1 flex-col p-8 text-neutral-900 dark:text-neutral-100',
+          contentClassName
+        )}
+      >
         <div
           className={cn(
             'h-1 w-16 rounded-full bg-gradient-to-r',
@@ -78,15 +83,15 @@ export const SolutionCard = ({
           )}
           aria-hidden="true"
         />
-        <h3 className="text-2xl font-heading font-semibold text-neutral-900">
+        <h3 className="text-2xl font-heading font-semibold text-neutral-900 dark:text-neutral-50">
           {title}
         </h3>
-        <p className="mt-4 flex-1 text-neutral-600 leading-relaxed">
+        <p className="mt-4 text-neutral-600 leading-relaxed dark:text-neutral-300">
           {description}
         </p>
 
         {displayFeatures.length > 0 && (
-          <ul className="mt-8 space-y-3 text-neutral-600">
+          <ul className="mt-8 space-y-3 text-neutral-600 dark:text-neutral-300">
             {displayFeatures.map((feature, index) => (
               <li
                 key={`${slug}-feature-${index}`}
@@ -102,14 +107,18 @@ export const SolutionCard = ({
                 >
                   <CheckCircle className="h-4 w-4" aria-hidden="true" />
                 </span>
-                <span className="text-sm leading-relaxed">{feature}</span>
+                <span className="text-sm leading-relaxed text-neutral-700 dark:text-neutral-200">
+                  {feature}
+                </span>
               </li>
             ))}
           </ul>
         )}
 
         {actions && (
-          <div className="mt-10 flex flex-col gap-3 sm:flex-row">{actions}</div>
+          <div className="mt-auto flex flex-col gap-3 pt-8 sm:flex-row">
+            {actions}
+          </div>
         )}
       </CardContent>
     </Card>
