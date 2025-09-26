@@ -19,6 +19,7 @@ interface ToastContextValue {
   dismiss: (toastId?: string) => void;
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const ToastContext = React.createContext<ToastContextValue | undefined>(
   undefined
 );
