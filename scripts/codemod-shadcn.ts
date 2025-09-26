@@ -1,4 +1,11 @@
-import { Project, SyntaxKind, SourceFile, ImportDeclaration } from 'ts-morph';
+import {
+  Project,
+  SyntaxKind,
+  SourceFile,
+  ImportDeclaration,
+  JsxAttribute,
+  StringLiteral,
+} from 'ts-morph';
 import path from 'node:path';
 
 const project = new Project({
@@ -21,6 +28,33 @@ function ensureImport(sourceFile: SourceFile, name: string, spec: string) {
   }
 }
 
+function stripLegacyClass(classAttr: JsxAttribute, legacyClass: string) {
+  const initializer = classAttr.getInitializer();
+  if (!initializer) {
+    classAttr.remove();
+    return;
+  }
+
+  const literal = initializer.asKind(StringLiteral);
+  if (literal) {
+    const remaining = literal
+      .getLiteralText()
+      .split(/\s+/)
+      .filter(Boolean)
+      .filter((token) => token !== legacyClass);
+
+    if (remaining.length > 0) {
+      literal.setLiteralValue(remaining.join(' '));
+    } else {
+      classAttr.remove();
+    }
+    return;
+  }
+
+  // Fallback: remove the attribute if we can't safely transform it
+  classAttr.remove();
+}
+
 for (const sourceFile of project.getSourceFiles('src/**/*.{ts,tsx}')) {
   let changed = false;
   const jsx = sourceFile
@@ -32,12 +66,12 @@ for (const sourceFile of project.getSourceFiles('src/**/*.{ts,tsx}')) {
     if (tagName === 'Button' && classAttr) {
       const value = classAttr.getInitializer()?.getText() || '';
       if (value.includes('btn-primary')) {
-        classAttr.remove();
+        stripLegacyClass(classAttr, 'btn-primary');
         el.addAttribute({ name: 'variant', initializer: '"brandPrimary"' });
         changed = true;
       }
       if (value.includes('btn-secondary')) {
-        classAttr.remove();
+        stripLegacyClass(classAttr, 'btn-secondary');
         el.addAttribute({ name: 'variant', initializer: '"brandSecondary"' });
         changed = true;
       }
@@ -48,10 +82,11 @@ for (const sourceFile of project.getSourceFiles('src/**/*.{ts,tsx}')) {
         el.setTagName('Button');
         if (value.includes('btn-primary')) {
           el.addAttribute({ name: 'variant', initializer: '"brandPrimary"' });
+          stripLegacyClass(classAttr, 'btn-primary');
         } else {
           el.addAttribute({ name: 'variant', initializer: '"brandSecondary"' });
+          stripLegacyClass(classAttr, 'btn-secondary');
         }
-        classAttr.remove();
         ensureImport(sourceFile, 'Button', '@/components/ui/button');
         changed = true;
       }
