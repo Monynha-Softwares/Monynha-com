@@ -4,13 +4,14 @@ This document captures the design direction introduced in the latest UI refresh.
 
 ## Typography
 
-| Usage | Font family | Weights |
-|-------|-------------|---------|
-| Headings & brand accents | [Poppins](https://fonts.google.com/specimen/Poppins) | 500–800 |
-| Body text & UI copy | [Open Sans](https://fonts.google.com/specimen/Open+Sans) | 400–700 |
-| Code snippets | JetBrains Mono | 400–600 |
+| Usage                    | Font family                                              | Weights |
+| ------------------------ | -------------------------------------------------------- | ------- |
+| Headings & brand accents | [Poppins](https://fonts.google.com/specimen/Poppins)     | 500–800 |
+| Body text & UI copy      | [Open Sans](https://fonts.google.com/specimen/Open+Sans) | 400–700 |
+| Code snippets            | JetBrains Mono                                           | 400–600 |
 
 **Implementation notes**
+
 - Fonts are loaded globally via `index.html` and configured in `tailwind.config.ts` as `font-heading`, `font-brand`, and `font-sans` utilities.
 - Headings use tight tracking for a confident voice; paragraphs cap at `max-w-3xl` to protect readability.
 
@@ -18,13 +19,13 @@ This document captures the design direction introduced in the latest UI refresh.
 
 Brand hues focus on a purple→blue core with warm amber accents.
 
-| Token | Light mode | Dark mode | Usage |
-|-------|------------|-----------|-------|
-| `--primary` | `hsl(262 70% 53%)` | `hsl(262 72% 60%)` | Primary actions, gradients |
-| `--secondary` | `hsl(221 85% 56%)` | `hsl(220 70% 65%)` | Secondary buttons, supporting CTAs |
-| `--accent` | `hsl(44 95% 52%)` | `hsl(44 95% 56%)` | Highlights and badges |
-| `--foreground` | `hsl(232 35% 16%)` | `hsl(210 40% 96%)` | Base text colors |
-| `--background` | `hsl(0 0% 100%)` | `hsl(235 32% 8%)` | Page background |
+| Token          | Light mode         | Dark mode          | Usage                              |
+| -------------- | ------------------ | ------------------ | ---------------------------------- |
+| `--primary`    | `hsl(262 70% 53%)` | `hsl(262 72% 60%)` | Primary actions, gradients         |
+| `--secondary`  | `hsl(221 85% 56%)` | `hsl(220 70% 65%)` | Secondary buttons, supporting CTAs |
+| `--accent`     | `hsl(44 95% 52%)`  | `hsl(44 95% 56%)`  | Highlights and badges              |
+| `--foreground` | `hsl(232 35% 16%)` | `hsl(210 40% 96%)` | Base text colors                   |
+| `--background` | `hsl(0 0% 100%)`   | `hsl(235 32% 8%)`  | Page background                    |
 
 Gradients (`bg-gradient-hero`, `bg-gradient-brand`) blend the new brand purple `#5F2EEA` into vivid blues and cyan, while cards can opt-in to a gradient header via the new `variant="gradient"` on `CardHeader`.
 

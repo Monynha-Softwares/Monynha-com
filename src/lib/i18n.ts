@@ -8,11 +8,7 @@ const LOCALE_FALLBACKS: Record<string, string> = {
 };
 
 const sanitizeLocale = (language: string) =>
-  language
-    .replace('_', '-')
-    .split('@')[0]
-    .split('.')[0]
-    .trim();
+  language.replace('_', '-').split('@')[0].split('.')[0].trim();
 
 export const getNormalizedLocale = (language: string | undefined | null) => {
   if (!language) {

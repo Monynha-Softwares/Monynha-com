@@ -17,8 +17,7 @@ export const buttonVariants = cva(
           'bg-secondary/20 text-secondary hover:bg-secondary/30 hover:text-secondary-foreground shadow-soft',
         ghost:
           'shadow-none text-foreground hover:bg-muted/70 hover:text-foreground/90 focus-visible:ring-primary/30',
-        link:
-          'shadow-none text-primary underline-offset-8 hover:underline focus-visible:ring-offset-0 px-0 py-0 h-auto',
+        link: 'shadow-none text-primary underline-offset-8 hover:underline focus-visible:ring-offset-0 px-0 py-0 h-auto',
       },
       size: {
         default: 'px-6 py-3 text-base',
