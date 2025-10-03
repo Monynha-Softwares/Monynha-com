@@ -5,10 +5,11 @@ import { Fragment, useMemo, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 
-interface FlowingMenuItem {
+export interface FlowingMenuItem {
   href: string;
   label: string;
   accent?: string;
+  external?: boolean;
 }
 
 interface FlowingMenuProps {
@@ -39,7 +40,15 @@ interface MenuItemProps extends FlowingMenuItem {
 
 const defaultAccent = 'linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 100%)';
 
-const MenuItem: FC<MenuItemProps> = ({ href, label, accent, isActive, reduceMotion, onItemClick }) => {
+const MenuItem: FC<MenuItemProps> = ({
+  href,
+  label,
+  accent,
+  external,
+  isActive,
+  reduceMotion,
+  onItemClick,
+}) => {
   const itemRef = useRef<HTMLDivElement>(null);
   const marqueeRef = useRef<HTMLDivElement>(null);
   const marqueeInnerRef = useRef<HTMLDivElement>(null);
@@ -97,6 +106,16 @@ const MenuItem: FC<MenuItemProps> = ({ href, label, accent, isActive, reduceMoti
     [accentStyle, label],
   );
 
+  const commonLinkProps = {
+    className: cn(
+      'flex h-full min-h-[64px] w-full items-center justify-center px-6 py-4 text-lg font-semibold uppercase transition-colors',
+      isActive ? 'text-primary' : 'text-muted-foreground hover:text-foreground',
+    ),
+    onMouseEnter: handleEnter,
+    onMouseLeave: handleLeave,
+    onClick: onItemClick,
+  } as const;
+
   return (
     <div
       ref={itemRef}
@@ -105,18 +124,23 @@ const MenuItem: FC<MenuItemProps> = ({ href, label, accent, isActive, reduceMoti
         isActive ? 'bg-white/5' : undefined,
       )}
     >
-      <Link
-        to={href}
-        className={cn(
-          'flex h-full min-h-[64px] w-full items-center justify-center px-6 py-4 text-lg font-semibold uppercase transition-colors',
-          isActive ? 'text-primary' : 'text-muted-foreground hover:text-foreground',
-        )}
-        onMouseEnter={handleEnter}
-        onMouseLeave={handleLeave}
-        onClick={onItemClick}
-      >
-        {label}
-      </Link>
+      {external ? (
+        <a
+          {...commonLinkProps}
+          href={href}
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          {label}
+        </a>
+      ) : (
+        <Link
+          {...commonLinkProps}
+          to={href}
+        >
+          {label}
+        </Link>
+      )}
       <div
         ref={marqueeRef}
         className="pointer-events-none absolute inset-0 translate-y-[101%] bg-white text-foreground transition-transform duration-500 ease-out"

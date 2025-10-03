@@ -1,11 +1,13 @@
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
-import { useState } from 'react';
+import { type ReactNode, useCallback, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { cn } from '@/lib/utils';
-import { FlowingMenu } from './FlowingMenu';
 
-const links = [
+import { cn } from '@/lib/utils';
+
+import { FlowingMenu, type FlowingMenuItem } from './FlowingMenu';
+
+const defaultLinks: ReadonlyArray<FlowingMenuItem> = [
   {
     href: '/',
     label: 'Home',
@@ -26,25 +28,70 @@ const links = [
     label: 'Contact',
     accent: 'linear-gradient(135deg, rgba(251, 191, 36, 0.7), rgba(59, 130, 246, 0.7))',
   },
-] as const;
+];
 
-export const GooeyNav = () => {
+export interface GooeyNavProps {
+  readonly actions?: ReactNode;
+  readonly brand?: ReactNode;
+  readonly className?: string;
+  readonly isActive?: (href: string, pathname: string) => boolean;
+  readonly links?: ReadonlyArray<FlowingMenuItem>;
+  readonly mobileMenuContent?: ReactNode;
+  readonly onNavigate?: () => void;
+  readonly toggleLabel?: string;
+}
+
+const defaultBrand = (
+  <Link to="/" className="flex min-w-0 items-center gap-2 py-2">
+    <span className="whitespace-nowrap text-[clamp(1.1rem,4vw,1.5rem)] font-semibold text-foreground">
+      Art Leo
+    </span>
+  </Link>
+);
+
+export const GooeyNav = ({
+  actions,
+  brand = defaultBrand,
+  className,
+  isActive: customIsActive,
+  links = defaultLinks,
+  mobileMenuContent,
+  onNavigate,
+  toggleLabel = 'Toggle navigation',
+}: GooeyNavProps) => {
   const [open, setOpen] = useState(false);
   const location = useLocation();
   const reduceMotion = useReducedMotion();
 
-  const isActive = (href: string) => location.pathname === href;
+  const isActive = useCallback(
+    (href: string) => {
+      if (customIsActive) {
+        return customIsActive(href, location.pathname);
+      }
+      return location.pathname === href;
+    },
+    [customIsActive, location.pathname],
+  );
+
+  const handleToggle = () => setOpen((prev) => !prev);
+
+  const handleNavigate = () => {
+    setOpen(false);
+    onNavigate?.();
+  };
+
+  const activeLink = links.find((link) => isActive(link.href));
+  const activeHref = activeLink?.href ?? location.pathname;
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 px-4 pt-4 sm:px-6 sm:pt-6">
       <nav
-        className="mx-auto flex w-full max-w-5xl items-center justify-between gap-2 rounded-full border border-border/70 bg-background/70 px-4 py-2 backdrop-blur-xl motion-reduce:transition-none min-h-[3.5rem]"
+        className={cn(
+          'mx-auto flex w-full max-w-5xl items-center justify-between gap-2 rounded-full border border-border/70 bg-background/70 px-4 py-2 backdrop-blur-xl motion-reduce:transition-none min-h-[3.5rem]',
+          className,
+        )}
       >
-        <Link to="/" className="flex min-w-0 items-center gap-2 py-2">
-          <span className="whitespace-nowrap text-[clamp(1.1rem,4vw,1.5rem)] font-semibold text-foreground">
-            Art Leo
-          </span>
-        </Link>
+        {brand}
         <div className="hidden items-center gap-4 md:flex">
           {links.map((link) => (
             <motion.div key={link.href} className="relative">
@@ -54,6 +101,7 @@ export const GooeyNav = () => {
                   'relative inline-flex items-center rounded-full px-4 py-2 text-sm font-medium transition-colors',
                   isActive(link.href) ? 'text-primary' : 'text-muted-foreground hover:text-foreground',
                 )}
+                onClick={onNavigate}
               >
                 {link.label}
               </Link>
@@ -67,10 +115,11 @@ export const GooeyNav = () => {
             </motion.div>
           ))}
         </div>
+        {actions ? <div className="hidden items-center gap-3 md:flex">{actions}</div> : <div className="hidden md:block" />}
         <button
           className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/70 bg-card/70 p-2 text-foreground motion-reduce:transition-none md:hidden"
-          onClick={() => setOpen((prev) => !prev)}
-          aria-label="Toggle navigation"
+          onClick={handleToggle}
+          aria-label={toggleLabel}
           aria-expanded={open}
         >
           {open ? <X /> : <Menu />}
@@ -87,9 +136,14 @@ export const GooeyNav = () => {
             >
               <FlowingMenu
                 items={links}
-                activeHref={location.pathname}
-                onItemClick={() => setOpen(false)}
+                activeHref={activeHref}
+                onItemClick={handleNavigate}
               />
+              {mobileMenuContent ? (
+                <div className="mt-3 space-y-3">
+                  {mobileMenuContent}
+                </div>
+              ) : null}
             </motion.div>
           )}
         </AnimatePresence>
