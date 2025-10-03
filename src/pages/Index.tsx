@@ -5,6 +5,9 @@ import Layout from '@/components/Layout';
 import Meta from '@/components/Meta';
 import TeamSection from '@/components/TeamSection';
 import NewsletterSection from '@/components/NewsletterSection';
+import { SilkBackground } from '@/components/reactbits/SilkBackground';
+import { SplitText } from '@/components/reactbits/SplitText';
+import { SpotlightCard } from '@/components/reactbits/SpotlightCard';
 import {
   Brain,
   Zap,
@@ -20,6 +23,166 @@ import { useTranslation, Trans } from 'react-i18next';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase';
 import { useMemo } from 'react';
+
+import type { TFunction } from 'i18next';
+
+type LayoutVariant = 'classic' | 'creative';
+
+type DisplaySolution = {
+  name: string;
+  description: string;
+  features: string[];
+  gradient: string;
+};
+
+type DisplayFeature = {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+  url: string;
+};
+
+interface HeroProps {
+  t: TFunction;
+}
+
+interface CreativeHeroProps extends HeroProps {
+  spotlightSolution: DisplaySolution | null;
+  contactCta: string;
+  solutionsCta: string;
+}
+
+const parseHeroHeadline = (headline: string) => {
+  const [firstLineRaw = '', secondLineRaw = ''] = headline.split('<0/>');
+  const sanitize = (value: string) => value.replace(/<[^>]+>/g, '').trim();
+
+  return {
+    firstLine: sanitize(firstLineRaw),
+    secondLine: sanitize(secondLineRaw),
+  };
+};
+
+const CreativeHero = ({ t, spotlightSolution, contactCta, solutionsCta }: CreativeHeroProps) => {
+  const { firstLine, secondLine } = parseHeroHeadline(t('index.hero.headline'));
+
+  const features = spotlightSolution?.features?.slice(0, 3) ?? [];
+
+  return (
+    <section className="relative isolate overflow-hidden">
+      <SilkBackground className="absolute inset-0 -z-10" />
+      <div className="container relative z-10 mx-auto flex flex-col items-center gap-12 px-4 py-24 sm:px-6 sm:py-32 lg:flex-row lg:items-center lg:justify-between">
+        <div className="flex max-w-2xl flex-col items-center gap-6 text-center lg:items-start lg:text-left">
+          <div className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-white/70">
+            {t('navigation.home', 'Home')}
+          </div>
+          <div className="space-y-4">
+            <h1 className="font-heading text-4xl leading-tight text-white sm:text-5xl lg:text-6xl">
+              <SplitText as="span" text={firstLine} className="block" />
+              <SplitText
+                as="span"
+                text={secondLine}
+                className="block bg-gradient-to-r from-primary/90 via-secondary/80 to-primary/90 bg-clip-text text-transparent"
+              />
+            </h1>
+            <p className="max-w-xl text-lg text-white/80 sm:text-xl">{t('index.hero.description')}</p>
+          </div>
+          <div className="flex w-full flex-col gap-4 sm:flex-row sm:items-center sm:justify-start">
+            <Button size="lg" className="w-full justify-center sm:w-auto" asChild>
+              <Link to="/contact">
+                {contactCta}
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              className="w-full justify-center border-white/30 bg-white/10 text-white hover:bg-white/20 sm:w-auto"
+              asChild
+            >
+              <Link to="/solutions">{solutionsCta}</Link>
+            </Button>
+          </div>
+        </div>
+        <SpotlightCard className="w-full max-w-lg border-white/20 bg-white/10 text-white shadow-creative-card">
+          <div className="flex flex-col gap-6">
+            <div className="space-y-2">
+              <span className="text-xs font-semibold uppercase tracking-[0.35em] text-white/60">
+                {t('index.solutions.title')}
+              </span>
+              <h2 className="font-heading text-2xl font-semibold text-white">
+                {spotlightSolution?.name ?? t('index.hero.cta')}
+              </h2>
+              <p className="text-sm text-white/70">
+                {spotlightSolution?.description ?? t('index.hero.description')}
+              </p>
+            </div>
+            {features.length > 0 && (
+              <ul className="space-y-3 text-sm text-white/80">
+                {features.map((feature, index) => (
+                  <li key={index} className="flex items-center gap-3">
+                    <CheckCircle className="h-5 w-5 text-secondary" />
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+            <Button
+              variant="secondary"
+              size="lg"
+              className="w-full justify-center bg-white text-foreground hover:bg-white/90"
+              asChild
+            >
+              <Link to="/solutions">{t('index.learnMore')}</Link>
+            </Button>
+          </div>
+        </SpotlightCard>
+      </div>
+    </section>
+  );
+};
+
+const ClassicHero = ({ t }: HeroProps) => (
+  <section className="relative overflow-hidden bg-gradient-hero text-white">
+    <div className="absolute inset-0 bg-primary/80 mix-blend-multiply dark:bg-primary/60"></div>
+    <div className="container relative z-10 mx-auto flex flex-col items-center py-24 sm:py-28 lg:py-32">
+      <div className="animate-fade-in space-y-8 text-center">
+        <h1 className="font-heading text-4xl leading-tight sm:text-5xl lg:text-6xl">
+          <Trans
+            i18nKey="index.hero.headline"
+            components={[
+              <br key="lb" />,
+              <span
+                key="gradient"
+                className="bg-gradient-to-r from-white via-blue-100 to-blue-200 bg-clip-text text-transparent"
+              />,
+            ]}
+          />
+        </h1>
+        <p className="mx-auto max-w-2xl text-lg text-blue-100/90 sm:text-xl">
+          {t('index.hero.description')}
+        </p>
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-center">
+          <Link to="/contact">
+            <Button size="lg">
+              {t('index.hero.cta')}
+
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+          </Link>
+          <Link to="/solutions">
+            <Button
+              size="lg"
+              variant="outline"
+              className="border-white/70 bg-white/10 text-white hover:bg-white/20 hover:text-white dark:border-white/40"
+            >
+              {t('index.hero.viewSolutions')}
+            </Button>
+          </Link>
+        </div>
+      </div>
+    </div>
+  </section>
+);
 
 const fallbackSolutionsConfig = [
   {
@@ -43,7 +206,7 @@ const Index = () => {
   const { t } = useTranslation();
 
   // Fetch dynamic homepage features from database
-  const { data: features } = useQuery({
+  const { data: features } = useQuery<DisplayFeature[]>({
     queryKey: ['homepage-features'],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -69,12 +232,12 @@ const Index = () => {
         title: feature.title,
         description: feature.description,
         url: feature.url,
-      }));
+      })) as DisplayFeature[];
     },
   });
 
   // Fetch dynamic solutions from database
-  const { data: solutions } = useQuery({
+  const { data: solutions } = useQuery<DisplaySolution[]>({
     queryKey: ['solutions-preview'],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -96,12 +259,12 @@ const Index = () => {
           index === 0
             ? 'from-brand-purple to-brand-blue'
             : 'from-brand-pink to-brand-orange',
-      }));
+      })) as DisplaySolution[];
     },
   });
 
   // Fallback features for loading/error states
-  const fallbackFeatures = useMemo(
+  const fallbackFeatures = useMemo<DisplayFeature[]>(
     () => [
       {
         icon: Brain,
@@ -132,7 +295,7 @@ const Index = () => {
   );
 
   const displayFeatures = features || fallbackFeatures;
-  const fallbackSolutions = useMemo(
+  const fallbackSolutions = useMemo<DisplaySolution[]>(
     () =>
       fallbackSolutionsConfig.map((solution) => ({
         name: t(`index.fallbackSolutions.${solution.id}.name`),
@@ -147,8 +310,14 @@ const Index = () => {
 
   const displaySolutions = solutions || fallbackSolutions;
 
+  const layoutVariant: LayoutVariant = 'creative';
+  const isCreativeLayout = layoutVariant === 'creative';
+  const contactCta = t('index.hero.cta');
+  const solutionsCta = t('index.hero.viewSolutions');
+  const spotlightSolution = displaySolutions.length > 0 ? displaySolutions[0] : null;
+
   return (
-    <Layout>
+    <Layout variant={layoutVariant}>
       <Meta
         title="Monynha Softwares: Technology with pride, diversity, and resistance"
         description={t('index.hero.description')}
@@ -156,47 +325,16 @@ const Index = () => {
         ogDescription={t('index.hero.description')}
         ogImage="/placeholder.svg"
       />
-      {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-hero text-white">
-        <div className="absolute inset-0 bg-primary/80 mix-blend-multiply dark:bg-primary/60"></div>
-        <div className="container relative z-10 mx-auto flex flex-col items-center py-24 sm:py-28 lg:py-32">
-          <div className="animate-fade-in space-y-8 text-center">
-            <h1 className="font-heading text-4xl leading-tight sm:text-5xl lg:text-6xl">
-              <Trans
-                i18nKey="index.hero.headline"
-                components={[
-                  <br key="lb" />,
-                  <span
-                    key="gradient"
-                    className="bg-gradient-to-r from-white via-blue-100 to-blue-200 bg-clip-text text-transparent"
-                  />,
-                ]}
-              />
-            </h1>
-            <p className="mx-auto max-w-2xl text-lg text-blue-100/90 sm:text-xl">
-              {t('index.hero.description')}
-            </p>
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-center">
-              <Link to="/contact">
-                <Button size="lg">
-                  {t('index.hero.cta')}
-
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-              </Link>
-              <Link to="/solutions">
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="border-white/70 bg-white/10 text-white hover:bg-white/20 hover:text-white dark:border-white/40"
-                >
-                  {t('index.hero.viewSolutions')}
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      {isCreativeLayout ? (
+        <CreativeHero
+          t={t}
+          spotlightSolution={spotlightSolution}
+          contactCta={contactCta}
+          solutionsCta={solutionsCta}
+        />
+      ) : (
+        <ClassicHero t={t} />
+      )}
 
       {/* Features Section */}
       <section className="bg-white py-24 transition-colors dark:bg-neutral-950">
