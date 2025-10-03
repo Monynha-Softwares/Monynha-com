@@ -55,7 +55,11 @@ export const RollingGallery = ({ items, speed = 30 }: RollingGalleryProps) => {
 
           if (item.href) {
             return (
-              <Link to={item.href} key={`${item.id}-${index}`} className="shrink-0">
+              <Link
+                to={item.href}
+                key={`${item.id}-${index}`}
+                className="shrink-0"
+              >
                 {content}
               </Link>
             );
@@ -71,4 +75,3 @@ export const RollingGallery = ({ items, speed = 30 }: RollingGalleryProps) => {
 };
 
 RollingGallery.displayName = 'RollingGallery';
-

@@ -17,14 +17,17 @@ const defaultGradient =
   'radial-gradient(at 80% 10%, rgba(64, 134, 255, 0.18), transparent 60%),' +
   'radial-gradient(at 50% 80%, rgba(180, 90, 255, 0.12), transparent 55%)';
 
-export const SilkBackground = ({ className, gradient }: SilkBackgroundProps) => {
+export const SilkBackground = ({
+  className,
+  gradient,
+}: SilkBackgroundProps) => {
   const reduceMotion = useReducedMotion();
 
   return (
     <div
       className={cn(
         'absolute inset-0 overflow-hidden bg-gradient-to-br from-[#1a1033] via-[#0a0d1f] to-[#06121f]',
-        className,
+        className
       )}
       role="presentation"
       aria-hidden
@@ -42,13 +45,14 @@ export const SilkBackground = ({ className, gradient }: SilkBackgroundProps) => 
           className="absolute -top-1/2 left-1/2 h-[140%] w-[140%] opacity-70"
           style={{ backgroundImage }}
           initial={{ rotate: index * 40, scale: 0.9 }}
-          animate=
-            {reduceMotion
+          animate={
+            reduceMotion
               ? { rotate: index * 40, scale: 0.9 }
               : {
                   rotate: [index * 40, index * 40 + 360],
                   scale: [0.9, 1.05, 0.9],
-                }}
+                }
+          }
           transition={{
             duration: 40 - index * 5,
             repeat: reduceMotion ? 0 : Infinity,
@@ -62,4 +66,3 @@ export const SilkBackground = ({ className, gradient }: SilkBackgroundProps) => 
 };
 
 SilkBackground.displayName = 'SilkBackground';
-

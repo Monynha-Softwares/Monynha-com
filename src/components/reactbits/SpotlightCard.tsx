@@ -38,7 +38,7 @@ export const SpotlightCard = ({
       className={cn(
         'group relative overflow-hidden rounded-2xl border border-border/70 bg-card/80 p-8 backdrop-blur-xl transition-shadow',
         'shadow-[0_25px_45px_-20px_rgba(76,0,130,0.35)]',
-        className,
+        className
       )}
     >
       <motion.div
@@ -46,13 +46,17 @@ export const SpotlightCard = ({
         className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
         style={{ maskImage, WebkitMaskImage: maskImage }}
       >
-        <motion.div className="absolute inset-0" style={{ backgroundImage: spotlight }} />
+        <motion.div
+          className="absolute inset-0"
+          style={{ backgroundImage: spotlight }}
+        />
         <motion.div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-secondary/10 to-transparent" />
       </motion.div>
-      <div className="relative z-10 flex h-full flex-col gap-4 text-left text-foreground">{children}</div>
+      <div className="relative z-10 flex h-full flex-col gap-4 text-left text-foreground">
+        {children}
+      </div>
     </motion.div>
   );
 };
 
 SpotlightCard.displayName = 'SpotlightCard';
-

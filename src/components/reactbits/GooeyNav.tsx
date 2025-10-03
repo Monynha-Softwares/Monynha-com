@@ -9,22 +9,26 @@ const links = [
   {
     href: '/',
     label: 'Home',
-    accent: 'linear-gradient(135deg, rgba(168, 85, 247, 0.7), rgba(99, 102, 241, 0.7))',
+    accent:
+      'linear-gradient(135deg, rgba(168, 85, 247, 0.7), rgba(99, 102, 241, 0.7))',
   },
   {
     href: '/portfolio',
     label: 'Portfolio',
-    accent: 'linear-gradient(135deg, rgba(14, 165, 233, 0.7), rgba(236, 72, 153, 0.7))',
+    accent:
+      'linear-gradient(135deg, rgba(14, 165, 233, 0.7), rgba(236, 72, 153, 0.7))',
   },
   {
     href: '/about',
     label: 'About',
-    accent: 'linear-gradient(135deg, rgba(34, 197, 94, 0.7), rgba(147, 51, 234, 0.7))',
+    accent:
+      'linear-gradient(135deg, rgba(34, 197, 94, 0.7), rgba(147, 51, 234, 0.7))',
   },
   {
     href: '/contact',
     label: 'Contact',
-    accent: 'linear-gradient(135deg, rgba(251, 191, 36, 0.7), rgba(59, 130, 246, 0.7))',
+    accent:
+      'linear-gradient(135deg, rgba(251, 191, 36, 0.7), rgba(59, 130, 246, 0.7))',
   },
 ] as const;
 
@@ -37,9 +41,7 @@ export const GooeyNav = () => {
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 px-4 pt-4 sm:px-6 sm:pt-6">
-      <nav
-        className="mx-auto flex w-full max-w-5xl items-center justify-between gap-2 rounded-full border border-border/70 bg-background/70 px-4 py-2 backdrop-blur-xl motion-reduce:transition-none min-h-[3.5rem]"
-      >
+      <nav className="mx-auto flex w-full max-w-5xl items-center justify-between gap-2 rounded-full border border-border/70 bg-background/70 px-4 py-2 backdrop-blur-xl motion-reduce:transition-none min-h-[3.5rem]">
         <Link to="/" className="flex min-w-0 items-center gap-2 py-2">
           <span className="whitespace-nowrap text-[clamp(1.1rem,4vw,1.5rem)] font-semibold text-foreground">
             Art Leo
@@ -52,7 +54,9 @@ export const GooeyNav = () => {
                 to={link.href}
                 className={cn(
                   'relative inline-flex items-center rounded-full px-4 py-2 text-sm font-medium transition-colors',
-                  isActive(link.href) ? 'text-primary' : 'text-muted-foreground hover:text-foreground',
+                  isActive(link.href)
+                    ? 'text-primary'
+                    : 'text-muted-foreground hover:text-foreground'
                 )}
               >
                 {link.label}
@@ -82,7 +86,10 @@ export const GooeyNav = () => {
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: reduceMotion ? 0 : 0.4, ease: [0.21, 1, 0.29, 1] }}
+              transition={{
+                duration: reduceMotion ? 0 : 0.4,
+                ease: [0.21, 1, 0.29, 1],
+              }}
               className="mt-3 w-full md:hidden"
             >
               <FlowingMenu
@@ -99,4 +106,3 @@ export const GooeyNav = () => {
 };
 
 GooeyNav.displayName = 'GooeyNav';
-

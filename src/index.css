@@ -43,31 +43,13 @@
       hsl(262 70% 53%),
       hsl(221 85% 56%)
     );
-    --gradient-glow: radial-gradient(
-        ellipse at top,
-        hsl(262 70% 53% / 0.18),
-        transparent
-      ),
-      radial-gradient(
-        ellipse at bottom,
-        hsl(221 85% 56% / 0.18),
-        transparent
-      );
-    --gradient-mesh: radial-gradient(
-        at 27% 37%,
-        hsl(262 70% 53% / 0.12) 0px,
-        transparent 50%
-      ),
-      radial-gradient(
-        at 97% 21%,
-        hsl(221 85% 56% / 0.12) 0px,
-        transparent 50%
-      ),
-      radial-gradient(
-        at 52% 99%,
-        hsl(44 95% 52% / 0.12) 0px,
-        transparent 50%
-      );
+    --gradient-glow:
+      radial-gradient(ellipse at top, hsl(262 70% 53% / 0.18), transparent),
+      radial-gradient(ellipse at bottom, hsl(221 85% 56% / 0.18), transparent);
+    --gradient-mesh:
+      radial-gradient(at 27% 37%, hsl(262 70% 53% / 0.12) 0px, transparent 50%),
+      radial-gradient(at 97% 21%, hsl(221 85% 56% / 0.12) 0px, transparent 50%),
+      radial-gradient(at 52% 99%, hsl(44 95% 52% / 0.12) 0px, transparent 50%);
 
     --shadow-glow: 0 0 40px hsl(262 70% 53% / 0.25);
     --shadow-depth: 0 20px 40px -15px hsl(232 35% 16% / 0.45);
@@ -114,31 +96,13 @@
       hsl(262 72% 60%),
       hsl(220 70% 65%)
     );
-    --gradient-glow: radial-gradient(
-        ellipse at top,
-        hsl(262 72% 60% / 0.2),
-        transparent
-      ),
-      radial-gradient(
-        ellipse at bottom,
-        hsl(220 70% 65% / 0.18),
-        transparent
-      );
-    --gradient-mesh: radial-gradient(
-        at 27% 37%,
-        hsl(262 72% 60% / 0.18) 0px,
-        transparent 55%
-      ),
-      radial-gradient(
-        at 97% 21%,
-        hsl(220 70% 65% / 0.16) 0px,
-        transparent 55%
-      ),
-      radial-gradient(
-        at 52% 99%,
-        hsl(44 95% 56% / 0.16) 0px,
-        transparent 55%
-      );
+    --gradient-glow:
+      radial-gradient(ellipse at top, hsl(262 72% 60% / 0.2), transparent),
+      radial-gradient(ellipse at bottom, hsl(220 70% 65% / 0.18), transparent);
+    --gradient-mesh:
+      radial-gradient(at 27% 37%, hsl(262 72% 60% / 0.18) 0px, transparent 55%),
+      radial-gradient(at 97% 21%, hsl(220 70% 65% / 0.16) 0px, transparent 55%),
+      radial-gradient(at 52% 99%, hsl(44 95% 56% / 0.16) 0px, transparent 55%);
 
     --shadow-glow: 0 0 45px hsl(262 72% 60% / 0.35);
     --shadow-depth: 0 25px 45px -15px hsl(235 32% 8% / 0.75);

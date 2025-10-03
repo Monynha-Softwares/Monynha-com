@@ -60,4 +60,3 @@ export const SplitText = ({
 };
 
 SplitText.displayName = 'SplitText';
-

@@ -5,11 +5,19 @@ interface RippleGridBackgroundProps {
   className?: string;
 }
 
-export const RippleGridBackground = ({ className }: RippleGridBackgroundProps) => {
+export const RippleGridBackground = ({
+  className,
+}: RippleGridBackgroundProps) => {
   const reduceMotion = useReducedMotion();
 
   return (
-    <div className={cn('absolute inset-0 overflow-hidden rounded-[2.5rem]', className)} aria-hidden>
+    <div
+      className={cn(
+        'absolute inset-0 overflow-hidden rounded-[2.5rem]',
+        className
+      )}
+      aria-hidden
+    >
       <div className="absolute inset-0 bg-gradient-to-br from-[#0a0418] via-[#050912] to-[#02050d]" />
       <motion.div
         className="absolute inset-0"
@@ -42,4 +50,3 @@ export const RippleGridBackground = ({ className }: RippleGridBackgroundProps) =
 };
 
 RippleGridBackground.displayName = 'RippleGridBackground';
-

@@ -9,7 +9,12 @@ interface TextTypeProps {
   className?: string;
 }
 
-export const TextType = ({ text, speed = 35, delay = 400, className }: TextTypeProps) => {
+export const TextType = ({
+  text,
+  speed = 35,
+  delay = 400,
+  className,
+}: TextTypeProps) => {
   const reduceMotion = useReducedMotion();
   const [displayText, setDisplayText] = useState(reduceMotion ? text : '');
   const characters = useMemo(() => text.split(''), [text]);
@@ -35,7 +40,10 @@ export const TextType = ({ text, speed = 35, delay = 400, className }: TextTypeP
   }, [characters, delay, reduceMotion, speed]);
 
   return (
-    <p className={cn('font-light text-muted-foreground', className)} aria-live="polite">
+    <p
+      className={cn('font-light text-muted-foreground', className)}
+      aria-live="polite"
+    >
       {displayText}
       {!reduceMotion && displayText.length < text.length && (
         <span className="inline-block animate-pulse text-primary">|</span>
@@ -45,4 +53,3 @@ export const TextType = ({ text, speed = 35, delay = 400, className }: TextTypeP
 };
 
 TextType.displayName = 'TextType';
-

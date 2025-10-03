@@ -34,9 +34,17 @@ export const StepperTimeline = ({ steps, className }: StepperTimelineProps) => {
               <span className="absolute inset-0 -z-10 rounded-full bg-primary/30 blur-xl" />
             </div>
             <div className="space-y-1 text-left">
-              <p className="text-fluid-lg font-semibold text-foreground">{step.title}</p>
-              {step.subtitle && <p className="text-sm text-primary/70">{step.subtitle}</p>}
-              {step.description && <p className="text-sm leading-relaxed text-muted-foreground">{step.description}</p>}
+              <p className="text-fluid-lg font-semibold text-foreground">
+                {step.title}
+              </p>
+              {step.subtitle && (
+                <p className="text-sm text-primary/70">{step.subtitle}</p>
+              )}
+              {step.description && (
+                <p className="text-sm leading-relaxed text-muted-foreground">
+                  {step.description}
+                </p>
+              )}
             </div>
           </motion.li>
         ))}
@@ -46,4 +54,3 @@ export const StepperTimeline = ({ steps, className }: StepperTimelineProps) => {
 };
 
 StepperTimeline.displayName = 'StepperTimeline';
-

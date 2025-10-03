@@ -9,13 +9,19 @@ interface GlassIconProps {
   className?: string;
 }
 
-export const GlassIcon = ({ icon, title, description, href, className }: GlassIconProps) => {
+export const GlassIcon = ({
+  icon,
+  title,
+  description,
+  href,
+  className,
+}: GlassIconProps) => {
   const content = (
     <div
       className={cn(
         'group relative flex items-center gap-4 rounded-2xl border border-border/70 bg-card/70 p-4',
         'backdrop-blur-xl transition-all duration-300 hover:border-primary/50 hover:shadow-[0_15px_35px_-20px_rgba(76,0,130,0.4)]',
-        className,
+        className
       )}
     >
       <div className="relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br from-primary/20 via-secondary/20 to-transparent">
@@ -23,7 +29,9 @@ export const GlassIcon = ({ icon, title, description, href, className }: GlassIc
         <span className="relative text-primary">{icon}</span>
       </div>
       <div>
-        <p className="text-sm font-semibold uppercase tracking-[0.18em] text-primary/70">{title}</p>
+        <p className="text-sm font-semibold uppercase tracking-[0.18em] text-primary/70">
+          {title}
+        </p>
         <p className="text-fluid-base text-foreground">{description}</p>
       </div>
     </div>
@@ -31,7 +39,12 @@ export const GlassIcon = ({ icon, title, description, href, className }: GlassIc
 
   if (href) {
     return (
-      <a href={href} className="block" target={href.startsWith('http') ? '_blank' : undefined} rel="noreferrer">
+      <a
+        href={href}
+        className="block"
+        target={href.startsWith('http') ? '_blank' : undefined}
+        rel="noreferrer"
+      >
         {content}
       </a>
     );
@@ -41,4 +54,3 @@ export const GlassIcon = ({ icon, title, description, href, className }: GlassIc
 };
 
 GlassIcon.displayName = 'GlassIcon';
-

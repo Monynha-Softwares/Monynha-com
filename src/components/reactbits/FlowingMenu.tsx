@@ -24,10 +24,11 @@ const findClosestEdge = (
   mouseX: number,
   mouseY: number,
   width: number,
-  height: number,
+  height: number
 ): 'top' | 'bottom' => {
   const topEdgeDist = Math.pow(mouseX - width / 2, 2) + Math.pow(mouseY, 2);
-  const bottomEdgeDist = Math.pow(mouseX - width / 2, 2) + Math.pow(mouseY - height, 2);
+  const bottomEdgeDist =
+    Math.pow(mouseX - width / 2, 2) + Math.pow(mouseY - height, 2);
   return topEdgeDist < bottomEdgeDist ? 'top' : 'bottom';
 };
 
@@ -37,18 +38,32 @@ interface MenuItemProps extends FlowingMenuItem {
   onItemClick?: () => void;
 }
 
-const defaultAccent = 'linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 100%)';
+const defaultAccent =
+  'linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 100%)';
 
-const MenuItem: FC<MenuItemProps> = ({ href, label, accent, isActive, reduceMotion, onItemClick }) => {
+const MenuItem: FC<MenuItemProps> = ({
+  href,
+  label,
+  accent,
+  isActive,
+  reduceMotion,
+  onItemClick,
+}) => {
   const itemRef = useRef<HTMLDivElement>(null);
   const marqueeRef = useRef<HTMLDivElement>(null);
   const marqueeInnerRef = useRef<HTMLDivElement>(null);
 
   const handleEnter = (ev: MouseEvent<HTMLAnchorElement>) => {
     if (reduceMotion) return;
-    if (!itemRef.current || !marqueeRef.current || !marqueeInnerRef.current) return;
+    if (!itemRef.current || !marqueeRef.current || !marqueeInnerRef.current)
+      return;
     const rect = itemRef.current.getBoundingClientRect();
-    const edge = findClosestEdge(ev.clientX - rect.left, ev.clientY - rect.top, rect.width, rect.height);
+    const edge = findClosestEdge(
+      ev.clientX - rect.left,
+      ev.clientY - rect.top,
+      rect.width,
+      rect.height
+    );
 
     const tl = gsap.timeline({ defaults: animationDefaults });
     tl.set(marqueeRef.current, { y: edge === 'top' ? '-101%' : '101%' })
@@ -58,13 +73,21 @@ const MenuItem: FC<MenuItemProps> = ({ href, label, accent, isActive, reduceMoti
 
   const handleLeave = (ev: MouseEvent<HTMLAnchorElement>) => {
     if (reduceMotion) return;
-    if (!itemRef.current || !marqueeRef.current || !marqueeInnerRef.current) return;
+    if (!itemRef.current || !marqueeRef.current || !marqueeInnerRef.current)
+      return;
     const rect = itemRef.current.getBoundingClientRect();
-    const edge = findClosestEdge(ev.clientX - rect.left, ev.clientY - rect.top, rect.width, rect.height);
+    const edge = findClosestEdge(
+      ev.clientX - rect.left,
+      ev.clientY - rect.top,
+      rect.width,
+      rect.height
+    );
 
     const tl = gsap.timeline({ defaults: animationDefaults });
-    tl.to(marqueeRef.current, { y: edge === 'top' ? '-101%' : '101%' })
-      .to(marqueeInnerRef.current, { y: edge === 'top' ? '101%' : '-101%' });
+    tl.to(marqueeRef.current, { y: edge === 'top' ? '-101%' : '101%' }).to(
+      marqueeInnerRef.current,
+      { y: edge === 'top' ? '101%' : '-101%' }
+    );
   };
 
   const accentStyle = useMemo(() => {
@@ -76,7 +99,11 @@ const MenuItem: FC<MenuItemProps> = ({ href, label, accent, isActive, reduceMoti
       return { backgroundImage: accent };
     }
 
-    if (accent.startsWith('linear') || accent.startsWith('radial') || accent.startsWith('conic')) {
+    if (
+      accent.startsWith('linear') ||
+      accent.startsWith('radial') ||
+      accent.startsWith('conic')
+    ) {
       return { background: accent };
     }
 
@@ -87,14 +114,16 @@ const MenuItem: FC<MenuItemProps> = ({ href, label, accent, isActive, reduceMoti
     () =>
       Array.from({ length: 4 }).map((_, idx) => (
         <Fragment key={`${label}-${idx}`}>
-          <span className="text-[#060010] uppercase font-medium text-[4vh] leading-[1.2] px-[1vw]">{label}</span>
+          <span className="text-[#060010] uppercase font-medium text-[4vh] leading-[1.2] px-[1vw]">
+            {label}
+          </span>
           <div
             className="min-w-[120px] h-[6vh] my-[1.5vh] mx-[1vw] rounded-[999px] bg-cover bg-center"
             style={accentStyle}
           />
         </Fragment>
       )),
-    [accentStyle, label],
+    [accentStyle, label]
   );
 
   return (
@@ -102,14 +131,16 @@ const MenuItem: FC<MenuItemProps> = ({ href, label, accent, isActive, reduceMoti
       ref={itemRef}
       className={cn(
         'group relative flex-1 overflow-hidden border-t border-border/40 text-center first:border-t-0',
-        isActive ? 'bg-white/5' : undefined,
+        isActive ? 'bg-white/5' : undefined
       )}
     >
       <Link
         to={href}
         className={cn(
           'flex h-full min-h-[64px] w-full items-center justify-center px-6 py-4 text-lg font-semibold uppercase transition-colors',
-          isActive ? 'text-primary' : 'text-muted-foreground hover:text-foreground',
+          isActive
+            ? 'text-primary'
+            : 'text-muted-foreground hover:text-foreground'
         )}
         onMouseEnter={handleEnter}
         onMouseLeave={handleLeave}
@@ -131,7 +162,12 @@ const MenuItem: FC<MenuItemProps> = ({ href, label, accent, isActive, reduceMoti
   );
 };
 
-export const FlowingMenu: FC<FlowingMenuProps> = ({ items, activeHref, onItemClick, className }) => {
+export const FlowingMenu: FC<FlowingMenuProps> = ({
+  items,
+  activeHref,
+  onItemClick,
+  className,
+}) => {
   const reduceMotion = useReducedMotion();
 
   return (
@@ -152,4 +188,3 @@ export const FlowingMenu: FC<FlowingMenuProps> = ({ items, activeHref, onItemCli
 };
 
 FlowingMenu.displayName = 'FlowingMenu';
-
