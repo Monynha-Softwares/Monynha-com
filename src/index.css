@@ -33,6 +33,48 @@
     --ring: 262 70% 53%;
 
     --radius: 1.25rem;
+
+    /* Creative template tokens */
+    --primary-glow: 262 85% 72%;
+    --secondary-glow: 221 85% 66%;
+
+    --gradient-primary: linear-gradient(
+      135deg,
+      hsl(262 70% 53%),
+      hsl(221 85% 56%)
+    );
+    --gradient-glow: radial-gradient(
+        ellipse at top,
+        hsl(262 70% 53% / 0.18),
+        transparent
+      ),
+      radial-gradient(
+        ellipse at bottom,
+        hsl(221 85% 56% / 0.18),
+        transparent
+      );
+    --gradient-mesh: radial-gradient(
+        at 27% 37%,
+        hsl(262 70% 53% / 0.12) 0px,
+        transparent 50%
+      ),
+      radial-gradient(
+        at 97% 21%,
+        hsl(221 85% 56% / 0.12) 0px,
+        transparent 50%
+      ),
+      radial-gradient(
+        at 52% 99%,
+        hsl(44 95% 52% / 0.12) 0px,
+        transparent 50%
+      );
+
+    --shadow-glow: 0 0 40px hsl(262 70% 53% / 0.25);
+    --shadow-depth: 0 20px 40px -15px hsl(232 35% 16% / 0.45);
+    --shadow-card: 0 10px 30px -12px hsl(232 35% 16% / 0.25);
+
+    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-spring: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
   .dark {
@@ -63,6 +105,47 @@
     --border: 228 24% 32%;
     --input: 228 24% 32%;
     --ring: 220 70% 65%;
+
+    --primary-glow: 262 90% 75%;
+    --secondary-glow: 220 75% 68%;
+
+    --gradient-primary: linear-gradient(
+      135deg,
+      hsl(262 72% 60%),
+      hsl(220 70% 65%)
+    );
+    --gradient-glow: radial-gradient(
+        ellipse at top,
+        hsl(262 72% 60% / 0.2),
+        transparent
+      ),
+      radial-gradient(
+        ellipse at bottom,
+        hsl(220 70% 65% / 0.18),
+        transparent
+      );
+    --gradient-mesh: radial-gradient(
+        at 27% 37%,
+        hsl(262 72% 60% / 0.18) 0px,
+        transparent 55%
+      ),
+      radial-gradient(
+        at 97% 21%,
+        hsl(220 70% 65% / 0.16) 0px,
+        transparent 55%
+      ),
+      radial-gradient(
+        at 52% 99%,
+        hsl(44 95% 56% / 0.16) 0px,
+        transparent 55%
+      );
+
+    --shadow-glow: 0 0 45px hsl(262 72% 60% / 0.35);
+    --shadow-depth: 0 25px 45px -15px hsl(235 32% 8% / 0.75);
+    --shadow-card: 0 15px 35px -15px hsl(235 32% 8% / 0.6);
+
+    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-spring: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
   * {
@@ -117,5 +200,45 @@
 @layer components {
   .card-hover {
     @apply transition-all ease-in-out duration-300 hover:shadow-soft-lg hover:-translate-y-1;
+  }
+
+  .creative-shell {
+    @apply relative isolate;
+  }
+
+  .creative-shell__backdrop {
+    @apply pointer-events-none absolute inset-0 -z-20;
+    background-image: var(--gradient-mesh);
+    filter: blur(60px);
+    opacity: 0.85;
+  }
+
+  .creative-shell__glow {
+    @apply pointer-events-none absolute inset-x-0 -top-40 -z-10 h-[480px];
+    background: radial-gradient(
+      60% 60% at 50% 0%,
+      hsl(var(--primary) / 0.25),
+      transparent 80%
+    );
+    filter: blur(20px);
+  }
+
+  .creative-shell__grid {
+    @apply pointer-events-none absolute inset-0 -z-10;
+    background-image: linear-gradient(
+        rgba(148, 163, 184, 0.08) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        to right,
+        rgba(148, 163, 184, 0.08) 1px,
+        transparent 1px
+      );
+    background-size: 140px 140px;
+    mask-image: radial-gradient(70% 70% at 50% 30%, rgba(0, 0, 0, 0.35), transparent 95%);
+  }
+
+  .creative-shell__content {
+    @apply relative z-10;
   }
 }
