@@ -20,9 +20,11 @@ jobs:
           node-version: 20
           cache: 'npm'
       - run: npm ci
+      - run: npm --prefix cms ci
       - run: npm run cleanup-lovable
       - run: npm run format
       - run: npm run lint
+      - run: npm run cms:lint
       - run: npm test
 
   build:
@@ -36,11 +38,14 @@ jobs:
           node-version: 20
           cache: 'npm'
       - run: npm ci
+      - run: npm --prefix cms ci
       - run: npm run cleanup-lovable
       - run: npm run format
       - run: npm run lint
+      - run: npm run cms:lint
       - run: npm run sitemap
       - run: npm run build
+      - run: npm run cms:build
       - name: Upload build artifact
         if: github.event_name == 'pull_request'
         uses: actions/upload-artifact@v4
