@@ -6,6 +6,8 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[];
 
+export type UUID = string;
+
 export type Database = {
   // Allows to automatically instanciate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
@@ -19,7 +21,7 @@ export type Database = {
           content: string;
           created_at: string;
           excerpt: string | null;
-          id: string;
+          id: UUID;
           image_url: string | null;
           published: boolean;
           slug: string;
@@ -30,7 +32,7 @@ export type Database = {
           content: string;
           created_at?: string;
           excerpt?: string | null;
-          id?: string;
+          id?: UUID;
           image_url?: string | null;
           published?: boolean;
           slug: string;
@@ -41,7 +43,7 @@ export type Database = {
           content?: string;
           created_at?: string;
           excerpt?: string | null;
-          id?: string;
+          id?: UUID;
           image_url?: string | null;
           published?: boolean;
           slug?: string;
@@ -54,23 +56,23 @@ export type Database = {
         Row: {
           content: string;
           created_at: string;
-          id: string;
-          post_id: string;
-          user_id: string;
+          id: UUID;
+          post_id: UUID;
+          user_id: UUID;
         };
         Insert: {
           content: string;
           created_at?: string;
-          id?: string;
-          post_id: string;
-          user_id: string;
+          id?: UUID;
+          post_id: UUID;
+          user_id: UUID;
         };
         Update: {
           content?: string;
           created_at?: string;
-          id?: string;
-          post_id?: string;
-          user_id?: string;
+          id?: UUID;
+          post_id?: UUID;
+          user_id?: UUID;
         };
         Relationships: [];
       };
