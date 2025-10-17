@@ -5,8 +5,8 @@ import { Pool } from 'pg';
 
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
-const upsertIntoPublic = async ({ doc }: { doc: any }) => {
-  const id = String(doc.id);
+const upsertIntoPublic = async ({ doc, req }: { doc: any; req: any }) => {
+  const supabaseId = doc.supabaseId ?? null;
   const slug = doc.slug;
   const published = !!doc.published;
   const title =
@@ -23,19 +23,45 @@ const upsertIntoPublic = async ({ doc }: { doc: any }) => {
       ? doc.content
       : JSON.stringify(doc.content ?? {});
 
-  await pool.query(
-    `insert into public.blog_posts (id, slug, title, excerpt, image_url, content, published, updated_at)
-     values ($1,$2,$3,$4,$5,$6,$7, now())
-     on conflict (id) do update set
-       slug=excluded.slug,
-       title=excluded.title,
-       excerpt=excluded.excerpt,
-       image_url=excluded.image_url,
-       content=excluded.content,
-       published=excluded.published,
-       updated_at=now()`,
-    [id, slug, title, excerpt, image_url, content, published]
-  );
+  const queryWithId = `
+    insert into public.blog_posts (id, slug, title, excerpt, image_url, content, published, updated_at)
+    values ($1::uuid,$2,$3,$4,$5,$6,$7, now())
+    on conflict (id) do update set
+      slug=excluded.slug,
+      title=excluded.title,
+      excerpt=excluded.excerpt,
+      image_url=excluded.image_url,
+      content=excluded.content,
+      published=excluded.published,
+      updated_at=now()
+    returning id`;
+
+  const queryWithoutId = `
+    insert into public.blog_posts (slug, title, excerpt, image_url, content, published, updated_at)
+    values ($1,$2,$3,$4,$5,$6, now())
+    on conflict (slug) do update set
+      title=excluded.title,
+      excerpt=excluded.excerpt,
+      image_url=excluded.image_url,
+      content=excluded.content,
+      published=excluded.published,
+      updated_at=now()
+    returning id`;
+
+  const result = supabaseId
+    ? await pool.query(queryWithId, [supabaseId, slug, title, excerpt, image_url, content, published])
+    : await pool.query(queryWithoutId, [slug, title, excerpt, image_url, content, published]);
+
+  const generatedId = result?.rows?.[0]?.id;
+
+  if (!supabaseId && generatedId && req?.payload) {
+    await req.payload.update({
+      collection: 'posts',
+      id: doc.id,
+      data: { supabaseId: generatedId },
+      depth: 0,
+    });
+  }
 };
 
 const Posts: CollectionConfig = {
@@ -48,6 +74,11 @@ const Posts: CollectionConfig = {
     delete: ({ req }: { req: any }) => Boolean(req.user),
   },
   fields: [
+    {
+      name: 'supabaseId',
+      type: 'text',
+      admin: { hidden: true },
+    },
     { name: 'slug', type: 'text', required: true, unique: true },
     { name: 'title', type: 'text', required: true, localized: true },
     { name: 'excerpt', type: 'textarea', localized: true },
