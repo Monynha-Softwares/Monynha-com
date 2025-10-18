@@ -21,6 +21,8 @@ const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
 const PAYLOAD_API_BASE_URL = Deno.env.get('PAYLOAD_API_BASE_URL');
 const PAYLOAD_ADMIN_TOKEN = Deno.env.get('PAYLOAD_ADMIN_TOKEN');
 const PAYLOAD_SYNC_SHARED_SECRET = Deno.env.get('PAYLOAD_SYNC_SHARED_SECRET');
+const OBSERVABILITY_WEBHOOK_URL = Deno.env.get('OBSERVABILITY_WEBHOOK_URL');
+const OBSERVABILITY_DASHBOARD_URL = Deno.env.get('OBSERVABILITY_DASHBOARD_URL');
 
 if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
   throw new Error('Missing Supabase configuration for payload-admin-sync function.');
@@ -34,6 +36,38 @@ const baseHeaders = () => ({
   'Content-Type': 'application/json',
   Authorization: `Bearer ${PAYLOAD_ADMIN_TOKEN}`,
 });
+
+type SyncStatus = 'success' | 'error' | 'skipped';
+
+const recordSyncEvent = async (
+  status: SyncStatus,
+  details: Record<string, unknown>
+) => {
+  const payload = {
+    status,
+    source: 'payload-admin-sync',
+    timestamp: new Date().toISOString(),
+    dashboardUrl: OBSERVABILITY_DASHBOARD_URL ?? null,
+    ...details,
+  };
+
+  const logMethod = status === 'error' ? console.error : console.info;
+  logMethod('[payload-admin-sync]', payload);
+
+  if (!OBSERVABILITY_WEBHOOK_URL) {
+    return;
+  }
+
+  try {
+    await fetch(OBSERVABILITY_WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+  } catch (error) {
+    console.warn('[payload-admin-sync] Failed to forward observability event', error);
+  }
+};
 
 async function ensurePayloadConfigured() {
   if (!PAYLOAD_API_BASE_URL || !PAYLOAD_ADMIN_TOKEN) {
@@ -212,6 +246,10 @@ serve(async (request) => {
     previous?.role === 'admin' && profile.role !== 'admin';
 
   if (!promotedToAdmin && !demotedFromAdmin) {
+    await recordSyncEvent('skipped', {
+      profileId: profile.id,
+      reason: 'role-unchanged',
+    });
     return new Response(JSON.stringify({ skipped: true }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
@@ -228,6 +266,11 @@ serve(async (request) => {
           .update({ payload_user_id: payloadId })
           .eq('id', profile.id);
       }
+      await recordSyncEvent('success', {
+        profileId: profile.id,
+        event: 'promote',
+        payloadUserId: profile.payload_user_id ?? null,
+      });
     } else if (demotedFromAdmin) {
       const identifier =
         profile.payload_user_id ?? previous?.payload_user_id ?? null;
@@ -237,6 +280,11 @@ serve(async (request) => {
         .from('profiles')
         .update({ payload_user_id: null })
         .eq('id', profile.id);
+      await recordSyncEvent('success', {
+        profileId: profile.id,
+        event: 'demote',
+        previousPayloadUserId: identifier,
+      });
     }
 
     return new Response(JSON.stringify({ success: true }), {
@@ -247,6 +295,11 @@ serve(async (request) => {
     console.error('payload-admin-sync failed', error);
     const message =
       error instanceof Error ? error.message : 'Unknown error during sync';
+    await recordSyncEvent('error', {
+      profileId: profile.id,
+      message,
+      event: promotedToAdmin ? 'promote' : 'demote',
+    });
     return new Response(JSON.stringify({ error: message }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },

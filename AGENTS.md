@@ -75,3 +75,20 @@
 - Populate `public.payload_admin_sync_config` with the deployed edge-function URL and secret in each Supabase environment.
 - Deploy `supabase/functions/payload-admin-sync` with the required environment variables (`PAYLOAD_API_BASE_URL`, `PAYLOAD_ADMIN_TOKEN`, etc.).
 - Perform an end-to-end CMS role promotion/demotion against a real Payload instance once the webhook endpoint is live.
+
+## QA & Observability (2025-10-18)
+- Automated coverage now includes:
+  - Unit tests for Payload ➜ Supabase hooks (`cms/__tests__/solutions.hook.unit.test.ts`).
+  - Integration checks for row-level security definitions (`tests/supabase/policies.integration.test.ts`).
+  - End-to-end SPA navigation and lead capture (`tests/e2e/spa.user-journeys.e2e.test.tsx`).
+  - Accessibility regression guard for the Solutions catalog (`tests/accessibility/solutions.a11y.test.tsx`).
+- Monitoring endpoints:
+  - CMS sync events emit to `CMS_OBSERVABILITY_WEBHOOK_URL` with dashboards discoverable via `CMS_OBSERVABILITY_DASHBOARD_URL`.
+  - Supabase `payload-admin-sync` forwards status updates to `OBSERVABILITY_WEBHOOK_URL` and links back to the same observability dashboard.
+- Release workflow:
+  - GitHub Actions `deploy_spa` (environment `spa-production`) archives the Vite bundle and requires approval before execution.
+  - GitHub Actions `deploy_cms` (environment `cms-production`) builds the Payload TypeScript output and likewise pauses for approval.
+- Runbook snapshot:
+  1. Execute `npm test` locally to validate CMS hooks, policies, SPA journeys, and a11y gates.
+  2. Merge to `prod`; obtain approvals for both `spa-production` and `cms-production` environments inside the workflow run.
+  3. Monitor the observability dashboard for `payload-admin-sync` success or error logs immediately after release.

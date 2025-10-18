@@ -3,6 +3,7 @@ import type { CollectionConfig } from 'payload';
 import { pool } from '../utilities/pool';
 import { resolveLocalizedText } from '../utilities/localization';
 import { buildSpaPreviewUrl } from '../utilities/preview';
+import { logCmsSyncEvent } from '../utilities/monitoring';
 
 const ICON_OPTIONS = ['Brain', 'Zap', 'Shield', 'Users', 'Globe', 'Laptop'];
 
@@ -65,19 +66,42 @@ const upsertIntoSupabase = async ({ doc, req }: { doc: any; req: any }) => {
 
   const paramsWithoutId = [title, description, icon, url, orderIndex, active];
 
-  const result = supabaseId
-    ? await pool.query(queryWithId, paramsWithId)
-    : await pool.query(queryWithoutId, paramsWithoutId);
+  try {
+    const result = supabaseId
+      ? await pool.query(queryWithId, paramsWithId)
+      : await pool.query(queryWithoutId, paramsWithoutId);
 
-  const generatedId = result?.rows?.[0]?.id;
+    const generatedId = result?.rows?.[0]?.id ?? null;
 
-  if (!supabaseId && generatedId && req?.payload) {
-    await req.payload.update({
+    if (!supabaseId && generatedId && req?.payload) {
+      await req.payload.update({
+        collection: 'homepageFeatures',
+        id: doc.id,
+        data: { supabaseId: generatedId },
+        depth: 0,
+      });
+    }
+
+    await logCmsSyncEvent({
       collection: 'homepageFeatures',
-      id: doc.id,
-      data: { supabaseId: generatedId },
-      depth: 0,
+      action: 'upsert',
+      payloadId: doc.id ?? null,
+      supabaseId: (supabaseId ?? generatedId) ?? null,
+      status: 'success',
+      metadata: { icon, orderIndex, active, urlPresent: Boolean(url) },
     });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Unknown error while syncing homepage feature';
+    await logCmsSyncEvent({
+      collection: 'homepageFeatures',
+      action: 'upsert',
+      payloadId: doc.id ?? null,
+      supabaseId,
+      status: 'error',
+      message,
+      metadata: { icon, orderIndex },
+    });
+    throw error;
   }
 };
 

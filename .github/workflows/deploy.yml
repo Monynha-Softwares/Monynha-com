@@ -53,6 +53,57 @@ jobs:
           name: build
           path: dist
 
+  deploy_spa:
+    needs: [build]
+    if: github.ref == 'refs/heads/prod' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    environment:
+      name: spa-production
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build
+      - name: Archive SPA bundle
+        run: tar -czf spa-dist.tar.gz -C dist .
+      - name: Upload SPA release bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: spa-dist
+          path: spa-dist.tar.gz
+      - name: Placeholder deploy command
+        run: |
+          echo "Deploying SPA to production environment"
+
+  deploy_cms:
+    needs: [build]
+    if: github.ref == 'refs/heads/prod' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    environment:
+      name: cms-production
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      - run: npm ci
+      - run: npm --prefix cms ci
+      - run: npm --prefix cms run build
+      - name: Archive CMS build output
+        run: tar -czf cms-dist.tar.gz -C cms/dist .
+      - name: Upload CMS release bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: cms-dist
+          path: cms-dist.tar.gz
+      - name: Placeholder deploy command
+        run: |
+          echo "Deploying Payload CMS to production environment"
+
   # deploy-preview:
   #   needs: build
   #   if: github.event_name == 'pull_request'

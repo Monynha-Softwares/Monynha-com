@@ -3,6 +3,7 @@ import type { CollectionConfig } from 'payload';
 import { pool } from '../utilities/pool';
 import { resolveLocalizedText } from '../utilities/localization';
 import { buildSpaPreviewUrl } from '../utilities/preview';
+import { logCmsSyncEvent } from '../utilities/monitoring';
 
 const normalizeUrl = (value: unknown): string | null => {
   if (typeof value !== 'string' || value.trim().length === 0) {
@@ -81,19 +82,42 @@ const upsertIntoSupabase = async ({ doc, req }: { doc: any; req: any }) => {
   const paramsWithId = [supabaseId, name, description, github_url, demo_url, tags, active];
   const paramsWithoutId = [name, description, github_url, demo_url, tags, active];
 
-  const result = supabaseId
-    ? await pool.query(queryWithId, paramsWithId)
-    : await pool.query(queryWithoutId, paramsWithoutId);
+  try {
+    const result = supabaseId
+      ? await pool.query(queryWithId, paramsWithId)
+      : await pool.query(queryWithoutId, paramsWithoutId);
 
-  const generatedId = result?.rows?.[0]?.id;
+    const generatedId = result?.rows?.[0]?.id ?? null;
 
-  if (!supabaseId && generatedId && req?.payload) {
-    await req.payload.update({
+    if (!supabaseId && generatedId && req?.payload) {
+      await req.payload.update({
+        collection: 'repositories',
+        id: doc.id,
+        data: { supabaseId: generatedId },
+        depth: 0,
+      });
+    }
+
+    await logCmsSyncEvent({
       collection: 'repositories',
-      id: doc.id,
-      data: { supabaseId: generatedId },
-      depth: 0,
+      action: 'upsert',
+      payloadId: doc.id ?? null,
+      supabaseId: (supabaseId ?? generatedId) ?? null,
+      status: 'success',
+      metadata: { github_url, tagsCount: tags.length, active },
     });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Unknown error while syncing repository';
+    await logCmsSyncEvent({
+      collection: 'repositories',
+      action: 'upsert',
+      payloadId: doc.id ?? null,
+      supabaseId,
+      status: 'error',
+      message,
+      metadata: { github_url },
+    });
+    throw error;
   }
 };
 

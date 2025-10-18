@@ -3,6 +3,7 @@ import type { CollectionConfig } from 'payload';
 import { pool } from '../utilities/pool';
 import { resolveOptionalLocalizedText } from '../utilities/localization';
 import { buildSpaPreviewUrl } from '../utilities/preview';
+import { logCmsSyncEvent } from '../utilities/monitoring';
 
 const serializeValue = (value: any): string => {
   if (typeof value === 'string') {
@@ -49,19 +50,42 @@ const upsertIntoSupabase = async ({ doc, req }: { doc: any; req: any }) => {
   const paramsWithId = [supabaseId, key, value, description];
   const paramsWithoutId = [key, value, description];
 
-  const result = supabaseId
-    ? await pool.query(queryWithId, paramsWithId)
-    : await pool.query(queryWithoutId, paramsWithoutId);
+  try {
+    const result = supabaseId
+      ? await pool.query(queryWithId, paramsWithId)
+      : await pool.query(queryWithoutId, paramsWithoutId);
 
-  const generatedId = result?.rows?.[0]?.id;
+    const generatedId = result?.rows?.[0]?.id ?? null;
 
-  if (!supabaseId && generatedId && req?.payload) {
-    await req.payload.update({
+    if (!supabaseId && generatedId && req?.payload) {
+      await req.payload.update({
+        collection: 'siteSettings',
+        id: doc.id,
+        data: { supabaseId: generatedId },
+        depth: 0,
+      });
+    }
+
+    await logCmsSyncEvent({
       collection: 'siteSettings',
-      id: doc.id,
-      data: { supabaseId: generatedId },
-      depth: 0,
+      action: 'upsert',
+      payloadId: doc.id ?? null,
+      supabaseId: (supabaseId ?? generatedId) ?? null,
+      status: 'success',
+      metadata: { key, hasDescription: Boolean(description) },
     });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Unknown error while syncing site setting';
+    await logCmsSyncEvent({
+      collection: 'siteSettings',
+      action: 'upsert',
+      payloadId: doc.id ?? null,
+      supabaseId,
+      status: 'error',
+      message,
+      metadata: { key },
+    });
+    throw error;
   }
 };
 

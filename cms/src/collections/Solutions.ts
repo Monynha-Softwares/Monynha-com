@@ -3,6 +3,7 @@ import type { CollectionConfig } from 'payload';
 import { pool } from '../utilities/pool';
 import { resolveLocalizedText, resolveOptionalLocalizedText } from '../utilities/localization';
 import { buildSpaPreviewUrl } from '../utilities/preview';
+import { logCmsSyncEvent } from '../utilities/monitoring';
 
 const gradientOptions = [
   'from-brand-purple to-brand-blue',
@@ -97,19 +98,42 @@ const upsertIntoSupabase = async ({ doc, req }: { doc: any; req: any }) => {
     active,
   ];
 
-  const result = supabaseId
-    ? await pool.query(queryWithId, paramsWithId)
-    : await pool.query(queryWithoutId, paramsWithoutId);
+  try {
+    const result = supabaseId
+      ? await pool.query(queryWithId, paramsWithId)
+      : await pool.query(queryWithoutId, paramsWithoutId);
 
-  const generatedId = result?.rows?.[0]?.id;
+    const generatedId = result?.rows?.[0]?.id ?? null;
 
-  if (!supabaseId && generatedId && req?.payload) {
-    await req.payload.update({
+    if (!supabaseId && generatedId && req?.payload) {
+      await req.payload.update({
+        collection: 'solutions',
+        id: doc.id,
+        data: { supabaseId: generatedId },
+        depth: 0,
+      });
+    }
+
+    await logCmsSyncEvent({
       collection: 'solutions',
-      id: doc.id,
-      data: { supabaseId: generatedId },
-      depth: 0,
+      action: 'upsert',
+      payloadId: doc.id ?? null,
+      supabaseId: (supabaseId ?? generatedId) ?? null,
+      status: 'success',
+      metadata: { slug, hasImage: Boolean(image_url), featureCount: features.length },
     });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Unknown error while syncing solution';
+    await logCmsSyncEvent({
+      collection: 'solutions',
+      action: 'upsert',
+      payloadId: doc.id ?? null,
+      supabaseId,
+      status: 'error',
+      message,
+      metadata: { slug },
+    });
+    throw error;
   }
 };
 

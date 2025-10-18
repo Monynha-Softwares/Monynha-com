@@ -4,6 +4,7 @@ import { lexicalEditor } from '@payloadcms/richtext-lexical';
 import { pool } from '../utilities/pool';
 import { resolveLocalizedText, resolveOptionalLocalizedText } from '../utilities/localization';
 import { buildNextPreviewUrl } from '../utilities/preview';
+import { logCmsSyncEvent } from '../utilities/monitoring';
 
 const upsertIntoPublic = async ({ doc, req }: { doc: any; req: any }) => {
   const supabaseId = doc.supabaseId ?? null;
@@ -42,19 +43,45 @@ const upsertIntoPublic = async ({ doc, req }: { doc: any; req: any }) => {
       updated_at=now()
     returning id`;
 
-  const result = supabaseId
-    ? await pool.query(queryWithId, [supabaseId, slug, title, excerpt, image_url, content, published])
-    : await pool.query(queryWithoutId, [slug, title, excerpt, image_url, content, published]);
+  try {
+    const paramsWithId = [supabaseId, slug, title, excerpt, image_url, content, published];
+    const paramsWithoutId = [slug, title, excerpt, image_url, content, published];
 
-  const generatedId = result?.rows?.[0]?.id;
+    const result = supabaseId
+      ? await pool.query(queryWithId, paramsWithId)
+      : await pool.query(queryWithoutId, paramsWithoutId);
 
-  if (!supabaseId && generatedId && req?.payload) {
-    await req.payload.update({
+    const generatedId = result?.rows?.[0]?.id ?? null;
+
+    if (!supabaseId && generatedId && req?.payload) {
+      await req.payload.update({
+        collection: 'posts',
+        id: doc.id,
+        data: { supabaseId: generatedId },
+        depth: 0,
+      });
+    }
+
+    await logCmsSyncEvent({
       collection: 'posts',
-      id: doc.id,
-      data: { supabaseId: generatedId },
-      depth: 0,
+      action: 'upsert',
+      payloadId: doc.id ?? null,
+      supabaseId: (supabaseId ?? generatedId) ?? null,
+      status: 'success',
+      metadata: { slug, published, hasImage: Boolean(image_url) },
     });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Unknown error while syncing post';
+    await logCmsSyncEvent({
+      collection: 'posts',
+      action: 'upsert',
+      payloadId: doc.id ?? null,
+      supabaseId,
+      status: 'error',
+      message,
+      metadata: { slug },
+    });
+    throw error;
   }
 };
 
