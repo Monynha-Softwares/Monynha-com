@@ -51,7 +51,7 @@ src/
 - `npm run cms:dev` – run the Payload CMS development server
 - `npm run cms:lint` – type-check the CMS workspace with TypeScript
 - `npm run cms:build` – compile the CMS TypeScript sources
-- `npm run test` – run unit tests (none at the moment)
+- `npm run test` – run unit, integration, accessibility and end-to-end smoke tests
 - `npm run build` – create a production build of the frontend
 - `npm run sitemap` – generate `public/sitemap.xml`
 
@@ -87,6 +87,30 @@ The CMS workspace (`cms/.env`) requires its own secrets:
 - Tailwind CSS & shadcn/ui
 - Supabase
 - React Query
+
+## Docker (Nixpacks)
+
+The repository includes a `nixpacks.toml` profile so the application can be
+packaged into a production-ready container without maintaining a custom Docker
+file. The configuration installs dependencies with `npm ci`, builds the Vite
+bundle and starts the preview server bound to `0.0.0.0`.
+
+To produce an image locally install the [Nixpacks CLI](https://nixpacks.com) and
+run:
+
+```sh
+nixpacks build .
+```
+
+Use the same CLI to run the generated container image, overriding the exposed
+port if necessary:
+
+```sh
+nixpacks run . --env PORT=8080
+```
+
+The container executes `npm run preview -- --host 0.0.0.0 --port $PORT` so the
+static build is served from the compiled `dist/` directory.
 
 ## CI/CD
 

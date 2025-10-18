@@ -23,7 +23,7 @@ if (!i18n.isInitialized) {
   });
 }
 
-if (typeof window !== 'undefined' && typeof window.scrollTo !== 'function') {
+if (typeof window !== 'undefined') {
   const noop = () => {};
   window.scrollTo = noop;
   // @ts-expect-error jsdom global polyfill

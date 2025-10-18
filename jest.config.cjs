@@ -11,12 +11,14 @@ const config = {
   setupFilesAfterEnv: ['<rootDir>/tests/setupTests.ts'],
   testMatch: ['**/?(*.)+(unit|integration|e2e).test.ts?(x)'],
   collectCoverageFrom: ['src/**/*.{ts,tsx}', 'cms/src/**/*.ts'],
-  globals: {
-    'ts-jest': {
-      tsconfig: '<rootDir>/tsconfig.app.json',
-      useESM: true,
-      isolatedModules: true,
-    },
+  transform: {
+    '^.+\\.[tj]sx?$': [
+      'ts-jest',
+      {
+        tsconfig: '<rootDir>/tsconfig.app.json',
+        useESM: true,
+      },
+    ],
   },
 };
 
