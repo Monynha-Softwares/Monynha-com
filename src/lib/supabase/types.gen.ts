@@ -235,6 +235,39 @@ export type Database = {
         };
         Relationships: [];
       };
+      content_sync_webhook_config: {
+        Row: {
+          created_at: string;
+          enabled: boolean;
+          id: string;
+          label: string;
+          secret: string | null;
+          target: string;
+          updated_at: string;
+          url: string;
+        };
+        Insert: {
+          created_at?: string;
+          enabled?: boolean;
+          id?: string;
+          label: string;
+          secret?: string | null;
+          target: string;
+          updated_at?: string;
+          url: string;
+        };
+        Update: {
+          created_at?: string;
+          enabled?: boolean;
+          id?: string;
+          label?: string;
+          secret?: string | null;
+          target?: string;
+          updated_at?: string;
+          url?: string;
+        };
+        Relationships: [];
+      };
       site_settings: {
         Row: {
           created_at: string;
@@ -270,6 +303,7 @@ export type Database = {
           features: Json | null;
           id: string;
           image_url: string | null;
+          gradient: string;
           slug: string;
           title: string;
           updated_at: string;
@@ -281,6 +315,7 @@ export type Database = {
           features?: Json | null;
           id?: string;
           image_url?: string | null;
+          gradient?: string;
           slug: string;
           title: string;
           updated_at?: string;
@@ -292,6 +327,7 @@ export type Database = {
           features?: Json | null;
           id?: string;
           image_url?: string | null;
+          gradient?: string;
           slug?: string;
           title?: string;
           updated_at?: string;

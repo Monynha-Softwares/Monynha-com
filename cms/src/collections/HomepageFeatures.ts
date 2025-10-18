@@ -2,6 +2,7 @@
 import type { CollectionConfig } from 'payload';
 import { pool } from '../utilities/pool';
 import { resolveLocalizedText } from '../utilities/localization';
+import { buildSpaPreviewUrl } from '../utilities/preview';
 
 const ICON_OPTIONS = ['Brain', 'Zap', 'Shield', 'Users', 'Globe', 'Laptop'];
 
@@ -82,7 +83,10 @@ const upsertIntoSupabase = async ({ doc, req }: { doc: any; req: any }) => {
 
 const HomepageFeatures: CollectionConfig = {
   slug: 'homepageFeatures',
-  admin: { useAsTitle: 'title' },
+  admin: {
+    useAsTitle: 'title',
+    preview: () => buildSpaPreviewUrl('/'),
+  },
   access: {
     read: () => true,
     create: ({ req }: { req: any }) => Boolean(req.user),

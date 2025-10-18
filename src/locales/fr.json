@@ -64,7 +64,10 @@
     },
     "solutions": {
       "title": "Nos Solutions",
-      "description": "Des solutions éprouvées qui ont transformé des entreprises dans divers secteurs."
+      "description": "Des solutions éprouvées qui ont transformé des entreprises dans divers secteurs.",
+      "emptyTitle": "Nous préparons de nouvelles solutions",
+      "emptyDescription": "Revenez bientôt pour découvrir nos prochains lancements ou contactez-nous pour créer une solution sur mesure.",
+      "contactCta": "Parler avec notre équipe"
     },
     "cta": {
       "title": "Prêt à transformer votre entreprise ?",
@@ -73,14 +76,17 @@
     },
     "learnMore": "En savoir plus"
   },
-  "solutionsPage": {
-    "title": "Nos Solutions logicielles",
-    "description": "Découvrez nos produits phares conçus pour transformer la façon dont les entreprises fonctionnent. Chaque solution est développée avec l'IA au cœur pour une efficacité maximale.",
-    "requestDemo": "Demander une démo",
-    "featuresTitle": "Fonctionnalités clés",
-    "backToSolutions": "Retour aux solutions",
-    "notFound": "Solution introuvable",
-    "customTitle": "Besoin d'une solution personnalisée ?",
+    "solutionsPage": {
+      "title": "Nos Solutions logicielles",
+      "description": "Découvrez nos produits phares conçus pour transformer la façon dont les entreprises fonctionnent. Chaque solution est développée avec l'IA au cœur pour une efficacité maximale.",
+      "requestDemo": "Demander une démo",
+      "featuresTitle": "Fonctionnalités clés",
+      "backToSolutions": "Retour aux solutions",
+      "notFound": "Solution introuvable",
+      "emptyTitle": "Aucune solution publiée pour le moment",
+      "emptyDescription": "Notre équipe prépare la prochaine génération d'offres. Contactez-nous et nous construirons une solution adaptée à vos besoins.",
+      "contactCta": "Lancer un projet",
+      "customTitle": "Besoin d'une solution personnalisée ?",
     "customDescription": "Nous créons également des solutions sur mesure adaptées à vos besoins spécifiques. Discutons de la manière de construire quelque chose d'unique pour vous.",
     "discuss": "Discuter du projet"
   },

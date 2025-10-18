@@ -17,99 +17,41 @@ import {
   type LucideIcon,
 } from 'lucide-react';
 import { useTranslation, Trans } from 'react-i18next';
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase';
 import { useMemo } from 'react';
-
-const fallbackSolutions = [
-  {
-    name: 'Boteco Pro',
-    description:
-      'Complete restaurant and bar management system with AI-powered analytics and inventory management.',
-    features: [
-      'Order Management',
-      'Inventory Tracking',
-      'Analytics Dashboard',
-      'Staff Management',
-    ],
-    gradient: 'from-brand-purple to-brand-blue',
-  },
-  {
-    name: 'AssisTina AI',
-    description:
-      'Personalized AI assistant that learns your business needs and automates routine tasks.',
-    features: [
-      'Natural Language Processing',
-      'Task Automation',
-      'Learning Capabilities',
-      'Custom Integration',
-    ],
-    gradient: 'from-brand-pink to-brand-orange',
-  },
-];
+import { useQuery } from '@tanstack/react-query';
+import {
+  fetchHomepageFeatures,
+  fetchSolutions,
+} from '@/lib/data/supabase';
 
 const Index = () => {
   const { t } = useTranslation();
 
   // Fetch dynamic homepage features from database
-  const { data: features, isLoading: featuresLoading } = useQuery({
+  const { data: homepageFeatures, isLoading: featuresLoading } = useQuery({
     queryKey: ['homepage-features'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('homepage_features')
-        .select('*')
-        .eq('active', true)
-        .order('order_index', { ascending: true });
-
-      if (error) throw error;
-
-      // Map to the expected format with icon components
-      const iconMap: Record<string, LucideIcon> = {
-        Brain,
-        Zap,
-        Shield,
-        Users,
-        Globe,
-        Laptop,
-      };
-
-      return data.map((feature) => ({
-        icon: iconMap[feature.icon as keyof typeof iconMap] ?? Laptop,
-        title: feature.title,
-        description: feature.description,
-        url: feature.url,
-      }));
-    },
+    queryFn: fetchHomepageFeatures,
   });
 
   // Fetch dynamic solutions from database
   const { data: solutions, isLoading: solutionsLoading } = useQuery({
     queryKey: ['solutions-preview'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('solutions')
-        .select('*')
-        .eq('active', true)
-        .limit(2)
-        .order('created_at', { ascending: true });
-
-      if (error) throw error;
-
-      return data.map((solution, index) => ({
-        name: solution.title,
-        description: solution.description,
-        features: Array.isArray(solution.features)
-          ? (solution.features as string[])
-          : [],
-        gradient:
-          index === 0
-            ? 'from-brand-purple to-brand-blue'
-            : 'from-brand-pink to-brand-orange',
-      }));
-    },
+    queryFn: () => fetchSolutions({ limit: 2 }),
   });
 
   // Fallback features for loading/error states
+  const iconMap: Record<string, LucideIcon> = useMemo(
+    () => ({
+      Brain,
+      Zap,
+      Shield,
+      Users,
+      Globe,
+      Laptop,
+    }),
+    []
+  );
+
   const fallbackFeatures = useMemo(
     () => [
       {
@@ -140,8 +82,21 @@ const Index = () => {
     [t]
   );
 
-  const displayFeatures = features || fallbackFeatures;
-  const displaySolutions = solutions || fallbackSolutions;
+  const resolvedFeatures = useMemo(
+    () =>
+      (homepageFeatures ?? []).map((feature) => ({
+        icon: iconMap[feature.icon as keyof typeof iconMap] ?? Laptop,
+        title: feature.title,
+        description: feature.description,
+        url: feature.url ?? '#',
+      })),
+    [homepageFeatures, iconMap]
+  );
+
+  const displayFeatures =
+    resolvedFeatures.length > 0 ? resolvedFeatures : fallbackFeatures;
+  const normalizedSolutions = solutions ?? [];
+  const showSolutionsEmpty = !solutionsLoading && normalizedSolutions.length === 0;
 
   return (
     <Layout>
@@ -242,28 +197,59 @@ const Index = () => {
             </p>
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {displaySolutions.map((solution, index) => (
-              <Card
-                key={index}
-                className="border-0 shadow-soft hover:shadow-soft-lg transition-all ease-in-out duration-300 card-hover rounded-2xl overflow-hidden"
-              >
-                <div
-                  className={`h-4 bg-gradient-to-r ${solution.gradient}`}
-                ></div>
-                <CardContent className="p-8">
-                  <h3 className="text-2xl font-bold text-neutral-900 mb-4">
-                    {solution.name}
+            {solutionsLoading && normalizedSolutions.length === 0 &&
+              [...Array(2)].map((_, index) => (
+                <Card
+                  key={`solution-skeleton-${index}`}
+                  className="border-0 shadow-soft rounded-2xl overflow-hidden animate-pulse"
+                >
+                  <div className="h-4 bg-neutral-200" />
+                  <CardContent className="p-8 space-y-4">
+                    <div className="h-6 bg-neutral-200 rounded w-3/4" />
+                    <div className="h-4 bg-neutral-200 rounded w-full" />
+                    <div className="h-4 bg-neutral-200 rounded w-5/6" />
+                    <div className="h-10 bg-neutral-200 rounded w-full" />
+                  </CardContent>
+                </Card>
+              ))}
+
+            {showSolutionsEmpty && (
+              <Card className="border-dashed border-2 border-neutral-200 bg-white/60">
+                <CardContent className="p-10 text-center space-y-4">
+                  <h3 className="text-xl font-semibold text-neutral-900">
+                    {t('index.solutions.emptyTitle')}
                   </h3>
-                  <p className="text-neutral-600 mb-6">
-                    {solution.description}
+                  <p className="text-neutral-600">
+                    {t('index.solutions.emptyDescription')}
                   </p>
-                  {solution.features &&
-                    Array.isArray(solution.features) &&
-                    solution.features.length > 0 && (
+                  <Link to="/contact">
+                    <Button className="btn-secondary">
+                      {t('index.solutions.contactCta')}
+                    </Button>
+                  </Link>
+                </CardContent>
+              </Card>
+            )}
+
+            {!solutionsLoading &&
+              normalizedSolutions.map((solution) => (
+                <Card
+                  key={solution.id ?? solution.slug}
+                  className="border-0 shadow-soft hover:shadow-soft-lg transition-all ease-in-out duration-300 card-hover rounded-2xl overflow-hidden"
+                >
+                  <div className={`h-4 bg-gradient-to-r ${solution.gradient}`} />
+                  <CardContent className="p-8">
+                    <h3 className="text-2xl font-bold text-neutral-900 mb-4">
+                      {solution.title}
+                    </h3>
+                    <p className="text-neutral-600 mb-6">
+                      {solution.description}
+                    </p>
+                    {solution.features.length > 0 && (
                       <ul className="space-y-3 mb-8">
                         {solution.features.map((feature, featureIndex) => (
                           <li
-                            key={featureIndex}
+                            key={`${solution.slug}-feature-${featureIndex}`}
                             className="flex items-center text-neutral-700"
                           >
                             <CheckCircle className="h-5 w-5 text-brand-blue mr-3" />
@@ -272,15 +258,15 @@ const Index = () => {
                         ))}
                       </ul>
                     )}
-                  <Link to="/solutions">
-                    <Button className="btn-secondary w-full">
-                      {t('index.learnMore')}
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
-                  </Link>
-                </CardContent>
-              </Card>
-            ))}
+                    <Link to="/solutions">
+                      <Button className="btn-secondary w-full">
+                        {t('index.learnMore')}
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </Button>
+                    </Link>
+                  </CardContent>
+                </Card>
+              ))}
           </div>
         </div>
       </section>

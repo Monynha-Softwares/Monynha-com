@@ -45,6 +45,18 @@
   - Add automated deletion hooks (or manual SOP) so removing a document from
     Payload also removes the Supabase row when appropriate.
 
+## Shared frontend data layer (2025-03-01)
+- Supabase read/write helpers now live in `src/lib/data/supabase.ts` with
+  generated types (`src/lib/supabase/types.gen.ts`). Run
+  `npm run supabase:types` after schema changes to regenerate typings.
+- React code should consume data through the helpers (e.g.
+  `fetchSolutions`, `createLead`, `fetchLocalizedCopy`) instead of calling the
+  Supabase client directly. Use `useDynamicCopy` to merge CMS-managed strings
+  into i18n resources at runtime.
+- CMS preview URLs are wired via `cms/src/utilities/preview.ts` so editors can
+  open SPA/Next routes for blog posts, solutions, home content, and site
+  settings.
+
 ## Status log (2025-02-14)
 - Environment state: Local PostgreSQL 16 instance installed for disposable
   verification; no background services left running after dropping the
