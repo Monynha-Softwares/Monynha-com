@@ -18,7 +18,7 @@ case "$SERVICE" in
     CMS_PORT="${PORT:-3000}"
     echo "Starting Payload CMS via npm --prefix cms run start on port ${CMS_PORT}" >&2
     export PORT="${CMS_PORT}"
-    export PAYLOAD_CONFIG_PATH="${PAYLOAD_CONFIG_PATH:-cms/payload.config.ts}"
+    export PAYLOAD_CONFIG_PATH="${PAYLOAD_CONFIG_PATH:-cms/dist/payload.config.js}"
     exec npm --prefix cms run start
     ;;
   *)
