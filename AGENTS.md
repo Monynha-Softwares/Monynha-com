@@ -24,6 +24,27 @@
 - Update any downstream services that previously referenced the numeric/text blog
   IDs so they read the new UUID format instead.
 
+## CMS collection sync (2025-02-15)
+- Payload CMS now exposes collections for: `solutions`, `repositories`,
+  `teamMembers`, `homepageFeatures`, `siteSettings`, `newsletterSubscribers`,
+  `leads`, plus optional taxonomies (`authors`, `categories`). Each collection
+  pushes updates to the matching Supabase table via `afterChange` hooks that
+  reuse the shared PostgreSQL `Pool`.
+- Localization is enabled for user-facing text fields so the SPA can render
+  `pt-BR` and `en` copy without code changes. Slugs, booleans, and select lists
+  (icons, gradients) enforce validation consistent with frontend expectations.
+- Seed recommendations: create at least two `solutions` (with features array),
+  three `homepageFeatures` rows ordered for the landing page carousel, and seed
+  `teamMembers`/`repositories` with the profiles already present in Supabase to
+  avoid duplicate inserts when the hooks run.
+- Follow-ups:
+  - Extend the Supabase `solutions` table with a `gradient` column and update
+    the SPA to consume it instead of falling back to hard-coded styles.
+  - Expose `siteSettings` records through the frontend for dynamic contact
+    metadata and gradient overrides sourced from Payload.
+  - Add automated deletion hooks (or manual SOP) so removing a document from
+    Payload also removes the Supabase row when appropriate.
+
 ## Status log (2025-02-14)
 - Environment state: Local PostgreSQL 16 instance installed for disposable
   verification; no background services left running after dropping the

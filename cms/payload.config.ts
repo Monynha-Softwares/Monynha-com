@@ -4,9 +4,20 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 import { buildConfig } from 'payload';
 import { postgresAdapter } from '@payloadcms/db-postgres';
-import Posts from './src/collections/Posts';
-import Users from './src/collections/Users';
-import Media from './src/collections/Media';
+import {
+  Authors,
+  Categories,
+  HomepageFeatures,
+  Leads,
+  Media,
+  NewsletterSubscribers,
+  Posts,
+  Repositories,
+  SiteSettings,
+  Solutions,
+  TeamMembers,
+  Users,
+} from './src/collections';
 
 export default buildConfig({
   secret: process.env.PAYLOAD_SECRET!,
@@ -17,7 +28,20 @@ export default buildConfig({
     defaultLocale: 'pt-BR',
     fallback: true,
   },
-  collections: [Posts, Users, Media],
+  collections: [
+    Users,
+    Media,
+    Posts,
+    Authors,
+    Categories,
+    Solutions,
+    Repositories,
+    TeamMembers,
+    HomepageFeatures,
+    SiteSettings,
+    NewsletterSubscribers,
+    Leads,
+  ],
   db: postgresAdapter({
     pool: {
       connectionString: process.env.DATABASE_URL!,
