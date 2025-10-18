@@ -11,6 +11,7 @@
     "sitemap": "tsx scripts/generate-sitemap.ts",
     "cleanup-lovable": "tsx scripts/cleanup-lovable.ts",
     "preview": "vite preview",
+    "start": "node scripts/preview.mjs",
     "test": "jest --runInBand",
     "format": "prettier --write .",
     "prepare": "husky install || echo 'husky skipped'",
@@ -100,6 +101,6 @@
     "tsx": "^4.20.3",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.0.1",
-    "vite": "^5.4.1"
+    "vite": "^7.1.10"
   }
 }
