@@ -1,0 +1,29 @@
+[phases.setup]
+nixPkgs = ["nodejs_20", "git"]
+
+[phases.install]
+cmds = [
+  "npm ci",
+  "npm --prefix cms ci"
+]
+cacheDirectories = ["node_modules", "cms/node_modules"]
+
+[phases.build]
+cmds = [
+  "npm run build",
+  "npm --prefix cms run build"
+]
+
+[build.env]
+NODE_ENV = "production"
+
+[variables]
+NODE_ENV = "production"
+PAYLOAD_CONFIG_PATH = "cms/payload.config.ts"
+
+[processes.web]
+command = "npm run preview -- --host 0.0.0.0 --port ${PORT:-4173}"
+
+[processes.cms]
+command = "npm --prefix cms run start"
+

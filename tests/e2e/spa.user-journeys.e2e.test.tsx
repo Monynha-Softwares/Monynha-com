@@ -56,6 +56,13 @@ jest.mock('@/lib/data/supabase', () => {
 import App from '@/App';
 
 describe('SPA user journey', () => {
+  beforeAll(() => {
+    Object.defineProperty(window, 'scrollTo', {
+      writable: true,
+      value: jest.fn(),
+    });
+  });
+
   beforeEach(() => {
     jest.clearAllMocks();
 
@@ -150,6 +157,21 @@ describe('SPA user journey', () => {
     window.history.pushState({}, '', '/');
     const user = userEvent.setup();
 
+    const safeClick = async (element: Element) => {
+      await act(async () => {
+        await user.click(element);
+      });
+    };
+
+    const safeType = async (
+      element: Element | HTMLInputElement | HTMLTextAreaElement,
+      value: string
+    ) => {
+      await act(async () => {
+        await user.type(element, value);
+      });
+    };
+
     await act(async () => {
       render(
         <HelmetProvider>
@@ -167,7 +189,7 @@ describe('SPA user journey', () => {
     expect(projectCtas.length).toBeGreaterThan(0);
 
     const solutionsLinks = screen.getAllByRole('link', { name: /solutions/i });
-    await user.click(solutionsLinks[0]);
+    await safeClick(solutionsLinks[0]);
 
     await waitFor(() =>
       expect(mockFetchSolutions).toHaveBeenCalledWith(
@@ -182,18 +204,21 @@ describe('SPA user journey', () => {
     ).toBeInTheDocument();
 
     const contactLinks = screen.getAllByRole('link', { name: /contact/i });
-    await user.click(contactLinks[0]);
+    await safeClick(contactLinks[0]);
 
     const nameInput = await screen.findByLabelText(/full name/i);
-    await user.type(nameInput, 'Alex Example');
-    await user.type(screen.getByLabelText(/email address/i), 'alex@example.com');
-    await user.type(screen.getByLabelText(/company name/i), 'Example Corp');
-    await user.type(
+    await safeType(nameInput, 'Alex Example');
+    await safeType(
+      screen.getByLabelText(/email address/i),
+      'alex@example.com'
+    );
+    await safeType(screen.getByLabelText(/company name/i), 'Example Corp');
+    await safeType(
       screen.getByLabelText(/project details/i),
       'Building an inclusive analytics dashboard.'
     );
 
-    await user.click(screen.getByRole('button', { name: /send message/i }));
+    await safeClick(screen.getByRole('button', { name: /send message/i }));
 
     await waitFor(() => expect(mockCreateLead).toHaveBeenCalledTimes(1));
     expect(mockCreateLead).toHaveBeenCalledWith({

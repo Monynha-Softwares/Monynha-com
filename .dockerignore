@@ -1,0 +1,16 @@
+node_modules
+cms/node_modules
+dist
+cms/dist
+supabase/.temp
+.env
+.env.*
+cms/.env
+cms/.env.*
+.git
+.gitignore
+Dockerfile
+npm-debug.log*
+yarn-error.log*
+coverage
+*.tsbuildinfo

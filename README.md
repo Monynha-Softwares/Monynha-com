@@ -33,6 +33,58 @@ To boot Payload locally run the shared script from the repository root:
 npm run cms:dev
 ```
 
+## Container images (Docker + Nixpacks)
+
+The repository ships with a production-ready container workflow that mirrors the
+Nixpacks build plan. The `Dockerfile` performs a multi-stage build for both the
+SPA and the Payload CMS, while `nixpacks.toml` exposes the same steps for
+Railway/Nixpacks deployments.
+
+### Build with Docker
+
+```sh
+docker build -t monynha-app .
+```
+
+Run the bundled SPA (served via `vite preview`):
+
+```sh
+docker run \
+  --rm \
+  --env-file .env \
+  -e APP_SERVICE=web \
+  -p 4173:4173 \
+  monynha-app
+```
+
+Switch to the Payload CMS process by flipping `APP_SERVICE` and supplying the
+CMS environment variables:
+
+```sh
+docker run \
+  --rm \
+  --env-file cms/.env \
+  -e APP_SERVICE=cms \
+  -p 3000:3000 \
+  monynha-app
+```
+
+### Deploy with Nixpacks
+
+When using [Nixpacks](https://nixpacks.com/), the included configuration
+installs dependencies for both workspaces, executes the frontend and CMS builds
+and exposes two process types:
+
+```sh
+nixpacks build . --config nixpacks.toml --name monynha-app
+# Once built, select the desired process ("web" or "cms") in your hosting
+# provider or by running nixpacks manually:
+nixpacks run monynha-app --process web
+```
+
+The plan caches `node_modules` for both workspaces and sets
+`PAYLOAD_CONFIG_PATH` so Payload boots without extra flags.
+
 ## Folder structure
 
 ```
