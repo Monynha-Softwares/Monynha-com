@@ -15,14 +15,10 @@ import {
 } from '@/components/ui/breadcrumb';
 import { ArrowLeft, ArrowRight, CheckCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { supabase } from '@/integrations/supabase';
 import type { GitHubRepository } from '@/lib/solutions';
 import type { SolutionContent } from '@/types/solutions';
-import {
-  getFallbackSolution,
-  mapGitHubRepoToContent,
-  mapSupabaseSolutionToContent,
-} from '@/lib/solutions';
+import { mapGitHubRepoToContent } from '@/lib/solutions';
+import { fetchSolutionBySlug } from '@/lib/data/supabase';
 
 const getRepositoryUrl = (repositorySlug: string) =>
   `https://api.github.com/repos/Monynha-Softwares/${encodeURIComponent(
@@ -32,11 +28,6 @@ const getRepositoryUrl = (repositorySlug: string) =>
 const SolutionDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const { t } = useTranslation();
-
-  const fallbackSolution = useMemo(
-    () => (slug ? getFallbackSolution(slug) : undefined),
-    [slug]
-  );
 
   const {
     data: solution,
@@ -50,19 +41,10 @@ const SolutionDetail = () => {
         return null;
       }
 
-      const { data, error } = await supabase
-        .from('solutions')
-        .select('*')
-        .eq('slug', slug)
-        .eq('active', true)
-        .maybeSingle();
+      const supabaseSolution = await fetchSolutionBySlug(slug);
 
-      if (error) {
-        throw new Error(error.message);
-      }
-
-      if (data) {
-        return mapSupabaseSolutionToContent(data);
+      if (supabaseSolution) {
+        return supabaseSolution;
       }
 
       const response = await fetch(getRepositoryUrl(slug), {
@@ -93,7 +75,7 @@ const SolutionDetail = () => {
     refetchOnWindowFocus: false,
   });
 
-  const displaySolution = solution ?? fallbackSolution ?? null;
+  const displaySolution = solution;
 
   if (isLoading) {
     return (

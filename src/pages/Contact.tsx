@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -6,10 +7,8 @@ import { Textarea } from '@/components/ui/textarea';
 import Layout from '@/components/Layout';
 import Meta from '@/components/Meta';
 import { Mail, Phone, MapPin, Send, CheckCircle } from 'lucide-react';
-import { supabase } from '@/integrations/supabase';
 import { useToast } from '@/hooks/use-toast';
 import { useTranslation } from 'react-i18next';
-import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Breadcrumb,
@@ -19,15 +18,11 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
-
-const projectTypes = [
-  'Custom AI Assistant',
-  'Restaurant Management System',
-  'Business Automation',
-  'Legacy System Integration',
-  'Consulting Services',
-  'Other',
-];
+import {
+  createLead,
+  fetchContactInfo,
+  fetchProjectTypes,
+} from '@/lib/data/supabase';
 
 const Contact = () => {
   const { t } = useTranslation();
@@ -47,6 +42,20 @@ const Contact = () => {
     message?: string;
   }>({});
   const { toast } = useToast();
+
+  const { data: contactDetails } = useQuery({
+    queryKey: ['site-settings', 'contact-info'],
+    queryFn: fetchContactInfo,
+    staleTime: 1000 * 60 * 5,
+  });
+
+  const { data: projectTypeData } = useQuery({
+    queryKey: ['site-settings', 'project-types'],
+    queryFn: fetchProjectTypes,
+    staleTime: 1000 * 60 * 5,
+  });
+
+  const projectTypeOptions = projectTypeData ?? [];
 
   const handleInputChange = (
     e: React.ChangeEvent<
@@ -85,25 +94,13 @@ const Contact = () => {
     }
 
     try {
-      const { error } = await supabase.from('leads').insert([
-        {
-          name: formData.name,
-          email: formData.email,
-          company: formData.company || null,
-          project: formData.project || null,
-          message: formData.message,
-        },
-      ]);
-
-      if (error) {
-        console.error('Error submitting form:', error);
-        toast({
-          title: t('contact.toasts.errorTitle'),
-          description: t('contact.toasts.errorDescription'),
-          variant: 'destructive',
-        });
-        return;
-      }
+      await createLead({
+        name: formData.name,
+        email: formData.email,
+        company: formData.company || null,
+        project: formData.project || null,
+        message: formData.message,
+      });
 
       setIsSubmitted(true);
       toast({
@@ -122,29 +119,54 @@ const Contact = () => {
     }
   };
 
-  const contactInfo = useMemo(
-    () => [
+  const contactInfo = useMemo(() => {
+    const channels: Array<{
+      icon: typeof Mail;
+      title: string;
+      content: string;
+      description: string;
+    }> = [];
+
+    if (contactDetails?.email) {
+      channels.push({
+        icon: Mail,
+        title: t('contact.info.emailUs'),
+        content: contactDetails.email,
+        description: t('contact.info.sendEmail'),
+      });
+    }
+
+    if (contactDetails?.phone) {
+      channels.push({
+        icon: Phone,
+        title: t('contact.info.callUs'),
+        content: contactDetails.phone,
+        description: t('contact.info.callPhone'),
+      });
+    }
+
+    if (contactDetails?.address) {
+      channels.push({
+        icon: MapPin,
+        title: t('contact.info.visitUs'),
+        content: contactDetails.address,
+        description: t('contact.info.visit'),
+      });
+    }
+
+    if (channels.length > 0) {
+      return channels;
+    }
+
+    return [
       {
         icon: Mail,
         title: t('contact.info.emailUs'),
         content: 'hello@monynha.com',
         description: t('contact.info.sendEmail'),
-      }, // ,
-      // {
-      //   icon: Phone,
-      //   title: t('contact.info.callUs'),
-      //   content: '+1 (555) 123-4567',
-      //   description: t('contact.info.callPhone')
-      // },
-      // {
-      //   icon: MapPin,
-      //   title: t('contact.info.visitUs'),
-      //   content: 'San Francisco, CA',
-      //   description: t('contact.info.visit')
-      // }
-    ],
-    [t]
-  );
+      },
+    ];
+  }, [contactDetails, t]);
 
   if (isSubmitted) {
     return (
@@ -326,7 +348,7 @@ const Contact = () => {
                           className="w-full px-3 py-2 border border-neutral-200 rounded-xl focus:border-brand-blue focus:ring-1 focus:ring-brand-blue focus:outline-none text-neutral-900"
                         >
                           <option value="">{t('contact.form.select')}</option>
-                          {projectTypes.map((type, index) => (
+                          {projectTypeOptions.map((type, index) => (
                             <option key={index} value={type}>
                               {type}
                             </option>

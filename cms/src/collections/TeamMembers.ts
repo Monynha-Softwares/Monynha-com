@@ -2,6 +2,7 @@
 import type { CollectionConfig } from 'payload';
 import { pool } from '../utilities/pool';
 import { resolveLocalizedText, resolveOptionalLocalizedText } from '../utilities/localization';
+import { buildSpaPreviewUrl } from '../utilities/preview';
 
 const normalizeUrl = (value: unknown): string | null => {
   if (typeof value !== 'string' || value.trim().length === 0) {
@@ -64,7 +65,10 @@ const upsertIntoSupabase = async ({ doc, req }: { doc: any; req: any }) => {
 
 const TeamMembers: CollectionConfig = {
   slug: 'teamMembers',
-  admin: { useAsTitle: 'name' },
+  admin: {
+    useAsTitle: 'name',
+    preview: () => buildSpaPreviewUrl('/about'),
+  },
   access: {
     read: () => true,
     create: ({ req }: { req: any }) => Boolean(req.user),

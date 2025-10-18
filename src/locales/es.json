@@ -64,7 +64,10 @@
     },
     "solutions": {
       "title": "Nuestras Soluciones",
-      "description": "Soluciones comprobadas que han transformado negocios en diversas industrias."
+      "description": "Soluciones comprobadas que han transformado negocios en diversas industrias.",
+      "emptyTitle": "Estamos preparando nuevas soluciones",
+      "emptyDescription": "Vuelve pronto para conocer nuestros próximos lanzamientos o contáctanos para crear algo a medida.",
+      "contactCta": "Habla con nuestro equipo"
     },
     "cta": {
       "title": "¿Listo para Transformar tu Negocio?",
@@ -73,14 +76,17 @@
     },
     "learnMore": "Saber Más"
   },
-  "solutionsPage": {
-    "title": "Nuestras Soluciones de Software",
-    "description": "Conoce nuestros productos estrella diseñados para transformar la operación de las empresas. Cada solución se crea con IA en el núcleo para máxima eficiencia.",
-    "requestDemo": "Solicitar Demo",
-    "featuresTitle": "Capacidades Clave",
-    "backToSolutions": "Volver a Soluciones",
-    "notFound": "Solución no encontrada",
-    "customTitle": "¿Necesitas una Solución Personalizada?",
+    "solutionsPage": {
+      "title": "Nuestras Soluciones de Software",
+      "description": "Conoce nuestros productos estrella diseñados para transformar la operación de las empresas. Cada solución se crea con IA en el núcleo para máxima eficiencia.",
+      "requestDemo": "Solicitar Demo",
+      "featuresTitle": "Capacidades Clave",
+      "backToSolutions": "Volver a Soluciones",
+      "notFound": "Solución no encontrada",
+      "emptyTitle": "Aún no hay soluciones publicadas",
+      "emptyDescription": "Nuestro equipo está preparando la próxima generación de ofertas. Ponte en contacto y construiremos una solución a tu medida.",
+      "contactCta": "Iniciar un proyecto",
+      "customTitle": "¿Necesitas una Solución Personalizada?",
     "customDescription": "También creamos soluciones a medida para tus necesidades específicas. Conversemos sobre cómo construir algo único para ti.",
     "discuss": "Discutir Proyecto"
   },

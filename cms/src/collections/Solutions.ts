@@ -2,6 +2,7 @@
 import type { CollectionConfig } from 'payload';
 import { pool } from '../utilities/pool';
 import { resolveLocalizedText, resolveOptionalLocalizedText } from '../utilities/localization';
+import { buildSpaPreviewUrl } from '../utilities/preview';
 
 const gradientOptions = [
   'from-brand-purple to-brand-blue',
@@ -46,28 +47,31 @@ const upsertIntoSupabase = async ({ doc, req }: { doc: any; req: any }) => {
   const image_url = doc?.image?.url ?? null;
   const features = extractFeatureList(doc.features);
   const active = !!doc.active;
+  const gradient = doc.gradient ?? null;
 
   const queryWithId = `
-    insert into public.solutions (id, slug, title, description, image_url, features, active, updated_at)
-    values ($1::uuid,$2,$3,$4,$5,$6::jsonb,$7, now())
+    insert into public.solutions (id, slug, title, description, image_url, features, gradient, active, updated_at)
+    values ($1::uuid,$2,$3,$4,$5,$6::jsonb,$7,$8, now())
     on conflict (id) do update set
       slug=excluded.slug,
       title=excluded.title,
       description=excluded.description,
       image_url=excluded.image_url,
       features=excluded.features,
+      gradient=excluded.gradient,
       active=excluded.active,
       updated_at=now()
     returning id`;
 
   const queryWithoutId = `
-    insert into public.solutions (slug, title, description, image_url, features, active, updated_at)
-    values ($1,$2,$3,$4,$5::jsonb,$6, now())
+    insert into public.solutions (slug, title, description, image_url, features, gradient, active, updated_at)
+    values ($1,$2,$3,$4,$5::jsonb,$6,$7, now())
     on conflict (slug) do update set
       title=excluded.title,
       description=excluded.description,
       image_url=excluded.image_url,
       features=excluded.features,
+      gradient=excluded.gradient,
       active=excluded.active,
       updated_at=now()
     returning id`;
@@ -79,6 +83,7 @@ const upsertIntoSupabase = async ({ doc, req }: { doc: any; req: any }) => {
     description,
     image_url,
     JSON.stringify(features ?? []),
+    gradient,
     active,
   ];
 
@@ -88,6 +93,7 @@ const upsertIntoSupabase = async ({ doc, req }: { doc: any; req: any }) => {
     description,
     image_url,
     JSON.stringify(features ?? []),
+    gradient,
     active,
   ];
 
@@ -109,7 +115,15 @@ const upsertIntoSupabase = async ({ doc, req }: { doc: any; req: any }) => {
 
 const Solutions: CollectionConfig = {
   slug: 'solutions',
-  admin: { useAsTitle: 'title' },
+  admin: {
+    useAsTitle: 'title',
+    preview: (doc: any) =>
+      buildSpaPreviewUrl(
+        doc?.slug && typeof doc.slug === 'string'
+          ? `/solutions/${doc.slug}`
+          : '/solutions'
+      ),
+  },
   access: {
     read: () => true,
     create: ({ req }: { req: any }) => Boolean(req.user),

@@ -3,6 +3,7 @@ import type { CollectionConfig } from 'payload';
 import { lexicalEditor } from '@payloadcms/richtext-lexical';
 import { pool } from '../utilities/pool';
 import { resolveLocalizedText, resolveOptionalLocalizedText } from '../utilities/localization';
+import { buildNextPreviewUrl } from '../utilities/preview';
 
 const upsertIntoPublic = async ({ doc, req }: { doc: any; req: any }) => {
   const supabaseId = doc.supabaseId ?? null;
@@ -59,7 +60,15 @@ const upsertIntoPublic = async ({ doc, req }: { doc: any; req: any }) => {
 
 const Posts: CollectionConfig = {
   slug: 'posts',
-  admin: { useAsTitle: 'slug' },
+  admin: {
+    useAsTitle: 'slug',
+    preview: (doc: any) =>
+      buildNextPreviewUrl(
+        doc?.slug && typeof doc.slug === 'string'
+          ? `/blog/${doc.slug}`
+          : '/blog'
+      ),
+  },
   access: {
     read: () => true,
     create: ({ req }: { req: any }) => Boolean(req.user),

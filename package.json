@@ -16,7 +16,8 @@
     "prepare": "husky install",
     "cms:dev": "npm --prefix cms run dev",
     "cms:build": "npm --prefix cms run build",
-    "cms:lint": "npm --prefix cms run lint"
+    "cms:lint": "npm --prefix cms run lint",
+    "supabase:types": "supabase gen types typescript --linked --schema public > src/lib/supabase/types.gen.ts"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.0",

@@ -2,6 +2,7 @@
 import type { CollectionConfig } from 'payload';
 import { pool } from '../utilities/pool';
 import { resolveOptionalLocalizedText } from '../utilities/localization';
+import { buildSpaPreviewUrl } from '../utilities/preview';
 
 const serializeValue = (value: any): string => {
   if (typeof value === 'string') {
@@ -66,7 +67,10 @@ const upsertIntoSupabase = async ({ doc, req }: { doc: any; req: any }) => {
 
 const SiteSettings: CollectionConfig = {
   slug: 'siteSettings',
-  admin: { useAsTitle: 'key' },
+  admin: {
+    useAsTitle: 'key',
+    preview: () => buildSpaPreviewUrl('/contact'),
+  },
   access: {
     read: ({ req }: { req: any }) => Boolean(req.user),
     create: ({ req }: { req: any }) => Boolean(req.user),
