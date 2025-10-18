@@ -33,6 +33,30 @@ To boot Payload locally run the shared script from the repository root:
 npm run cms:dev
 ```
 
+## Docker & Nixpacks
+
+Builds for containerised environments are orchestrated with
+[Nixpacks](https://nixpacks.com/) and the provided `Dockerfile`:
+
+1. Build an OCI image (requires the Nixpacks CLI).
+   ```sh
+   nixpacks build . --config nixpacks.toml --name monynha-web
+   ```
+2. Run the container, injecting the same environment variables you would use
+   locally.
+   ```sh
+   docker run --rm -p 4173:4173 --env-file .env monynha-web
+   ```
+
+The generated image executes `npm start`, which serves the production Vite
+bundle through a lightweight preview server bound to `0.0.0.0`. You can also
+build the repository with a plain Docker workflow:
+
+```sh
+docker build -t monynha-web .
+docker run --rm -p 4173:4173 monynha-web
+```
+
 ## Folder structure
 
 ```
@@ -53,6 +77,7 @@ src/
 - `npm run cms:build` – compile the CMS TypeScript sources
 - `npm run test` – run unit tests (none at the moment)
 - `npm run build` – create a production build of the frontend
+- `npm start` – serve the production build (used by Docker/Nixpacks)
 - `npm run sitemap` – generate `public/sitemap.xml`
 
 ### Environment variables
