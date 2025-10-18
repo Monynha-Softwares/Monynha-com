@@ -10,17 +10,28 @@ Monynha Softwares Web Spark is a demo web application built with **React**, **Vi
    ```sh
    npm install
    ```
-2. Create a `.env` file based on `.env.example` and provide your Supabase credentials.
+2. Create matching environment files for the frontend and CMS workspaces.
    ```sh
    cp .env.example .env
-   # edit .env and set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY
+   cp cms/.env.example cms/.env
+   # edit both files and populate the required values listed below
    ```
-3. Start the development server
+3. Install the CMS dependencies (they live in a separate workspace).
+   ```sh
+   npm --prefix cms install
+   ```
+4. Start the development server
    ```sh
    npm run dev
    ```
 
 The application will be available on [http://localhost:5173](http://localhost:5173) by default.
+
+To boot Payload locally run the shared script from the repository root:
+
+```sh
+npm run cms:dev
+```
 
 ## Folder structure
 
@@ -35,23 +46,35 @@ src/
 
 ## Scripts
 
-- `npm run dev` – start the development server
-- `npm run lint` – run ESLint
+- `npm run dev` – start the frontend development server
+- `npm run lint` – run ESLint across the frontend workspace
+- `npm run cms:dev` – run the Payload CMS development server
+- `npm run cms:lint` – type-check the CMS workspace with TypeScript
+- `npm run cms:build` – compile the CMS TypeScript sources
 - `npm run test` – run unit tests (none at the moment)
-- `npm run build` – create a production build
+- `npm run build` – create a production build of the frontend
 - `npm run sitemap` – generate `public/sitemap.xml`
 
 ### Environment variables
 
-Create a `.env` file in the project root with the following entries so the
-Supabase client can connect to your instance:
+Populate the following variables in `.env` to configure the frontend app and
+automation scripts:
 
-```bash
-VITE_SUPABASE_URL=<your-supabase-url>
-VITE_SUPABASE_ANON_KEY=<your-anon-key>
-```
+| Variable | Purpose |
+| --- | --- |
+| `VITE_SUPABASE_URL` | Supabase instance URL used by the frontend client. |
+| `VITE_SUPABASE_ANON_KEY` | Supabase anon key exposed to the browser. |
+| `SITE_URL` | Canonical site URL used when generating the sitemap. |
+| `SUPABASE_PROJECT_ID` | Supabase project identifier for external tooling. |
+| `SUPABASE_SERVICE_ROLE_KEY` | Service role key for server-to-server jobs. |
 
-These variables match the placeholders in `.env.example`.
+The CMS workspace (`cms/.env`) requires its own secrets:
+
+| Variable | Purpose |
+| --- | --- |
+| `PAYLOAD_SECRET` | Secret string for signing Payload authentication tokens. |
+| `PAYLOAD_PUBLIC_SERVER_URL` | Public URL used by Payload when generating links. |
+| `DATABASE_URL` | Postgres connection string shared with Supabase. |
 
 ## Technologies
 

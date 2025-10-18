@@ -23,3 +23,12 @@
   Supabase ➜ `/blog/[slug]`) and confirm UUID identifiers propagate correctly.
 - Update any downstream services that previously referenced the numeric/text blog
   IDs so they read the new UUID format instead.
+
+## Status log (2025-02-14)
+- Environment state: Local PostgreSQL 16 instance installed for disposable
+  verification; no background services left running after dropping the
+  `monynha_tmp` database.
+- Schema status: All SQL migrations apply cleanly in timestamp order when run via
+  `npx supabase migration up --db-url postgresql://postgres:postgres@127.0.0.1:5432/monynha_tmp`.
+- Next stage owner: Web platform team to replay the migrations in managed
+  Supabase projects and run the CMS ➜ Supabase ➜ frontend publishing smoke test.
