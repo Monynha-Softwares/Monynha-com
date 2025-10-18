@@ -170,6 +170,7 @@ export type Database = {
           email: string;
           id: string;
           name: string;
+          payload_user_id: number | null;
           role: string;
           updated_at: string;
           user_id: string;
@@ -180,6 +181,7 @@ export type Database = {
           email: string;
           id?: string;
           name: string;
+          payload_user_id?: number | null;
           role?: string;
           updated_at?: string;
           user_id: string;
@@ -190,6 +192,7 @@ export type Database = {
           email?: string;
           id?: string;
           name?: string;
+          payload_user_id?: number | null;
           role?: string;
           updated_at?: string;
           user_id?: string;
@@ -336,7 +339,13 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
-      [_ in never]: never;
+      get_admin_dashboard_data: {
+        Args: Record<string, never>;
+        Returns: {
+          leads: Database['public']['Tables']['leads']['Row'][];
+          newsletter_subscribers: Database['public']['Tables']['newsletter_subscribers']['Row'][];
+        };
+      };
     };
     Enums: {
       [_ in never]: never;
