@@ -110,7 +110,7 @@ export const fetchSolutions = async (
 
   let query = supabase
     .from('solutions')
-    .select('*')
+    .select('id, slug, title, description, image_url, features, gradient, active, created_at')
     .order('created_at', { ascending: orderAscending });
 
   if (activeOnly) {
@@ -152,7 +152,7 @@ export const fetchSolutionBySlug = async (
 ): Promise<SolutionContent | null> => {
   const { data, error } = await supabase
     .from('solutions')
-    .select('*')
+    .select('id, slug, title, description, image_url, features, gradient, active')
     .eq('slug', slug)
     .eq('active', true)
     .maybeSingle();
