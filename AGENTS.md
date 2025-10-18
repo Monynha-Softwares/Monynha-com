@@ -53,3 +53,13 @@
   `npx supabase migration up --db-url postgresql://postgres:postgres@127.0.0.1:5432/monynha_tmp`.
 - Next stage owner: Web platform team to replay the migrations in managed
   Supabase projects and run the CMS ➜ Supabase ➜ frontend publishing smoke test.
+
+## Security & access QA (2025-02-20)
+- RPC `get_admin_dashboard_data` enforces admin-only reads (non-admin sessions receive `42501`).
+- Admin dashboard requires `aal2` when a TOTP factor exists; after `challengeAndVerify`, leads/newsletter tables load successfully.
+- Payload role transitions now emit webhooks to `payload-admin-sync`, updating `profiles.payload_user_id` and issuing password resets for new admins.
+
+### Outstanding follow-up
+- Populate `public.payload_admin_sync_config` with the deployed edge-function URL and secret in each Supabase environment.
+- Deploy `supabase/functions/payload-admin-sync` with the required environment variables (`PAYLOAD_API_BASE_URL`, `PAYLOAD_ADMIN_TOKEN`, etc.).
+- Perform an end-to-end CMS role promotion/demotion against a real Payload instance once the webhook endpoint is live.

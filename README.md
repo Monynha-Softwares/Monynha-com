@@ -76,6 +76,10 @@ The CMS workspace (`cms/.env`) requires its own secrets:
 | `PAYLOAD_PUBLIC_SERVER_URL` | Public URL used by Payload when generating links. |
 | `DATABASE_URL` | Postgres connection string shared with Supabase. |
 
+## Authentication & Security
+
+- [Authentication and security flows](docs/auth-flows.md): password reset lifecycle, dashboard MFA management, the admin RPC, and the Payload provisioning webhook.
+
 ## Technologies
 
 - React & Vite
