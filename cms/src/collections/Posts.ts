@@ -1,23 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { CollectionConfig } from 'payload';
 import { lexicalEditor } from '@payloadcms/richtext-lexical';
-import { Pool } from 'pg';
-
-const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+import {
+  extractMediaUrl,
+  pool,
+  resolveLocalizedNullableString,
+  resolveLocalizedString,
+} from '../utils/supabase';
 
 const upsertIntoPublic = async ({ doc, req }: { doc: any; req: any }) => {
   const supabaseId = doc.supabaseId ?? null;
   const slug = doc.slug;
   const published = !!doc.published;
-  const title =
-    typeof doc.title === 'object'
-      ? (doc.title['pt-BR'] ?? doc.title['en'] ?? '')
-      : doc.title;
-  const excerpt =
-    typeof doc.excerpt === 'object'
-      ? (doc.excerpt['pt-BR'] ?? doc.excerpt['en'] ?? null)
-      : (doc.excerpt ?? null);
-  const image_url = doc?.coverImage?.url ?? null;
+  const title = resolveLocalizedString(doc.title, '');
+  const excerpt = resolveLocalizedNullableString(doc.excerpt);
+  const image_url = extractMediaUrl(doc?.coverImage);
   const content =
     typeof doc.content === 'string'
       ? doc.content

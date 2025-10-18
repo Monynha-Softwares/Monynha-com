@@ -16,6 +16,38 @@
   are generated per row, and comment foreign keys are rewritten before the
   `legacy_id` column is dropped.
 
+## CMS collection sync overview (2025-02-18)
+- Payload now manages the following Supabase-backed collections via shared
+  `afterChange` upserts:
+  - `solutions`, `repositories`, `teamMembers`, `homepageFeatures`,
+    `siteSettings`, `newsletterSubscribers`, and `leads`.
+  - Optional editorial-only taxonomies: `authors` and `categories`.
+- Localization: all human-facing strings (titles, descriptions, bios, feature
+  copy) accept `pt-BR`/`en` variants; slugs enforce lowercase kebab-case.
+- Validation: boolean flags default to `true`, gradient/icon selections expose
+  predefined options, and contact/newsletter emails require a valid address.
+- Media uploads automatically map to Supabase `image_url` columns when a public
+  URL is available.
+
+### Seed expectations
+- Populate at least one active document for each public collection to avoid the
+  SPA falling back to hardcoded placeholders:
+  - `homepageFeatures`: 4+ rows with ordered icons.
+  - `solutions`: 2+ rows with localized descriptions and feature lists.
+  - `teamMembers`: active profiles with bios and (optional) LinkedIn URLs.
+- Ensure `siteSettings` contains `about_stats` JSON (`[{ "number": "50+", ...}]`)
+  so the About timeline renders dynamic statistics.
+- `newsletterSubscribers`/`leads` tables remain empty-safe; entries appear once
+  Supabase forms run in production.
+
+### Follow-up ideas
+- Extend the frontend to consume CMS-managed gradients for solutions instead of
+  fallback heuristics.
+- Add Supabase migrations for `authors`/`categories` if relationships are needed
+  across blog posts or future knowledge base content.
+- Evaluate a background worker to sync media URLs into Supabase when Payload
+  stores only asset IDs.
+
 ## Next steps
 - Run the updated migration in every Supabase environment and verify that the
   comment foreign-key backfill succeeds (no rows should retain `legacy_id`).
