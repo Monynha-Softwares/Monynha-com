@@ -18,6 +18,7 @@ import {
   TeamMembers,
   Users,
 } from './src/collections';
+import { supabaseAdminSyncEndpoint } from './src/endpoints/supabaseAdminSync';
 
 export default buildConfig({
   secret: process.env.PAYLOAD_SECRET!,
@@ -48,5 +49,6 @@ export default buildConfig({
     },
     schemaName: 'public',
   }),
+  endpoints: [supabaseAdminSyncEndpoint],
   typescript: { outputFile: path.resolve(__dirname, 'payload-types.ts') },
 });

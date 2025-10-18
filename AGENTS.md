@@ -53,3 +53,16 @@
   `npx supabase migration up --db-url postgresql://postgres:postgres@127.0.0.1:5432/monynha_tmp`.
 - Next stage owner: Web platform team to replay the migrations in managed
   Supabase projects and run the CMS ➜ Supabase ➜ frontend publishing smoke test.
+
+## Role-based access QA (2025-02-20)
+- Automated checks: `npm run test -- --runInBand` passes, covering the
+  Supabase ➜ Payload admin webhook contract and dashboard admin-only RPC access
+  guards.
+- Manual coverage: Password recovery + MFA enrolment/login paths last verified
+  locally on 2025-02-18; no regressions detected since the automated checks still
+  validate the gating logic.
+- Remaining tasks:
+  - Populate `public.payload_admin_sync_settings` with the production webhook
+    URL and the same `SUPABASE_ADMIN_SYNC_SECRET` used in the CMS.
+  - Roll out the dashboard MFA flow to production users and monitor Supabase MFA
+    adoption/edge cases (e.g. multiple factors per user).

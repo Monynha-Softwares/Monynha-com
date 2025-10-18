@@ -24,6 +24,7 @@ for managing marketing content and syncing blog posts with Supabase.
 | `PAYLOAD_SECRET` | Secret string for signing Payload authentication tokens. |
 | `PAYLOAD_PUBLIC_SERVER_URL` | Public URL Payload uses when generating links. |
 | `DATABASE_URL` | Postgres connection string that points at your Supabase database. |
+| `SUPABASE_ADMIN_SYNC_SECRET` | Shared secret expected on Supabase ➜ Payload admin provisioning webhooks. |
 
 ## Scripts
 

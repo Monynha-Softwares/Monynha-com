@@ -51,7 +51,7 @@ src/
 - `npm run cms:dev` – run the Payload CMS development server
 - `npm run cms:lint` – type-check the CMS workspace with TypeScript
 - `npm run cms:build` – compile the CMS TypeScript sources
-- `npm run test` – run unit tests (none at the moment)
+- `npm run test` – run unit tests (dashboard role checks and CMS webhooks)
 - `npm run build` – create a production build of the frontend
 - `npm run sitemap` – generate `public/sitemap.xml`
 
@@ -75,6 +75,7 @@ The CMS workspace (`cms/.env`) requires its own secrets:
 | `PAYLOAD_SECRET` | Secret string for signing Payload authentication tokens. |
 | `PAYLOAD_PUBLIC_SERVER_URL` | Public URL used by Payload when generating links. |
 | `DATABASE_URL` | Postgres connection string shared with Supabase. |
+| `SUPABASE_ADMIN_SYNC_SECRET` | Shared secret used to authenticate Supabase ➜ Payload role sync webhooks. |
 
 ## Technologies
 

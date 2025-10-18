@@ -23,15 +23,46 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
 import Loading from '@/components/Loading';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { AlertTriangle, Loader2, LogOut, RefreshCcw } from 'lucide-react';
+import {
+  AlertTriangle,
+  Copy,
+  Loader2,
+  LogOut,
+  QrCode,
+  RefreshCcw,
+  ShieldCheck,
+  ShieldOff,
+} from 'lucide-react';
 
 type Profile = Database['public']['Tables']['profiles']['Row'];
 type Lead = Database['public']['Tables']['leads']['Row'];
 type NewsletterSubscriber =
   Database['public']['Tables']['newsletter_subscribers']['Row'];
+type TotpFactor = {
+  id: string;
+  friendly_name?: string | null;
+  factor_type: string;
+  status: 'verified' | 'unverified';
+};
+
+type AdminDashboardPayload = {
+  leads?: Lead[];
+  newsletter_subscribers?: NewsletterSubscriber[];
+};
+
+const isTotpFactor = (factor: TotpFactor | undefined) =>
+  Boolean(
+    factor &&
+      typeof factor.id === 'string' &&
+      factor.factor_type === 'totp' &&
+      (factor.status === 'verified' || factor.status === 'unverified')
+  );
 
 const formatDate = (value: string | null | undefined) => {
   if (!value) return '—';
@@ -45,7 +76,7 @@ const formatDate = (value: string | null | undefined) => {
 };
 
 const Dashboard = () => {
-  const { user, signOut } = useAuth();
+  const { user, session, signOut } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -57,6 +88,23 @@ const Dashboard = () => {
   const [isFetching, setIsFetching] = useState(true);
   const [isFetchingAdminData, setIsFetchingAdminData] = useState(false);
   const [isSigningOut, setIsSigningOut] = useState(false);
+  const [totpFactors, setTotpFactors] = useState<TotpFactor[]>([]);
+  const [isLoadingTotp, setIsLoadingTotp] = useState(false);
+  const [isVerifyingTotp, setIsVerifyingTotp] = useState(false);
+  const [pendingEnrollment, setPendingEnrollment] = useState<
+    | {
+        id: string;
+        qrCode: string;
+        secret: string;
+        friendlyName?: string;
+      }
+    | null
+  >(null);
+  const [verificationCode, setVerificationCode] = useState('');
+  const hasVerifiedTotp = useMemo(
+    () => totpFactors.some((factor) => factor.status === 'verified'),
+    [totpFactors]
+  );
 
   useEffect(() => {
     return () => {
@@ -107,28 +155,22 @@ const Dashboard = () => {
           setIsFetchingAdminData(true);
         }
 
-        const [leadsResponse, newsletterResponse] = await Promise.all([
-          supabase
-            .from('leads')
-            .select('*')
-            .order('created_at', { ascending: false }),
-          supabase
-            .from('newsletter_subscribers')
-            .select('*')
-            .order('subscribed_at', { ascending: false }),
-        ]);
+        const { data: adminData, error: adminError } =
+          await supabase.rpc('get_admin_dashboard_data');
 
-        if (leadsResponse.error) {
-          throw leadsResponse.error;
+        if (adminError) {
+          throw adminError;
         }
 
-        if (newsletterResponse.error) {
-          throw newsletterResponse.error;
-        }
+        const parsedData = (adminData ?? {}) as AdminDashboardPayload;
 
         if (isMounted.current) {
-          setLeads(leadsResponse.data ?? []);
-          setSubscribers(newsletterResponse.data ?? []);
+          setLeads(Array.isArray(parsedData.leads) ? parsedData.leads : []);
+          setSubscribers(
+            Array.isArray(parsedData.newsletter_subscribers)
+              ? parsedData.newsletter_subscribers
+              : []
+          );
         }
       } else if (isMounted.current) {
         setLeads([]);
@@ -156,9 +198,219 @@ const Dashboard = () => {
     }
   }, [toast, user]);
 
+  const refreshTotpFactors = useCallback(async () => {
+    if (!session) {
+      return;
+    }
+
+    setIsLoadingTotp(true);
+    try {
+      const { data, error } = await supabase.auth.mfa.listFactors();
+      if (error) {
+        throw error;
+      }
+
+      const totp = Array.isArray(data?.totp)
+        ? (data.totp.filter(isTotpFactor) as TotpFactor[])
+        : [];
+
+      if (isMounted.current) {
+        setTotpFactors(totp);
+      }
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : 'Não foi possível carregar as configurações de MFA.';
+      toast({
+        title: 'Erro ao sincronizar MFA',
+        description: message,
+        variant: 'destructive',
+      });
+    } finally {
+      if (isMounted.current) {
+        setIsLoadingTotp(false);
+      }
+    }
+  }, [session, toast]);
+
+  const handleStartTotpEnrollment = useCallback(async () => {
+    if (!session) return;
+
+    setIsLoadingTotp(true);
+    try {
+      const { data, error } = await supabase.auth.mfa.enroll({
+        factorType: 'totp',
+        issuer: 'Monynha Softwares',
+        friendlyName: `${profile?.name ?? 'Administrador'} · Authenticator`,
+      });
+
+      if (error || !data?.totp) {
+        throw error ?? new Error('Resposta inválida do Supabase.');
+      }
+
+      if (isMounted.current) {
+        setPendingEnrollment({
+          id: data.id,
+          qrCode: data.totp.qr_code,
+          secret: data.totp.secret,
+          friendlyName: data.friendly_name ?? undefined,
+        });
+        setVerificationCode('');
+      }
+
+      toast({
+        title: 'Ativação de MFA iniciada',
+        description:
+          'Escaneie o QR Code com seu app autenticador e confirme o código gerado para finalizar.',
+      });
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : 'Não foi possível iniciar o cadastro de MFA.';
+      toast({
+        title: 'Erro ao configurar MFA',
+        description: message,
+        variant: 'destructive',
+      });
+    } finally {
+      if (isMounted.current) {
+        setIsLoadingTotp(false);
+      }
+    }
+  }, [profile?.name, session, toast]);
+
+  const handleVerifyTotpEnrollment = useCallback(async () => {
+    if (!pendingEnrollment) return;
+
+    const sanitizedCode = verificationCode.replace(/\s+/g, '');
+    if (sanitizedCode.length < 6) {
+      toast({
+        title: 'Código incompleto',
+        description: 'Informe os 6 dígitos gerados pelo autenticador.',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    setIsVerifyingTotp(true);
+    try {
+      const { error } = await supabase.auth.mfa.challengeAndVerify({
+        factorId: pendingEnrollment.id,
+        code: sanitizedCode,
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      if (isMounted.current) {
+        setPendingEnrollment(null);
+        setVerificationCode('');
+      }
+
+      toast({
+        title: 'MFA ativada com sucesso',
+        description: 'Você precisará informar o código do autenticador nos próximos logins.',
+      });
+
+      await refreshTotpFactors();
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : 'Não foi possível validar o código do autenticador.';
+      toast({
+        title: 'Erro ao validar MFA',
+        description: message,
+        variant: 'destructive',
+      });
+    } finally {
+      if (isMounted.current) {
+        setIsVerifyingTotp(false);
+      }
+    }
+  }, [pendingEnrollment, refreshTotpFactors, toast, verificationCode]);
+
+  const handleDisableTotp = useCallback(
+    async (factorId: string) => {
+      if (!session) return;
+
+      setIsLoadingTotp(true);
+      try {
+        const { error } = await supabase.auth.mfa.unenroll({ factorId });
+        if (error) {
+          throw error;
+        }
+
+        toast({
+          title: 'MFA removida',
+          description: 'O autenticador selecionado foi desativado.',
+        });
+
+        await refreshTotpFactors();
+      } catch (error) {
+        const message =
+          error instanceof Error
+            ? error.message
+            : 'Não foi possível remover o autenticador.';
+        toast({
+          title: 'Erro ao remover MFA',
+          description: message,
+          variant: 'destructive',
+        });
+      } finally {
+        if (isMounted.current) {
+          setIsLoadingTotp(false);
+        }
+      }
+    },
+    [refreshTotpFactors, session, toast]
+  );
+
+  const handleCancelEnrollment = () => {
+    setPendingEnrollment(null);
+    setVerificationCode('');
+  };
+
+  const handleCopySecret = async () => {
+    if (!pendingEnrollment?.secret || typeof navigator === 'undefined') {
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(pendingEnrollment.secret);
+      toast({
+        title: 'Código copiado',
+        description: 'Cole o código manualmente no aplicativo autenticador, se necessário.',
+      });
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : 'Não foi possível copiar o código secreto.';
+      toast({
+        title: 'Erro ao copiar',
+        description: message,
+        variant: 'destructive',
+      });
+    }
+  };
+
   useEffect(() => {
     void loadDashboard();
   }, [loadDashboard]);
+
+  useEffect(() => {
+    if (session) {
+      void refreshTotpFactors();
+    } else if (isMounted.current) {
+      setTotpFactors([]);
+      setPendingEnrollment(null);
+      setVerificationCode('');
+    }
+  }, [refreshTotpFactors, session]);
 
   const handleRefresh = () => {
     void loadDashboard();
@@ -313,6 +565,181 @@ const Dashboard = () => {
                 </p>
               </div>
             </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Segurança da conta</CardTitle>
+            <CardDescription>
+              Proteja seu acesso ao painel configurando autenticação multifator (MFA).
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            {pendingEnrollment ? (
+              <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2 text-sm font-semibold">
+                    <QrCode className="h-4 w-4 text-primary" />
+                    Escaneie o QR Code no aplicativo autenticador
+                  </div>
+                  <div className="rounded-md border bg-muted/40 p-3 text-sm text-muted-foreground">
+                    Use aplicativos como Authy, Google Authenticator ou 1Password para ler o código abaixo. Caso não seja
+                    possível escanear, copie o código secreto e adicione manualmente.
+                  </div>
+                  <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
+                    <div className="flex items-center justify-center rounded-md border bg-white p-3 shadow-sm">
+                      <img
+                        src={pendingEnrollment.qrCode}
+                        alt="QR Code do autenticador"
+                        className="h-40 w-40"
+                      />
+                    </div>
+                    <div className="flex-1 space-y-2">
+                      <Label htmlFor="mfa-secret">Código secreto</Label>
+                      <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                        <Input
+                          id="mfa-secret"
+                          value={pendingEnrollment.secret}
+                          readOnly
+                          className="font-mono"
+                        />
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={handleCopySecret}
+                          className="gap-2"
+                        >
+                          <Copy className="h-4 w-4" /> Copiar código
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor="mfa-code">Confirme o código de 6 dígitos</Label>
+                    <div className="mt-3 flex justify-center">
+                      <InputOTP
+                        id="mfa-code"
+                        maxLength={6}
+                        value={verificationCode}
+                        onChange={(value) =>
+                          setVerificationCode(value.replace(/[^0-9]/g, ''))
+                        }
+                        disabled={isVerifyingTotp}
+                      >
+                        <InputOTPGroup>
+                          {Array.from({ length: 6 }).map((_, index) => (
+                            <InputOTPSlot key={`otp-slot-${index}`} index={index} />
+                          ))}
+                        </InputOTPGroup>
+                      </InputOTP>
+                    </div>
+                    <p className="mt-2 text-center text-xs text-muted-foreground">
+                      Digite o código exibido no aplicativo autenticador.
+                    </p>
+                  </div>
+                  <div className="flex flex-col gap-2 sm:flex-row sm:justify-end">
+                    <Button
+                      type="button"
+                      onClick={handleVerifyTotpEnrollment}
+                      disabled={isVerifyingTotp || verificationCode.length < 6}
+                      className="gap-2"
+                    >
+                      {isVerifyingTotp ? (
+                        <>
+                          <Loader2 className="h-4 w-4 animate-spin" /> Validando...
+                        </>
+                      ) : (
+                        'Confirmar código'
+                      )}
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      onClick={handleCancelEnrollment}
+                      disabled={isVerifyingTotp}
+                    >
+                      Cancelar
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-6">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="flex items-center gap-3">
+                    {hasVerifiedTotp ? (
+                      <ShieldCheck className="h-5 w-5 text-emerald-500" />
+                    ) : (
+                      <ShieldOff className="h-5 w-5 text-muted-foreground" />
+                    )}
+                    <div>
+                      <p className="font-semibold">
+                        {hasVerifiedTotp
+                          ? 'Autenticação multifator ativa'
+                          : 'MFA ainda não configurada'}
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        {hasVerifiedTotp
+                          ? 'Será necessário informar o código do autenticador nos próximos logins.'
+                          : 'Ative a MFA para reforçar a segurança e evitar acessos não autorizados.'}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="gap-2"
+                      onClick={handleStartTotpEnrollment}
+                      disabled={isLoadingTotp}
+                    >
+                      {isLoadingTotp ? (
+                        <>
+                          <Loader2 className="h-4 w-4 animate-spin" /> Processando...
+                        </>
+                      ) : (
+                        'Configurar MFA'
+                      )}
+                    </Button>
+                  </div>
+                </div>
+
+                {totpFactors.length > 0 ? (
+                  <div className="space-y-3">
+                    {totpFactors.map((factor) => (
+                      <div
+                        key={factor.id}
+                        className="flex flex-col gap-3 rounded-md border p-3 sm:flex-row sm:items-center sm:justify-between"
+                      >
+                        <div>
+                          <p className="font-medium">
+                            {factor.friendly_name ?? 'Autenticador configurado'}
+                          </p>
+                          <p className="text-sm text-muted-foreground">
+                            Status: {factor.status === 'verified' ? 'Verificado' : 'Pendente'}
+                          </p>
+                        </div>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={() => handleDisableTotp(factor.id)}
+                          disabled={isLoadingTotp}
+                        >
+                          Desativar
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-sm text-muted-foreground">
+                    Nenhum autenticador está associado à sua conta. Inicie a configuração para ativar a MFA.
+                  </p>
+                )}
+              </div>
+            )}
           </CardContent>
         </Card>
 

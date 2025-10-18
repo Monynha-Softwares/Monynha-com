@@ -163,6 +163,27 @@ export type Database = {
         };
         Relationships: [];
       };
+      payload_admin_sync_settings: {
+        Row: {
+          id: number;
+          secret: string | null;
+          updated_at: string;
+          webhook_url: string | null;
+        };
+        Insert: {
+          id?: number;
+          secret?: string | null;
+          updated_at?: string;
+          webhook_url?: string | null;
+        };
+        Update: {
+          id?: number;
+          secret?: string | null;
+          updated_at?: string;
+          webhook_url?: string | null;
+        };
+        Relationships: [];
+      };
       profiles: {
         Row: {
           avatar_url: string | null;
@@ -336,7 +357,10 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
-      [_ in never]: never;
+      get_admin_dashboard_data: {
+        Args: Record<string, never>;
+        Returns: Json;
+      };
     };
     Enums: {
       [_ in never]: never;
