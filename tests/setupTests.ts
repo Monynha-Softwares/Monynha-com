@@ -23,11 +23,11 @@ if (!i18n.isInitialized) {
   });
 }
 
-if (typeof window !== 'undefined' && typeof window.scrollTo !== 'function') {
-  const noop = () => {};
-  window.scrollTo = noop;
+if (typeof window !== 'undefined') {
+  const scrollToMock = jest.fn();
+  window.scrollTo = scrollToMock as typeof window.scrollTo;
   // @ts-expect-error jsdom global polyfill
-  global.scrollTo = noop;
+  global.scrollTo = scrollToMock;
 }
 
 if (typeof window !== 'undefined' && !window.matchMedia) {

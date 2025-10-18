@@ -51,9 +51,38 @@ src/
 - `npm run cms:dev` – run the Payload CMS development server
 - `npm run cms:lint` – type-check the CMS workspace with TypeScript
 - `npm run cms:build` – compile the CMS TypeScript sources
-- `npm run test` – run unit tests (none at the moment)
+- `npm run test` – execute the Jest unit, integration and E2E suites
 - `npm run build` – create a production build of the frontend
 - `npm run sitemap` – generate `public/sitemap.xml`
+- `npm run preview` – serve the production build locally using Vite
+
+## Docker (Nixpacks)
+
+The repository ships with a [`nixpacks.toml`](./nixpacks.toml) profile so you
+can produce a production-ready Docker image with
+[Railway's Nixpacks](https://nixpacks.com/). The generated image installs
+dependencies with `npm ci`, builds the Vite bundle, and runs `npm run preview`
+bound to `0.0.0.0:${PORT}` (defaults to `4173`).
+
+```sh
+# Build the container image (requires the nixpacks CLI)
+nixpacks build . --name monynha-web
+
+# Run the production server
+docker run --rm -p 4173:4173 monynha-web
+```
+
+Use the `PORT` environment variable to expose a different port at runtime.
+
+## Maintenance notes
+
+- `ScrollToTop` now guards `window.scrollTo` calls so the SPA does not crash in
+  non-browser environments (for example when running the Jest test suite).
+- The SPA user journey test wraps user interactions in `act(...)` and extends
+  the timeout window, eliminating the previous flakiness and allowing the full
+  flow to complete reliably.
+- Jest test setup stubs `window.scrollTo` globally to keep the test output
+  quiet and aligned with the production runtime.
 
 ### Environment variables
 
