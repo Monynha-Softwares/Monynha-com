@@ -32,3 +32,16 @@
   `npx supabase migration up --db-url postgresql://postgres:postgres@127.0.0.1:5432/monynha_tmp`.
 - Next stage owner: Web platform team to replay the migrations in managed
   Supabase projects and run the CMS ➜ Supabase ➜ frontend publishing smoke test.
+- CMS collections: Payload now exposes synced collections for `solutions`,
+  `repositories`, `teamMembers`, `homepageFeatures`, `siteSettings`,
+  `newsletterSubscribers`, and `leads`, with optional scaffolding for `authors`
+  and `categories`. Each synced collection mirrors the Supabase schema, uses
+  localized text where the SPA renders translated copy, and upserts via the
+  shared PostgreSQL pool.
+- Seed expectations: Supabase migrations still seed initial rows for solutions,
+  repositories, homepage features, and team members. Editors can now manage
+  those records through Payload while keeping `newsletterSubscribers` and
+  `leads` admin-only.
+- Follow-up: Add Supabase tables for optional `authors`/`categories`, implement
+  delete hooks to mirror removals, and expose gradients from Supabase so the SPA
+  stops relying on hardcoded fallbacks.
