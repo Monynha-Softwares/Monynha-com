@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -15,21 +14,11 @@ import {
 } from '@/components/ui/breadcrumb';
 import { ArrowRight, CheckCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { supabase } from '@/integrations/supabase';
-import {
-  getFallbackSolutions,
-  mapSupabaseSolutionToContent,
-} from '@/lib/solutions';
-
 import type { SolutionContent } from '@/types/solutions';
+import { fetchSolutions } from '@/lib/data/supabase';
 
 const Solutions = () => {
   const { t } = useTranslation();
-
-  const memoizedFallbackSolutions = useMemo(
-    () => getFallbackSolutions(),
-    []
-  );
 
   const {
     data: solutions = [],
@@ -37,29 +26,12 @@ const Solutions = () => {
     isError,
   } = useQuery<SolutionContent[]>({
     queryKey: ['solutions'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('solutions')
-        .select('*')
-        .eq('active', true)
-        .order('created_at', { ascending: false });
-
-      if (error) {
-        throw new Error(error.message);
-      }
-
-      return (data ?? []).map((solution, index) =>
-        mapSupabaseSolutionToContent(solution, { index })
-      );
-    },
+    queryFn: () => fetchSolutions({ orderAscending: false }),
 
     staleTime: 1000 * 60 * 10,
     retry: 1,
     refetchOnWindowFocus: false,
   });
-
-  const displaySolutions =
-    solutions.length > 0 ? solutions : memoizedFallbackSolutions;
 
   if (isLoading) {
     return (
@@ -137,7 +109,25 @@ const Solutions = () => {
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
-            {displaySolutions.map((solution) => (
+            {!isLoading && !isError && solutions.length === 0 && (
+              <Card className="border-dashed border-2 border-neutral-200 bg-white/60 col-span-full">
+                <CardContent className="p-10 text-center space-y-4">
+                  <h2 className="text-2xl font-semibold text-neutral-900">
+                    {t('solutionsPage.emptyTitle')}
+                  </h2>
+                  <p className="text-neutral-600">
+                    {t('solutionsPage.emptyDescription')}
+                  </p>
+                  <Link to="/contact">
+                    <Button className="btn-secondary">
+                      {t('solutionsPage.contactCta')}
+                    </Button>
+                  </Link>
+                </CardContent>
+              </Card>
+            )}
+
+            {solutions.map((solution) => (
               <Card
                 key={solution.id ?? solution.slug}
                 className="border-0 shadow-soft-lg flex flex-col overflow-hidden"
@@ -148,6 +138,7 @@ const Solutions = () => {
                       src={solution.imageUrl}
                       alt={solution.title}
                       loading="lazy"
+                      decoding="async"
                       className="h-full w-full object-cover"
                     />
                     <div

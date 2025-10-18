@@ -7,8 +7,11 @@ import Meta from '@/components/Meta';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { supabase } from '@/integrations/supabase';
 import { useTranslation } from 'react-i18next';
+import {
+  fetchTeamMembers,
+  fetchSiteSettingValue,
+} from '@/lib/data/supabase';
 
 interface TeamMemberCard {
   id: string;
@@ -107,14 +110,13 @@ const About = () => {
   } = useQuery({
     queryKey: ['team-members', 'about'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('team_members')
-        .select('id, name, role, image_url')
-        .eq('active', true)
-        .order('created_at', { ascending: true });
-
-      if (error) throw error;
-      return (data ?? []) as TeamMemberCard[];
+      const data = await fetchTeamMembers();
+      return data.map((member) => ({
+        id: member.id,
+        name: member.name,
+        role: member.role,
+        image_url: member.image_url,
+      })) as TeamMemberCard[];
     },
   });
 
@@ -125,15 +127,8 @@ const About = () => {
   } = useQuery({
     queryKey: ['site-settings', 'about-stats'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('site_settings')
-        .select('value')
-        .eq('key', 'about_stats')
-        .maybeSingle();
-
-      if (error) throw error;
-
-      return normalizeAboutStats(data?.value);
+      const value = await fetchSiteSettingValue('about_stats');
+      return normalizeAboutStats(value);
     },
   });
 

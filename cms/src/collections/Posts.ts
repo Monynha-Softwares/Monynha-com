@@ -1,22 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { CollectionConfig } from 'payload';
 import { lexicalEditor } from '@payloadcms/richtext-lexical';
-import { Pool } from 'pg';
-
-const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+import { pool } from '../utilities/pool';
+import { resolveLocalizedText, resolveOptionalLocalizedText } from '../utilities/localization';
+import { buildNextPreviewUrl } from '../utilities/preview';
+import { logCmsSyncEvent } from '../utilities/monitoring';
 
 const upsertIntoPublic = async ({ doc, req }: { doc: any; req: any }) => {
   const supabaseId = doc.supabaseId ?? null;
   const slug = doc.slug;
   const published = !!doc.published;
-  const title =
-    typeof doc.title === 'object'
-      ? (doc.title['pt-BR'] ?? doc.title['en'] ?? '')
-      : doc.title;
-  const excerpt =
-    typeof doc.excerpt === 'object'
-      ? (doc.excerpt['pt-BR'] ?? doc.excerpt['en'] ?? null)
-      : (doc.excerpt ?? null);
+  const title = resolveLocalizedText(doc.title);
+  const excerpt = resolveOptionalLocalizedText(doc.excerpt);
   const image_url = doc?.coverImage?.url ?? null;
   const content =
     typeof doc.content === 'string'
@@ -48,25 +43,59 @@ const upsertIntoPublic = async ({ doc, req }: { doc: any; req: any }) => {
       updated_at=now()
     returning id`;
 
-  const result = supabaseId
-    ? await pool.query(queryWithId, [supabaseId, slug, title, excerpt, image_url, content, published])
-    : await pool.query(queryWithoutId, [slug, title, excerpt, image_url, content, published]);
+  try {
+    const paramsWithId = [supabaseId, slug, title, excerpt, image_url, content, published];
+    const paramsWithoutId = [slug, title, excerpt, image_url, content, published];
 
-  const generatedId = result?.rows?.[0]?.id;
+    const result = supabaseId
+      ? await pool.query(queryWithId, paramsWithId)
+      : await pool.query(queryWithoutId, paramsWithoutId);
 
-  if (!supabaseId && generatedId && req?.payload) {
-    await req.payload.update({
+    const generatedId = result?.rows?.[0]?.id ?? null;
+
+    if (!supabaseId && generatedId && req?.payload) {
+      await req.payload.update({
+        collection: 'posts',
+        id: doc.id,
+        data: { supabaseId: generatedId },
+        depth: 0,
+      });
+    }
+
+    await logCmsSyncEvent({
       collection: 'posts',
-      id: doc.id,
-      data: { supabaseId: generatedId },
-      depth: 0,
+      action: 'upsert',
+      payloadId: doc.id ?? null,
+      supabaseId: (supabaseId ?? generatedId) ?? null,
+      status: 'success',
+      metadata: { slug, published, hasImage: Boolean(image_url) },
     });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Unknown error while syncing post';
+    await logCmsSyncEvent({
+      collection: 'posts',
+      action: 'upsert',
+      payloadId: doc.id ?? null,
+      supabaseId,
+      status: 'error',
+      message,
+      metadata: { slug },
+    });
+    throw error;
   }
 };
 
 const Posts: CollectionConfig = {
   slug: 'posts',
-  admin: { useAsTitle: 'slug' },
+  admin: {
+    useAsTitle: 'slug',
+    preview: (doc: any) =>
+      buildNextPreviewUrl(
+        doc?.slug && typeof doc.slug === 'string'
+          ? `/blog/${doc.slug}`
+          : '/blog'
+      ),
+  },
   access: {
     read: () => true,
     create: ({ req }: { req: any }) => Boolean(req.user),

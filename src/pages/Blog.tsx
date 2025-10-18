@@ -12,7 +12,6 @@ import {
   ChevronLeft,
   ChevronRight,
 } from 'lucide-react';
-import { supabase } from '@/integrations/supabase';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import {
@@ -32,17 +31,16 @@ import {
 } from '@/components/ui/pagination';
 import { cn } from '@/lib/utils';
 import { getNormalizedLocale } from '@/lib/i18n';
-import type { Database } from '@/integrations/supabase/types';
+import {
+  fetchPublishedBlogPosts,
+  type BlogPostsResult,
+} from '@/lib/data/supabase';
+import type { BlogPostRow } from '@/lib/data/supabase';
 
 const FALLBACK_IMAGE =
   'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
 
 const POSTS_PER_PAGE = 7;
-
-type BlogPostRow = Pick<
-  Database['public']['Tables']['blog_posts']['Row'],
-  'id' | 'slug' | 'title' | 'excerpt' | 'image_url' | 'updated_at'
->;
 
 type PaginationEntry = number | 'ellipsis';
 
@@ -116,34 +114,10 @@ const Blog = () => {
     [t]
   );
 
-  const { data, isLoading, isError } = useQuery<{
-    posts: BlogPostRow[];
-    total: number;
-  }>({
+  const { data, isLoading, isError } = useQuery<BlogPostsResult>({
     queryKey: ['blog_posts', page],
     keepPreviousData: true,
-    queryFn: async () => {
-      const from = (page - 1) * POSTS_PER_PAGE;
-      const to = from + POSTS_PER_PAGE - 1;
-
-      const { data, error, count } = await supabase
-        .from('blog_posts')
-        .select('id, slug, title, excerpt, image_url, updated_at', {
-          count: 'exact',
-        })
-        .eq('published', true)
-        .order('updated_at', { ascending: false })
-        .range(from, to);
-
-      if (error) {
-        throw new Error(error.message);
-      }
-
-      return {
-        posts: data ?? [],
-        total: count ?? 0,
-      };
-    },
+    queryFn: () => fetchPublishedBlogPosts(page, POSTS_PER_PAGE),
   });
 
   const totalPosts = data?.total ?? 0;

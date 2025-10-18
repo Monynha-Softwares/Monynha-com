@@ -20,16 +20,12 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
-import { supabase } from '@/integrations/supabase';
 import { useTranslation, Trans } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import useRepositorySync from '@/hooks/useRepositorySync';
-import {
-  fetchSupabaseSolutions,
-  getFallbackSolutions,
-  mapGitHubRepoToContent,
-} from '@/lib/solutions';
+import { mapGitHubRepoToContent } from '@/lib/solutions';
 import type { GitHubRepository } from '@/lib/solutions';
+import { fetchRepositories, fetchSolutions } from '@/lib/data/supabase';
 import type { SolutionContent } from '@/types/solutions';
 
 interface Repository {
@@ -49,8 +45,6 @@ const Projects = () => {
   const { t } = useTranslation();
   useRepositorySync();
 
-  const memoizedFallbackSolutions = useMemo(() => getFallbackSolutions(), []);
-
   const {
     data: repositories = [],
     isLoading: repositoriesLoading,
@@ -58,17 +52,8 @@ const Projects = () => {
   } = useQuery<Repository[]>({
     queryKey: ['repositories'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('repositories')
-        .select('*')
-        .eq('active', true)
-        .order('created_at', { ascending: false });
-
-      if (error) {
-        throw new Error(error.message);
-      }
-
-      return (data ?? []) as Repository[];
+      const data = await fetchRepositories();
+      return data as Repository[];
     },
   });
 
@@ -78,7 +63,7 @@ const Projects = () => {
     isError: supabaseSolutionsError,
   } = useQuery<SolutionContent[]>({
     queryKey: ['solutions'],
-    queryFn: fetchSupabaseSolutions,
+    queryFn: () => fetchSolutions(),
     staleTime: 1000 * 60 * 10,
     retry: 1,
     refetchOnWindowFocus: false,
@@ -162,18 +147,12 @@ const Projects = () => {
       githubSolutions.forEach(addSolution);
     }
 
-    // Add fallback solutions if nothing else
-    if (merged.length === 0 && Array.isArray(memoizedFallbackSolutions)) {
-      memoizedFallbackSolutions.forEach(addSolution);
-    }
-
     return merged;
-  }, [supabaseSolutions, githubSolutions, memoizedFallbackSolutions]);
+  }, [supabaseSolutions, githubSolutions]);
 
-  const displayGitHubSolutions =
-    Array.isArray(githubSolutions) && githubSolutions.length > 0
-      ? githubSolutions
-      : memoizedFallbackSolutions;
+  const displayGitHubSolutions = Array.isArray(githubSolutions)
+    ? githubSolutions
+    : [];
 
   if (repositoriesLoading) {
 

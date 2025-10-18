@@ -170,6 +170,7 @@ export type Database = {
           email: string;
           id: string;
           name: string;
+          payload_user_id: number | null;
           role: string;
           updated_at: string;
           user_id: string;
@@ -180,6 +181,7 @@ export type Database = {
           email: string;
           id?: string;
           name: string;
+          payload_user_id?: number | null;
           role?: string;
           updated_at?: string;
           user_id: string;
@@ -190,6 +192,7 @@ export type Database = {
           email?: string;
           id?: string;
           name?: string;
+          payload_user_id?: number | null;
           role?: string;
           updated_at?: string;
           user_id?: string;
@@ -232,6 +235,39 @@ export type Database = {
         };
         Relationships: [];
       };
+      content_sync_webhook_config: {
+        Row: {
+          created_at: string;
+          enabled: boolean;
+          id: string;
+          label: string;
+          secret: string | null;
+          target: string;
+          updated_at: string;
+          url: string;
+        };
+        Insert: {
+          created_at?: string;
+          enabled?: boolean;
+          id?: string;
+          label: string;
+          secret?: string | null;
+          target: string;
+          updated_at?: string;
+          url: string;
+        };
+        Update: {
+          created_at?: string;
+          enabled?: boolean;
+          id?: string;
+          label?: string;
+          secret?: string | null;
+          target?: string;
+          updated_at?: string;
+          url?: string;
+        };
+        Relationships: [];
+      };
       site_settings: {
         Row: {
           created_at: string;
@@ -267,6 +303,7 @@ export type Database = {
           features: Json | null;
           id: string;
           image_url: string | null;
+          gradient: string;
           slug: string;
           title: string;
           updated_at: string;
@@ -278,6 +315,7 @@ export type Database = {
           features?: Json | null;
           id?: string;
           image_url?: string | null;
+          gradient?: string;
           slug: string;
           title: string;
           updated_at?: string;
@@ -289,6 +327,7 @@ export type Database = {
           features?: Json | null;
           id?: string;
           image_url?: string | null;
+          gradient?: string;
           slug?: string;
           title?: string;
           updated_at?: string;
@@ -336,7 +375,13 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
-      [_ in never]: never;
+      get_admin_dashboard_data: {
+        Args: Record<string, never>;
+        Returns: {
+          leads: Database['public']['Tables']['leads']['Row'][];
+          newsletter_subscribers: Database['public']['Tables']['newsletter_subscribers']['Row'][];
+        };
+      };
     };
     Enums: {
       [_ in never]: never;

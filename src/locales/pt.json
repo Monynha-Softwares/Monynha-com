@@ -64,7 +64,10 @@
     },
     "solutions": {
       "title": "Nossas Soluções",
-      "description": "Soluções comprovadas que transformaram empresas em diversos setores."
+      "description": "Soluções comprovadas que transformaram empresas em diversos setores.",
+      "emptyTitle": "Estamos preparando novas soluções",
+      "emptyDescription": "Volte em breve para conhecer nossos lançamentos ou fale conosco para criar algo sob medida.",
+      "contactCta": "Fale com nossa equipe"
     },
     "cta": {
       "title": "Pronto para Transformar seu Negócio?",
@@ -73,14 +76,17 @@
     },
     "learnMore": "Saiba Mais"
   },
-  "solutionsPage": {
-    "title": "Nossas Soluções de Software",
-    "description": "Conheça nossos produtos desenvolvidos para transformar a operação de empresas. Cada solução é criada com IA no núcleo para máxima eficiência.",
-    "requestDemo": "Solicitar Demonstração",
-    "featuresTitle": "Principais Recursos",
-    "backToSolutions": "Voltar para Soluções",
-    "notFound": "Solução não encontrada",
-    "customTitle": "Precisa de uma Solução Personalizada?",
+    "solutionsPage": {
+      "title": "Nossas Soluções de Software",
+      "description": "Conheça nossos produtos desenvolvidos para transformar a operação de empresas. Cada solução é criada com IA no núcleo para máxima eficiência.",
+      "requestDemo": "Solicitar Demonstração",
+      "featuresTitle": "Principais Recursos",
+      "backToSolutions": "Voltar para Soluções",
+      "notFound": "Solução não encontrada",
+      "emptyTitle": "Nenhuma solução publicada ainda",
+      "emptyDescription": "Nossa equipe está preparando a próxima geração de ofertas. Entre em contato e construiremos uma solução sob medida para você.",
+      "contactCta": "Iniciar um projeto",
+      "customTitle": "Precisa de uma Solução Personalizada?",
     "customDescription": "Também criamos soluções sob medida para suas necessidades específicas de negócio. Vamos conversar sobre como construir algo único para você.",
     "discuss": "Discutir Projeto"
   },

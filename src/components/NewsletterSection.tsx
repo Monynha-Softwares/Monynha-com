@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { supabase } from '@/integrations/supabase';
 import { useToast } from '@/hooks/use-toast';
 import { Mail, CheckCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { subscribeToNewsletter } from '@/lib/data/supabase';
 
 const NewsletterSection = () => {
   const { t } = useTranslation();
@@ -30,28 +30,7 @@ const NewsletterSection = () => {
     }
 
     try {
-      const { error } = await supabase
-        .from('newsletter_subscribers')
-        .insert([{ email: email.trim() }]);
-
-      if (error) {
-        if (error.code === '23505') {
-          // Unique constraint violation
-          toast({
-            title: t('newsletterSection.alreadySubscribedTitle'),
-            description: t('newsletterSection.alreadySubscribedDescription'),
-            variant: 'destructive',
-          });
-        } else {
-          toast({
-            title: t('newsletterSection.errorTitle'),
-            description: t('newsletterSection.errorDescription'),
-            variant: 'destructive',
-          });
-        }
-        setIsSubmitting(false);
-        return;
-      }
+      await subscribeToNewsletter({ email: email.trim() });
 
       setIsSubscribed(true);
       toast({
@@ -60,11 +39,21 @@ const NewsletterSection = () => {
       });
     } catch (error) {
       console.error('Newsletter subscription error:', error);
-      toast({
-        title: t('newsletterSection.errorTitle'),
-        description: t('newsletterSection.errorDescription'),
-        variant: 'destructive',
-      });
+      const code = (error as { code?: string }).code;
+
+      if (code === '23505') {
+        toast({
+          title: t('newsletterSection.alreadySubscribedTitle'),
+          description: t('newsletterSection.alreadySubscribedDescription'),
+          variant: 'destructive',
+        });
+      } else {
+        toast({
+          title: t('newsletterSection.errorTitle'),
+          description: t('newsletterSection.errorDescription'),
+          variant: 'destructive',
+        });
+      }
     } finally {
       setIsSubmitting(false);
     }

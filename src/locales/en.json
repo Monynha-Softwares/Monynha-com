@@ -64,7 +64,10 @@
     },
     "solutions": {
       "title": "Our Flagship Solutions",
-      "description": "Proven software solutions that have transformed businesses across industries."
+      "description": "Proven software solutions that have transformed businesses across industries.",
+      "emptyTitle": "We're setting up new solutions",
+      "emptyDescription": "Check back soon for our latest launches or reach out to craft something custom.",
+      "contactCta": "Talk to our team"
     },
     "cta": {
       "title": "Ready to Transform Your Business?",
@@ -73,14 +76,17 @@
     },
     "learnMore": "Learn More"
   },
-  "solutionsPage": {
-    "title": "Our Software Solutions",
-    "description": "Discover our flagship products designed to transform how businesses operate. Each solution is crafted with AI at its core to deliver maximum efficiency and growth.",
-    "requestDemo": "Request Demo",
-    "featuresTitle": "Key Capabilities",
-    "backToSolutions": "Back to Solutions",
-    "notFound": "Solution not found",
-    "customTitle": "Need a Custom Solution?",
+    "solutionsPage": {
+      "title": "Our Software Solutions",
+      "description": "Discover our flagship products designed to transform how businesses operate. Each solution is crafted with AI at its core to deliver maximum efficiency and growth.",
+      "requestDemo": "Request Demo",
+      "featuresTitle": "Key Capabilities",
+      "backToSolutions": "Back to Solutions",
+      "notFound": "Solution not found",
+      "emptyTitle": "No solutions published yet",
+      "emptyDescription": "Our team is curating the next generation of offerings. Reach out and we’ll build a solution tailored to you.",
+      "contactCta": "Start a project",
+      "customTitle": "Need a Custom Solution?",
     "customDescription": "We also create bespoke software solutions tailored to your specific business needs. Let's discuss how we can build something unique for you.",
     "discuss": "Discuss Custom Project"
   },

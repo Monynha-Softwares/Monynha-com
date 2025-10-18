@@ -1,8 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-import { supabase } from '@/integrations/supabase';
-import type { Database } from '@/integrations/supabase/types';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import { Card, CardContent } from '@/components/ui/card';
@@ -12,20 +10,15 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { getNormalizedLocale } from '@/lib/i18n';
+import {
+  fetchCommentsWithAuthors,
+  insertComment,
+  type CommentWithAuthor,
+} from '@/lib/data/supabase';
 
 interface CommentsSectionProps {
   postId: string;
 }
-
-type CommentRow = Database['public']['Tables']['comments']['Row'];
-type ProfileRow = Pick<
-  Database['public']['Tables']['profiles']['Row'],
-  'name' | 'avatar_url'
->;
-
-type CommentWithAuthor = CommentRow & {
-  author: ProfileRow | null;
-};
 
 const getInitials = (name: string) => {
   const parts = name
@@ -74,47 +67,7 @@ const CommentsSection = ({ postId }: CommentsSectionProps) => {
   } = useQuery<CommentWithAuthor[]>({
     queryKey: ['comments', postId],
     enabled: Boolean(postId),
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('comments')
-        .select('id, post_id, user_id, content, created_at')
-        .eq('post_id', postId)
-        .order('created_at', { ascending: true });
-
-      if (error) {
-        throw new Error(error.message);
-      }
-
-      if (!data?.length) {
-        return [];
-      }
-
-      const userIds = Array.from(
-        new Set(data.map((comment) => comment.user_id).filter(Boolean))
-      );
-
-      let profilesMap = new Map<string, ProfileRow>();
-
-      if (userIds.length > 0) {
-        const { data: profilesData, error: profilesError } = await supabase
-          .from('profiles')
-          .select('user_id, name, avatar_url')
-          .in('user_id', userIds);
-
-        if (profilesError) {
-          console.error('Error fetching comment author profiles', profilesError);
-        } else if (profilesData) {
-          profilesMap = new Map(
-            profilesData.map((profile) => [profile.user_id, profile])
-          );
-        }
-      }
-
-      return data.map((comment) => ({
-        ...comment,
-        author: profilesMap.get(comment.user_id) ?? null,
-      }));
-    },
+    queryFn: () => fetchCommentsWithAuthors(postId),
   });
 
   const addComment = useMutation({
@@ -123,15 +76,11 @@ const CommentsSection = ({ postId }: CommentsSectionProps) => {
         throw new Error(t('blog.comments.signInRequiredDescription'));
       }
 
-      const { error } = await supabase.from('comments').insert({
+      await insertComment({
         post_id: postId,
         user_id: user.id,
         content,
       });
-
-      if (error) {
-        throw new Error(error.message);
-      }
     },
     onSuccess: () => {
       setNewComment('');

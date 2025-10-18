@@ -7,9 +7,11 @@ import Layout from '@/components/Layout';
 import Meta from '@/components/Meta';
 import NewsletterSection from '@/components/NewsletterSection';
 import CommentsSection from '@/components/blog/CommentsSection';
-import { supabase } from '@/integrations/supabase';
 import { getNormalizedLocale } from '@/lib/i18n';
-import type { Database } from '@/integrations/supabase/types';
+import {
+  fetchPublishedBlogPostBySlug,
+  type BlogPostRow,
+} from '@/lib/data/supabase';
 import {
   Breadcrumb,
   BreadcrumbList,
@@ -19,7 +21,7 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 
-type BlogPost = Database['public']['Tables']['blog_posts']['Row'];
+type BlogPost = BlogPostRow;
 
 type LexicalNode = {
   type: string;
@@ -241,18 +243,7 @@ const BlogPostPage = () => {
         return null;
       }
 
-      const { data, error } = await supabase
-        .from('blog_posts')
-        .select('id, slug, title, content, excerpt, image_url, updated_at, created_at, published')
-        .eq('slug', slug)
-        .eq('published', true)
-        .maybeSingle();
-
-      if (error) {
-        throw new Error(error.message);
-      }
-
-      return data;
+      return fetchPublishedBlogPostBySlug(slug);
     },
   });
 
