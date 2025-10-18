@@ -1,0 +1,13 @@
+# Prevent host dependencies and build artifacts from being copied into the image
+node_modules
+cms/node_modules
+.dist
+cms/.payload
+cms/dist
+cms/build
+.vercel
+*.log
+npm-debug.log*
+yarn-error.log*
+.DS_Store
+.git
