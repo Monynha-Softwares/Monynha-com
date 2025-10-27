@@ -8,7 +8,10 @@
     "contact": "Contact",
     "startProject": "Start Your Project",
     "toggleNavigation": "Toggle navigation",
-    "backToTop": "Back to top"
+    "backToTop": "Back to top",
+    "hello": "Hello",
+    "signOut": "Sign Out",
+    "login": "Login"
   },
   "footer": {
     "quickLinks": "Quick Links",
@@ -97,7 +100,7 @@
     "mission": "To democratize artificial intelligence by creating accessible, powerful software solutions that help businesses of all sizes harness the power of AI to streamline operations, enhance customer experiences, and drive sustainable growth.",
     "storyTitle": "Our Story",
     "story": {
-      "p1": "Monynha Softwareswas founded with a simple yet ambitious vision: to make artificial intelligence accessible and practical for businesses everywhere.",
+      "p1": "Monynha Softwares was founded with a simple yet ambitious vision: to make artificial intelligence accessible and practical for businesses everywhere.",
       "p2": "Starting as a small team of passionate developers and AI enthusiasts, we recognized the gap between complex AI technologies and real-world business applications. Our mission became clear: bridge this gap with intuitive, powerful solutions.",
       "p3": "Today, we've grown into a trusted partner for businesses across industries, delivering custom software solutions that not only meet current needs but anticipate future challenges."
     },
@@ -265,7 +268,13 @@
     "liveDemo": "Live Demo",
     "like": "Like our projects?",
     "likeDescription": "Get in touch to craft a custom solution for your business.",
-    "contactUs": "Contact Us"
+    "contactUs": "Contact Us",
+    "loading": "Loading...",
+    "loadingSolutions": "Loading solutions...",
+    "errorLoadingProjects": "Error loading projects",
+    "errorLoadingGitHub": "Error loading GitHub projects",
+    "errorLoadingSolutions": "Error loading solutions",
+    "errorLoadingAdditional": "Error loading additional projects"
   },
   "notFound": {
     "oops": "Oops! Page not found",

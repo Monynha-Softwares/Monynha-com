@@ -8,7 +8,10 @@
     "contact": "Contact",
     "startProject": "Démarrer le projet",
     "toggleNavigation": "Basculer la navigation",
-    "backToTop": "Haut de page"
+    "backToTop": "Haut de page",
+    "hello": "Bonjour",
+    "signOut": "Se déconnecter",
+    "login": "Se connecter"
   },
   "footer": {
     "quickLinks": "Liens rapides",
@@ -265,7 +268,13 @@
     "liveDemo": "Démo en ligne",
     "like": "Vous aimez nos projets ?",
     "likeDescription": "Contactez-nous pour créer une solution personnalisée pour votre entreprise.",
-    "contactUs": "Nous contacter"
+    "contactUs": "Nous contacter",
+    "loading": "Chargement...",
+    "loadingSolutions": "Chargement des solutions...",
+    "errorLoadingProjects": "Erreur lors du chargement des projets",
+    "errorLoadingGitHub": "Erreur lors du chargement des projets GitHub",
+    "errorLoadingSolutions": "Erreur lors du chargement des solutions",
+    "errorLoadingAdditional": "Erreur lors du chargement de projets supplémentaires"
   },
   "notFound": {
     "oops": "Oups ! Page introuvable",

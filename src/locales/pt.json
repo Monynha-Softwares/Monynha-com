@@ -8,7 +8,10 @@
     "contact": "Contato",
     "startProject": "Iniciar Projeto",
     "toggleNavigation": "Alternar navegação",
-    "backToTop": "Voltar ao topo"
+    "backToTop": "Voltar ao topo",
+    "hello": "Olá",
+    "signOut": "Sair",
+    "login": "Entrar"
   },
   "footer": {
     "quickLinks": "Links Rápidos",
@@ -263,7 +266,13 @@
     "liveDemo": "Demo ao Vivo",
     "like": "Gostou dos projetos?",
     "likeDescription": "Entre em contato para criar uma solução personalizada para seu negócio.",
-    "contactUs": "Fale Conosco"
+    "contactUs": "Fale Conosco",
+    "loading": "Carregando...",
+    "loadingSolutions": "Carregando soluções...",
+    "errorLoadingProjects": "Erro ao carregar projetos",
+    "errorLoadingGitHub": "Erro ao carregar projetos do GitHub",
+    "errorLoadingSolutions": "Erro ao carregar soluções",
+    "errorLoadingAdditional": "Erro ao carregar projetos adicionais"
   },
   "notFound": {
     "oops": "Ops! Página não encontrada",
