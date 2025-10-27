@@ -61,14 +61,14 @@ const Header = () => {
               </NavLink>
             ))}
           </nav>
-          <LanguageSwitcher />
 
           {/* User Actions */}
           <div className="hidden md:flex items-center space-x-4">
+            <LanguageSwitcher />
             {user ? (
               <div className="flex items-center space-x-3">
                 <span className="text-sm text-neutral-600">
-                  Olá, {user.email}
+                  {t('navigation.hello')}, {user.email}
                 </span>
                 <Button
                   variant="outline"
@@ -77,7 +77,7 @@ const Header = () => {
                   className="flex items-center space-x-2"
                 >
                   <LogOut className="h-4 w-4" />
-                  <span>Sair</span>
+                  <span>{t('navigation.signOut')}</span>
                 </Button>
               </div>
             ) : (
@@ -89,7 +89,7 @@ const Header = () => {
                     className="flex items-center space-x-2"
                   >
                     <User className="h-4 w-4" />
-                    <span>Login</span>
+                    <span>{t('navigation.login')}</span>
                   </Button>
                 </NavLink>
                 <NavLink to="/contact">
@@ -136,7 +136,7 @@ const Header = () => {
               {user ? (
                 <div className="pt-4 flex flex-col space-y-2">
                   <span className="text-sm text-neutral-600 px-2">
-                    Olá, {user.email}
+                    {t('navigation.hello')}, {user.email}
                   </span>
                   <Button
                     variant="outline"
@@ -144,7 +144,7 @@ const Header = () => {
                     className="w-full flex items-center justify-center space-x-2"
                   >
                     <LogOut className="h-4 w-4" />
-                    <span>Sair</span>
+                    <span>{t('navigation.signOut')}</span>
                   </Button>
                 </div>
               ) : (
@@ -155,7 +155,7 @@ const Header = () => {
                       className="w-full flex items-center justify-center space-x-2"
                     >
                       <User className="h-4 w-4" />
-                      <span>Login</span>
+                      <span>{t('navigation.login')}</span>
                     </Button>
                   </NavLink>
                   <NavLink to="/contact">
