@@ -1,7 +1,7 @@
-# Asset Redesign Progress Tracker
+# Visual Asset Redesign Progress Tracker
 
-## Overview
-This document tracks the progress of redesigning all visual assets to align with Monynha Softwares' brand identity and color palette.
+## Project Overview
+Redesign all images, placeholders, icons, and SVG assets to align with Monynha Softwares' brand identity.
 
 ## Brand Guidelines
 

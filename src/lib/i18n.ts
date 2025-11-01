@@ -20,3 +20,20 @@ export const getNormalizedLocale = (language: string | undefined | null) => {
       return language;
   }
 };
+
+/**
+ * Creates a date formatter with fallback to en-US if the locale is not supported.
+ * This utility centralizes date formatting logic used across the application.
+ */
+export const createDateFormatter = (
+  locale: string,
+  options: Intl.DateTimeFormatOptions
+): Intl.DateTimeFormat => {
+  try {
+    return new Intl.DateTimeFormat(locale, options);
+  } catch (error) {
+    console.error(`Unsupported locale "${locale}" for date formatting`, error);
+    return new Intl.DateTimeFormat('en-US', options);
+  }
+};
+

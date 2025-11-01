@@ -9,17 +9,10 @@ import {
 } from 'lucide-react';
 import Layout from '../components/Layout';
 import Meta from '@/components/Meta';
+import PageBreadcrumb from '@/components/PageBreadcrumb';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import {
-  Breadcrumb,
-  BreadcrumbList,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb';
 import { supabase } from '@/integrations/supabase';
 import { useTranslation, Trans } from 'react-i18next';
 import { Link } from 'react-router-dom';
@@ -29,6 +22,7 @@ import {
   getFallbackSolutions,
   mapGitHubRepoToContent,
 } from '@/lib/solutions';
+import { LONG_STALE_QUERY_OPTIONS } from '@/lib/queryOptions';
 import type { GitHubRepository } from '@/lib/solutions';
 import type { SolutionContent } from '@/types/solutions';
 
@@ -79,9 +73,7 @@ const Projects = () => {
   } = useQuery<SolutionContent[]>({
     queryKey: ['solutions'],
     queryFn: fetchSupabaseSolutions,
-    staleTime: 1000 * 60 * 10,
-    retry: 1,
-    refetchOnWindowFocus: false,
+    ...LONG_STALE_QUERY_OPTIONS,
   });
 
   // Removed duplicate githubSolutions useQuery block
@@ -127,9 +119,7 @@ const Projects = () => {
         mapGitHubRepoToContent(repository, index)
       );
     },
-    staleTime: 1000 * 60 * 10,
-    retry: 1,
-    refetchOnWindowFocus: false,
+    ...LONG_STALE_QUERY_OPTIONS,
   });
 
   const combinedSolutions = useMemo(() => {
@@ -232,19 +222,9 @@ const Projects = () => {
         ogImage="/placeholder.svg"
       />
       <div className="max-w-7xl mx-auto px-4 pt-4">
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink asChild>
-                <Link to="/">{t('navigation.home')}</Link>
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>{t('navigation.projects')}</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
+        <PageBreadcrumb
+          segments={[{ label: t('navigation.projects') }]}
+        />
       </div>
 
       <div className="container mx-auto px-4 py-16">

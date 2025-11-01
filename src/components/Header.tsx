@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/hooks/useAuth';
 import LanguageSwitcher from './LanguageSwitcher';
+import { LogoIcon, HeartIcon } from '@/components/icons';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -30,16 +31,13 @@ const Header = () => {
             to="/"
             className="flex items-center space-x-3 hover:opacity-80 transition-opacity ease-in-out duration-300"
           >
-            <div className="w-10 h-10 bg-gradient-brand rounded-xl flex items-center justify-center">
-              <span className="text-white text-lg font-bold">M</span>
+            <LogoIcon size={40} variant="gradient" />
+            <div className="flex flex-row items-center">
+              <span className="font-brand font-semibold text-xl text-neutral-900 flex items-center">
+                Mon<span className="text-brand-blue">y</span>nha
+              </span>
+              <HeartIcon size={18} className="text-[#EA33F7] ml-0.5" />
             </div>
-          <div className="flex flex-row items-center">
-            <span className="font-brand font-semibold text-xl text-neutral-900 flex items-center">
-              Mon<span className="text-brand-blue">y</span>nha</span>
-                <svg xmlns="http://www.w3.org/2000/svg" height="18px" width="18px" viewBox="0 0 24 24" fill="#EA33F7" style={{verticalAlign: 'middle'}}>
-                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                </svg>
-          </div>
           </NavLink>
 
           {/* Desktop Navigation */}

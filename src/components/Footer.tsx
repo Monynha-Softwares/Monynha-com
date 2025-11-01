@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Heart } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
+import { LogoIcon, HeartIcon } from '@/components/icons';
 
 const Footer = () => {
   const { t } = useTranslation();
@@ -12,13 +12,13 @@ const Footer = () => {
           {/* Logo and Description */}
           <div className="sm:col-span-2">
             <Link to="/" className="flex items-center space-x-3 mb-4">
-              <div className="w-10 h-10 bg-gradient-brand rounded-xl flex items-center justify-center">
-                <span className="text-white text-lg font-bold">M</span>
-              </div>
+              <LogoIcon size={40} variant="gradient" />
               <div className="flex flex-col">
-                <span className="font-brand font-semibold text-xl text-neutral-900">
-                  Mon<span className="text-brand-blue">y</span>nha.com
-                </span>
+                <div className="flex items-center">
+                  <span className="font-brand font-semibold text-xl text-neutral-900">
+                    Mon<span className="text-brand-blue">y</span>nha.com
+                  </span>
+                </div>
                 <span className="text-sm text-neutral-400 font-medium">
                   {t('footer.tagline')}
                 </span>
@@ -190,7 +190,7 @@ const Footer = () => {
             </span>
             <span className="flex items-center space-x-1">
               <span>{t('footer.madeWith')}</span>
-              <Heart className="h-4 w-4 text-red-500 fill-current" />
+              <HeartIcon size={16} className="text-[#EA33F7]" />
               <span>{t('footer.andPride')}</span>
             </span>
           </p>
