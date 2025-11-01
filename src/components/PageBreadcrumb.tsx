@@ -41,7 +41,7 @@ export const PageBreadcrumb = ({ currentPage, items = [] }: PageBreadcrumbProps)
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
-          {items.map((item, index) => (
+          {items.map((item) => (
             <React.Fragment key={item.href}>
               <BreadcrumbItem>
                 <BreadcrumbLink asChild>
