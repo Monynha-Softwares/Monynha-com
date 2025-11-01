@@ -229,7 +229,9 @@ const BlogPostPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const { t } = useTranslation();
 
-  const { formatDate } = useLocalizedDateFormatter({ dateStyle: 'long' });
+  const { formatDate } = useLocalizedDateFormatter({
+    dateOptions: { dateStyle: 'long' },
+  });
 
   const {
     data: post,

@@ -42,9 +42,11 @@ const Projects = () => {
   const memoizedFallbackSolutions = useMemo(() => getFallbackSolutions(), []);
 
   const { formatDate } = useLocalizedDateFormatter({
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
+    dateOptions: {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    },
   });
 
   const {

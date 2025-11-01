@@ -150,8 +150,10 @@ const Dashboard = () => {
   }, [loadDashboard]);
 
   const { formatDate } = useLocalizedDateFormatter({
-    dateStyle: 'short',
-    timeStyle: 'short',
+    dateOptions: {
+      dateStyle: 'short',
+      timeStyle: 'short',
+    },
   });
 
   const handleRefresh = () => {

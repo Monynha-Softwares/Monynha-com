@@ -87,7 +87,9 @@ const Blog = () => {
   const { t } = useTranslation();
   const [page, setPage] = useState(1);
 
-  const { formatDate } = useLocalizedDateFormatter({ dateStyle: 'medium' });
+  const { formatDate } = useLocalizedDateFormatter({
+    dateOptions: { dateStyle: 'medium' },
+  });
 
   const categories = useMemo(
     () => BLOG_CATEGORY_KEYS.map((key) => t(key)),

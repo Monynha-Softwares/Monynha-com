@@ -51,8 +51,10 @@ const CommentsSection = ({ postId }: CommentsSectionProps) => {
   const [newComment, setNewComment] = useState('');
 
   const { formatDate } = useLocalizedDateFormatter({
-    dateStyle: 'medium',
-    timeStyle: 'short',
+    dateOptions: {
+      dateStyle: 'medium',
+      timeStyle: 'short',
+    },
   });
 
   const {
