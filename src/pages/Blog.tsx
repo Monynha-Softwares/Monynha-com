@@ -1,10 +1,11 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo } from 'react';
 import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Layout from '@/components/Layout';
 import Meta from '@/components/Meta';
 import NewsletterSection from '@/components/NewsletterSection';
+import { PageBreadcrumb } from '@/components/PageBreadcrumb';
 import {
   ArrowRight,
   Clock,
@@ -16,14 +17,6 @@ import { supabase } from '@/integrations/supabase';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import {
-  Breadcrumb,
-  BreadcrumbList,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb';
-import {
   Pagination,
   PaginationContent,
   PaginationItem,
@@ -31,7 +24,7 @@ import {
   PaginationEllipsis,
 } from '@/components/ui/pagination';
 import { cn } from '@/lib/utils';
-import { getNormalizedLocale } from '@/lib/i18n';
+import { useLocalizedDateFormatter } from '@/hooks/useLocalizedDateFormatter';
 import type { Database } from '@/integrations/supabase/types';
 
 const FALLBACK_IMAGE =
@@ -91,26 +84,12 @@ const getPaginationRange = (
 };
 
 const Blog = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [page, setPage] = useState(1);
 
-  const normalizedLocale = useMemo(
-    () => getNormalizedLocale(i18n.language),
-    [i18n.language]
-  );
-
-  const dateFormatter = useMemo(() => {
-    try {
-      return new Intl.DateTimeFormat(normalizedLocale, {
-        dateStyle: 'medium',
-      });
-    } catch (error) {
-      console.error('Unsupported locale for blog date formatting', error);
-      return new Intl.DateTimeFormat('en-US', {
-        dateStyle: 'medium',
-      });
-    }
-  }, [normalizedLocale]);
+  const { formatDate } = useLocalizedDateFormatter({
+    dateOptions: { dateStyle: 'medium' },
+  });
 
   const categories = useMemo(
     () => BLOG_CATEGORY_KEYS.map((key) => t(key)),
@@ -160,12 +139,12 @@ const Blog = () => {
         excerpt: post.excerpt ?? t('blog.fallbackExcerpt'),
         image: post.image_url ?? FALLBACK_IMAGE,
         author: t('blog.defaultAuthor'),
-        date: dateFormatter.format(new Date(post.updated_at)),
+        date: formatDate(post.updated_at),
         readTime: t('blog.readTimeDefault'),
         category: t('blog.defaultCategory'),
         featured: page === 1 && index === 0,
       })),
-    [data?.posts, dateFormatter, page, t]
+    [data?.posts, formatDate, page, t]
   );
 
   const featuredPost = page === 1 ? formattedPosts[0] : undefined;
@@ -240,21 +219,7 @@ const Blog = () => {
         ogDescription={t('blog.description')}
         ogImage="/placeholder.svg"
       />
-      <div className="max-w-7xl mx-auto px-4 pt-4">
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink asChild>
-                <Link to="/">{t('navigation.home')}</Link>
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>{t('navigation.blog')}</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
-      </div>
+      <PageBreadcrumb currentPage="navigation.blog" />
       <section className="py-24 bg-white transition-colors dark:bg-neutral-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
