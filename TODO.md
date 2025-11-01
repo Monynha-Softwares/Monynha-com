@@ -6,12 +6,12 @@ This document tracks the progress of redesigning all visual assets to align with
 ## Brand Guidelines
 
 ### Color Palette
-- **Primary Purple**: `#5B2C6F` - Main brand color
-- **Primary Blue**: `#4A90E2` - Secondary brand color
-- **Accent Pink**: `#E06666` - Accent color
-- **Accent Orange**: `#F7B500` - Highlight color
-- **Brand Gradient**: `linear-gradient(135deg, #5B2C6F 0%, #4A90E2 25%, #E06666 75%, #F7B500 100%)`
-- **Hero Gradient**: `linear-gradient(135deg, #5B2C6F 0%, #4A90E2 100%)`
+- **Primary Purple**: `#5b2c6f` - Main brand color
+- **Primary Blue**: `#4a90e2` - Secondary brand color
+- **Accent Pink**: `#e06666` - Accent color
+- **Accent Orange**: `#f7b500` - Highlight color
+- **Brand Gradient**: `linear-gradient(135deg, #5b2c6f 0%, #4a90e2 25%, #e06666 75%, #f7b500 100%)`
+- **Hero Gradient**: `linear-gradient(135deg, #5b2c6f 0%, #4a90e2 100%)`
 
 ### Design Principles
 - **Border Radius**: Base `0.75rem` (12px), XL `1rem`, 2XL `1.5rem`

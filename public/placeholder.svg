@@ -15,7 +15,5 @@
         <rect width="80" height="16" x="-100" y="-80" fill="#e06666" rx="4"/>
         <circle cx="80" cy="-40" r="12" fill="#f7b500"/>
     </g>
-    <text x="600" y="1100" fill="#5b2c6f" fill-opacity=".2" font-family="Inter, sans-serif" font-size="32" font-weight="600" text-anchor="middle">
-    Monynha Softwares
-  </text>
+    <text x="600" y="1100" fill="#5b2c6f" fill-opacity=".2" font-family="Inter, sans-serif" font-size="32" font-weight="600" text-anchor="middle">Monynha Softwares</text>
 </svg>
