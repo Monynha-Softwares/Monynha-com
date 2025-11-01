@@ -22,6 +22,7 @@ import {
   getFallbackSolutions,
   mapGitHubRepoToContent,
 } from '@/lib/solutions';
+import { LONG_STALE_QUERY_OPTIONS } from '@/lib/queryOptions';
 import type { GitHubRepository } from '@/lib/solutions';
 import type { SolutionContent } from '@/types/solutions';
 
@@ -72,9 +73,7 @@ const Projects = () => {
   } = useQuery<SolutionContent[]>({
     queryKey: ['solutions'],
     queryFn: fetchSupabaseSolutions,
-    staleTime: 1000 * 60 * 10,
-    retry: 1,
-    refetchOnWindowFocus: false,
+    ...LONG_STALE_QUERY_OPTIONS,
   });
 
   // Removed duplicate githubSolutions useQuery block
@@ -120,9 +119,7 @@ const Projects = () => {
         mapGitHubRepoToContent(repository, index)
       );
     },
-    staleTime: 1000 * 60 * 10,
-    retry: 1,
-    refetchOnWindowFocus: false,
+    ...LONG_STALE_QUERY_OPTIONS,
   });
 
   const combinedSolutions = useMemo(() => {

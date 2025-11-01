@@ -16,6 +16,7 @@ import {
   mapGitHubRepoToContent,
   mapSupabaseSolutionToContent,
 } from '@/lib/solutions';
+import { LONG_STALE_QUERY_OPTIONS } from '@/lib/queryOptions';
 
 const getRepositoryUrl = (repositorySlug: string) =>
   `https://api.github.com/repos/Monynha-Softwares/${encodeURIComponent(
@@ -80,10 +81,8 @@ const SolutionDetail = () => {
 
       return mapGitHubRepoToContent(repository, 0);
     },
-    staleTime: 1000 * 60 * 10,
-    retry: 1,
+    ...LONG_STALE_QUERY_OPTIONS,
     keepPreviousData: true,
-    refetchOnWindowFocus: false,
   });
 
   const displaySolution = solution ?? fallbackSolution ?? null;

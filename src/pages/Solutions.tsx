@@ -13,6 +13,7 @@ import {
   getFallbackSolutions,
   mapSupabaseSolutionToContent,
 } from '@/lib/solutions';
+import { LONG_STALE_QUERY_OPTIONS } from '@/lib/queryOptions';
 
 import type { SolutionContent } from '@/types/solutions';
 
@@ -46,9 +47,7 @@ const Solutions = () => {
       );
     },
 
-    staleTime: 1000 * 60 * 10,
-    retry: 1,
-    refetchOnWindowFocus: false,
+    ...LONG_STALE_QUERY_OPTIONS,
   });
 
   const displaySolutions =
