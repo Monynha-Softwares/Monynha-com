@@ -194,9 +194,9 @@ const Index = () => {
       </section>
 
       {/* Features Section */}
-      <section className="py-24 bg-white">
+      <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="text-center mb-12">
             <h2 className="text-3xl lg:text-4xl font-bold text-neutral-900 mb-4">
               {t('index.why.title')}
             </h2>
@@ -231,9 +231,9 @@ const Index = () => {
       </section>
 
       {/* Solutions Preview */}
-      <section className="py-24 bg-neutral-50">
+      <section className="py-20 bg-neutral-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="text-center mb-12">
             <h2 className="text-3xl lg:text-4xl font-bold text-neutral-900 mb-4">
               {t('index.solutions.title')}
             </h2>
@@ -245,16 +245,16 @@ const Index = () => {
             {displaySolutions.map((solution, index) => (
               <Card
                 key={index}
-                className="border-0 shadow-soft hover:shadow-soft-lg transition-all ease-in-out duration-300 card-hover rounded-2xl overflow-hidden"
+                className="border-0 shadow-soft hover:shadow-soft-lg transition-all ease-in-out duration-300 card-hover rounded-2xl overflow-hidden flex flex-col card-min-h-md"
               >
                 <div
                   className={`h-4 bg-gradient-to-r ${solution.gradient}`}
                 ></div>
-                <CardContent className="p-8">
+                <CardContent className="p-8 flex flex-col flex-1">
                   <h3 className="text-2xl font-bold text-neutral-900 mb-4">
                     {solution.name}
                   </h3>
-                  <p className="text-neutral-600 mb-6">
+                  <p className="text-neutral-600 mb-6 flex-1">
                     {solution.description}
                   </p>
                   {solution.features &&
@@ -266,13 +266,13 @@ const Index = () => {
                             key={featureIndex}
                             className="flex items-center text-neutral-700"
                           >
-                            <CheckCircle className="h-5 w-5 text-brand-blue mr-3" />
+                            <CheckCircle className="h-5 w-5 text-brand-blue mr-3 flex-shrink-0" />
                             {feature}
                           </li>
                         ))}
                       </ul>
                     )}
-                  <Link to="/solutions">
+                  <Link to="/solutions" className="mt-auto">
                     <Button className="btn-secondary w-full">
                       {t('index.learnMore')}
                       <ArrowRight className="ml-2 h-4 w-4" />
@@ -292,7 +292,7 @@ const Index = () => {
       <NewsletterSection />
 
       {/* CTA Section */}
-      <section className="py-24 bg-gradient-hero text-white">
+      <section className="py-20 bg-gradient-hero text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl lg:text-4xl font-bold mb-6">
             {t('index.cta.title')}

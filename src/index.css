@@ -66,4 +66,17 @@
   .card-hover {
     @apply transition-all ease-in-out duration-300 hover:shadow-soft-lg hover:-translate-y-1;
   }
+
+  /* Card minimum heights for consistent layouts */
+  .card-min-h-sm {
+    @apply min-h-[320px];
+  }
+
+  .card-min-h-md {
+    @apply min-h-[400px];
+  }
+
+  .card-min-h-lg {
+    @apply min-h-[500px];
+  }
 }
