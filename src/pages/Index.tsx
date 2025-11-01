@@ -245,7 +245,7 @@ const Index = () => {
             {displaySolutions.map((solution, index) => (
               <Card
                 key={index}
-                className="border-0 shadow-soft hover:shadow-soft-lg transition-all ease-in-out duration-300 card-hover rounded-2xl overflow-hidden flex flex-col min-h-[400px]"
+                className="border-0 shadow-soft hover:shadow-soft-lg transition-all ease-in-out duration-300 card-hover rounded-2xl overflow-hidden flex flex-col card-min-h-md"
               >
                 <div
                   className={`h-4 bg-gradient-to-r ${solution.gradient}`}

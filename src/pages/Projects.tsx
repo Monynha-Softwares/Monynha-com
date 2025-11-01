@@ -268,7 +268,7 @@ const Projects = () => {
                   ? combinedSolutions.map((solution) => (
                       <Card
                         key={solution.id ?? solution.slug}
-                        className="border-0 shadow-soft-lg flex flex-col overflow-hidden min-h-[500px]"
+                        className="border-0 shadow-soft-lg flex flex-col overflow-hidden card-min-h-lg"
                       >
                         {solution.imageUrl && (
                           <div className="relative h-48 w-full overflow-hidden">
@@ -366,7 +366,7 @@ const Projects = () => {
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
               {repositories.map((repo) => (
-                <Card key={repo.id} className="card-hover border-0 shadow-soft flex flex-col min-h-[320px]">
+                <Card key={repo.id} className="card-hover border-0 shadow-soft flex flex-col card-min-h-sm">
                   <CardHeader className="pb-4">
                     <div className="flex items-start justify-between">
                       <CardTitle className="text-xl font-semibold text-neutral-900 mb-2">
