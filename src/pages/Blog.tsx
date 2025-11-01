@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import Layout from '@/components/Layout';
 import Meta from '@/components/Meta';
 import NewsletterSection from '@/components/NewsletterSection';
+import { PageBreadcrumb } from '@/components/PageBreadcrumb';
 import {
   ArrowRight,
   Clock,
@@ -16,14 +17,6 @@ import { supabase } from '@/integrations/supabase';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import {
-  Breadcrumb,
-  BreadcrumbList,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb';
-import {
   Pagination,
   PaginationContent,
   PaginationItem,
@@ -31,7 +24,7 @@ import {
   PaginationEllipsis,
 } from '@/components/ui/pagination';
 import { cn } from '@/lib/utils';
-import { getNormalizedLocale } from '@/lib/i18n';
+import { createDateFormatter } from '@/lib/i18n';
 import type { Database } from '@/integrations/supabase/types';
 
 const FALLBACK_IMAGE =
@@ -94,23 +87,10 @@ const Blog = () => {
   const { t, i18n } = useTranslation();
   const [page, setPage] = useState(1);
 
-  const normalizedLocale = useMemo(
-    () => getNormalizedLocale(i18n.language),
+  const dateFormatter = useMemo(
+    () => createDateFormatter(i18n.language, { dateStyle: 'medium' }),
     [i18n.language]
   );
-
-  const dateFormatter = useMemo(() => {
-    try {
-      return new Intl.DateTimeFormat(normalizedLocale, {
-        dateStyle: 'medium',
-      });
-    } catch (error) {
-      console.error('Unsupported locale for blog date formatting', error);
-      return new Intl.DateTimeFormat('en-US', {
-        dateStyle: 'medium',
-      });
-    }
-  }, [normalizedLocale]);
 
   const categories = useMemo(
     () => BLOG_CATEGORY_KEYS.map((key) => t(key)),
@@ -239,21 +219,7 @@ const Blog = () => {
         ogDescription={t('blog.description')}
         ogImage="/placeholder.svg"
       />
-      <div className="max-w-7xl mx-auto px-4 pt-4">
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink asChild>
-                <Link to="/">{t('navigation.home')}</Link>
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>{t('navigation.blog')}</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
-      </div>
+      <PageBreadcrumb currentPage={t('navigation.blog')} />
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">

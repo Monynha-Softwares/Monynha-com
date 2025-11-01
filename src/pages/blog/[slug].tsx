@@ -7,17 +7,10 @@ import Layout from '@/components/Layout';
 import Meta from '@/components/Meta';
 import NewsletterSection from '@/components/NewsletterSection';
 import CommentsSection from '@/components/blog/CommentsSection';
+import { PageBreadcrumb } from '@/components/PageBreadcrumb';
 import { supabase } from '@/integrations/supabase';
-import { getNormalizedLocale } from '@/lib/i18n';
+import { createDateFormatter } from '@/lib/i18n';
 import type { Database } from '@/integrations/supabase/types';
-import {
-  Breadcrumb,
-  BreadcrumbList,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb';
 
 type BlogPost = Database['public']['Tables']['blog_posts']['Row'];
 
@@ -213,21 +206,10 @@ const BlogPostPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const { t, i18n } = useTranslation();
 
-  const normalizedLocale = useMemo(
-    () => getNormalizedLocale(i18n.language),
+  const dateFormatter = useMemo(
+    () => createDateFormatter(i18n.language, { dateStyle: 'long' }),
     [i18n.language]
   );
-
-  const dateFormatter = useMemo(() => {
-    try {
-      return new Intl.DateTimeFormat(normalizedLocale, {
-        dateStyle: 'long',
-      });
-    } catch (error) {
-      console.error('Unsupported locale for blog post date formatting', error);
-      return new Intl.DateTimeFormat('en-US', { dateStyle: 'long' });
-    }
-  }, [normalizedLocale]);
 
   const {
     data: post,
@@ -336,27 +318,10 @@ const BlogPostPage = () => {
         ogDescription={metaDescription}
         ogImage={metaImage}
       />
-      <div className="max-w-4xl mx-auto px-4 pt-4">
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink asChild>
-                <Link to="/">{t('navigation.home')}</Link>
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbLink asChild>
-                <Link to="/blog">{t('navigation.blog')}</Link>
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>{post.title}</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
-      </div>
+      <PageBreadcrumb 
+        currentPage={post.title}
+        items={[{ label: t('navigation.blog'), href: '/blog' }]}
+      />
       <section className="py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link

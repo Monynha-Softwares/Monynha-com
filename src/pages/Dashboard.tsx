@@ -26,7 +26,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import Loading from '@/components/Loading';
 import { AlertTriangle, Loader2, LogOut, RefreshCcw } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { getNormalizedLocale } from '@/lib/i18n';
+import { createDateFormatter, formatDate } from '@/lib/i18n';
 
 type Profile = Database['public']['Tables']['profiles']['Row'];
 type Lead = Database['public']['Tables']['leads']['Row'];
@@ -149,44 +149,17 @@ const Dashboard = () => {
     void loadDashboard();
   }, [loadDashboard]);
 
-  const normalizedLocale = useMemo(
-    () => getNormalizedLocale(i18n.language),
+  const dateTimeFormatter = useMemo(
+    () => createDateFormatter(i18n.language, {
+      dateStyle: 'short',
+      timeStyle: 'short',
+    }),
     [i18n.language]
   );
 
-  const fallbackDateFormatter = useMemo(
-    () =>
-      new Intl.DateTimeFormat('en-US', {
-        dateStyle: 'short',
-        timeStyle: 'short',
-      }),
-    []
-  );
-
-  const dateTimeFormatter = useMemo(() => {
-    try {
-      return new Intl.DateTimeFormat(normalizedLocale, {
-        dateStyle: 'short',
-        timeStyle: 'short',
-      });
-    } catch (error) {
-      console.error('Unsupported locale for dashboard date formatting', error);
-      return fallbackDateFormatter;
-    }
-  }, [fallbackDateFormatter, normalizedLocale]);
-
-  const formatDate = useCallback(
-    (value: string | null | undefined) => {
-      if (!value) return '—';
-
-      try {
-        return dateTimeFormatter.format(new Date(value));
-      } catch (error) {
-        console.error('Error formatting dashboard date', error);
-        return fallbackDateFormatter.format(new Date(value));
-      }
-    },
-    [dateTimeFormatter, fallbackDateFormatter]
+  const formatDashboardDate = useCallback(
+    (value: string | null | undefined) => formatDate(value, dateTimeFormatter),
+    [dateTimeFormatter]
   );
 
   const handleRefresh = () => {
@@ -350,7 +323,7 @@ const Dashboard = () => {
                   {t('dashboard.profile.updatedAt')}
                 </p>
                 <p className="text-base font-semibold text-foreground">
-                  {formatDate(profile?.updated_at)}
+                  {formatDashboardDate(profile?.updated_at)}
                 </p>
               </div>
             </div>
@@ -401,7 +374,7 @@ const Dashboard = () => {
                           <TableCell>{lead.project ?? '—'}</TableCell>
                           <TableCell className="max-w-sm truncate">{lead.message}</TableCell>
                           <TableCell className="text-right">
-                            {formatDate(lead.created_at)}
+                            {formatDashboardDate(lead.created_at)}
                           </TableCell>
                         </TableRow>
                       ))}
@@ -451,7 +424,7 @@ const Dashboard = () => {
                             </Badge>
                           </TableCell>
                           <TableCell className="text-right">
-                            {formatDate(subscriber.subscribed_at)}
+                            {formatDashboardDate(subscriber.subscribed_at)}
                           </TableCell>
                         </TableRow>
                       ))}
