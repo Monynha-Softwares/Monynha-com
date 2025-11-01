@@ -35,9 +35,18 @@ interface UseLocalizedDateFormatterReturn {
 
 /**
  * Helper function to convert date input to Date object
+ * @throws Error if date is invalid
  */
-const toDateObject = (date: string | Date): Date =>
-  typeof date === 'string' ? new Date(date) : date;
+const toDateObject = (date: string | Date): Date => {
+  const dateObj = typeof date === 'string' ? new Date(date) : date;
+  
+  // Check if date is valid
+  if (Number.isNaN(dateObj.getTime())) {
+    throw new Error('Invalid date');
+  }
+  
+  return dateObj;
+};
 
 /**
  * Custom hook for localized date formatting with automatic fallback
@@ -80,15 +89,16 @@ export const useLocalizedDateFormatter = (
 
       try {
         const dateObject = toDateObject(date);
-        return dateFormatter.format(dateObject);
-      } catch (error) {
-        console.error('Error formatting date', error);
+        
         try {
-          const dateObject = toDateObject(date);
+          return dateFormatter.format(dateObject);
+        } catch (formattingError) {
+          console.error('Error formatting date with primary formatter', formattingError);
           return fallbackDateFormatter.format(dateObject);
-        } catch {
-          return nullFallback;
         }
+      } catch (dateError) {
+        console.error('Invalid date provided', dateError);
+        return nullFallback;
       }
     },
     [dateFormatter, fallbackDateFormatter, nullFallback]
