@@ -11,7 +11,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { getNormalizedLocale } from '@/lib/i18n';
+import { createDateFormatter } from '@/lib/i18n';
 
 interface CommentsSectionProps {
   postId: string;
@@ -47,25 +47,13 @@ const CommentsSection = ({ postId }: CommentsSectionProps) => {
   const queryClient = useQueryClient();
   const [newComment, setNewComment] = useState('');
 
-  const normalizedLocale = useMemo(
-    () => getNormalizedLocale(i18n.language),
+  const dateFormatter = useMemo(
+    () => createDateFormatter(i18n.language, {
+      dateStyle: 'medium',
+      timeStyle: 'short',
+    }),
     [i18n.language]
   );
-
-  const dateFormatter = useMemo(() => {
-    try {
-      return new Intl.DateTimeFormat(normalizedLocale, {
-        dateStyle: 'medium',
-        timeStyle: 'short',
-      });
-    } catch (error) {
-      console.error('Unsupported locale for comment date formatting', error);
-      return new Intl.DateTimeFormat('en-US', {
-        dateStyle: 'medium',
-        timeStyle: 'short',
-      });
-    }
-  }, [normalizedLocale]);
 
   const {
     data: comments,

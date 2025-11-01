@@ -31,7 +31,7 @@ import {
   PaginationEllipsis,
 } from '@/components/ui/pagination';
 import { cn } from '@/lib/utils';
-import { getNormalizedLocale } from '@/lib/i18n';
+import { createDateFormatter } from '@/lib/i18n';
 import type { Database } from '@/integrations/supabase/types';
 
 const FALLBACK_IMAGE =
@@ -94,23 +94,10 @@ const Blog = () => {
   const { t, i18n } = useTranslation();
   const [page, setPage] = useState(1);
 
-  const normalizedLocale = useMemo(
-    () => getNormalizedLocale(i18n.language),
+  const dateFormatter = useMemo(
+    () => createDateFormatter(i18n.language, { dateStyle: 'medium' }),
     [i18n.language]
   );
-
-  const dateFormatter = useMemo(() => {
-    try {
-      return new Intl.DateTimeFormat(normalizedLocale, {
-        dateStyle: 'medium',
-      });
-    } catch (error) {
-      console.error('Unsupported locale for blog date formatting', error);
-      return new Intl.DateTimeFormat('en-US', {
-        dateStyle: 'medium',
-      });
-    }
-  }, [normalizedLocale]);
 
   const categories = useMemo(
     () => BLOG_CATEGORY_KEYS.map((key) => t(key)),

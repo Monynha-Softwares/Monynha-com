@@ -25,7 +25,7 @@ import {
 } from '@/lib/solutions';
 import type { GitHubRepository } from '@/lib/solutions';
 import type { SolutionContent } from '@/types/solutions';
-import { getNormalizedLocale } from '@/lib/i18n';
+import { createDateFormatter, formatDate } from '@/lib/i18n';
 import {
   SolutionCard,
   sectionContainer,
@@ -52,44 +52,18 @@ const Projects = () => {
 
   const memoizedFallbackSolutions = useMemo(() => getFallbackSolutions(), []);
 
-  const normalizedLocale = useMemo(
-    () => getNormalizedLocale(i18n.language),
+  const dateFormatter = useMemo(
+    () => createDateFormatter(i18n.language, {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    }),
     [i18n.language]
   );
 
-  const fallbackDateFormatter = useMemo(
-    () =>
-      new Intl.DateTimeFormat('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-      }),
-    []
-  );
-
-  const dateFormatter = useMemo(() => {
-    try {
-      return new Intl.DateTimeFormat(normalizedLocale, {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-      });
-    } catch (error) {
-      console.error('Unsupported locale for project date formatting', error);
-      return fallbackDateFormatter;
-    }
-  }, [fallbackDateFormatter, normalizedLocale]);
-
-  const formatDate = useCallback(
-    (dateString: string) => {
-      try {
-        return dateFormatter.format(new Date(dateString));
-      } catch (error) {
-        console.error('Error formatting project date', error);
-        return fallbackDateFormatter.format(new Date(dateString));
-      }
-    },
-    [dateFormatter, fallbackDateFormatter]
+  const formatProjectDate = useCallback(
+    (dateString: string) => formatDate(dateString, dateFormatter),
+    [dateFormatter]
   );
 
   const {
@@ -457,7 +431,7 @@ const Projects = () => {
                       </CardTitle>
                       <div className="flex items-center gap-1 text-sm text-neutral-500">
                         <Calendar className="h-4 w-4" />
-                        {formatDate(repo.created_at)}
+                        {formatProjectDate(repo.created_at)}
                       </div>
                     </div>
                     <p className="text-neutral-600 leading-relaxed">

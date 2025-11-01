@@ -19,6 +19,7 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 import { useQuery } from '@tanstack/react-query';
+import { normalizeToStringArray } from '@/lib/utils';
 
 const PROJECT_TYPE_KEYS = [
   'contact.projectTypes.customAssistant',
@@ -36,57 +37,6 @@ const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const isValidatableField = (value: string): value is ValidatableField =>
   (validatableFields as readonly string[]).includes(value);
-
-const isNonEmptyString = (value: unknown): value is string =>
-  typeof value === 'string' && value.trim().length > 0;
-
-const normalizeProjectTypes = (value: unknown): string[] => {
-  if (value === null || value === undefined) {
-    return [];
-  }
-
-  let parsedValue = value;
-
-  if (typeof parsedValue === 'string') {
-    const trimmedValue = parsedValue.trim();
-
-    if (!trimmedValue) {
-      return [];
-    }
-
-    try {
-      parsedValue = JSON.parse(trimmedValue);
-    } catch {
-      return [trimmedValue];
-    }
-  }
-
-  if (Array.isArray(parsedValue)) {
-    return Array.from(
-      new Set(
-        parsedValue
-          .filter(isNonEmptyString)
-          .map((option) => option.trim())
-      )
-    );
-  }
-
-  if (typeof parsedValue === 'object' && parsedValue !== null) {
-    const record = parsedValue as Record<string, unknown>;
-
-    if (Array.isArray(record.options)) {
-      return Array.from(
-        new Set(
-          record.options
-            .filter(isNonEmptyString)
-            .map((option) => option.trim())
-        )
-      );
-    }
-  }
-
-  return [];
-};
 
 const Contact = () => {
   const { t } = useTranslation();
@@ -121,7 +71,7 @@ const Contact = () => {
 
       if (error) throw error;
 
-      return normalizeProjectTypes(data?.value);
+      return normalizeToStringArray(data?.value);
     },
     staleTime: 1000 * 60 * 10,
   });

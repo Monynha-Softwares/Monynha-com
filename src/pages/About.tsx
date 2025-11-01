@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { supabase } from '@/integrations/supabase';
 import { useTranslation } from 'react-i18next';
+import { normalizeToTypedArray } from '@/lib/utils';
 
 interface TeamMemberCard {
   id: string;
@@ -21,51 +22,6 @@ interface AboutStat {
   number: string;
   label: string;
 }
-
-const normalizeAboutStats = (value: unknown): AboutStat[] => {
-  if (!value) {
-    return [];
-  }
-
-  let parsedValue: unknown = value;
-
-  if (typeof parsedValue === 'string') {
-    try {
-      parsedValue = JSON.parse(parsedValue);
-    } catch {
-      return [];
-    }
-  }
-
-  if (Array.isArray(parsedValue)) {
-    return parsedValue
-      .map((item) => {
-        if (item && typeof item === 'object') {
-          const record = item as Record<string, unknown>;
-          const number = record.number;
-          const label = record.label;
-
-          if ((typeof number === 'string' || typeof number === 'number') && typeof label === 'string') {
-            return {
-              number: number.toString(),
-              label,
-            } satisfies AboutStat;
-          }
-        }
-        return null;
-      })
-      .filter((stat): stat is AboutStat => stat !== null);
-  }
-
-  if (typeof parsedValue === 'object' && parsedValue !== null) {
-    const record = parsedValue as Record<string, unknown>;
-    if (Array.isArray(record.stats)) {
-      return normalizeAboutStats(record.stats);
-    }
-  }
-
-  return [];
-};
 
 const About = () => {
   const { t } = useTranslation();
@@ -133,7 +89,21 @@ const About = () => {
 
       if (error) throw error;
 
-      return normalizeAboutStats(data?.value);
+      return normalizeToTypedArray<AboutStat>(data?.value, (item) => {
+        if (item && typeof item === 'object') {
+          const record = item as Record<string, unknown>;
+          const number = record.number;
+          const label = record.label;
+
+          if ((typeof number === 'string' || typeof number === 'number') && typeof label === 'string') {
+            return {
+              number: number.toString(),
+              label,
+            };
+          }
+        }
+        return null;
+      });
     },
   });
 

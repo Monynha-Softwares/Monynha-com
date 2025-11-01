@@ -8,7 +8,7 @@ import Meta from '@/components/Meta';
 import NewsletterSection from '@/components/NewsletterSection';
 import CommentsSection from '@/components/blog/CommentsSection';
 import { supabase } from '@/integrations/supabase';
-import { getNormalizedLocale } from '@/lib/i18n';
+import { createDateFormatter } from '@/lib/i18n';
 import type { Database } from '@/integrations/supabase/types';
 import {
   Breadcrumb,
@@ -213,21 +213,10 @@ const BlogPostPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const { t, i18n } = useTranslation();
 
-  const normalizedLocale = useMemo(
-    () => getNormalizedLocale(i18n.language),
+  const dateFormatter = useMemo(
+    () => createDateFormatter(i18n.language, { dateStyle: 'long' }),
     [i18n.language]
   );
-
-  const dateFormatter = useMemo(() => {
-    try {
-      return new Intl.DateTimeFormat(normalizedLocale, {
-        dateStyle: 'long',
-      });
-    } catch (error) {
-      console.error('Unsupported locale for blog post date formatting', error);
-      return new Intl.DateTimeFormat('en-US', { dateStyle: 'long' });
-    }
-  }, [normalizedLocale]);
 
   const {
     data: post,
