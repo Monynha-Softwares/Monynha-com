@@ -9,17 +9,10 @@ import {
 } from 'lucide-react';
 import Layout from '../components/Layout';
 import Meta from '@/components/Meta';
+import PageBreadcrumb from '@/components/PageBreadcrumb';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import {
-  Breadcrumb,
-  BreadcrumbList,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb';
 import { supabase } from '@/integrations/supabase';
 import { useTranslation, Trans } from 'react-i18next';
 import { Link } from 'react-router-dom';
@@ -232,19 +225,9 @@ const Projects = () => {
         ogImage="/placeholder.svg"
       />
       <div className="max-w-7xl mx-auto px-4 pt-4">
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink asChild>
-                <Link to="/">{t('navigation.home')}</Link>
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>{t('navigation.projects')}</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
+        <PageBreadcrumb
+          segments={[{ label: t('navigation.projects') }]}
+        />
       </div>
 
       <div className="container mx-auto px-4 py-16">

@@ -3,16 +3,9 @@ import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import Layout from '@/components/Layout';
 import Meta from '@/components/Meta';
+import PageBreadcrumb from '@/components/PageBreadcrumb';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb';
 import { ArrowLeft, ArrowRight, CheckCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { supabase } from '@/integrations/supabase';
@@ -164,25 +157,12 @@ const SolutionDetail = () => {
         ogImage={displaySolution.imageUrl ?? '/placeholder.svg'}
       />
       <div className="max-w-7xl mx-auto px-4 pt-4">
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink asChild>
-                <Link to="/">{t('navigation.home')}</Link>
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbLink asChild>
-                <Link to="/solutions">{t('navigation.solutions')}</Link>
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>{displaySolution.title}</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
+        <PageBreadcrumb
+          segments={[
+            { label: t('navigation.solutions'), href: '/solutions' },
+            { label: displaySolution.title },
+          ]}
+        />
       </div>
 
       <section className="py-16">
