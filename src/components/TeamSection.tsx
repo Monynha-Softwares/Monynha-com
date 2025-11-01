@@ -127,18 +127,20 @@ const TeamSection = () => {
                   </p>
                 )}
 
-                {member.linkedin_url && (
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    aria-label={t('team.linkedin')}
-                    className="rounded-full border-brand-blue text-brand-blue hover:bg-brand-blue hover:text-white"
-                    onClick={() => window.open(member.linkedin_url!, '_blank')}
-                  >
-                    <Linkedin className="w-4 h-4" />
-                    <span className="sr-only">{t('team.linkedin')}</span>
-                  </Button>
-                )}
+                <div className="flex justify-center">
+                  {member.linkedin_url && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      aria-label={t('team.linkedin')}
+                      className="rounded-full border-brand-blue text-brand-blue hover:bg-brand-blue hover:text-white"
+                      onClick={() => window.open(member.linkedin_url!, '_blank')}
+                    >
+                      <Linkedin className="w-4 h-4" />
+                      <span className="sr-only">{t('team.linkedin')}</span>
+                    </Button>
+                  )}
+                </div>
               </CardContent>
             </Card>
           ))}
