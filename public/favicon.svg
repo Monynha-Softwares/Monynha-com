@@ -1,1 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" aria-label="Monynha Softwares Logo" viewBox="0 0 64 64"><defs><linearGradient id="a" x1="0%" x2="100%" y1="0%" y2="100%"><stop offset="0%" stop-color="#5b2c6f"/><stop offset="25%" stop-color="#4a90e2"/><stop offset="75%" stop-color="#e06666"/><stop offset="100%" stop-color="#f7b500"/></linearGradient></defs><rect width="64" height="64" fill="url(#a)" rx="12"/><g fill="#fff"><path fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.5" d="M16 44V20l12 12 12-12v24"/><circle cx="28" cy="26" r="2.5"/><circle cx="28" cy="38" r="2.5"/><path fill="#ea33f7" d="m42 28 8 4-8 4Z"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+    <defs>
+        <linearGradient id="a" x1="0%" x2="100%" y1="0%" y2="100%">
+            <stop offset="0%" stop-color="#5b2c6f"/>
+            <stop offset="25%" stop-color="#4a90e2"/>
+            <stop offset="75%" stop-color="#e06666"/>
+            <stop offset="100%" stop-color="#f7b500"/>
+        </linearGradient>
+    </defs>
+    <rect width="64" height="64" fill="url(#a)" rx="12"/>
+    <path fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" d="M18 46V18l14 18 14-18v28"/>
+</svg>

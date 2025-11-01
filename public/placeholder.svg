@@ -1,1 +1,19 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" aria-label="Monynha Softwares Placeholder" viewBox="0 0 1200 1200"><defs><linearGradient id="a" x1="0%" x2="100%" y1="0%" y2="100%"><stop offset="0%" stop-color="#5b2c6f" stop-opacity=".1"/><stop offset="25%" stop-color="#4a90e2" stop-opacity=".1"/><stop offset="75%" stop-color="#e06666" stop-opacity=".1"/><stop offset="100%" stop-color="#f7b500" stop-opacity=".1"/></linearGradient><linearGradient id="b" x1="0%" x2="100%" y1="0%" y2="100%"><stop offset="0%" stop-color="#5b2c6f"/><stop offset="25%" stop-color="#4a90e2"/><stop offset="75%" stop-color="#e06666"/><stop offset="100%" stop-color="#f7b500"/></linearGradient></defs><path fill="#f8f8f8" d="M0 0h1200v1200H0z"/><path fill="url(#a)" d="M0 0h1200v1200H0z"/><g fill="none" stroke="#5b2c6f" stroke-width="1.5" opacity=".15"><circle cx="300" cy="300" r="80"/><circle cx="900" cy="300" r="60"/><circle cx="300" cy="900" r="60"/><circle cx="900" cy="900" r="80"/></g><g transform="translate(600 600)"><circle r="200" fill="#fff" opacity=".95"/><rect width="360" height="360" x="-180" y="-180" fill="url(#b)" rx="32"/><g fill="#fff" stroke="#fff"><path fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="14" d="M-80 40v-80l60 60 60-60v80"/><circle cx="-20" cy="-20" r="10"/><circle cx="-20" cy="20" r="10"/></g><path fill="#ea33f7" d="M60-10 80 0 60 10Z"/></g><text x="600" y="880" fill="#5b2c6f" font-family="Quicksand, sans-serif" font-size="42" font-weight="600" text-anchor="middle">Monynha Softwares</text><text x="600" y="930" fill="#888" font-family="Inter, sans-serif" font-size="28" text-anchor="middle">Image Placeholder</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" fill="none" viewBox="0 0 1200 1200">
+    <defs>
+        <linearGradient id="a" x1="0%" x2="100%" y1="0%" y2="100%">
+            <stop offset="0%" stop-color="#5b2c6f" stop-opacity=".1"/>
+            <stop offset="50%" stop-color="#4a90e2" stop-opacity=".1"/>
+            <stop offset="100%" stop-color="#e06666" stop-opacity=".1"/>
+        </linearGradient>
+    </defs>
+    <rect width="1200" height="1200" fill="url(#a)" rx="12"/>
+    <rect width="1200" height="1200" stroke="#4a90e2" stroke-opacity=".2" stroke-width="3" rx="12"/>
+    <g opacity=".3" transform="translate(600 600)">
+        <rect width="240" height="160" x="-120" y="-60" stroke="#5b2c6f" stroke-linejoin="round" stroke-width="8" rx="16"/>
+        <circle cy="20" r="50" stroke="#4a90e2" stroke-width="8"/>
+        <circle cy="20" r="30" stroke="#4a90e2" stroke-width="6"/>
+        <rect width="80" height="16" x="-100" y="-80" fill="#e06666" rx="4"/>
+        <circle cx="80" cy="-40" r="12" fill="#f7b500"/>
+    </g>
+    <text x="600" y="1100" fill="#5b2c6f" fill-opacity=".2" font-family="Inter, sans-serif" font-size="32" font-weight="600" text-anchor="middle">Monynha Softwares</text>
+</svg>
