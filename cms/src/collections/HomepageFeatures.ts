@@ -1,109 +1,28 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { CollectionConfig } from 'payload';
-import { pool } from '../utilities/pool';
+import { normalizeUrl } from '../utilities/validation';
+import { createUpsertHook } from '../utilities/upsert-factory';
 import { resolveLocalizedText } from '../utilities/localization';
 import { buildSpaPreviewUrl } from '../utilities/preview';
-import { logCmsSyncEvent } from '../utilities/monitoring';
+import { publicReadAuthWrite, supabaseIdField, activeField } from '../utilities/collection-helpers';
 
 const ICON_OPTIONS = ['Brain', 'Zap', 'Shield', 'Users', 'Globe', 'Laptop'];
 
-const normalizeUrl = (value: unknown): string | null => {
-  if (typeof value !== 'string' || value.trim().length === 0) {
-    return null;
-  }
+const upsertIntoSupabase = createUpsertHook({
+  collectionName: 'homepageFeatures',
+  tableName: 'homepage_features',
+  conflictFieldWithoutId: 'title',
+  extractData: (doc: any) => {
+    const title = resolveLocalizedText(doc.title);
+    const description = resolveLocalizedText(doc.description);
+    const icon = ICON_OPTIONS.includes(doc.icon) ? doc.icon : ICON_OPTIONS[0];
+    const url = normalizeUrl(doc.url);
+    const order_index = Number.parseInt(String(doc.orderIndex ?? '0'), 10);
+    const active = !!doc.active;
 
-  try {
-    const parsed = new URL(value.trim());
-    return parsed.toString();
-  } catch {
-    return null;
-  }
-};
-
-const upsertIntoSupabase = async ({ doc, req }: { doc: any; req: any }) => {
-  const supabaseId = doc.supabaseId ?? null;
-  const title = resolveLocalizedText(doc.title);
-  const description = resolveLocalizedText(doc.description);
-  const icon = ICON_OPTIONS.includes(doc.icon) ? doc.icon : ICON_OPTIONS[0];
-  const url = normalizeUrl(doc.url);
-  const orderIndex = Number.parseInt(String(doc.orderIndex ?? '0'), 10);
-  const active = !!doc.active;
-
-  const queryWithId = `
-    insert into public.homepage_features (id, title, description, icon, url, order_index, active, updated_at)
-    values ($1::uuid,$2,$3,$4,$5,$6,$7, now())
-    on conflict (id) do update set
-      title=excluded.title,
-      description=excluded.description,
-      icon=excluded.icon,
-      url=excluded.url,
-      order_index=excluded.order_index,
-      active=excluded.active,
-      updated_at=now()
-    returning id`;
-
-  const queryWithoutId = `
-    insert into public.homepage_features (title, description, icon, url, order_index, active, updated_at)
-    values ($1,$2,$3,$4,$5,$6, now())
-    on conflict (title) do update set
-      description=excluded.description,
-      icon=excluded.icon,
-      url=excluded.url,
-      order_index=excluded.order_index,
-      active=excluded.active,
-      updated_at=now()
-    returning id`;
-
-  const paramsWithId = [
-    supabaseId,
-    title,
-    description,
-    icon,
-    url,
-    orderIndex,
-    active,
-  ];
-
-  const paramsWithoutId = [title, description, icon, url, orderIndex, active];
-
-  try {
-    const result = supabaseId
-      ? await pool.query(queryWithId, paramsWithId)
-      : await pool.query(queryWithoutId, paramsWithoutId);
-
-    const generatedId = result?.rows?.[0]?.id ?? null;
-
-    if (!supabaseId && generatedId && req?.payload) {
-      await req.payload.update({
-        collection: 'homepageFeatures',
-        id: doc.id,
-        data: { supabaseId: generatedId },
-        depth: 0,
-      });
-    }
-
-    await logCmsSyncEvent({
-      collection: 'homepageFeatures',
-      action: 'upsert',
-      payloadId: doc.id ?? null,
-      supabaseId: (supabaseId ?? generatedId) ?? null,
-      status: 'success',
-      metadata: { icon, orderIndex, active, urlPresent: Boolean(url) },
-    });
-  } catch (error) {
-    const message = error instanceof Error ? error.message : 'Unknown error while syncing homepage feature';
-    await logCmsSyncEvent({
-      collection: 'homepageFeatures',
-      action: 'upsert',
-      payloadId: doc.id ?? null,
-      supabaseId,
-      status: 'error',
-      message,
-      metadata: { icon, orderIndex },
-    });
-    throw error;
-  }
-};
+    return { title, description, icon, url, order_index, active };
+  },
+});
 
 const HomepageFeatures: CollectionConfig = {
   slug: 'homepageFeatures',
@@ -111,18 +30,9 @@ const HomepageFeatures: CollectionConfig = {
     useAsTitle: 'title',
     preview: () => buildSpaPreviewUrl('/'),
   },
-  access: {
-    read: () => true,
-    create: ({ req }: { req: any }) => Boolean(req.user),
-    update: ({ req }: { req: any }) => Boolean(req.user),
-    delete: ({ req }: { req: any }) => Boolean(req.user),
-  },
+  access: publicReadAuthWrite,
   fields: [
-    {
-      name: 'supabaseId',
-      type: 'text',
-      admin: { hidden: true },
-    },
+    supabaseIdField,
     { name: 'title', type: 'text', required: true, localized: true },
     { name: 'description', type: 'textarea', required: true, localized: true },
     {
@@ -168,11 +78,7 @@ const HomepageFeatures: CollectionConfig = {
         return true;
       },
     },
-    {
-      name: 'active',
-      type: 'checkbox',
-      defaultValue: true,
-    },
+    activeField,
   ],
   hooks: { afterChange: [upsertIntoSupabase] },
 };

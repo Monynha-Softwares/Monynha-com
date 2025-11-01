@@ -68,7 +68,14 @@ describe('Solutions afterChange hook', () => {
         collection: 'solutions',
         status: 'success',
         supabaseId: generatedId,
-        metadata: expect.objectContaining({ featureCount: 2, slug: 'demo-solution' }),
+        metadata: expect.objectContaining({ 
+          slug: 'demo-solution',
+          title: 'Consultoria IA',
+          description: 'Helping teams deliver AI responsibly.',
+          features: JSON.stringify(['Recurso 1', 'Second capability']),
+          active: true,
+          gradient: 'from-brand-blue to-brand-purple',
+        }),
       })
     );
   });
