@@ -20,5 +20,3 @@ export const HeartIcon = ({ size = 24, className, ...props }: HeartIconProps) =>
     </svg>
   );
 };
-
-export default HeartIcon;

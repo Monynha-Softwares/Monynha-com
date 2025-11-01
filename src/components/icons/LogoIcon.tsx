@@ -1,4 +1,4 @@
-import { SVGProps } from 'react';
+import { SVGProps, useId } from 'react';
 
 interface LogoIconProps extends SVGProps<SVGSVGElement> {
   size?: number;
@@ -11,7 +11,7 @@ export const LogoIcon = ({
   className, 
   ...props 
 }: LogoIconProps) => {
-  const gradientId = `logo-grad-${Math.random().toString(36).substr(2, 9)}`;
+  const gradientId = `logo-grad-${useId()}`;
   
   return (
     <svg
@@ -55,5 +55,3 @@ export const LogoIcon = ({
     </svg>
   );
 };
-
-export default LogoIcon;
