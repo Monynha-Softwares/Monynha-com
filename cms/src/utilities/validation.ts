@@ -141,6 +141,3 @@ export const serializeValue = (value: any): string => {
 
   return JSON.stringify(value);
 };
-
-
-
