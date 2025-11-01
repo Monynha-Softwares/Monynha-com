@@ -4,6 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Layout from '@/components/Layout';
 import Meta from '@/components/Meta';
+import PageBreadcrumb from '@/components/PageBreadcrumb';
 import NewsletterSection from '@/components/NewsletterSection';
 import {
   ArrowRight,
@@ -16,14 +17,6 @@ import { supabase } from '@/integrations/supabase';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import {
-  Breadcrumb,
-  BreadcrumbList,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb';
-import {
   Pagination,
   PaginationContent,
   PaginationItem,
@@ -31,7 +24,7 @@ import {
   PaginationEllipsis,
 } from '@/components/ui/pagination';
 import { cn } from '@/lib/utils';
-import { getNormalizedLocale } from '@/lib/i18n';
+import { getNormalizedLocale, createDateFormatter } from '@/lib/i18n';
 import type { Database } from '@/integrations/supabase/types';
 
 const FALLBACK_IMAGE =
@@ -90,18 +83,10 @@ const Blog = () => {
     [i18n.language]
   );
 
-  const dateFormatter = useMemo(() => {
-    try {
-      return new Intl.DateTimeFormat(normalizedLocale, {
-        dateStyle: 'medium',
-      });
-    } catch (error) {
-      console.error('Unsupported locale for blog date formatting', error);
-      return new Intl.DateTimeFormat('en-US', {
-        dateStyle: 'medium',
-      });
-    }
-  }, [normalizedLocale]);
+  const dateFormatter = useMemo(
+    () => createDateFormatter(normalizedLocale, { dateStyle: 'medium' }),
+    [normalizedLocale]
+  );
 
   const categories = useMemo(
     () => [
@@ -239,19 +224,7 @@ const Blog = () => {
         ogImage="/placeholder.svg"
       />
       <div className="max-w-7xl mx-auto px-4 pt-4">
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink asChild>
-                <Link to="/">{t('navigation.home')}</Link>
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>{t('navigation.blog')}</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
+        <PageBreadcrumb segments={[{ label: t('navigation.blog') }]} />
       </div>
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
