@@ -4,6 +4,7 @@ import { supabase } from '@/integrations/supabase';
 import type { Database } from '@/integrations/supabase/types';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
+import { useLocalizedDateFormatter } from '@/hooks/useLocalizedDateFormatter';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -26,7 +27,6 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import Loading from '@/components/Loading';
 import { AlertTriangle, Loader2, LogOut, RefreshCcw } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { getNormalizedLocale } from '@/lib/i18n';
 
 type Profile = Database['public']['Tables']['profiles']['Row'];
 type Lead = Database['public']['Tables']['leads']['Row'];
@@ -34,7 +34,7 @@ type NewsletterSubscriber =
   Database['public']['Tables']['newsletter_subscribers']['Row'];
 
 const Dashboard = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { user, signOut } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -149,45 +149,10 @@ const Dashboard = () => {
     void loadDashboard();
   }, [loadDashboard]);
 
-  const normalizedLocale = useMemo(
-    () => getNormalizedLocale(i18n.language),
-    [i18n.language]
-  );
-
-  const fallbackDateFormatter = useMemo(
-    () =>
-      new Intl.DateTimeFormat('en-US', {
-        dateStyle: 'short',
-        timeStyle: 'short',
-      }),
-    []
-  );
-
-  const dateTimeFormatter = useMemo(() => {
-    try {
-      return new Intl.DateTimeFormat(normalizedLocale, {
-        dateStyle: 'short',
-        timeStyle: 'short',
-      });
-    } catch (error) {
-      console.error('Unsupported locale for dashboard date formatting', error);
-      return fallbackDateFormatter;
-    }
-  }, [fallbackDateFormatter, normalizedLocale]);
-
-  const formatDate = useCallback(
-    (value: string | null | undefined) => {
-      if (!value) return '—';
-
-      try {
-        return dateTimeFormatter.format(new Date(value));
-      } catch (error) {
-        console.error('Error formatting dashboard date', error);
-        return fallbackDateFormatter.format(new Date(value));
-      }
-    },
-    [dateTimeFormatter, fallbackDateFormatter]
-  );
+  const { formatDate } = useLocalizedDateFormatter({
+    dateStyle: 'short',
+    timeStyle: 'short',
+  });
 
   const handleRefresh = () => {
     void loadDashboard();

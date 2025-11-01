@@ -3,15 +3,8 @@ import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import Layout from '@/components/Layout';
 import Meta from '@/components/Meta';
+import { PageBreadcrumb } from '@/components/PageBreadcrumb';
 import { Link } from 'react-router-dom';
-import {
-  Breadcrumb,
-  BreadcrumbList,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb';
 import { ArrowRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { supabase } from '@/integrations/supabase';
@@ -102,21 +95,7 @@ const Solutions = () => {
         ogDescription={t('solutionsPage.description')}
         ogImage="/placeholder.svg"
       />
-      <div className="max-w-7xl mx-auto px-4 pt-4">
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink asChild>
-                <Link to="/">{t('navigation.home')}</Link>
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>{t('navigation.solutions')}</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
-      </div>
+      <PageBreadcrumb currentPage="navigation.solutions" />
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-hero text-white">
         <div className="absolute inset-0 bg-gradient-to-br from-neutral-950/20 via-brand-purple/20 to-brand-blue/30 dark:from-neutral-950/40 dark:via-neutral-950/60 dark:to-brand-purple/40" />
