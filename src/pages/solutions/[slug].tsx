@@ -6,7 +6,13 @@ import Meta from '@/components/Meta';
 import PageBreadcrumb from '@/components/PageBreadcrumb';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { ArrowLeft, ArrowRight, CheckCircle } from 'lucide-react';
+import {
+  ArrowLeft,
+  ArrowRight,
+  CheckCircle,
+  ExternalLink,
+  Github,
+} from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { supabase } from '@/integrations/supabase';
 import type { GitHubRepository } from '@/lib/solutions';
@@ -199,6 +205,47 @@ const SolutionDetail = () => {
                   </Link>
                 </Button>
               </div>
+
+              {(displaySolution.repositoryUrl || displaySolution.websiteUrl) && (
+                <div className="mt-6 grid gap-3 sm:grid-cols-2">
+                  {displaySolution.repositoryUrl && (
+                    <Button
+                      asChild
+                      variant="secondary"
+                      className="w-full bg-neutral-900 text-white hover:bg-neutral-800"
+                    >
+                      <a
+                        href={displaySolution.repositoryUrl}
+                        target="_blank"
+                        rel="noreferrer noopener"
+                        aria-label={`${t('projects.viewGithub')} - ${displaySolution.title}`}
+                        className="flex items-center justify-center gap-2"
+                      >
+                        <Github className="h-4 w-4" />
+                        {t('projects.viewGithub')}
+                      </a>
+                    </Button>
+                  )}
+                  {displaySolution.websiteUrl && (
+                    <Button
+                      asChild
+                      variant="outline"
+                      className="w-full border-neutral-200 hover:border-brand-blue hover:text-brand-blue"
+                    >
+                      <a
+                        href={displaySolution.websiteUrl}
+                        target="_blank"
+                        rel="noreferrer noopener"
+                        aria-label={`${t('projects.liveDemo')} - ${displaySolution.title}`}
+                        className="flex items-center justify-center gap-2"
+                      >
+                        <ExternalLink className="h-4 w-4" />
+                        {t('projects.liveDemo')}
+                      </a>
+                    </Button>
+                  )}
+                </div>
+              )}
             </div>
 
             {displaySolution.imageUrl && (
