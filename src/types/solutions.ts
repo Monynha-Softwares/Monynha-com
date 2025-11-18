@@ -6,6 +6,4 @@ export interface SolutionContent {
   imageUrl?: string | null;
   features: string[];
   gradient: string;
-  repositoryUrl?: string | null;
-  websiteUrl?: string | null;
 }

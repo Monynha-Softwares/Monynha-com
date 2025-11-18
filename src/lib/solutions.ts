@@ -33,32 +33,6 @@ export interface GitHubRepository {
 
 type SupabaseSolutionRow = Database['public']['Tables']['solutions']['Row'];
 
-const sanitizeUrl = (value?: string | null): string | null => {
-  if (!value) {
-    return null;
-  }
-
-  const trimmed = value.trim();
-  if (!trimmed) {
-    return null;
-  }
-
-  const normalized = /^https?:\/\//i.test(trimmed)
-    ? trimmed
-    : `https://${trimmed}`;
-
-  try {
-    const url = new URL(normalized);
-    if (!['http:', 'https:'].includes(url.protocol)) {
-      return null;
-    }
-
-    return url.toString();
-  } catch {
-    return null;
-  }
-};
-
 const uniqueNonEmpty = (values: Array<string | null | undefined>): string[] => {
   const seen = new Set<string>();
   const result: string[] = [];
@@ -140,14 +114,12 @@ const buildFeatureList = (
     ? uniqueNonEmpty(repository.topics)
     : [];
 
-  const homepageUrl = sanitizeUrl(repository.homepage);
-
   const formattedUpdatedAt =
     formatDate(repository.updated_at ?? repository.pushed_at) ?? undefined;
 
   const metadata = uniqueNonEmpty([
     repository.language ? `Built with ${repository.language}.` : null,
-    homepageUrl ? `Live project: ${homepageUrl}` : null,
+    repository.homepage ? `Live project: ${repository.homepage}` : null,
     repository.stargazers_count > 0
       ? `${repository.stargazers_count} ⭐ stars on GitHub`
       : null,
@@ -181,9 +153,6 @@ export const mapGitHubRepoToContent = (
 
   const description = repository.description?.trim();
 
-  const repositoryUrl = sanitizeUrl(repository.html_url) ?? repository.html_url;
-  const websiteUrl = sanitizeUrl(repository.homepage);
-
   return {
     id: String(repository.id),
     title: fallback?.title ?? repository.name,
@@ -196,8 +165,6 @@ export const mapGitHubRepoToContent = (
     imageUrl: fallback?.imageUrl ?? null,
     features: buildFeatureList(repository, fallback),
     gradient,
-    repositoryUrl,
-    websiteUrl,
   };
 };
 
@@ -229,8 +196,6 @@ export const mapSupabaseSolutionToContent = (
     imageUrl: solution.image_url ?? fallback?.imageUrl ?? null,
     features,
     gradient,
-    repositoryUrl: fallback?.repositoryUrl ?? null,
-    websiteUrl: fallback?.websiteUrl ?? null,
   };
 };
 
