@@ -316,47 +316,6 @@ const Projects = () => {
                             </ul>
                           )}
 
-                          {(solution.repositoryUrl || solution.websiteUrl) && (
-                            <div className="mt-8 grid gap-3 sm:grid-cols-2">
-                              {solution.repositoryUrl && (
-                                <Button
-                                  asChild
-                                  variant="secondary"
-                                  className="w-full bg-neutral-900 text-white hover:bg-neutral-800"
-                                >
-                                  <a
-                                    href={solution.repositoryUrl}
-                                    target="_blank"
-                                    rel="noreferrer noopener"
-                                    aria-label={`${t('projects.viewGithub')} - ${solution.title}`}
-                                    className="flex items-center justify-center gap-2"
-                                  >
-                                    <Github className="h-4 w-4" />
-                                    {t('projects.viewGithub')}
-                                  </a>
-                                </Button>
-                              )}
-                              {solution.websiteUrl && (
-                                <Button
-                                  asChild
-                                  variant="outline"
-                                  className="w-full border-neutral-200 hover:border-brand-blue hover:text-brand-blue"
-                                >
-                                  <a
-                                    href={solution.websiteUrl}
-                                    target="_blank"
-                                    rel="noreferrer noopener"
-                                    aria-label={`${t('projects.liveDemo')} - ${solution.title}`}
-                                    className="flex items-center justify-center gap-2"
-                                  >
-                                    <ExternalLink className="h-4 w-4" />
-                                    {t('projects.liveDemo')}
-                                  </a>
-                                </Button>
-                              )}
-                            </div>
-                          )}
-
                           <div className="mt-10 flex flex-col sm:flex-row gap-3">
                             <Button
                               asChild
